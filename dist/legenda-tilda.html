@@ -35,6 +35,23 @@
 #lg .hdr::before{content:"";position:absolute;inset:0;background:var(--sky1);background:color-mix(in srgb,var(--sky1) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);opacity:0;transition:opacity .35s, background .5s;box-shadow:inset 0 -1px 0 rgba(255,255,255,.12)}
 #lg .hdr.solid::before{opacity:1}
 #lg .hdr canvas{transition:opacity .4s}
+#lg .hdr::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,15,23,.62),rgba(9,15,23,.42));-webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);box-shadow:inset 0 -1px 0 rgba(255,255,255,.08);opacity:0;transition:opacity .45s;pointer-events:none}
+#lg .hdr .wrap{z-index:1}
+#lg .hdr.solid canvas{opacity:0}
+#lg .hdr[data-m="fade"].solid:not(.light){color:#fff}
+#lg .hdr[data-m="fade"].solid:not(.light)::before{opacity:0}
+#lg .hdr[data-m="fade"].solid:not(.light)::after{opacity:1}
+#lg .hdr[data-m="pill"]::before{transition:opacity .35s, inset .45s cubic-bezier(.2,.8,.2,1), border-radius .45s, background .5s, box-shadow .45s}
+#lg .hdr[data-m="pill"].light::before{inset:9px max(8px,calc(50% - 636px));border-radius:20px;background:rgba(250,252,253,.9);box-shadow:inset 0 0 0 1px rgba(19,32,42,.06),0 10px 30px rgba(19,32,42,.14)}
+#lg .hdr[data-m="pill"].light .btn{min-height:40px}
+#lg .hdr[data-m="pill"].light .call{min-height:40px}
+#lg .hdr[data-m="glass"]::before,#lg .hdr[data-m="glass"]::after{transition:opacity .45s, inset .45s cubic-bezier(.2,.8,.2,1), border-radius .45s, background .5s}
+#lg .hdr[data-m="glass"].solid::before,#lg .hdr[data-m="glass"].solid::after{inset:9px max(8px,calc(50% - 636px));border-radius:20px}
+#lg .hdr[data-m="glass"].solid:not(.light){color:#fff}
+#lg .hdr[data-m="glass"].solid:not(.light)::before{opacity:0}
+#lg .hdr[data-m="glass"].solid:not(.light)::after{opacity:1;background:rgba(14,22,32,.42);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 10px 30px rgba(0,0,0,.22)}
+#lg .hdr[data-m="glass"].light::before{opacity:1;background:rgba(250,252,253,.72);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);box-shadow:inset 0 0 0 1px rgba(19,32,42,.06),0 10px 30px rgba(19,32,42,.14)}
+#lg .hdr[data-m="glass"].solid .btn,#lg .hdr[data-m="glass"].solid .call{min-height:40px}
 #lg .hdr.light{color:var(--ink)}
 #lg .hdr.light::before{background:rgba(250,252,253,.84);box-shadow:inset 0 -1px 0 rgba(19,32,42,.08), 0 6px 24px rgba(19,32,42,.06)}
 #lg .hdr.light canvas{opacity:0}
@@ -329,23 +346,54 @@
 #lg .road-b .btn{padding:0 20px}
 #lg .road-m{position:relative;background:var(--paper);background-image:linear-gradient(rgba(31,92,74,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(31,92,74,.06) 1px,transparent 1px);background-size:22px 22px;min-height:300px;display:flex;align-items:center}
 #lg .road-m svg{width:100%;height:auto;display:block}
-#lg .rmap .mt{fill:none;stroke:#8C9AA3;stroke-width:1.6;stroke-linejoin:round}
-#lg .rmap .snow{fill:none;stroke:#C9D4DA;stroke-width:3;stroke-linecap:round}
-#lg .rmap .rd{fill:none;stroke:#1C2830;stroke-width:3.4;stroke-linecap:round}
-#lg .rmap .br{fill:none;stroke:#1C2830;stroke-width:2;stroke-linecap:round}
-#lg .rmap .cab{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:5 5}
+#lg .rmap .mt{fill:none;stroke:#9AA7AF;stroke-width:1.6;stroke-linejoin:round}
+#lg .rmap .snow{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round}
+#lg .rmap .riv{fill:none;stroke:#8EC3E6;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+#lg .rmap .riv.thin{stroke-width:2;opacity:.8}
+#lg .rmap .m-bld rect{fill:#CBD3D9;opacity:.85}
+#lg .rmap .m-res path{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#lg .rmap .rd-case{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+#lg .rmap .rd{fill:none;stroke:#E8B562;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+#lg .rmap .route{fill:none;stroke:var(--pine);stroke-width:2.4;stroke-dasharray:1 7;stroke-linecap:round}
+#lg .rmap .cab{fill:none;stroke:#52616B;stroke-width:1.6;stroke-dasharray:6 5}
 #lg .rmap .pt{fill:#fff;stroke:#1C2830;stroke-width:2}
-#lg .rmap .mk{fill:var(--pine)}
-#lg .rmap .pulse{fill:var(--pine);opacity:.25;transform-box:fill-box;transform-origin:center;animation:mpulse 2.2s ease-out infinite}
-@keyframes mpulse{0%{transform:scale(1);opacity:.35}100%{transform:scale(2.6);opacity:0}}
+#lg .rmap .pin{fill:var(--pine)}
+#lg .rmap .pin-dot{fill:#FFD58A;display:none}
+#lg .rmap .pulse{fill:var(--pine);opacity:.25;transform-box:fill-box;transform-origin:center;animation:mpulse 2.4s ease-out infinite}
+@keyframes mpulse{0%{transform:scale(.6);opacity:.4}100%{transform:scale(2.6);opacity:0}}
+#lg .rmap .tag{fill:#fff}
 #lg .rmap text{font:500 13px var(--body);fill:#52616B;text-anchor:middle}
-#lg .rmap text.sm{font-size:11px;fill:#8695A0}
-#lg .rmap text.me-l{font:600 15px var(--display);fill:var(--ink)}
+#lg .rmap text[text-anchor="start"]{text-anchor:start}
+#lg .rmap text[text-anchor="end"]{text-anchor:end}
+#lg .rmap text.sm{font-size:11px;fill:#7E8D97}
+#lg .rmap text.lb{font-weight:600;fill:#2A3640}
+#lg .rmap text.vl{font:600 17px var(--display);fill:#2A3640;letter-spacing:.04em}
+#lg .rmap text.pk{font-size:12px;fill:#6B7A84}
+#lg .rmap text.rv{font-size:11px;font-style:italic;fill:#5B9AC6}
+#lg .rmap text.tag-t{font:600 15px var(--display);fill:var(--ink)}
+#lg .rmap text.tag-s{font-size:11px;fill:#7E8D97}
+#lg .rmap .dist-t rect{fill:var(--accent-soft);stroke:#E9C88F}
 #lg .rmap text.dl{font-size:12px;font-weight:600;fill:#9A6417}
+#lg .rmap .m-n circle{fill:#fff;stroke:#DDE5E9}
+#lg .rmap .m-n path{fill:#1C2830}
+#lg .rmap .m-n text{font-size:10px;font-weight:600;fill:#52616B}
+@media (max-width:560px){#lg .rmap text{font-size:19px}
+#lg .rmap text.sm,#lg .rmap text.rv,#lg .rmap text.pk{font-size:16px}
+#lg .rmap text.vl{font-size:22px}
+#lg .rmap text.tag-t{font-size:19px}
+#lg .rmap text.tag-s{font-size:14px}
+#lg .rmap text.dl{font-size:15px}
+#lg .rmap .m-peak text,#lg .rmap text.rv{display:none}
+}
 #lg .road-n{position:absolute;right:14px;bottom:10px;font-size:11px;color:#8695A0}
-#lg .rmap.wait .d,#lg .rmap.wait text,#lg .rmap.wait .me,#lg .rmap.wait .pt{opacity:0}
+@media (max-width:560px){#lg .road-m{flex-direction:column;align-items:stretch}
+#lg .road-n{position:static;display:block;padding:0 14px 10px;text-align:right}
+}
+#lg .rmap.wait .d,#lg .rmap.wait text,#lg .rmap.wait .me,#lg .rmap.wait .pt,#lg .rmap.wait .dist-t,#lg .rmap.wait .m-bld{opacity:0}
 #lg .rmap.drawing .d{opacity:1;animation:pdraw 1.2s cubic-bezier(.55,0,.25,1) both}
-#lg .rmap.drawing text,#lg .rmap.drawing .pt{opacity:1;animation:pfade .6s ease 1.1s both}
+#lg .rmap.drawing text,#lg .rmap.drawing .pt,#lg .rmap.drawing .dist-t,#lg .rmap.drawing .m-bld{opacity:1;animation:pfade .6s ease 1.1s both}
+#lg .rmap.wait .route,#lg .rmap.wait .cab{opacity:0}
+#lg .rmap.drawing .route,#lg .rmap.drawing .cab{animation:pfade .8s ease 1.3s both}
 #lg .rmap.drawing .me{animation:pfade .5s ease 1.3s both}
 @media (max-width:860px){#lg .road{grid-template-columns:1fr}
 #lg .road-m{min-height:0}
@@ -386,6 +434,7 @@
 #lg .sel{user-select:all;color:var(--ink);font-weight:600}
 #lg .wxchip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:14px;font-weight:500;white-space:nowrap}
 #lg .wxchip b{font-weight:600}
+#lg .hdr .wxchip{display:none}
 @media (max-width:1100px){#lg .wxchip span{display:none}
 }
 #lg .wxline{display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:10px 16px;border-radius:14px;background:rgba(10,18,28,.38);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:16px;font-weight:500}
@@ -409,6 +458,7 @@
 #lg .wxkinds button svg{flex:0 0 18px;width:18px;height:18px}
 #lg .wxkinds button[aria-pressed="true"],#lg .wxphases button[aria-pressed="true"]{background:var(--ink);color:#fff}
 #lg .wxphases{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+#lg .wxphases.hm3{grid-template-columns:1fr 1fr}
 #lg .wxphases button{justify-content:center}
 @media (max-width:760px){#lg .wxpanel{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 }
@@ -557,29 +607,56 @@
         <div class="road-b"><a class="btn btn-accent" id="routeBtn" href="https://yandex.ru/maps/?rtext=~43.246012%2C42.526408&amp;rtt=auto" target="_blank" rel="noopener">Построить маршрут</a><a class="btn btn-soft" href="https://yandex.ru/maps/org/legenda/1184772629/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></div>
       </div>
       <div class="road-m rmap" aria-hidden="true">
-        <svg viewBox="0 0 560 380">
-          <path class="mt d" style="animation-delay:0s" d="M20 120 L70 70 L95 92 L128 40 L148 58 L168 34 L205 92 L240 70 L290 118"/>
-          <path class="mt d" style="animation-delay:.15s" d="M300 116 L350 80 L380 98 L420 62 L470 104 L540 84"/>
-          <path class="snow d" style="animation-delay:.35s" d="M115 60 L128 40 L140 52 M158 46 L168 34 L180 50"/>
-          <text x="148" y="24">Эльбрус</text>
-          <path class="mt d" style="animation-delay:.25s" d="M170 372 L222 322 L240 336 L250 304 L300 372"/>
-          <text x="214" y="300">Чегет</text>
-          <path class="rd d" style="animation-delay:.45s" d="M548 262 C470 262 430 236 360 222 C300 210 250 196 200 186 C150 176 115 166 82 160"/>
-          <path class="br d" style="animation-delay:.9s" d="M290 206 C288 228 286 246 282 266"/>
-          <path class="cab d" style="animation-delay:1.2s" d="M82 160 L140 66"/>
-          <path class="cab d" style="animation-delay:1.3s" d="M282 266 L250 304"/>
-          <circle class="pt" cx="282" cy="266" r="5"/>
-          <circle class="pt" cx="82" cy="160" r="6"/><text x="82" y="186">Азау</text>
-          <text class="sm" x="82" y="202">канатка на Эльбрус</text>
-          <circle class="pt" cx="290" cy="206" r="4"/>
-          <g class="me" transform="translate(340 218)"><circle class="pulse" r="10"/><circle r="9" class="mk"/><circle r="3.4" fill="#fff"/></g>
-          <text class="me-l" x="372" y="250">«Легенда»</text>
-          <text class="sm" x="372" y="266">Терскол</text>
-          <text class="dl" id="mapAzau" x="200" y="174"></text>
-          <text class="dl" id="mapCheget" x="252" y="246"></text>
-          <text class="sm" x="478" y="290">Нальчик, Минводы →</text>
+        <svg viewBox="200 30 800 480" role="img" aria-label="Схема: отель «Легенда» в Терсколе, у поляны Чегет">
+          <defs>
+            <filter id="mshadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#13202A" flood-opacity=".22"/></filter>
+            <pattern id="trees" width="18" height="16" patternUnits="userSpaceOnUse"><path d="M5 12l3-6 3 6zM13 7l2.5-5 2.5 5z" fill="#BFD7C7"/></pattern>
+          </defs>
+          <g class="m-forest">
+            <path d="M560 330C610 315 660 330 720 352C780 372 830 392 900 402C950 410 1000 404 1000 404V510H520C500 470 510 380 560 330Z" fill="#E2EFE6"/>
+            <path d="M560 330C610 315 660 330 720 352C780 372 830 392 900 402C950 410 1000 404 1000 404V510H520C500 470 510 380 560 330Z" fill="url(#trees)" opacity=".8"/>
+          </g>
+          <g class="m-peak">
+            <path class="mt d" d="M228 510L268 470L282 480L313 452L346 488L370 510"/>
+            <path class="snow d" d="M302 462L313 452L325 466"/>
+            <text class="pk" x="313" y="440">Чегет, 3461 м</text>
+          </g>
+          <path class="riv d" d="M190 107L204 114L228 115L233 122L240 124L249 126L254 125L263 126L273 129L278 132L298 131L309 126L318 133L335 140L343 152L347 161L355 169L363 170L375 176L381 185L388 182L401 184L411 191L431 196L436 206L440 207L444 212L450 213L454 216L461 218L463 221L474 229L482 231L491 247L506 259L527 274L556 290L566 290L579 294L617 292L645 298L663 308L691 307L710 309L723 314L730 320L741 324L763 338L778 343L791 351L806 353L823 360L837 360L848 369L862 369L868 373L874 374L880 372L908 378L916 381L926 388L937 387L949 393L969 399L997 387L1015 383"/>
+          <path class="riv thin d" d="M367 54L369 91L372 98L380 103L394 126L428 147L471 180L490 190L529 223L544 231L563 231L586 242L592 247L612 258L624 275L633 295"/>
+          <text class="rv" x="560" y="306" transform="rotate(12 560 306)">р. Баксан</text>
+          <g class="m-bld"><rect x="648" y="256" width="6" height="6" rx="1.5"/><rect x="669" y="256" width="6" height="6" rx="1.5"/><rect x="655" y="235" width="6" height="6" rx="1.5"/><rect x="648" y="228" width="6" height="6" rx="1.5"/><rect x="648" y="242" width="6" height="6" rx="1.5"/><rect x="662" y="242" width="6" height="6" rx="1.5"/><rect x="669" y="242" width="6" height="6" rx="1.5"/><rect x="606" y="207" width="6" height="6" rx="1.5"/><rect x="669" y="249" width="6" height="6" rx="1.5"/><rect x="648" y="221" width="6" height="6" rx="1.5"/><rect x="641" y="228" width="6" height="6" rx="1.5"/><rect x="669" y="235" width="6" height="6" rx="1.5"/><rect x="662" y="235" width="6" height="6" rx="1.5"/><rect x="662" y="228" width="6" height="6" rx="1.5"/><rect x="683" y="242" width="6" height="6" rx="1.5"/><rect x="662" y="249" width="6" height="6" rx="1.5"/><rect x="613" y="228" width="6" height="6" rx="1.5"/><rect x="333" y="102" width="6" height="6" rx="1.5"/><rect x="298" y="88" width="6" height="6" rx="1.5"/><rect x="242" y="81" width="6" height="6" rx="1.5"/><rect x="256" y="67" width="6" height="6" rx="1.5"/><rect x="270" y="95" width="6" height="6" rx="1.5"/><rect x="249" y="88" width="6" height="6" rx="1.5"/><rect x="242" y="88" width="6" height="6" rx="1.5"/><rect x="781" y="326" width="6" height="6" rx="1.5"/><rect x="753" y="417" width="6" height="6" rx="1.5"/><rect x="809" y="333" width="6" height="6" rx="1.5"/><rect x="305" y="95" width="6" height="6" rx="1.5"/><rect x="256" y="88" width="6" height="6" rx="1.5"/><rect x="284" y="95" width="6" height="6" rx="1.5"/><rect x="956" y="368" width="6" height="6" rx="1.5"/><rect x="963" y="368" width="6" height="6" rx="1.5"/><rect x="263" y="88" width="6" height="6" rx="1.5"/><rect x="774" y="326" width="6" height="6" rx="1.5"/><rect x="648" y="277" width="6" height="6" rx="1.5"/><rect x="879" y="354" width="6" height="6" rx="1.5"/><rect x="893" y="354" width="6" height="6" rx="1.5"/><rect x="767" y="396" width="6" height="6" rx="1.5"/><rect x="641" y="249" width="6" height="6" rx="1.5"/><rect x="767" y="389" width="6" height="6" rx="1.5"/><rect x="886" y="354" width="6" height="6" rx="1.5"/><rect x="907" y="361" width="6" height="6" rx="1.5"/><rect x="690" y="298" width="6" height="6" rx="1.5"/><rect x="788" y="382" width="6" height="6" rx="1.5"/><rect x="914" y="354" width="6" height="6" rx="1.5"/><rect x="312" y="109" width="6" height="6" rx="1.5"/><rect x="312" y="116" width="6" height="6" rx="1.5"/><rect x="319" y="116" width="6" height="6" rx="1.5"/><rect x="767" y="410" width="6" height="6" rx="1.5"/><rect x="760" y="403" width="6" height="6" rx="1.5"/><rect x="753" y="403" width="6" height="6" rx="1.5"/><rect x="767" y="368" width="6" height="6" rx="1.5"/><rect x="753" y="368" width="6" height="6" rx="1.5"/><rect x="753" y="375" width="6" height="6" rx="1.5"/><rect x="641" y="256" width="6" height="6" rx="1.5"/><rect x="620" y="228" width="6" height="6" rx="1.5"/><rect x="802" y="361" width="6" height="6" rx="1.5"/><rect x="746" y="368" width="6" height="6" rx="1.5"/><rect x="641" y="263" width="6" height="6" rx="1.5"/><rect x="634" y="263" width="6" height="6" rx="1.5"/><rect x="746" y="403" width="6" height="6" rx="1.5"/><rect x="732" y="389" width="6" height="6" rx="1.5"/><rect x="802" y="340" width="6" height="6" rx="1.5"/><rect x="739" y="284" width="6" height="6" rx="1.5"/><rect x="760" y="410" width="6" height="6" rx="1.5"/><rect x="753" y="424" width="6" height="6" rx="1.5"/><rect x="760" y="424" width="6" height="6" rx="1.5"/><rect x="795" y="333" width="6" height="6" rx="1.5"/><rect x="739" y="403" width="6" height="6" rx="1.5"/><rect x="746" y="396" width="6" height="6" rx="1.5"/><rect x="606" y="221" width="6" height="6" rx="1.5"/><rect x="606" y="214" width="6" height="6" rx="1.5"/><rect x="634" y="228" width="6" height="6" rx="1.5"/><rect x="620" y="235" width="6" height="6" rx="1.5"/><rect x="599" y="214" width="6" height="6" rx="1.5"/><rect x="760" y="396" width="6" height="6" rx="1.5"/><rect x="627" y="235" width="6" height="6" rx="1.5"/><rect x="648" y="270" width="6" height="6" rx="1.5"/><rect x="704" y="263" width="6" height="6" rx="1.5"/><rect x="662" y="270" width="6" height="6" rx="1.5"/><rect x="774" y="403" width="6" height="6" rx="1.5"/><rect x="725" y="382" width="6" height="6" rx="1.5"/><rect x="788" y="403" width="6" height="6" rx="1.5"/><rect x="753" y="410" width="6" height="6" rx="1.5"/><rect x="774" y="396" width="6" height="6" rx="1.5"/><rect x="620" y="214" width="6" height="6" rx="1.5"/><rect x="613" y="221" width="6" height="6" rx="1.5"/><rect x="620" y="221" width="6" height="6" rx="1.5"/><rect x="711" y="354" width="6" height="6" rx="1.5"/><rect x="711" y="361" width="6" height="6" rx="1.5"/><rect x="753" y="389" width="6" height="6" rx="1.5"/><rect x="697" y="270" width="6" height="6" rx="1.5"/><rect x="249" y="95" width="6" height="6" rx="1.5"/><rect x="298" y="74" width="6" height="6" rx="1.5"/><rect x="305" y="74" width="6" height="6" rx="1.5"/><rect x="284" y="88" width="6" height="6" rx="1.5"/><rect x="298" y="81" width="6" height="6" rx="1.5"/><rect x="634" y="221" width="6" height="6" rx="1.5"/><rect x="662" y="221" width="6" height="6" rx="1.5"/><rect x="676" y="228" width="6" height="6" rx="1.5"/><rect x="564" y="200" width="6" height="6" rx="1.5"/><rect x="655" y="207" width="6" height="6" rx="1.5"/><rect x="585" y="200" width="6" height="6" rx="1.5"/><rect x="690" y="249" width="6" height="6" rx="1.5"/><rect x="641" y="214" width="6" height="6" rx="1.5"/><rect x="676" y="235" width="6" height="6" rx="1.5"/><rect x="277" y="102" width="6" height="6" rx="1.5"/><rect x="263" y="95" width="6" height="6" rx="1.5"/><rect x="242" y="95" width="6" height="6" rx="1.5"/><rect x="235" y="95" width="6" height="6" rx="1.5"/><rect x="277" y="88" width="6" height="6" rx="1.5"/><rect x="305" y="81" width="6" height="6" rx="1.5"/><rect x="263" y="81" width="6" height="6" rx="1.5"/><rect x="340" y="95" width="6" height="6" rx="1.5"/><rect x="305" y="109" width="6" height="6" rx="1.5"/><rect x="291" y="74" width="6" height="6" rx="1.5"/><rect x="725" y="305" width="6" height="6" rx="1.5"/><rect x="739" y="319" width="6" height="6" rx="1.5"/><rect x="711" y="291" width="6" height="6" rx="1.5"/><rect x="613" y="214" width="6" height="6" rx="1.5"/><rect x="690" y="235" width="6" height="6" rx="1.5"/><rect x="676" y="221" width="6" height="6" rx="1.5"/><rect x="683" y="235" width="6" height="6" rx="1.5"/><rect x="655" y="228" width="6" height="6" rx="1.5"/><rect x="816" y="333" width="6" height="6" rx="1.5"/><rect x="851" y="347" width="6" height="6" rx="1.5"/><rect x="942" y="368" width="6" height="6" rx="1.5"/><rect x="921" y="354" width="6" height="6" rx="1.5"/><rect x="935" y="354" width="6" height="6" rx="1.5"/><rect x="935" y="361" width="6" height="6" rx="1.5"/><rect x="956" y="354" width="6" height="6" rx="1.5"/><rect x="970" y="368" width="6" height="6" rx="1.5"/><rect x="235" y="109" width="6" height="6" rx="1.5"/><rect x="676" y="242" width="6" height="6" rx="1.5"/><rect x="697" y="249" width="6" height="6" rx="1.5"/><rect x="620" y="249" width="6" height="6" rx="1.5"/><rect x="298" y="95" width="6" height="6" rx="1.5"/><rect x="949" y="361" width="6" height="6" rx="1.5"/><rect x="949" y="382" width="6" height="6" rx="1.5"/><rect x="935" y="382" width="6" height="6" rx="1.5"/><rect x="942" y="389" width="6" height="6" rx="1.5"/><rect x="949" y="389" width="6" height="6" rx="1.5"/><rect x="942" y="382" width="6" height="6" rx="1.5"/><rect x="781" y="368" width="6" height="6" rx="1.5"/><rect x="746" y="291" width="6" height="6" rx="1.5"/><rect x="620" y="256" width="6" height="6" rx="1.5"/><rect x="627" y="263" width="6" height="6" rx="1.5"/><rect x="641" y="277" width="6" height="6" rx="1.5"/><rect x="634" y="270" width="6" height="6" rx="1.5"/><rect x="634" y="277" width="6" height="6" rx="1.5"/><rect x="690" y="291" width="6" height="6" rx="1.5"/><rect x="711" y="298" width="6" height="6" rx="1.5"/><rect x="704" y="298" width="6" height="6" rx="1.5"/><rect x="697" y="298" width="6" height="6" rx="1.5"/><rect x="676" y="284" width="6" height="6" rx="1.5"/><rect x="648" y="291" width="6" height="6" rx="1.5"/><rect x="648" y="284" width="6" height="6" rx="1.5"/><rect x="655" y="291" width="6" height="6" rx="1.5"/><rect x="305" y="102" width="6" height="6" rx="1.5"/><rect x="326" y="95" width="6" height="6" rx="1.5"/><rect x="270" y="88" width="6" height="6" rx="1.5"/><rect x="683" y="228" width="6" height="6" rx="1.5"/><rect x="655" y="200" width="6" height="6" rx="1.5"/><rect x="676" y="214" width="6" height="6" rx="1.5"/><rect x="676" y="207" width="6" height="6" rx="1.5"/><rect x="648" y="207" width="6" height="6" rx="1.5"/><rect x="655" y="221" width="6" height="6" rx="1.5"/><rect x="648" y="214" width="6" height="6" rx="1.5"/><rect x="655" y="214" width="6" height="6" rx="1.5"/><rect x="627" y="221" width="6" height="6" rx="1.5"/><rect x="613" y="207" width="6" height="6" rx="1.5"/><rect x="627" y="256" width="6" height="6" rx="1.5"/><rect x="655" y="249" width="6" height="6" rx="1.5"/><rect x="263" y="74" width="6" height="6" rx="1.5"/><rect x="270" y="74" width="6" height="6" rx="1.5"/><rect x="270" y="81" width="6" height="6" rx="1.5"/><rect x="641" y="291" width="6" height="6" rx="1.5"/><rect x="634" y="291" width="6" height="6" rx="1.5"/><rect x="697" y="284" width="6" height="6" rx="1.5"/><rect x="767" y="403" width="6" height="6" rx="1.5"/><rect x="284" y="81" width="6" height="6" rx="1.5"/><rect x="333" y="109" width="6" height="6" rx="1.5"/><rect x="599" y="207" width="6" height="6" rx="1.5"/><rect x="634" y="214" width="6" height="6" rx="1.5"/><rect x="669" y="228" width="6" height="6" rx="1.5"/><rect x="669" y="221" width="6" height="6" rx="1.5"/><rect x="690" y="228" width="6" height="6" rx="1.5"/><rect x="690" y="242" width="6" height="6" rx="1.5"/><rect x="697" y="256" width="6" height="6" rx="1.5"/><rect x="718" y="277" width="6" height="6" rx="1.5"/><rect x="711" y="277" width="6" height="6" rx="1.5"/><rect x="683" y="298" width="6" height="6" rx="1.5"/><rect x="697" y="291" width="6" height="6" rx="1.5"/><rect x="627" y="242" width="6" height="6" rx="1.5"/><rect x="648" y="249" width="6" height="6" rx="1.5"/><rect x="655" y="242" width="6" height="6" rx="1.5"/><rect x="648" y="235" width="6" height="6" rx="1.5"/><rect x="641" y="235" width="6" height="6" rx="1.5"/><rect x="676" y="249" width="6" height="6" rx="1.5"/><rect x="676" y="256" width="6" height="6" rx="1.5"/><rect x="690" y="263" width="6" height="6" rx="1.5"/><rect x="718" y="270" width="6" height="6" rx="1.5"/><rect x="578" y="200" width="6" height="6" rx="1.5"/><rect x="578" y="207" width="6" height="6" rx="1.5"/><rect x="781" y="396" width="6" height="6" rx="1.5"/><rect x="781" y="410" width="6" height="6" rx="1.5"/><rect x="340" y="102" width="6" height="6" rx="1.5"/><rect x="676" y="298" width="6" height="6" rx="1.5"/><rect x="662" y="291" width="6" height="6" rx="1.5"/><rect x="767" y="417" width="6" height="6" rx="1.5"/><rect x="277" y="81" width="6" height="6" rx="1.5"/><rect x="830" y="354" width="6" height="6" rx="1.5"/><rect x="872" y="361" width="6" height="6" rx="1.5"/><rect x="970" y="389" width="6" height="6" rx="1.5"/><rect x="963" y="389" width="6" height="6" rx="1.5"/><rect x="326" y="102" width="6" height="6" rx="1.5"/><rect x="319" y="88" width="6" height="6" rx="1.5"/><rect x="669" y="298" width="6" height="6" rx="1.5"/><rect x="648" y="298" width="6" height="6" rx="1.5"/><rect x="669" y="291" width="6" height="6" rx="1.5"/><rect x="718" y="263" width="6" height="6" rx="1.5"/><rect x="711" y="263" width="6" height="6" rx="1.5"/><rect x="662" y="298" width="6" height="6" rx="1.5"/><rect x="690" y="256" width="6" height="6" rx="1.5"/><rect x="655" y="256" width="6" height="6" rx="1.5"/><rect x="641" y="270" width="6" height="6" rx="1.5"/><rect x="634" y="256" width="6" height="6" rx="1.5"/><rect x="627" y="270" width="6" height="6" rx="1.5"/><rect x="620" y="284" width="6" height="6" rx="1.5"/><rect x="627" y="277" width="6" height="6" rx="1.5"/><rect x="865" y="382" width="6" height="6" rx="1.5"/><rect x="606" y="256" width="6" height="6" rx="1.5"/><rect x="606" y="263" width="6" height="6" rx="1.5"/><rect x="613" y="263" width="6" height="6" rx="1.5"/></g>
+          <g class="m-res"><path class="d" d="M809 343L805 351L803 357L798 365L766 392"/><path class="d" d="M713 281L705 291L697 293L685 290L670 289"/><path class="d" d="M633 219L628 234L636 238L636 241L630 256L635 264L630 271L626 271L623 266L617 266"/><path class="d" d="M675 241L665 254L656 260L646 265L637 266"/><path class="d" d="M635 264L641 269L644 268"/><path class="d" d="M708 275L714 271L717 267"/><path class="d" d="M720 289L727 280L730 281"/><path class="d" d="M761 422L766 392"/></g>
+          <path class="rd-case" d="M266 88L272 87L293 83L303 85L311 90L324 105L329 115L361 142L383 153L400 154L447 180L464 184L471 185L473 183L475 181L482 178L504 184L529 198L561 206L573 207L633 219L664 231L692 256L711 278L740 305L754 321L768 332L803 338L854 362L875 364L877 364L930 380L968 383L1025 374"/>
+          <path class="rd d" d="M266 88L272 87L293 83L303 85L311 90L324 105L329 115L361 142L383 153L400 154L447 180L464 184L471 185L473 183L475 181L482 178L504 184L529 198L561 206L573 207L633 219L664 231L692 256L711 278L740 305L754 321L768 332L803 338L854 362L875 364L877 364L930 380L968 383L1025 374"/>
+          <path class="route" d="M793 396L745 407"/>
+          <path class="route" d="M793 396L780 394L766 392L798 365L803 357L805 351L809 343L803 338L768 332L754 321L740 305L711 278L692 256L664 231L633 219L573 207L561 206L529 198L504 184L482 178L475 181L471 185L464 184L447 180L400 154L383 153L361 142L329 115L324 105L311 90L303 85L293 83L272 87"/>
+          <path class="cab" d="M270 95L200 52"/>
+          <path class="cab" d="M745 407L581 464M580 466L475 472"/>
+          <circle class="pt" cx="270" cy="95" r="6"/>
+          <circle class="pt" cx="745" cy="407" r="5"/>
+          <text class="lb" x="258" y="122" text-anchor="start">Азау</text>
+          <text class="sm" x="258" y="138" text-anchor="start">канатка на Эльбрус</text>
+          <text class="sm" x="236" y="46" text-anchor="start">↖ Эльбрус</text>
+          <text class="lb" x="733" y="414" text-anchor="end">Поляна Чегет</text>
+          <text class="sm" x="733" y="430" text-anchor="end">подъёмник на Чегет</text>
+          <text class="vl" x="652" y="196">Терскол</text>
+          <text class="sm" x="1000" y="364" text-anchor="end">Нальчик, Минводы →</text>
+          <g class="dist-t"><rect x="436" y="146" width="56" height="22" rx="11"/><text class="dl" id="mapAzau" x="464" y="161"></text></g>
+          <g class="dist-t"><rect x="739" y="418" width="60" height="22" rx="11"/><text class="dl" id="mapCheget" x="769" y="433"></text></g>
+          <g class="me" transform="translate(793 396)">
+            <circle class="pulse" r="16"/>
+            <g filter="url(#mshadow)"><path class="pin" d="M0 6C-3 -2 -17 -6 -17 -20A17 17 0 1 1 17 -20C17 -6 3 -2 0 6Z"/></g>
+            <g transform="translate(-11 -26) scale(0.0463)"><g transform="translate(-229.0 -128.3)"><g transform="translate(0,698) scale(0.1,-0.1)"><path fill="#fff" d="M3875 5529 c-143 -138 -259 -256 -257 -262 2 -7 41 -119 88 -250 47 -131 84 -241 81 -243 -2 -3 -118 38 -257 91 l-252 95 -316 -303 c-174 -166 -414 -394 -533 -507 -119 -113 -217 -208 -218 -213 -1 -4 61 41 137 101 75 59 326 256 557 437 l419 328 399 -132 c219 -73 400 -131 403 -129 2 3 -63 150 -146 328 -82 177 -148 326 -145 330 2 4 72 60 154 124 97 75 155 115 163 110 33 -20 1058 -837 1055 -841 -3 -2 -121 44 -263 102 -142 58 -263 104 -269 101 -7 -2 -140 -161 -297 -353 -157 -191 -317 -387 -357 -435 -40 -49 -70 -88 -68 -88 3 0 172 157 378 349 205 192 377 347 383 345 32 -10 799 -194 809 -193 7 0 -103 112 -243 250 l-255 250 65 60 c36 32 70 57 77 55 6 -3 407 -252 890 -554 959 -599 915 -572 893 -550 -8 9 -226 188 -485 398 -258 210 -656 534 -883 719 -227 185 -417 337 -421 339 -4 1 -57 -57 -116 -130 -60 -73 -121 -148 -136 -165 l-28 -33 -366 358 c-201 196 -369 358 -373 359 -4 1 -124 -111 -267 -248z"/></g></g></g>
+            <circle class="pin-dot" r="3"/>
+          </g>
+          <g class="me" filter="url(#mshadow)">
+            <rect class="tag" x="815" y="404" width="124" height="46" rx="12"/>
+            <text class="tag-t" x="831" y="425" text-anchor="start">«Легенда»</text>
+            <text class="tag-s" x="831" y="441" text-anchor="start">ул. Чегет, 5А</text>
+          </g>
+          <g class="m-n" transform="translate(976 62)"><circle r="14"/><path d="M0 -9L5 5L0 2L-5 5Z"/><text y="-18">С</text></g>
         </svg>
-        <span class="road-n">Схема, не в масштабе</span>
+        <span class="road-n">Схема по данным OpenStreetMap</span>
       </div>
     </div>
   </div>
@@ -646,6 +723,11 @@
 
   /* Погода: координаты отеля (Яндекс Карты) и высота над морем, м */
   var LAT = 43.246012, LON = 42.526408, ELEV = 2150;
+
+  /* Шапка при прокрутке: 'fade' — тёмное матовое стекло над фото, светлое ниже;
+     'light' — сразу светлое стекло; 'pill' — сразу светлая плавающая капсула;
+     'glass' — плавающая стеклянная капсула: тёмная над фото, светлая ниже */
+  var HDR_MODE = 'glass';
 
   /* Расстояния от отеля, с единицами: '500 м', '5 км'. Пустые кавычки '' — строка не показывается */
   var DIST = {cheget:'500 м', azau:'5 км'};
@@ -879,9 +961,12 @@
   /* Над фото шапка прозрачная (осадки рисует сцена фото, чтобы не было двойного снега); после прокрутки — своё небо */
   var hdrEl = document.getElementById('hdr');
   var heroEl = document.getElementById('hero');
-  function onScroll(){ var y = window.scrollY, solid = y > 24, light = y > heroEl.offsetTop + heroEl.offsetHeight - 80;
-    hdrEl.classList.toggle('light', light);
-    if (solid !== hdrEl.classList.contains('solid')){ hdrEl.classList.toggle('solid', solid); hdrScene.o.precip = solid; hdrScene.o.cloudsOn = solid; if (reduce) hdrScene.draw(0,16); } }
+  function onScroll(){ var y = window.scrollY, solid = y > 24, heroEnd = heroEl.offsetTop + heroEl.offsetHeight - 72,
+      light = (HDR_MODE === 'fade' || HDR_MODE === 'glass') ? y > heroEnd + 6 : solid;
+    hdrEl.dataset.m = HDR_MODE; hdrEl.classList.toggle('light', light); hdrEl.classList.toggle('solid', solid); }
+  var hm = document.getElementById('hdrModes');
+  if (hm){ function hmSync(){ hm.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.hm === HDR_MODE); }); }
+    hm.addEventListener('click', function(e){ var b = e.target.closest('[data-hm]'); if (!b) return; HDR_MODE = b.dataset.hm; hmSync(); onScroll(); }); hmSync(); }
   hdrScene.o.precip = false; hdrScene.o.cloudsOn = false; window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
 
@@ -1038,6 +1123,7 @@
     tile.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); next(); auto(); } });
     show(0); auto(); })();
   var rmap = document.querySelector('.rmap');
+  rmap.querySelectorAll('path.d').forEach(function(p){ p.setAttribute('pathLength', '1'); });
   if (!reduce && 'IntersectionObserver' in window){ rmap.classList.add('wait'); var rio = new IntersectionObserver(function(es){ if (es[0].isIntersecting){ rmap.classList.add('drawing'); rio.disconnect(); } }, {threshold:.3}); rio.observe(rmap); }
   /* Мягкое появление блоков при прокрутке */
   if (!reduce && 'IntersectionObserver' in window){
