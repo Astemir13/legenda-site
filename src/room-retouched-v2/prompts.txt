@@ -1,0 +1,11 @@
+Use case: lighting-weather. Edit ONLY the color grading and light balance of this exact hotel room photo. Output same landscape 4:3 composition. The current image has an excessive orange/yellow cast. Make the wood visibly less yellow and less orange, around 35 percent lower orange/yellow saturation, with a natural muted light honey-beige wood finish, NOT painted or bleached white. Neutralize white bedding and curtains to soft clean ivory-white. Soft diffused natural daylight and gentle warm lamplight accents only, airy calm cozy hospitality photography, refined subdued colors, pleasant believable soft contrast. Preserve ALL actual room geometry, furniture, objects, upholstery colors, fabrics, window placements, camera angle and framing exactly. Do not add, remove, move or redesign anything. No cropping, no text, no watermark. Color and lighting correction only.
+
+Sources:
+{
+  "std2": "exec-90c1438f-3012-454a-8864-bdaebfefe8a6.png",
+  "std3": "exec-9a007b39-e13d-44c8-8578-a65c0f955f41.png",
+  "semi": "exec-92ae61ce-a4ca-41f1-82ca-0d602e3a5632.png",
+  "fam": "exec-7fd066eb-6692-4696-8911-d793c682affe.png",
+  "lux": "exec-befb5da9-d785-426a-9c4d-7c7b356c2b18.png",
+  "barn": "exec-bf45209a-9024-49a5-a0bb-e51e1ba58248.png"
+}

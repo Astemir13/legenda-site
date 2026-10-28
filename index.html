@@ -2,24 +2,25 @@
 <html lang="ru">
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
-<title>Эко-отель «Легенда» — предпросмотр сайта</title>
+<title>Эко-отель «Легенда» — у подножия Чегета · Терскол</title>
+<meta name="description" content="Деревянный эко-отель в сосновом бору у Чегета. Номера для двоих, семьи и компании. Выберите свой отдых в Приэльбрусье и бронируйте напрямую.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&family=Golos+Text:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap">
 <style>
 /* Layout: светлый, дружелюбный магазин номеров; единственный «живой» элемент — небо в шапке и на первом экране, синхронное с реальным временем Терскола */
 :root{
   --bg:#F4F7F8; --card:#FFFFFF; --ink:#13202A; --ink2:#53616B; --line:#DDE5E9; --soft:#EAF0F3;
   --accent:#D08F2F; --accent-ink:#1A1206; --accent-soft:#FBF0DD; --pine:#1F5C4A; --ok:#1E9E62;
   --paper:#F4F7F5; --sky1:#79B4E3; --sky2:#D8EAF6; --hdr-ink:#13202A;
-  --display:'Geologica','Golos Text',system-ui,sans-serif; --body:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --display:'Inter',system-ui,sans-serif; --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   color-scheme:light;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--sky1);transition:background 1s}
 a{color:var(--pine)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
@@ -29,8 +30,7 @@ p{margin:0}
 @media (min-width:900px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 24px;border-radius:14px;font:600 16px var(--body);text-decoration:none;border:0;cursor:pointer;transition:transform .15s, box-shadow .2s, background .2s}
 .btn:hover{transform:translateY(-1px)}
-.btn-accent{background:var(--accent);color:var(--accent-ink);box-shadow:0 6px 18px rgba(208,143,47,.3)}
-.btn-pine{background:var(--pine);color:#fff}
+.btn-accent,.btn-pine{background:var(--pine);color:#fff}
 .btn-soft{background:var(--soft);color:var(--ink)}
 .sec{padding-block:88px}
 .sec-h{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
@@ -403,14 +403,425 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   .fl-dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35)}
   .fl-dots i.on{background:#fff}
 }
+/* Preserve the original visual character; add photo-first room cards and new content sections. */
+:root{--bg:#F4F7F8;--card:#fff;--ink:#13202A;--ink2:#53616B;--line:#DDE5E9;--soft:#EAF0F3;--accent:#D08F2F;--accent-ink:#1A1206;--accent-soft:#FBF0DD;--pine:#1F5C4A;--paper:#F4F7F5;--display:'Inter',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif}
+body{margin:0;padding:0}
+h1,h2,h3{font-weight:600;line-height:1.13;letter-spacing:-.025em}
+h1 em,h2 em{font-style:normal;font-weight:inherit;color:inherit}
+h2{font-size:clamp(30px,3.1vw,42px)}
+.wrap{max-width:1240px}
+.sec{padding-block:72px}
+.kick{font-size:12px;font-weight:500;letter-spacing:.07em;margin-bottom:14px}
+.btn{border-radius:14px;font-size:14px;min-height:48px;gap:16px}
+.btn span{font-size:20px}
+.btn:disabled,.step button:disabled{cursor:not-allowed;opacity:.45;transform:none}
+.hdr{color:#fff}
+.hdr.solid,.hdr.light{background:rgba(255,255,255,.96);color:var(--ink);box-shadow:0 3px 20px #13202a0c;backdrop-filter:blur(16px)}
+.hdr.solid::before,.hdr.solid::after,.hdr.solid canvas{display:none}
+.hdr.solid .call,.hdr.solid .wxchip{background:var(--soft);box-shadow:none}
+.logo{font-family:var(--body)}
+.brand-text{display:flex;flex-direction:column;gap:5px;text-align:left;line-height:1.1}
+.brand-text small{font:400 8px/1.3 var(--body);letter-spacing:.12em}
+.logo .chev{display:none}
+.nav{display:flex}
+.nav a{font-size:13px;padding-inline:10px}
+.hdr-r{gap:14px}
+.hdr .wxchip{display:none}
+.call .ct b{font-size:13px}
+.call .ct small{font-size:10px}
+.hero .tint{background:linear-gradient(90deg,rgba(10,22,31,.68),rgba(10,22,31,.12) 72%),linear-gradient(0deg,rgba(10,22,31,.82),transparent 60%)}
+.hero-in{min-height:760px;padding-block:130px 40px;justify-content:center}
+.hero-copy{max-width:850px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.08em;margin-bottom:22px;color:#eaf1f4}
+.hero-eyebrow>span{width:6px;height:6px;border-radius:50%;background:#f3c36f}
+.hero h1{font-size:clamp(40px,5vw,66px);line-height:1.08}
+.hero h1 em{color:#fff}
+.hero .lead{font-size:18px;line-height:1.65;max-width:580px;margin-top:22px}
+.hero-actions{display:flex;align-items:center;gap:26px;margin-top:28px;flex-wrap:wrap}
+.hero-more{color:#fff;font-size:13px;text-decoration:none;display:flex;gap:14px;align-items:center}
+.hero-more:hover{text-decoration:underline;text-underline-offset:5px}
+.hero-more span{font-size:22px}
+.facts{margin-top:42px;width:100%;max-width:960px}
+.fact .fact-stars{font:10px var(--body);color:#ffd58a;letter-spacing:1px;display:inline;margin-left:8px}
+.fact .dot{box-shadow:none}
+.fact b{font-family:var(--body);font-size:18px}
+.fact span{font-size:12px}
+.now{display:none;position:absolute;right:32px;top:95px;padding:8px 12px;max-width:40%;border-radius:14px}
+.weather-ready .now{display:flex}
+.now-l{display:none}
+.now .ni{width:28px;height:28px}
+.now .ni svg{width:20px;height:20px}
+.now .now-t{margin:0;font-size:11px}
+.now + .hero-copy{margin-top:0}
+.booksec{padding-top:28px}
+.w-head h2{font-size:23px}
+.w-note{font-size:12px}
+.widget{border-radius:24px;grid-template-columns:1.4fr 1fr 1fr auto;gap:12px}
+.widget .w-sum{font:400 13px/1.6 var(--body);padding:12px}
+.widget .w-sum b{font:600 14px/1.6 var(--body)}
+.widget #wGo{font-size:12px;padding-inline:18px}
+.fld input,.fld .dph{font-size:15px}
+.guests b{font-size:13px}
+.step{gap:8px}
+.step button{width:36px;height:40px}
+.booking-help{grid-column:1/-1;font-size:11px;line-height:1.65;color:var(--ink2)}
+.booking-error{grid-column:1/-1;font-size:13px;color:#a33022}
+.intro{padding-block:64px}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:75px;align-items:center}
+.intro-copy p{font-size:15px;color:var(--ink2);line-height:1.85;margin-bottom:15px}
+.tlink{font-size:14px;display:inline-block;text-underline-offset:5px}
+.amenity-line{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+.amenity-line span{padding:18px;background:#fff;border-radius:16px;font-size:12px;font-weight:500}
+.amenity-line span::before{content:'✓';color:var(--pine);margin-right:9px}
+#rooms{padding-top:18px}
+.sec-h{gap:36px;align-items:flex-end}
+.sec-h>p{max-width:420px;font-size:14px;line-height:1.75;color:var(--ink2)}
+.rooms{gap:22px}
+.room .ph{aspect-ratio:16/10;background:var(--soft)}
+.room-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s}
+.room:hover .room-photo{transform:scale(1.025)}
+.room .badge{left:14px;right:auto;top:14px;background:#fff;color:var(--pine);font-size:11px;padding:5px 10px;z-index:2;box-shadow:0 2px 10px #13202a10}
+.room .badge.no{background:#fbe7e2;color:#8a2e1c}
+.room-plan{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 13px;border:1px solid #ffffff80;border-radius:12px;background:rgba(255,255,255,.96);color:var(--ink);font:500 12px var(--body);box-shadow:0 3px 12px #13202a20;cursor:pointer;z-index:2}
+.room-plan:hover{background:var(--accent-soft)}
+.room h3{font-size:22px;line-height:1.2}
+.room .b{padding:20px;gap:12px}
+.room .b>p{font-size:13px;line-height:1.75}
+.room .m{display:flex;gap:6px;flex-wrap:wrap}
+.room .m span{font-size:10px;padding:4px 7px;background:var(--soft);border-radius:7px}
+.room .foot b{font:600 22px var(--display)}
+.room .foot .btn{font-size:12px;min-height:42px;padding-inline:16px}
+.room .foot small{font-size:11px}
+.room.sel{outline-color:var(--pine)}
+.section-note{font-size:12px;color:var(--ink2);line-height:1.8;margin-top:24px;max-width:900px}
+.experience{background:#eaf0ed}
+.experience-top{display:flex;align-items:flex-end;justify-content:space-between;gap:55px;margin-bottom:32px}
+.experience-top>p{font-size:14px;line-height:1.85;color:var(--ink2);max-width:380px}
+.gallery{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:210px 210px;gap:16px}
+.gallery figure{position:relative;overflow:hidden;margin:0;border-radius:20px}
+.gallery-main{grid-row:1/3}
+.gallery img{width:100%;height:100%;object-fit:cover}
+.gallery figcaption{position:absolute;inset:auto 0 0;padding:36px 20px 18px;background:linear-gradient(transparent,#13202ab3);color:#fff;font-size:12px}
+.experience-details{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:32px}
+.experience-details article{background:#fff;border-radius:20px;padding:24px}
+.detail-number{font-size:10px;letter-spacing:.06em;color:var(--ink2)}
+.experience-details h3{font-size:23px;line-height:1.25;margin-block:16px}
+.experience-details p{font-size:13px;line-height:1.8;color:var(--ink2)}
+.experience-details small{display:block;font-size:11px;line-height:1.8;color:var(--ink2);margin-top:16px}
+.experience-details .live{font-size:12px;margin-top:16px;display:flex;gap:7px}
+.experience-details .tlink{margin-top:16px;font-size:12px}
+.review-score{display:flex;align-items:center;gap:16px;color:var(--ink);text-decoration:none}
+.review-score>b{font:600 56px/1 var(--display);letter-spacing:-.04em}
+.review-score>span{display:flex;flex-direction:column;gap:8px}
+.review-score>span>span:last-child{font-size:11px;color:var(--ink2)}
+.review-stars{font:14px var(--body);letter-spacing:3px;color:#bf852d}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.review-card{margin:0;display:flex;flex-direction:column;background:#fff;border-radius:20px;padding:26px;box-shadow:0 5px 20px #13202a04}
+.review-card blockquote{font:500 19px/1.6 var(--body);margin:22px 0 28px;min-height:110px}
+.review-card figcaption{display:flex;align-items:center;gap:10px;margin-top:auto;border-top:1px solid var(--line);padding-top:18px;font-size:12px}
+.review-card figcaption div>span{display:block;font-size:10px;color:var(--ink2);margin-top:4px}
+.review-card figcaption>a{margin-left:auto;padding:8px;text-decoration:none;color:var(--pine)}
+.avatar{display:flex;align-items:center;justify-content:center;border-radius:50%;width:36px;height:36px;flex-shrink:0;background:var(--soft);font-size:16px;color:var(--pine)}
+.reviews-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:24px}
+.reviews-bottom p{font-size:11px;color:var(--ink2);line-height:1.7}
+.reviews-bottom .tlink{font-size:12px;flex-shrink:0}
+.faqp{display:grid;max-width:none;width:100%;grid-template-columns:minmax(220px,1fr) minmax(0,2fr);gap:0 48px;padding:32px;border-radius:16px}
+.faqp>.kick{grid-column:1}
+.faqp>h2{grid-column:1;align-self:start;margin-top:18px}
+.faqp>.faq{grid-column:2;grid-row:1;min-width:0}
+.faqp .faq details{border-radius:10px}
+.faq summary{font-size:15px}
+.faq p{font-size:14px;line-height:1.8}
+.road h2{font-size:clamp(30px,3.1vw,42px)}
+.road-a{font-size:14px}
+.dist2 b{font-family:var(--display)}
+.road-b .btn{font-size:12px;padding-inline:18px}
+.closing{text-align:center;padding:72px 0;background:var(--pine);color:#fff}
+.closing .kick{color:#d4e5da}
+.closing h2{font-size:clamp(32px,3.8vw,48px)}
+.closing .btn{margin-top:28px}
+.closing-phone{display:block;color:#e2ebe6;font-size:13px;margin-top:18px;text-decoration:none}
+.ft-logo{font-family:var(--body)}
+.ft-brand,.ft-col{min-width:0}
+.ft-col a{overflow-wrap:anywhere}
+@media(max-width:760px){.ft{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.wxpanel{display:none}
+.weather-tools .wxpanel{display:block}
+.menu-now{color:var(--ink);background:var(--soft)}
+.mbar div b{font-family:var(--body)}
+@media(max-width:1100px){.nav{display:none}.call{display:none}.widget{grid-template-columns:1.4fr 1fr 1fr}.widget #wGo{grid-column:1/-1}.experience-details{gap:16px}.experience-details article{padding:20px}.rooms{gap:18px}.room .b{padding:16px}.room h3{font-size:20px}.room .foot{flex-wrap:wrap}.review-card{padding:22px}.review-card blockquote{font-size:17px}}
+@media(max-width:760px){.sec{padding-block:48px}.hero-in{min-height:680px;padding-block:135px 28px}.hero h1{font-size:clamp(36px,7.3vw,52px);line-height:1.12}.hero .lead{font-size:15px;line-height:1.8;max-width:420px}.hero-eyebrow{font-size:9px;margin-bottom:18px}.hero-actions{gap:20px}.hero-actions .btn{font-size:12px}.hero-more{font-size:12px}.facts{margin-top:34px}.fact{padding:12px}.fact b{font-size:14px}.fact span{font-size:10px}.fact .fact-stars{display:none}.now{right:16px;top:88px;max-width:75%;padding:6px 10px}.now .now-t{font-size:10px}.logo{font-size:18px;gap:8px}.logo .mk{width:44px}.logo .chev{display:block;width:10px}.brand-text small{font-size:6px}.hdr .btn{display:inline-flex;font-size:11px;padding-inline:14px}.widget{grid-template-columns:1fr 1fr;padding:18px;gap:12px}.w-head{display:block}.w-head h2{font-size:22px}.w-note{font-size:12px;margin-top:8px}.w-row{grid-column:1/-1}.widget #wGo{min-height:48px;font-size:12px}.widget .w-sum{font-size:11px;padding:8px}.widget .w-sum b{font-size:12px}.booking-help{font-size:10px}.guests{gap:6px;padding:10px}.guests b{font-size:12px}.step{gap:4px}.step button{width:26px;height:32px;font-size:18px}.step output{font-size:13px;min-width:10px}.intro-grid{grid-template-columns:1fr;gap:22px}.intro-copy p{font-size:14px}.amenity-line{grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}.amenity-line span{font-size:11px;padding:14px}#rooms{padding-top:8px}.sec-h{display:block;margin-bottom:24px}.sec-h>p{font-size:14px;margin-top:18px}.rooms{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.room .b{padding:16px}.room .b>p{font-size:12px}.room h3{font-size:20px}.room .foot b{font-size:20px}.room .foot small{font-size:10px}.room .foot .btn{min-height:40px}.room-plan{font-size:11px;min-height:38px;right:10px;bottom:10px;padding-inline:10px}.room .badge{top:10px;left:10px;font-size:10px}.section-note{font-size:11px}.experience-top{display:block;margin-bottom:26px}.experience-top>p{margin-top:20px;font-size:14px}.gallery{grid-template-columns:1fr 1fr;grid-template-rows:280px 170px;gap:12px}.gallery-main{grid-column:1/-1;grid-row:1}.gallery figure{border-radius:16px}.gallery figcaption{font-size:10px;padding:30px 14px 12px}.experience-details{grid-template-columns:1fr;gap:16px;margin-top:24px}.experience-details article{padding:22px}.experience-details h3{font-size:23px}.experience-details p{font-size:14px}.experience-details h3 br{display:none}.review-score{margin-top:24px}.review-score>b{font-size:46px}.review-score>span>span:last-child{font-size:10px}.review-grid{grid-template-columns:1fr;gap:14px}.review-card blockquote{font-size:18px;min-height:0}.reviews-bottom{display:block}.reviews-bottom p{margin-bottom:14px}.faqp{display:block}.faqp>h2{margin-block:16px 26px}.faq summary{font-size:14px}.faq p{font-size:13px}.road-b .btn{font-size:12px}.closing{padding-block:50px}.closing-phone{font-size:12px}.ft-brand{grid-column:1/-1}.ft-bot{font-size:10px;line-height:1.8}footer{padding-bottom:100px}.mbar div b{font-size:13px}.mbar div span{font-size:10px}.pm-h h3{font-size:24px}.pm-f .btn{font-size:13px}.pm-f small{font-size:11px}}
+@media(max-width:460px){.rooms{grid-template-columns:1fr}.room .ph{aspect-ratio:16/10}.room .b{padding:20px}.room h3{font-size:22px}.room .b>p{font-size:13px}.room .m span{font-size:11px}.room .foot{flex-wrap:nowrap}.room .foot b{font-size:22px}.room .foot .btn{font-size:12px}.hero h1{font-size:36px}.desktop-break{display:none}.hero .lead{font-size:14px}.hero-actions{gap:18px}.hero-more{font-size:11px}.hero-actions .btn{font-size:12px;padding-inline:18px}.facts{gap:7px}.fact{padding:10px 8px}.fact b{font-size:13px}.fact span{font-size:10px}.fl-dots{display:none!important}.gallery{grid-template-rows:240px 135px}.gallery figcaption{font-size:9px}.hero-eyebrow{font-size:8px}.fld input,.fld .dph{font-size:13px}.w-row{gap:10px}.brand-text small{letter-spacing:.08em}.hdr .btn{font-size:10px;padding-inline:12px}.room-plan{min-height:40px;font-size:12px;right:12px;bottom:12px}}
+/* Original first-screen hierarchy and compact room selector. */
+.hero-in{min-height:790px;justify-content:flex-end;padding-top:116px;padding-bottom:82px}
+.hero-copy{max-width:680px}
+.hero-eyebrow{margin-bottom:16px}
+.hero h1{max-width:680px}
+.now,.weather-ready .now{display:flex;position:relative;inset:auto;padding:10px 16px;max-width:100%;align-self:flex-start;gap:12px;margin-bottom:auto;border-radius:18px;flex-wrap:wrap}
+.now .ni{width:36px;height:36px}
+.now .ni svg{width:24px;height:24px}
+.now .now-t{font-size:12px;margin-bottom:6px}
+.now .now-l{display:block;font-size:14px;line-height:1.45;max-width:520px}
+.now + .hero-copy{margin-top:36px}
+.now button{font-size:11px;min-height:32px}
+.now button[hidden]{display:none}
+.booksec{position:relative;z-index:3;margin-top:-42px;padding-top:0}
+.widget{padding:10px;grid-template-columns:1.5fr 1fr 1fr auto;align-items:stretch;border-radius:20px;gap:8px}
+.widget .fld{min-height:60px;padding:7px 10px}
+.widget .guests{padding:7px 10px}
+.widget .w-sum{align-self:center;background:transparent;padding:4px 8px;font-size:12px}
+.widget .w-sum b{font-size:13px}
+.widget #wGo{min-width:160px;min-height:60px;grid-column:auto}
+.intro{padding-block:30px}
+.amenity-line{margin-top:0}
+#rooms{padding-top:28px}
+@media(max-width:1100px) and (min-width:761px){.widget{grid-template-columns:1.4fr 1fr auto}.widget .w-sum{display:none}.widget #wGo{grid-column:auto}}
+@media(max-width:760px){.hero-in{min-height:740px;padding-top:104px;padding-bottom:64px}.hero h1{font-size:clamp(36px,7.3vw,52px)}.now{max-width:100%;padding:10px 12px;gap:10px}.now .now-t{font-size:10px}.now .now-l{font-size:12px;max-width:450px}.now .ni{width:30px;height:30px}.now>span{flex:1;min-width:170px}.now + .hero-copy{margin-top:28px}.hero-eyebrow{font-size:8px;margin-bottom:14px}.hero-actions{margin-top:22px}.facts{margin-top:26px}.booksec{margin-top:-24px}.widget{padding:14px;grid-template-columns:1fr 1fr;gap:10px}.widget .w-row{grid-column:1/-1}.widget .w-sum{display:block;font-size:11px;padding:4px}.widget .w-sum b{font-size:12px}.widget #wGo{grid-column:1/-1;min-height:46px}.widget .fld{min-height:64px}.intro{padding-block:22px}.amenity-line span{font-size:10px;padding:12px}#rooms{padding-top:20px}}
+@media(max-width:760px){.hero-in{min-height:660px;padding-bottom:56px}.now>span:not(.ni){flex:1;min-width:0}.now>.ni{flex:0 0 30px;min-width:30px}.now button{padding-inline:10px;font-size:10px}}
+.facts{max-width:none;grid-template-columns:1.2fr 1.15fr 1fr .9fr 1.15fr}
+.facts .fact{padding:12px;gap:9px}
+.facts .fact b{font-size:15px}
+.facts .fact span{font-size:11px}
+.facts .fact .fi{flex:0 0 32px;width:32px;height:36px}
+.facts .fact .fi svg{width:20px;height:20px}
+.facts .fact .fact-stars{font-size:8px;margin-left:4px}
+.facts .fl2{gap:10px}
+.facts .fl2>div+div{padding-left:10px}
+#rooms{padding-top:48px}
+@media(max-width:1100px){.facts .fact .fi{display:none}.facts .fact{padding:12px 10px}.facts .fact b{font-size:13px}.facts .fact span{font-size:10px}.facts .fact .fact-stars{display:none}}
+@media(max-width:760px){.facts{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.facts .fact{padding:11px 9px;min-height:64px}.facts .fact b{font-size:13px}.facts .fact span{font-size:10px}.fact-parking{grid-column:1}.fact-pets{grid-column:2/4}#rooms{padding-top:34px}}
+@media(max-width:760px){
+  .widget{padding:10px;gap:8px;border-radius:18px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .widget .w-row{gap:8px}
+  .widget .fld{min-height:56px;padding:7px 10px;gap:2px;border-radius:12px;font-size:10px}
+  .widget .fld input{font-size:13px;min-height:24px}
+  .widget .fld .dph{left:10px;bottom:8px;font-size:13px}
+  .widget .guests{padding:6px 9px;min-height:58px;gap:2px;flex-direction:column;align-items:stretch;justify-content:center;border-radius:12px}
+  .widget .guests>div:first-child{line-height:12px}
+  .widget .guests>div:first-child>span{font-size:10px;line-height:1.3}
+  .widget .guests #gTxt{display:none}
+  .widget .step{width:100%;justify-content:space-between;gap:6px}
+  .widget .step button{width:30px;height:32px;min-height:32px;min-width:30px;border-radius:9px;font-size:17px;box-shadow:none}
+  .widget .step output{font-size:13px}
+  .widget .w-sum{display:none}
+  .widget #wGo{grid-column:2;min-width:0;min-height:58px;padding:8px 10px;font-size:12px;line-height:1.3;border-radius:12px;text-align:center}
+  .widget .booking-error{margin:0;font-size:11px;line-height:1.5}
+  .mbar{padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));gap:10px}
+  .mbar .btn{min-height:40px;padding-inline:15px;font-size:12px;border-radius:12px}
+  .mbar div b{font-size:12px;line-height:1.4}
+  .mbar div span{font-size:10px;line-height:1.3}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv-in,.pl.wait .d,.rmap.wait .d{opacity:1!important;transform:none!important;stroke-dashoffset:0!important}.hero canvas{display:none}}
+
+/* Headings stand on their own, without decorative category labels. */
+.experience-details article>h3:first-child{margin-top:0}
+.faqp>h2{margin-top:0}
+
+body{font-optical-sizing:auto}
+/* Slightly crisper corners, shared across desktop and mobile. */
+.btn,.widget #wGo,.mbar .btn,.room-plan{border-radius:10px}
+.room,.widget,.gallery figure,.experience-details article,.review-card{border-radius:16px}
+.fact,.now,.weather-ready .now{border-radius:14px}
+.fld,.guests,.widget .fld,.widget .guests{border-radius:10px}
+.step button,.widget .step button,.fact .fi{border-radius:8px}
+.room .ph{aspect-ratio:4/3}
+/* One compact information strip instead of separate competing cards. */
+.hero-in{justify-content:flex-end;padding-bottom:84px}
+.facts{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:36px;background:rgba(41,101,84,.2);border:1px solid #ffffff24;border-radius:14px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.facts .fact{border-radius:0;background:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:12px 16px;min-height:66px;gap:10px}
+.facts .fact+.fact{border-left:1px solid #ffffff24}
+.facts .fact .fi{display:grid;flex:0 0 28px;width:28px;height:32px;background:none}
+.facts .fact b{font-size:14px;white-space:normal;line-height:1.3}
+.facts .fact span{font-size:11px;line-height:1.4}
+.facts .fact-amenities b{font-size:13px}
+.facts .now{display:flex;flex-direction:row;position:static;inset:auto;align-self:stretch;max-width:none;margin:0;flex-wrap:nowrap;color:#fff}
+.facts .now .weather-copy{flex:1;min-width:0}
+.facts .now #nowLine{display:block;font-size:11px;line-height:1.4;max-width:none;color:#D9E3E8}
+.facts .now #weatherRetry{flex:0 0 30px;min-width:30px;min-height:32px;padding:0;border:1px solid #ffffff38;border-radius:8px;background:#ffffff0d;color:#fff;font:20px var(--body);cursor:pointer}
+.facts .now #weatherRetry:hover{background:#ffffff24}
+.facts .now #weatherRetry[hidden]{display:none}
+@media(max-width:1100px){.facts .fact{padding:12px}.facts .fact .fi{display:none}.facts .fact b{font-size:13px}.facts .fact span{font-size:10px}}
+@media(max-width:760px){
+  .hero-in{min-height:660px;padding-top:150px;padding-bottom:62px}
+  .facts{grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-top:28px}
+  .facts .fact{padding:10px 12px;min-height:60px}
+  .facts .fact:nth-child(3){border-left:0;border-top:1px solid #ffffff24}
+  .facts .fact:nth-child(4){border-top:1px solid #ffffff24}
+  .facts .fact-amenities{grid-column:auto}
+  .facts .fact-amenities b{font-size:12px}
+  .facts .now>.ni{display:none;min-width:0}
+  .facts .now .weather-copy{min-width:0}
+  .facts .now #nowLine{font-size:10px}
+}
+/* Shared primary action sizing; text length controls width only. */
+.btn,.hdr .btn,.hero-actions .btn,.room .foot .btn,.widget #wGo,.mbar .btn,.pm-f .btn,.menu-act .btn,.road-b .btn{height:48px;min-height:48px;padding:0 20px;font-size:14px;line-height:1.2;border-radius:10px}
+.widget #wGo{align-self:center}
+@media(max-width:760px){
+  .btn,.hdr .btn,.hero-actions .btn,.room .foot .btn,.widget #wGo,.mbar .btn,.pm-f .btn,.menu-act .btn,.road-b .btn{height:44px;min-height:44px;padding:0 16px;font-size:13px;line-height:1.2}
+  .facts .fact{min-height:82px}
+  .facts .now #nowTxt{font-size:12px}
+  .facts .now #weatherRetry{flex-basis:28px;min-width:28px;min-height:30px}
+}
+.hero-in{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;justify-content:stretch;align-items:center;padding-top:100px}
+.hero-copy{align-self:center;padding-block:32px}
+.facts{margin-top:0}
+@media(max-width:760px){.hero-in{padding-top:96px;grid-template-rows:minmax(min-content,1fr) auto}.hero-copy{padding-block:34px}.facts{margin-top:0}}
+.hero h1,.hero .lead{text-wrap:balance}
+.hero-actions .action-icon{display:block;flex:0 0 20px;width:20px;height:20px}
+.hero-actions .btn-ghost{background:transparent;color:#fff;box-shadow:none;text-decoration:none}
+.hero-actions .btn-ghost:hover{background:rgba(39,56,51,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);text-decoration:none;transform:none}
+.hero-actions .btn-ghost:active{background:rgba(39,56,51,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.hero-actions .btn-ghost:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.hero-actions{gap:8px}
+@media(max-width:760px){.faqp{padding:20px}.faqp>h2{margin-top:0;margin-bottom:24px}}
+/* Current local refinements. */
+.hero h1{font-kerning:none;letter-spacing:-.01em}
+.widget{padding-right:16px}
+.road{border:1px solid #CBD7D1;border-radius:12px;box-shadow:0 4px 18px #13202a05}
+.gallery,.experience-details{gap:16px}
+.experience-details{margin-top:16px}
+#roomsNote,.experience-top>p{text-wrap:balance}
+.experience-top>p{padding-right:0;text-align:right}
+@media(max-width:760px){.experience-top>p{text-align:left}}
+@media(max-width:760px){.copy-break{display:none}}
+.facts .fact-location{flex-direction:column;align-items:stretch;justify-content:center;gap:4px}
+.facts .fact-location .now{padding:0;min-height:0;border:0;background:none;gap:6px}
+.facts .fact-location .now .ni{display:grid;flex:0 0 20px;width:20px;height:20px}
+.facts .fact-location .now .weather-copy{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.facts .fact-location .now #nowTxt{font-size:13px}
+.facts .fact-location .now #nowLine{font-size:10px}
+.facts .fact-location .now #weatherRetry{flex:0 0 26px;min-width:26px;min-height:26px;font-size:17px}
+.facts .location-distances{display:flex;flex-wrap:wrap;gap:4px 12px}
+.facts .location-distances>span,.facts .location-distances .dv{display:inline;font-size:10px;line-height:1.4;white-space:nowrap}
+.facts .fact-pets{grid-column:auto}
+.btn,.hdr .btn,.hero-actions .btn,.room .foot .btn,.widget #wGo,.mbar .btn,.pm-f .btn,.menu-act .btn,.road-b .btn,.room-plan{border-radius:8px}
+.room,.widget,.panel.faqp,.road,.gallery figure,.experience-details article,.review-card,.pm{border-radius:12px}
+.facts{border-radius:10px}
+.fld,.guests,.widget .fld,.widget .guests,.faqp .faq details,.dist2 li{border-radius:8px}
+.step button,.widget .step button,.fact .fi{border-radius:6px}
+@media(max-width:760px){
+  .widget{padding-right:10px}
+  .facts .fact-location .now .ni{display:none}
+  .facts .fact-location .now .weather-copy{gap:0 5px}
+  .facts .fact-location .now #nowTxt{font-size:12px}
+  .facts .fact-pets{grid-column:auto}
+}
+@media(max-width:760px){.hero h1 .desktop-break{display:none}}
+
+/* Separate distance and compact weather cards. */
+.facts{grid-template-columns:repeat(5,minmax(0,1fr))}
+.distance-pair{display:flex;align-items:center;gap:12px}
+.distance-pair>div+div{border-left:1px solid #ffffff24;padding-left:12px}
+.facts .fact-weather{padding:0}
+.facts .fact-weather .now{width:100%;padding:12px;min-height:66px;background:none;border:0;gap:8px}
+.facts .fact-weather .now .ni{flex:0 0 22px;width:22px;height:22px}
+.facts .fact-weather #nowTxt{font-size:13px}
+@media(max-width:760px){
+ .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .facts .fact-weather{grid-column:1/-1;border-left:0;border-top:1px solid #ffffff24}
+ .facts .fact-weather .now{min-height:54px;padding:10px 12px}
+ .facts .fact-weather .now .ni{display:grid}
+ .facts .fact-weather .weather-copy{display:flex;align-items:baseline;gap:8px}
+}
+
+/* Directions: centered content and aligned pairs of cards/actions. */
+.road{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+.road-i{justify-content:center;padding:36px;gap:0}
+.road-i h2{font-size:clamp(28px,2.6vw,36px);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+.road-a{margin:0;line-height:1.65;text-wrap:pretty}
+.road-i .dist2{margin:24px 0 0;gap:10px}
+.road-i .dist2 li{padding:14px;min-width:0}
+.road-i .road-b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:20px}
+.road-i .road-b .btn{width:100%;padding-inline:10px;font-size:12px;text-align:center}
+.facts .fact-weather .now{border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+@media(max-width:760px){
+ .road{grid-template-columns:1fr}
+ .road-i{padding:24px}
+ .road-i h2{font-size:28px}
+ .road-i .dist2{margin-top:20px}
+ .road-i .road-b{margin-top:16px}
+ .facts .fact-weather{grid-column:auto;border-left:1px solid #ffffff24;border-top:0}
+ .facts .fact-parking{grid-column:auto}
+ .facts .fact:nth-child(odd){border-left:0}
+ .facts .fact:nth-child(n+3){border-top:1px solid #ffffff24}
+ .facts .fact-pets{grid-column:1/-1}
+ .facts .fact-weather .weather-copy{display:block}
+ .facts .fact-weather .now{min-height:82px}
+}
+@media(max-width:380px){.road-i .road-b{grid-template-columns:1fr}}
+
+/* Shared outline icons throughout the hero facts. */
+.facts .fact .fi,.facts .fact-weather .now .ni{display:grid;place-items:center;flex:0 0 22px;width:22px;height:22px;background:none;color:#D9E3E0}
+.facts .fact .fi svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.facts #weatherRetry{display:grid;place-items:center}
+.facts #weatherRetry svg{width:16px;height:16px}
+.facts #weatherRetry[hidden]{display:none}
+@media(max-width:760px){
+ .facts .fact{flex-direction:row;align-items:center;gap:8px}
+ .facts .fact-weather .now{gap:8px}
+}
+
+/* Compact mobile facts: location, slim rating row, then amenities. */
+@media(max-width:760px){
+ .facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+ .facts .fact{min-height:52px;padding:8px 10px;gap:7px}
+ .facts .fact-distance{grid-column:1;grid-row:1}
+ .facts .fact-weather{grid-column:2;grid-row:1;padding:0}
+ .facts .fact-weather .now{min-height:52px;padding:8px 10px;gap:6px}
+ .facts>a.fact{grid-column:1/-1;grid-row:2;min-height:36px;padding-block:6px;border-left:0}
+ .facts>a.fact>div{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px}
+ .facts .fact-parking{grid-column:1;grid-row:3;border-left:0}
+ .facts .fact-pets{grid-column:2;grid-row:3;border-left:1px solid #ffffff24}
+ .facts .fact b,.facts .fact-weather #nowTxt{font-size:12px}
+ .facts .fact span,.facts .fact-weather #nowLine{font-size:10px;line-height:1.3}
+ .facts .fact .fi,.facts .fact-weather .now .ni{flex-basis:18px;width:18px;height:18px}
+ .facts .fact .fi svg{width:18px;height:18px}
+ .facts .distance-pair{gap:8px}
+ .facts .distance-pair>div+div{padding-left:8px}
+ .facts .now #weatherRetry{flex-basis:28px;min-width:28px;min-height:28px}
+}
+
+/* Same framing, seasonal dissolve without controls or movement. */
+.hero #heroSummer{opacity:0;transition:opacity 3s ease-in-out;pointer-events:none}
+.hero.season-summer #heroSummer{opacity:1}
+.hero #skyHero{transition:opacity 3s ease-in-out}
+.hero.season-summer #skyHero{opacity:0}
+@media(prefers-reduced-motion:reduce){
+ .hero #heroSummer,.hero #skyHero{transition:none}
+}
+
+/* Tighter hero typography, with a smaller mobile text group. */
+.hero h1{line-height:1}
+@media(max-width:760px){
+ .hero h1{font-size:clamp(32px,7.3vw,42px);line-height:1}
+ .hero-copy{padding-block:22px}
+ .hero .lead{font-size:14px;line-height:1.5;margin-top:16px;margin-bottom:0;max-width:36ch}
+ .hero-actions{margin-top:18px}
+}
+
+@media(max-width:380px){
+ .hdr .logo{font-size:16px;gap:6px}
+ .hdr .logo .mk{width:36px}
+ .hdr .btn{font-size:12px;padding-inline:12px}
+ .hero-actions .btn{padding-inline:12px;font-size:12px}
+ .facts .distance-pair{display:grid;gap:3px}
+ .facts .distance-pair>div{display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+ .facts .distance-pair>div+div{border-left:0;padding-left:0}
+ .facts .distance-pair b,.facts .distance-pair span{display:inline;font-size:10px}
+}
+
+.experience-details{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:1100px){.experience-details{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.experience-details{grid-template-columns:1fr}}
+
 </style>
 
 <header class="hdr" id="hdr">
   <canvas id="skyHdr" aria-hidden="true"></canvas>
   <div class="wrap">
-    <button type="button" class="logo" id="logoBtn" aria-expanded="false" aria-controls="siteMenu" aria-label="Легенда — открыть меню"><svg class="mk" viewBox="229 128.3 474.8 185.7" aria-hidden="true"><g transform="translate(0,698) scale(0.1,-0.1)"><path fill="currentColor" d="M3875 5529 c-143 -138 -259 -256 -257 -262 2 -7 41 -119 88 -250 47 -131 84 -241 81 -243 -2 -3 -118 38 -257 91 l-252 95 -316 -303 c-174 -166 -414 -394 -533 -507 -119 -113 -217 -208 -218 -213 -1 -4 61 41 137 101 75 59 326 256 557 437 l419 328 399 -132 c219 -73 400 -131 403 -129 2 3 -63 150 -146 328 -82 177 -148 326 -145 330 2 4 72 60 154 124 97 75 155 115 163 110 33 -20 1058 -837 1055 -841 -3 -2 -121 44 -263 102 -142 58 -263 104 -269 101 -7 -2 -140 -161 -297 -353 -157 -191 -317 -387 -357 -435 -40 -49 -70 -88 -68 -88 3 0 172 157 378 349 205 192 377 347 383 345 32 -10 799 -194 809 -193 7 0 -103 112 -243 250 l-255 250 65 60 c36 32 70 57 77 55 6 -3 407 -252 890 -554 959 -599 915 -572 893 -550 -8 9 -226 188 -485 398 -258 210 -656 534 -883 719 -227 185 -417 337 -421 339 -4 1 -57 -57 -116 -130 -60 -73 -121 -148 -136 -165 l-28 -33 -366 358 c-201 196 -369 358 -373 359 -4 1 -124 -111 -267 -248z"/></g></svg><span>ЛЕГЕНДА</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <button type="button" class="logo" id="logoBtn" aria-expanded="false" aria-controls="siteMenu" aria-label="Легенда — открыть меню"><svg class="mk" viewBox="229 128.3 474.8 185.7" aria-hidden="true"><g transform="translate(0,698) scale(0.1,-0.1)"><path fill="currentColor" d="M3875 5529 c-143 -138 -259 -256 -257 -262 2 -7 41 -119 88 -250 47 -131 84 -241 81 -243 -2 -3 -118 38 -257 91 l-252 95 -316 -303 c-174 -166 -414 -394 -533 -507 -119 -113 -217 -208 -218 -213 -1 -4 61 41 137 101 75 59 326 256 557 437 l419 328 399 -132 c219 -73 400 -131 403 -129 2 3 -63 150 -146 328 -82 177 -148 326 -145 330 2 4 72 60 154 124 97 75 155 115 163 110 33 -20 1058 -837 1055 -841 -3 -2 -121 44 -263 102 -142 58 -263 104 -269 101 -7 -2 -140 -161 -297 -353 -157 -191 -317 -387 -357 -435 -40 -49 -70 -88 -68 -88 3 0 172 157 378 349 205 192 377 347 383 345 32 -10 799 -194 809 -193 7 0 -103 112 -243 250 l-255 250 65 60 c36 32 70 57 77 55 6 -3 407 -252 890 -554 959 -599 915 -572 893 -550 -8 9 -226 188 -485 398 -258 210 -656 534 -883 719 -227 185 -417 337 -421 339 -4 1 -57 -57 -116 -130 -60 -73 -121 -148 -136 -165 l-28 -33 -366 358 c-201 196 -369 358 -373 359 -4 1 -124 -111 -267 -248z"/></g></svg><span class="brand-text">ЛЕГЕНДА<small>ЭКО-ОТЕЛЬ · ТЕРСКОЛ</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     <nav class="nav" aria-label="Разделы"><a href="#rooms">Номера</a><a href="#hotel">Об отеле</a><a href="#reviews">Отзывы</a><a href="#way">Как добраться</a></nav>
-    <div class="hdr-r"><span class="wxchip" id="wxChip" aria-live="polite"></span><a class="call" href="tel:+79993000088" aria-label="Позвонить на ресепшен: +7 999 300-00-88"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="ct"><small>Ресепшен 24/7</small><b>+7 999 300-00-88</b></span></a><a class="btn btn-accent" href="#book">Забронировать</a></div>
+    <div class="hdr-r"><span class="wxchip" id="wxChip" aria-live="polite"></span><a class="call" href="tel:+79993000088" aria-label="Позвонить на ресепшен: +7 999 300-00-88"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="ct"><small>Мы на связи 24/7</small><b>+7 999 300-00-88</b></span></a><a class="btn btn-accent" href="https://homereserve.ru/gDYYpGYEnb" target="_blank" rel="noopener" data-book>Забронировать</a></div>
   </div>
 </header>
 
@@ -426,7 +837,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     <a href="#way"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Как добраться и вопросы</a>
   </nav>
   <div class="menu-act">
-    <a class="btn btn-accent wide" href="https://homereserve.ru/gDYYpGYEnb" target="_blank" rel="noopener">Забронировать онлайн</a>
+    <a class="btn btn-accent wide" href="https://homereserve.ru/gDYYpGYEnb" target="_blank" rel="noopener" data-book>Забронировать онлайн</a>
     <a class="ico ph" href="tel:+79993000088" aria-label="Позвонить" title="Позвонить"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></g></svg></a>
     <a class="ico wa" href="https://wa.me/79993000088" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-2.9.8.8-2.8-.2-.3A8.2 8.2 0 0 1 12 3.8z"/><path fill="currentColor" d="M8.9 7.2c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2s.9 2.5 1 2.7c.2.2 1.8 2.8 4.4 3.8 2.2.9 2.6.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.2-.4v-.4l-.8-2z"/></svg></a>
     <a class="ico tg" href="https://t.me/+79993000088" target="_blank" rel="noopener" aria-label="Написать в Telegram" title="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 3.6 2.9 10.7c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.3-1.5zM9.6 13.4l8.9-5.6c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.6-4.6z"/></svg></a>
@@ -436,19 +847,21 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 
 <main id="top">
 <section class="hero" id="hero">
-  <img src="src/facade.jpg" alt="Отель «Легенда»: деревянный дом с зелёной крышей среди сосен">
+  <img src="src/facade-winter-v1.webp" alt="Отель «Легенда»: деревянный дом с зелёной крышей среди сосен">
+  <img id="heroSummer" src="src/facade-summer-v1.webp" alt="" aria-hidden="true" decoding="async">
   <div class="tint" aria-hidden="true"></div>
   <canvas id="skyHero" aria-hidden="true"></canvas>
   <div class="wrap hero-in">
-    <div class="now" aria-live="polite"><span class="ni" id="nowIc" aria-hidden="true"></span><span><span class="now-t" id="nowTxt"><span class="sg">Терскол</span></span><span class="now-l" id="nowLine"></span></span></div>
     <div class="hero-copy">
-      <h1>Тёплый дом у подножия Чегета</h1>
-      <p class="lead">Эко-отель из сруба на 17 номеров: вид на горы, ресторан, сауна и беседка с мангалом.</p>
+      <h1>Тёплый дом<br>у&nbsp;подножия<br>Чегета</h1>
+      <p class="lead">Эко-отель из&nbsp;сруба на&nbsp;17&nbsp;номеров: вид на&nbsp;горы, ресторан, сауна и&nbsp;беседка с&nbsp;мангалом.</p><div class="hero-actions"><a class="btn btn-accent" href="#book">Выбрать номер <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg></a><a class="btn btn-ghost hero-more" href="#hotel">Об отеле <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v16M5 13l7 7 7-7"/></svg></a></div>
     </div>
     <div class="facts">
-      <div class="fact fact-lift" role="button" tabindex="0" aria-label="Расстояния до подъёмников: нажмите, чтобы переключить"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg></span><div class="fl2"><span class="fl-dots" aria-hidden="true"><i></i><i></i></span><div data-dist="cheget"><b class="dv">— км</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">— км</b><span>до Азау</span></div></div></div>
-      <a class="fact" href="#reviews"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD58A" stroke="#FFD58A" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg></span><div><b>[4,9] из 5</b><span>на Яндекс Картах</span></div></a>
-      <div class="fact" id="heroRest"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.5-3 7h3"/></svg></span><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></div>
+      <div class="fact fact-distance"><span class="fi" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 19 6-12 4 7 3-5 5 10H3Z"/><path d="m7 11 2 3 2-3"/></svg></span><div class="distance-pair"><div data-dist="cheget"><b class="dv">500 м</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">5 км</b><span>до Азау</span></div></div></div>
+      <div class="fact fact-weather"><div class="now" aria-live="polite" aria-label="Погода в Терсколе"><span class="fi ni" id="nowIc" aria-hidden="true"></span><div class="weather-copy"><b id="nowTxt">Погода в Терсколе</b><span id="nowLine">Загрузка…</span></div><button type="button" id="weatherRetry" aria-label="Обновить погоду" title="Обновить погоду" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 7v5h-5M20 12a8 8 0 1 1-2-5.3L20 9"/></svg></button></div></div>
+      <a class="fact" href="#reviews"><span class="fi" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg></span><div><b>5,0 <span class="fact-stars" aria-hidden="true">★★★★★</span></b><span>1292 оценки · 687 отзывов</span></div></a>
+      <div class="fact fact-parking"><span class="fi" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M10 17V7h3a3 3 0 0 1 0 6h-3"/></svg></span><div><b>Парковка</b><span>Бесплатно для гостей</span></div></div>
+      <div class="fact fact-pets"><span class="fi" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="6.5" cy="8" rx="2" ry="2.5"/><ellipse cx="11" cy="5.5" rx="2" ry="2.5"/><ellipse cx="16" cy="6.5" rx="2" ry="2.5"/><ellipse cx="19" cy="11" rx="2" ry="2.5"/><path d="M8 14c-3 2-3 6 0 6 2 0 2-1 4-1s2 1 4 1c3 0 3-4 0-6-2-3-6-3-8 0Z"/></svg></span><div><b>С питомцами</b><span>По согласованию, за доплату</span></div></div>
     </div>
   </div>
 </section>
@@ -456,92 +869,63 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 <section class="booksec" id="book">
   <div class="wrap">
     <form class="widget" id="widget" aria-label="Подбор номера">
-      <div class="w-head"><h2>Подберём номер под ваши даты</h2><p class="w-note">Бронируя напрямую — <b>[ваш бонус]</b> и без комиссии агрегаторов</p></div>
       <div class="w-row">
-        <label class="fld empty" for="dIn">Заезд<input id="dIn" type="date"><span class="dph" aria-hidden="true">Выбрать</span></label>
-        <label class="fld empty" for="dOut">Выезд<input id="dOut" type="date"><span class="dph" aria-hidden="true">Выбрать</span></label>
+        <label class="fld empty" for="dIn">Заезд<input id="dIn" type="date" aria-label="Заезд" aria-describedby="bookingError"><span class="dph" aria-hidden="true">Выбрать</span></label>
+        <label class="fld empty" for="dOut">Выезд<input id="dOut" type="date" aria-label="Выезд" aria-describedby="bookingError"><span class="dph" aria-hidden="true">Выбрать</span></label>
       </div>
       <div class="guests"><div><span>Гостей</span><b id="gTxt">2 взрослых</b></div><div class="step"><button type="button" id="gMinus" aria-label="Меньше гостей">−</button><output id="gNum" aria-live="polite">2</output><button type="button" id="gPlus" aria-label="Больше гостей">+</button></div></div>
       <div class="w-sum" id="wSum" aria-live="polite"></div>
-      <a class="btn btn-accent" id="wGo" href="#rooms">Показать подходящие номера</a>
-    </form>
-  </div>
-</section>
-
-<section class="sec" style="padding-block:40px 0">
-  <div class="wrap why">
-    <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9A6417" stroke-width="2" stroke-linecap="round"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 20V7M12 7H8a2 2 0 1 1 0-4c3 0 4 4 4 4zM12 7h4a2 2 0 1 0 0-4c-3 0-4 4-4 4z"/></svg></span><p><b>[Ваш бонус]</b>Только при бронировании на сайте: например, поздний выезд или скидка.</p></div>
-    <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9A6417" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></span><p><b>Без комиссии</b>Платите отелю напрямую — без наценок агрегаторов.</p></div>
-    <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9A6417" stroke-width="2" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg></span><p><b>Ответим за минуты</b>Ресепшен круглосуточно: звонок, WhatsApp или Telegram.</p></div>
+      <a class="btn btn-accent" id="wGo" href="#rooms">Подобрать номер</a>
+    <p class="booking-error" id="bookingError" role="alert" hidden></p></form>
   </div>
 </section>
 
 <section class="sec" id="rooms">
   <div class="wrap">
-    <div class="sec-h"><div><span class="kick">Номера</span><h2>Выберите, где остановиться</h2></div><p id="roomsNote">Во всех номерах своя ванная, Wi-Fi, телевизор, холодильник и чайник. Цены за ночь.</p></div>
-    <div class="rooms" id="roomGrid"></div>
+    <div class="sec-h"><div><h2>Номера и цены</h2></div><p id="roomsNote">Шесть категорий: от&nbsp;двухместного стандарта<br class="copy-break"> до&nbsp;отдельного барнхауса для&nbsp;компании.</p></div>
+    <div class="rooms" id="roomGrid"></div><p class="section-note">В каждом номере: своя ванная, Wi-Fi, телевизор, холодильник и чайник. Цены «от» — ориентир за ночь. Планировки схематичны; детали уточняйте при бронировании.</p>
   </div>
 </section>
 
-<section class="sec" id="hotel" style="padding-top:0">
-  <div class="wrap duo">
-    <div class="panel">
-      <span class="kick" style="margin:0">Об отеле</span>
-      <h2 style="font-size:clamp(26px,3vw,34px)">Дом из натурального сруба в сосновом бору</h2>
-      <ul>
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F5C4A" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg>Подъёмник Чегет в 500 м, канатная дорога Азау — 5 км</li>
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F5C4A" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4h7a5 5 0 0 1 0 10H5"/></svg>Бесплатная парковка и Wi-Fi на всей территории</li>
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F5C4A" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 11c-3 0-5 3.5-5 6a2.5 2.5 0 0 0 3 2.4c1.3-.3 2.7-.3 4 0A2.5 2.5 0 0 0 17 17c0-2.5-2-6-5-6z"/></svg>Можно с детьми и с питомцами (за питомца [доплата])</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <span class="live" id="restLive"><i aria-hidden="true"></i><span>Ресторан открыт до 21:00</span></span>
-      <h2 style="font-size:clamp(26px,3vw,34px)">Ресторан, сауна и бильярд</h2>
-      <p style="color:var(--ink2)">Кавказская и европейская кухня каждый день с 8:00 до 21:00. После склона — сауна ([цена]) и партия в бильярд.</p>
-      <a class="tlink" href="https://astemir13.github.io/legenda-hotel/" target="_blank" rel="noopener">Посмотреть меню →</a>
-    </div>
-    <div class="panel gz"><span class="gzi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="#9A6417" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13h22a11 11 0 0 1-22 0z"/><path d="M11 23.5 8 29M21 23.5 24 29M16 24v5"/><path d="M11 9c0-2 2-2.5 2-4.5M16 9c0-2 2-2.5 2-4.5M21 9c0-2 2-2.5 2-4.5"/></svg></span><div><h3>Беседка с мангальной зоной</h3><p>Своя беседка на территории отеля — для шашлыка и долгих вечеров на свежем воздухе.</p></div></div>
-  </div>
+<section class="sec experience" id="hotel">
+  <div class="wrap experience-top"><div><h2>Деревянный дом<br>в сосновом бору</h2></div><p>Ресторан, сауна, бильярд и&nbsp;беседка с&nbsp;мангалом&nbsp;— на&nbsp;территории отеля.</p></div>
+  <div class="wrap gallery"><figure class="gallery-main"><img src="src/hotel-evening.webp" alt="Вечерний свет в окнах деревянного отеля «Легенда»" loading="lazy" width="1440" height="1080"><figcaption>Отель «Легенда» вечером</figcaption></figure><figure><img src="src/room-01.webp" alt="Интерьер отеля: деревянные стены, большая кровать и окно" loading="lazy" width="1000" height="750"><figcaption>Номера в деревянном срубе</figcaption></figure><figure><img src="src/room-02.webp" alt="Интерьер отеля: светлая спальня в деревянном срубе" loading="lazy" width="1000" height="750"><figcaption>Интерьеры отеля</figcaption></figure></div>
+  <div class="wrap experience-details"><article><h3>Ресторан при отеле</h3><p>Кавказская и европейская кухня. Открыт ежедневно с 8:00 до 21:00.</p><span class="live" id="restLive"><i aria-hidden="true"></i><span>Ресторан с 8:00 до 21:00</span></span><a class="tlink" href="https://astemir13.github.io/legenda-hotel/" target="_blank" rel="noopener">Посмотреть меню ↗</a></article><article><h3>Сауна и бильярд</h3><p>Сауна и бильярд на территории отеля. Стоимость и условия уточняйте на ресепшене.</p><a class="tlink" href="tel:+79993000088">Спросить об отдыхе ↗</a></article><article><h3>Беседка с мангалом</h3><p>Для отдыха и приготовления еды на открытом воздухе. Стоимость и условия пользования уточняйте на ресепшене.</p><a class="tlink" href="tel:+79993000088">Уточнить условия ↗</a></article>
+    <article><h3>С детьми и питомцами</h3><p>Поможем выбрать номер и подскажем, как добраться. Ресепшен работает круглосуточно.</p><small>*Проживание с питомцем — за отдельную плату, по согласованию.</small></article></div>
 </section>
 
-<section class="sec" id="reviews" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-h"><div><span class="kick">Отзывы</span><h2>Что говорят гости</h2></div></div>
-    <div class="revs">
-      <div class="score"><span>Яндекс Карты</span><b>[4,9]</b><span>[N] отзывов</span><a href="https://yandex.ru/maps/org/legenda/1184772629/reviews/" target="_blank" rel="noopener">Читать все →</a></div>
-      <div class="rv"><span class="st" aria-hidden="true">★★★★★</span><p>«[Отзыв гостя с Яндекс Карт, дословно]»</p><small>[Имя · месяц год]</small></div>
-      <div class="rv"><span class="st" aria-hidden="true">★★★★★</span><p>«[Отзыв про ресторан или персонал]»</p><small>[Имя · месяц год]</small></div>
-      <div class="rv"><span class="st" aria-hidden="true">★★★★★</span><p>«[Отзыв семьи с детьми]»</p><small>[Имя · месяц год]</small></div>
-    </div>
-  </div>
+<section class="sec reviews-section" id="reviews">
+ <div class="wrap"><div class="sec-h"><div><h2>Что говорят гости</h2></div><a class="review-score" href="https://yandex.ru/maps/org/legenda/1184772629/reviews/" target="_blank" rel="noopener"><b>5,0</b><span><span class="review-stars" aria-label="5 из 5">★★★★★</span><span>1292 оценки · 687 отзывов ↗</span></span></a></div>
+ <div class="review-grid"><figure class="review-card"><span class="review-stars" aria-label="Оценка гостя: 5 из 5">★★★★★</span><blockquote>«Внутри чисто, уютно. Персонал вежливый, внимательный.»</blockquote><figcaption><span class="avatar" aria-hidden="true">М</span><div><b>Марина Дроботова</b><span>26 мая · Яндекс Карты</span></div><a href="https://yandex.ru/maps/user/1qtkbgh0cc2pqc63j8vffe4c5c" target="_blank" rel="noopener" aria-label="Профиль автора: Марина Дроботова">↗</a></figcaption></figure>
+ <figure class="review-card"><span class="review-stars" aria-label="Оценка гостя: 5 из 5">★★★★★</span><blockquote>«Отличная локация, хорошие номера, близость к подъемнику на Чегет…»</blockquote><figcaption><span class="avatar" aria-hidden="true">C</span><div><b>Cosmos</b><span>19 июля 2025 · Яндекс Карты</span></div><a href="https://yandex.ru/maps/user/3bcvfydd859vz76ey2y1nnav98" target="_blank" rel="noopener" aria-label="Профиль автора: Cosmos">↗</a></figcaption></figure>
+ <figure class="review-card"><span class="review-stars" aria-label="Оценка гостя: 5 из 5">★★★★★</span><blockquote>«На первом этаже большая гостиная с кухней-нишей…»</blockquote><figcaption><span class="avatar" aria-hidden="true">М</span><div><b>Максим Пронин</b><span>25 августа 2025 · Яндекс Карты</span></div><a href="https://yandex.ru/maps/user/z3qpwhern3gm7rz6yy2gjue8j8" target="_blank" rel="noopener" aria-label="Профиль автора: Максим Пронин">↗</a></figcaption></figure></div>
+ <div class="reviews-bottom"><p>Выдержки из отзывов гостей. Рейтинг, 1292 оценки и 687 отзывов — на 29.10.2026.</p><a class="tlink" href="https://yandex.ru/maps/org/legenda/1184772629/reviews/" target="_blank" rel="noopener">Все отзывы на Яндекс Картах ↗</a></div></div>
 </section>
 
 <section class="sec" id="faq" style="padding-top:0">
   <div class="wrap">
     <div class="panel faqp">
-      <span class="kick" style="margin:0">Частые вопросы</span>
+      <h2>Остались вопросы?</h2>
       <div class="faq">
-        <details><summary>Во сколько заезд и выезд?</summary><p>Заезд с [14:00], выезд до [12:00]. Ресепшен работает круглосуточно.</p></details>
-        <details><summary>Можно ли отменить бронь?</summary><p>Бесплатно [за N дней до заезда].</p></details>
-        <details><summary>Входит ли завтрак?</summary><p>[Ответ]. Ресторан работает с 8:00 до 21:00.</p></details>
-        <details><summary>Как добраться без машины?</summary><p>Из Минвод или Нальчика — [трансфер / такси], около [время]. Позвоните, подскажем.</p></details>
+        <details><summary>Во сколько заезд и выезд?</summary><p>Время заезда и выезда указано в условиях выбранного тарифа. Для раннего заезда или позднего выезда свяжитесь с ресепшеном: +7 999 300-00-88.</p></details>
+        <details><summary>Можно ли отменить бронь?</summary><p>Условия отмены зависят от тарифа и дат. Вы увидите их в системе бронирования до оплаты. Если планы поменялись, свяжитесь с отелем.</p></details>
+        <details><summary>Входит ли завтрак?</summary><p>Есть разные варианты питания — уточните состав выбранного тарифа при бронировании. Ресторан открыт ежедневно с 8:00 до 21:00.</p></details>
+        <details><summary>Как добраться без машины?</summary><p>Из аэропортов Минеральных Вод или Нальчика можно приехать на такси. Позвоните в отель — подскажем маршрут и варианты поездки.</p></details>
       </div>
     </div>
   </div>
 </section>
 
-<section class="sec" id="way" style="padding-top:0">
+<section class="sec" id="way">
   <div class="wrap">
     <div class="road">
       <div class="road-i">
-        <span class="kick">Как добраться</span>
-        <h2>Ждём вас в Терсколе</h2>
+
+        <h2>Как добраться в отель</h2>
         <p class="road-a">с. Терскол, ул. Чегет, 5А · ресепшен круглосуточно</p>
         <ul class="dist2">
           <li data-dist="cheget"><b class="dv">— км</b><span>до подъёмника Чегет</span></li>
           <li data-dist="azau"><b class="dv">— км</b><span>до канатной дороги Азау</span></li>
-          <li data-ph><b>[время]</b><span>от аэропорта Нальчик</span></li>
-          <li data-ph><b>[время]</b><span>от аэропорта Минводы</span></li>
         </ul>
         <div class="road-b"><a class="btn btn-accent" id="routeBtn" href="https://yandex.ru/maps/?rtext=~43.246012%2C42.526408&amp;rtt=auto" target="_blank" rel="noopener">Построить маршрут</a><a class="btn btn-soft" href="https://yandex.ru/maps/org/legenda/1184772629/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></div>
       </div>
@@ -588,7 +972,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     </div>
     <div class="ft-col">
       <span class="ft-h">Документы</span>
-      <a href="#">Реестр</a>
+      <a href="https://hotellegenda.ru/" target="_blank" rel="noopener">Официальный сайт</a>
       <a href="https://hotellegenda.ru/privacypolicy" target="_blank" rel="noopener">Политика конфиденциальности</a>
     </div>
   </div>
@@ -605,6 +989,15 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   </div>
 </details>
 
+<!-- The HomeReserve search mounts here; the compact local form stays in the hero. -->
+<div id="hr-widget" hidden></div>
+<style id="hr-skin">
+/* Only the mount is hidden; HomeReserve teleports its modal separately. */
+#hr-widget{display:none!important}
+#hr-widget,#hr-widget *,#hr-modal,#hr-modal *{--custom-main:#1F5C4A!important;--custom-main-dark:#163F33!important;--custom-main-light:#E6F0EC!important;--custom-text:#13202A!important;--custom-background:#F4F7F8!important}
+#hr-widget,#hr-modal{font-family:'Inter',system-ui,sans-serif!important}
+#hr-modal .button-primary,#hr-widget .button-primary{border-radius:8px!important}
+</style>
 <div class="pm-bd" id="pmBd"></div>
 <div class="pm" id="pm" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="pmT">
   <div class="pm-h"><div><h3 id="pmT">Номер</h3><p id="pmMeta"></p></div><button type="button" class="pm-x" id="pmX" aria-label="Закрыть"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -617,6 +1010,8 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 
 <script>
 (function(){
+  var weatherTools = new URLSearchParams(location.search).has("weather");
+  document.documentElement.classList.toggle("weather-tools", weatherTools);
   /* ================================================================
      НАСТРОЙКИ САЙТА. Здесь всё, что меняется чаще всего.
      Правила: меняйте только то, что внутри кавычек '…' и числа;
@@ -625,6 +1020,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 
   /* Ссылка на онлайн-бронирование (кнопки «Забронировать») */
   var BOOK = 'https://homereserve.ru/gDYYpGYEnb';
+  var HR = {token:'gDYYpGYEnb'};
 
   /* Ресторан: часы работы (для статуса «открыт / откроется») */
   var REST = {open:8, close:21};
@@ -638,12 +1034,12 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   /* Номера: название, вместимость g, площадь m, цена «от» за ночь, метки, описание.
      half:true — цена за половину дома. id не менять: к нему привязаны схемы. */
   var rooms = [
-    {id:'std2', name:'Стандарт двухместный', g:2, m:32, price:4000, tags:['до 2 гостей','32 м²','вид на горы'], text:'Одна большая кровать или две раздельные — на выбор.'},
-    {id:'std3', name:'Стандарт трёхместный', g:3, m:32, price:5500, tags:['до 3 гостей','32 м²','3 кровати'], text:'Для друзей или семьи с подростком.'},
-    {id:'semi', name:'Полулюкс', g:3, m:35, price:5500, tags:['до 3 гостей','35 м²','с гостиной'], text:'Спальня с большой кроватью и гостиная с диван-кроватью.'},
-    {id:'fam', name:'Семейный', g:4, m:35, price:6000, tags:['до 4 гостей','35 м²','две спальни'], text:'Две отдельные спальни с двуспальными кроватями.'},
-    {id:'lux', name:'Люкс', g:3, m:37, price:6500, tags:['до 3 гостей','37 м²','вид на горы'], text:'Самый просторный: спальня и гостиная, два из трёх — с видом на горы.'},
-    {id:'barn', name:'Барнхаус «Легенда»', g:5, m:80, price:14000, half:true, tags:['до 5 гостей','80 м²','свой вход'], text:'Половина отдельного дома: два этажа и две спальни.'}
+    {id:'std2', hr:231962, name:'Стандарт двухместный', g:2, m:24, price:4000, tags:['до 2 гостей','24 м²','вид на горы'], text:'Одна большая кровать или две раздельные — на выбор.'},
+    {id:'std3', hr:231964, name:'Стандарт трёхместный', g:3, m:32, price:5500, tags:['до 3 гостей','32 м²','3 кровати'], text:'Для друзей или семьи с подростком.'},
+    {id:'semi', hr:231965, name:'Полулюкс', g:3, m:35, price:5500, tags:['до 3 гостей','35 м²','с гостиной'], text:'Спальня с большой кроватью и гостиная с диван-кроватью.'},
+    {id:'fam', hr:231963, name:'Семейный', g:4, m:32, price:6000, tags:['до 4 гостей','32 м²','две спальни'], text:'Две отдельные спальни с двуспальными кроватями.'},
+    {id:'lux', hr:231966, name:'Люкс', g:3, m:37, price:6500, tags:['до 3 гостей','37 м²','вид на горы'], text:'Самый просторный: спальня и гостиная, два из трёх — с видом на горы.'},
+    {id:'barn', hr:231967, name:'Барнхаус «Легенда»', g:5, m:80, price:14000, half:true, tags:['до 5 гостей','80 м²','свой вход'], text:'Половина отдельного дома: два этажа и две спальни.'}
   ];
 
   /* ---------- Схемы планировок ----------
@@ -685,6 +1081,29 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   };
 
   /* ===================== конец настроек ===================== */
+  // Aligned seasonal crossfade: 8s still + 3s dissolve, no navigation controls.
+  (function(){
+    var summer = document.getElementById('heroSummer');
+    if (!summer) return;
+    var hero = document.getElementById('hero');
+    var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var timer;
+    function schedule(){
+      clearTimeout(timer);
+      if (motion.matches || document.hidden || !summer.complete || !summer.naturalWidth) return;
+      timer = setTimeout(function(){
+        hero.classList.toggle('season-summer');
+        schedule();
+      },11000);
+    }
+    summer.addEventListener('load',schedule);
+    document.addEventListener('visibilitychange',schedule);
+    motion.addEventListener('change',function(){
+      if (motion.matches) hero.classList.remove('season-summer');
+      schedule();
+    });
+    schedule();
+  })();
   var PREVIEW = true; /* прототип: показывать [?] вместо пустых расстояний */
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -721,7 +1140,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   function hex(h){ var n = parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
   function mix(a, b, k){ var x = hex(a), y = hex(b); return 'rgb(' + x.map(function(v,i){ return Math.round(v + (y[i]-v)*k); }).join(',') + ')'; }
 
-  var W = {kind:'clear', phase:'day', temp:null, wind:6, cloud:4, sunrise:420, sunset:1050, live:false, forced:false, flash:0};
+  var W = {kind:'clear', phase:'day', temp:null, wind:6, cloud:4, sunrise:420, sunset:1050, live:false, forced:false, weatherError:false, weatherLoading:false, flash:0};
   var o0 = msk(), month = +o0.month, minutes = (+o0.hour)*60 + (+o0.minute);
   function toMin(s){ var m = /T(\d\d):(\d\d)/.exec(s); return m ? (+m[1])*60 + (+m[2]) : null; }
   function phaseFor(m){ if (Math.abs(m - W.sunrise) <= 45) return 'dawn'; if (Math.abs(m - W.sunset) <= 45) return 'dusk'; return (m > W.sunrise && m < W.sunset) ? 'day' : 'night'; }
@@ -749,16 +1168,18 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   function applyWeather(){
     var K = KINDS[W.kind], cloud = W.forced ? K.cloud : (W.cloud != null ? W.cloud : K.cloud), g = Math.min(1, cloud/100*.85 + (K.fog ? .15 : 0) + (K.precip ? .1 : 0));
     W.cloudNow = cloud;
+    document.documentElement.classList.toggle("weather-ready", W.live || W.forced);
     var b = BASE[W.phase], gr = GREY[W.phase], r = document.documentElement.style;
     r.setProperty('--sky1', mix(b.s1, gr.s1, g)); r.setProperty('--sky2', mix(b.s2, gr.s2, g));
     r.setProperty('--hdr-ink', (W.phase === 'night' || W.phase === 'dusk') ? '#FFFFFF' : '#13202A');
     var temp = W.forced || W.temp == null ? K.t : Math.round(W.temp), wind = W.forced || W.wind == null ? K.wind : Math.round(W.wind), night = W.phase === 'night';
     var t = (temp > 0 ? '+' : temp < 0 ? '−' : '') + Math.abs(temp) + '°';
     document.getElementById('wxChip').innerHTML = icon(W.kind, night) + '<b>' + t + '</b><span>' + K.name + '</span>';
-    document.getElementById('nowTxt').innerHTML = '<span class="sg">Терскол, ' + o0.hour + ':' + o0.minute + '</span><span class="sg tp">' + t + '</span>' + (wind >= 25 ? '<span class="sg">ветер ' + wind + ' км/ч</span>' : '');
-    var L = LINES[W.kind], dark = night || W.phase === 'dusk';
-    document.getElementById('nowLine').textContent = L[W.phase] || L[dark ? 'night' : 'day'];
-    document.getElementById('nowIc').innerHTML = icon(W.kind, dark);
+    document.getElementById('nowTxt').textContent = W.live || W.forced ? 'Терскол · ' + t : 'Терскол';
+    document.getElementById('nowLine').textContent = W.live || W.forced ? K.name + (W.forced ? ' · демо' : '') : (W.weatherError ? 'Нет данных' : 'Загрузка…');
+    document.getElementById('nowIc').innerHTML = icon(W.live || W.forced ? W.kind : 'overcast', night);
+    document.getElementById('menuWx').textContent = W.live || W.forced ? 'Терскол · ' + t + ' · ' + K.name + (W.forced ? ' · демо' : '') : 'Терскол · ' + (W.weatherError ? 'Погода недоступна' : 'Загрузка погоды…');
+    document.getElementById('weatherRetry').hidden = !W.weatherError || W.weatherLoading || W.forced;
     W.windNow = wind;
     document.getElementById('wxMode').textContent = W.forced ? 'предпросмотр' : (W.live ? 'реальная' : 'демо');
     document.querySelectorAll('[data-k]').forEach(function(bt){ bt.setAttribute('aria-pressed', W.forced && bt.dataset.k === W.kind); });
@@ -767,17 +1188,20 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   }
 
   function loadWeather(){
-    if (W.forced) return;
-    fetch(API).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
-      var c = d.current; W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover;
+    if (W.forced || W.weatherLoading) return;
+    W.weatherError = false; W.weatherLoading = true; applyWeather();
+    fetch(API, {signal: AbortSignal.timeout(8000)}).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
+      var c = d.current;
+      if (!c || !Number.isFinite(c.temperature_2m) || !Number.isFinite(c.weather_code)) throw new Error('Weather data unavailable');
+      W.weatherLoading = false; W.weatherError = false; W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover;
       var sr = toMin(d.daily.sunrise[0]), ss = toMin(d.daily.sunset[0]); if (sr != null) W.sunrise = sr; if (ss != null) W.sunset = ss;
       if (!W.forced){ W.kind = kindFromCode(c.weather_code, c.wind_speed_10m, c.temperature_2m, c.cloud_cover); W.phase = phaseFor(minutes); }
       document.getElementById('wxNote').textContent = 'Сейчас показана реальная погода в Терсколе (Open-Meteo, обновляется каждые 15 минут). Выберите состояние, чтобы посмотреть, как выглядит шапка в другую погоду.';
       applyWeather();
     }).catch(function(){
-      W.live = false; W.temp = null; W.wind = null; W.cloud = null;
+      W.weatherLoading = false; W.weatherError = true; W.live = false; W.temp = null; W.wind = null; W.cloud = null;
       if (!W.forced){ W.kind = (month >= 11 || month <= 3) ? 'snow' : 'clear'; W.phase = phaseFor(minutes); }
-      document.getElementById('wxNote').textContent = 'В этом прототипе браузер не пускает к сервису погоды, поэтому показан демо-режим. На настоящем сайте погода подтянется сама. Выберите состояние, чтобы посмотреть все варианты.';
+      document.getElementById('wxNote').textContent = 'Не удалось получить погоду от Open-Meteo. Попробуйте обновить данные позже. Предпросмотр состояний ниже показывает демонстрационные значения.';
       applyWeather();
     });
   }
@@ -825,7 +1249,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     if (K.thunder && !reduce && this.o.flashSrc){ if (Math.random() < .004*move) W.flash = 1; }
     if (W.flash > .02){ x.fillStyle = 'rgba(255,255,255,' + (W.flash*.55) + ')'; x.fillRect(0,0,w,h); if (this.o.flashSrc) W.flash *= Math.pow(.86, move); } };
 
-  var hdrScene = new Scene(document.getElementById('skyHdr'), {density:900, scale:.8, body:true, bodyR:7, arcTop:22, arcDrop:32, starH:1, clouds:true, flashSrc:true});
+  var hdrScene = new Scene(document.getElementById('skyHdr'), {density:900, scale:.8, body:false, starH:1, clouds:true, flashSrc:true});
   var heroScene = new Scene(document.getElementById('skyHero'), {density:5200, scale:1.2, body:false, starH:.4, clouds:true, cloudBand:84});
   var last = 0, heroVis = true;
   function loop(t){ var dt = last ? Math.min(t-last, 50) : 16; last = t; hdrScene.draw(t, dt); if (heroVis) heroScene.draw(t, dt); requestAnimationFrame(loop); }
@@ -848,7 +1272,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   /* Меню по логотипу */
   var lb = document.getElementById('logoBtn'), sm = document.getElementById('siteMenu'), bd = document.getElementById('menuBd');
   function setMenu(open){ lb.setAttribute('aria-expanded', open); sm.classList.toggle('on', open); bd.classList.toggle('on', open);
-    if (open){ var c = document.getElementById('wxChip'); document.getElementById('menuWx').innerHTML = 'Сейчас в Терсколе <b>' + (c.querySelector('b') ? c.querySelector('b').textContent : '') + '</b> · ' + KINDS[W.kind].name.toLowerCase();
+    if (open){
       var op = restOpen(); document.getElementById('menuRest').textContent = op ? 'Ресторан открыт' : 'Ресторан с ' + REST.open + ':00';
       setTimeout(function(){ var f = sm.querySelector('a'); if (f) f.focus({preventScroll:true}); }, 60); } }
   lb.addEventListener('click', function(){ setMenu(lb.getAttribute('aria-expanded') !== 'true'); });
@@ -859,7 +1283,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   function restOpen(){ return minutes >= REST.open*60 && minutes < REST.close*60; }
   function tick(){ o0 = msk(); minutes = (+o0.hour)*60 + (+o0.minute); if (!W.forced){ W.phase = phaseFor(minutes); } applyWeather();
     var open = restOpen(), l = document.getElementById('restLive'); l.classList.toggle('closed', !open); l.lastElementChild.textContent = open ? 'Ресторан открыт до ' + REST.close + ':00' : 'Ресторан откроется в ' + REST.open + ':00';
-    var hr = document.getElementById('heroRest'); hr.classList.toggle('closed', !open); hr.querySelector(':scope > div > span').textContent = open ? 'открыт до ' + REST.close + ':00' : 'откроется в ' + REST.open + ':00'; }
+     }
 
   /* Панель предпросмотра погоды */
   var kindsBox = document.getElementById('wxKinds'), phBox = document.getElementById('wxPhases');
@@ -871,12 +1295,13 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 
   W.phase = phaseFor(minutes); W.kind = (month >= 11 || month <= 3) ? 'snow' : 'clear';
   applyWeather(); hdrScene.draw(0,16); heroScene.draw(0,16); if (!reduce) requestAnimationFrame(loop);
+  document.getElementById('weatherRetry').addEventListener('click', loadWeather);
   loadWeather(); setInterval(loadWeather, 15*60*1000); setInterval(tick, 30000); tick();
 
   /* ---------- Подбор номера ---------- */
   var g = 2, chosen = null, grid = document.getElementById('roomGrid');
   rooms.forEach(function(r){ var el = document.createElement('article'); el.className = 'room'; el.id = 'r-'+r.id;
-    el.innerHTML = '<div class="ph" data-view="plan"><span class="badge" aria-live="polite"></span><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="false">Фото</button><button type="button" data-v="plan" aria-pressed="true">План</button></div><div class="mphoto">фото номера</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><div><b>от '+rub(r.price)+'</b><small class="tot">'+(r.half?'за ½ дома, ночь':'за ночь')+'</small></div><button type="button" class="btn btn-pine" data-id="'+r.id+'">Выбрать</button></div></div>';
+    el.innerHTML = '<div class="ph"><img class="room-photo" src="src/room-retouched-v2/'+r.id+'.webp" alt="'+r.name+' — фотография номера" loading="lazy" width="1000" height="750"><span class="badge" aria-live="polite"></span><button type="button" class="room-plan" aria-label="Открыть планировку: '+r.name+'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 3h18v18H3zM3 12h9V3M12 12v9M12 16h9"/></svg>Планировка</button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><div><b>от '+rub(r.price)+'</b><small class="tot">'+(r.half?'за ½ дома, ночь':'за ночь')+'</small></div><button type="button" class="btn btn-pine" data-id="'+r.id+'">Выбрать</button></div></div>';
     grid.appendChild(el); });
   var dIn = document.getElementById('dIn'), dOut = document.getElementById('dOut');
   var td = new Date(); td.setMinutes(td.getMinutes()-td.getTimezoneOffset()); dIn.min = td.toISOString().slice(0,10);
@@ -885,7 +1310,13 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   function render(){
     var n = nights(), fit = rooms.filter(function(r){ return r.g >= g; }), minP = Math.min.apply(null, fit.map(function(r){ return r.price; }));
     document.getElementById('gNum').textContent = g; document.getElementById('gTxt').textContent = g + ' ' + plural(g,'гость','гостя','гостей');
-    if (dIn.value) dOut.min = dIn.value;
+    if (dIn.value){ var tomorrow = new Date(dIn.value+'T12:00:00'); tomorrow.setDate(tomorrow.getDate()+1); dOut.min = tomorrow.getFullYear()+'-'+String(tomorrow.getMonth()+1).padStart(2,'0')+'-'+String(tomorrow.getDate()).padStart(2,'0'); }
+    document.getElementById('gMinus').disabled = g === 1;
+    document.getElementById('gPlus').disabled = g === 5;
+    if (chosen && !rooms.some(function(r){return r.id===chosen && r.g>=g;})) chosen=null;
+    var dateError = dIn.value && dIn.value < dIn.min ? 'Выберите дату заезда не раньше сегодняшнего дня.' : dOut.value && (!dIn.value || dOut.value <= dIn.value) ? 'Выезд должен быть позже заезда. Проверьте даты.' : '';
+    var errorBox=document.getElementById('bookingError'); errorBox.textContent=dateError; errorBox.hidden=!dateError;
+    dIn.setAttribute('aria-invalid',String(!!dateError && dIn.value < dIn.min)); dOut.setAttribute('aria-invalid',String(!!dateError && !(dIn.value < dIn.min)));
     rooms.forEach(function(r){ var el = document.getElementById('r-'+r.id), ok = r.g >= g, badge = el.querySelector('.badge');
       el.classList.toggle('dim', !ok); el.classList.toggle('sel', chosen === r.id);
       badge.textContent = ok ? (chosen === r.id ? 'Выбран' : 'Подходит') : 'Для ' + g + ' гостей мал'; badge.classList.toggle('no', !ok);
@@ -895,11 +1326,11 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     var cr = chosen && rooms.filter(function(r){ return r.id === chosen; })[0];
     if (cr && cr.g >= g){
       sum.innerHTML = 'Выбран <b>' + cr.name + '</b><br>' + (n ? n + ' ' + plural(n,'ночь','ночи','ночей') + ' · ориентировочно <b>' + rub(cr.price*n) + '</b>' : 'от ' + rub(cr.price) + ' за ночь — выберите даты');
-      go.textContent = 'Забронировать ' + cr.name.split(' «')[0]; go.href = BOOK; go.target = '_blank'; go.rel = 'noopener';
+      go.setAttribute('data-book', cr.hr); mg.setAttribute('data-book', cr.hr); go.textContent = 'Проверить наличие ↗'; go.href = BOOK; go.target = '_blank'; go.rel = 'noopener';
       mt.textContent = cr.name; ms.textContent = n ? n + ' ' + plural(n,'ночь','ночи','ночей') + ' · ' + rub(cr.price*n) : 'от ' + rub(cr.price) + ' за ночь'; mg.href = BOOK; mg.target = '_blank'; mg.rel = 'noopener';
     } else {
       sum.innerHTML = 'Для ' + g + ' ' + plural(g,'гостя','гостей','гостей') + ' подходит <b>' + fit.length + ' ' + plural(fit.length,'вариант','варианта','вариантов') + '</b><br>' + (n ? n + ' ' + plural(n,'ночь','ночи','ночей') + ' — от <b>' + rub(minP*n) + '</b>' : 'от <b>' + rub(minP) + '</b> за ночь');
-      go.textContent = 'Показать подходящие номера'; go.href = '#rooms'; go.removeAttribute('target');
+      go.removeAttribute('data-book'); mg.removeAttribute('data-book'); go.textContent = 'Подобрать номер'; go.href = '#rooms'; go.removeAttribute('target');
       mt.textContent = 'от ' + rub(minP) + ' за ночь'; ms.textContent = n ? n + ' ' + plural(n,'ночь','ночи','ночей') + ' · ' + fit.length + ' ' + plural(fit.length,'вариант','варианта','вариантов') : 'выберите даты и номер'; mg.href = '#book'; mg.removeAttribute('target');
     }
   }
@@ -909,6 +1340,8 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   grid.addEventListener('click', function(e){ var b = e.target.closest('button[data-id]'); if (!b || b.disabled) return; chosen = chosen === b.dataset.id ? null : b.dataset.id; render();
     if (chosen && window.innerWidth > 760) document.getElementById('widget').scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center'}); });
   document.getElementById('widget').addEventListener('submit', function(e){ e.preventDefault(); });
+  document.getElementById('wGo').addEventListener('click',function(e){if(!document.getElementById('bookingError').hidden){e.preventDefault();dIn.focus();}});
+  document.getElementById('mGo').addEventListener('click',function(e){if(!document.getElementById('bookingError').hidden){e.preventDefault();document.getElementById('widget').scrollIntoView({block:'center'});dIn.focus();}});
   var NS = 'http://www.w3.org/2000/svg';
   function sv(tag, a, par){ var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (par) par.appendChild(e); return e; }
   function drawPlan(svg, v){ var p = v.p, mir = !!v.m, S = 44, pad = 34, W = p.W, H = p.H, n = 0;
@@ -956,20 +1389,15 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
       else if (k === 'stairs'){ var st = 'M0 0', sx2 = it[1], sy2 = it[2], sw = it[3], sh = it[4], steps = 8, j; path(R(sx2, sy2, sw, sh), 'f');
         for (j = 1; j < steps; j++){ st = 'M'+X(sx2)+' '+Y(sy2 + sh*j/steps)+'H'+X(sx2 + sw); path(st, 'f'); } }
       else if (k === 'lbl'){ T(it[1], it[2], it[3]); } });
-    svg.setAttribute('aria-label', 'Схема номера ' + (W*H).toFixed(0) + ' м²');
+    svg.setAttribute('aria-label', 'Схематичная планировка номера');
   }
   function replay(box){ if (reduce) return; box.classList.remove('drawing'); void box.getBoundingClientRect(); box.classList.add('drawing'); }
 
-  /* карточки: переключатель Фото / План и мини-схема */
-  rooms.forEach(function(r){ var card = document.getElementById('r-'+r.id), vs = PLANS[r.id]; if (!vs) return;
-    var ph = card.querySelector('.ph'), box = ph.querySelector('.pl'), cap = ph.querySelector('.mcap');
-    drawPlan(box.querySelector('svg'), vs[0]);
-    cap.innerHTML = (vs.length > 1 ? vs.length + ' ' + plural(vs.length,'вариант','варианта','вариантов') + ' планировки' : 'Планировка') + ' <b>Открыть →</b>';
-    ph.querySelector('.mtog').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; var v = b.dataset.v; ph.dataset.view = v;
-      this.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b); }); if (v === 'plan') replay(box); });
-    box.addEventListener('click', function(){ openPlan(r.id, 0); }); });
-  if (!reduce && 'IntersectionObserver' in window){ var pio = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ replay(e.target); pio.unobserve(e.target); } }); }, {threshold:.35});
-    document.querySelectorAll('.room .pl').forEach(function(b){ b.classList.add('wait'); pio.observe(b); }); }
+  /* Фото — основной вид карточки. Планировка открывается отдельной кнопкой. */
+  rooms.forEach(function(r){
+    var button = document.getElementById('r-'+r.id).querySelector('.room-plan');
+    button.addEventListener('click', function(){ openPlan(r.id, 0); });
+  });
 
   /* окно с планировками */
   var pm = document.getElementById('pm'), pmBd = document.getElementById('pmBd'), pmBox = document.getElementById('pmBox'), pmVars = document.getElementById('pmVars'), pmCur = null, pmLast = null;
@@ -980,15 +1408,58 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     pm.classList.add('on'); pmBd.classList.add('on'); document.body.style.overflow = 'hidden'; if (!open) setTimeout(function(){ pm.focus({preventScroll:true}); }, 50);
     var bt = document.getElementById('pmPick'), ok = r.g >= g; bt.textContent = chosen === id ? 'Выбран ✓' : (ok ? 'Выбрать этот номер' : 'Для ' + g + ' гостей мал'); bt.disabled = !ok; }
   function showVar(i){ var v = PLANS[pmCur][i]; drawPlan(pmBox.querySelector('svg'), v); replay(pmBox);
-    document.getElementById('pmNote').textContent = v.note + ' · около ' + Math.round(v.p.W*v.p.H) + ' м²';
+    document.getElementById('pmNote').textContent = v.note + ' · Схематичная планировка';
     pmVars.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.i === i); }); }
   function closePlan(){ pm.classList.remove('on'); pmBd.classList.remove('on'); document.body.style.overflow = ''; if (pmLast && pmLast.focus) pmLast.focus({preventScroll:true}); }
   pmVars.addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) showVar(+b.dataset.i); });
   document.getElementById('pmX').onclick = closePlan; pmBd.onclick = closePlan;
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && pm.classList.contains('on')) closePlan(); });
+  pm.addEventListener('keydown', function(e){if(e.key!=='Tab')return;var items=[].slice.call(pm.querySelectorAll('button:not([disabled]),a[href],[tabindex="0"]')).filter(function(el){return el.getClientRects().length;});var first=items[0],last=items[items.length-1];if(e.shiftKey&&(document.activeElement===first||document.activeElement===pm)){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}});
   document.getElementById('pmPick').onclick = function(){ chosen = pmCur; render(); closePlan(); if (window.innerWidth > 760) document.getElementById('widget').scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center'}); };
   render();
 
+  /* HomeReserve integration retained from origin/main (ae2e231).
+     The local form estimates capacity; final availability and payment belong to HomeReserve. */
+  var hrReady = false;
+  (function(){
+    var script = document.createElement('script');
+    script.type = 'module'; script.src = 'https://homereserve.ru/widget.js';
+    script.onload = function(){
+      try {
+        window.homereserve.initWidgetSearch({token:HR.token, apartments:rooms.map(function(r){return r.hr;}).filter(Boolean)});
+        hrReady = true;
+      } catch (error) { hrReady = false; }
+    };
+    script.onerror = function(){ hrReady = false; };
+    document.head.appendChild(script);
+  })();
+  function openBooking(id){
+    var params = new URLSearchParams();
+    if (nights() && dIn.value >= dIn.min){
+      params.set('begin_date', dIn.value);
+      params.set('end_date', dOut.value);
+    }
+    params.set('adults', String(g));
+    var route = (id ? '/detail/' + id : '/search') + '?' + params.toString();
+    if (hrReady && window.homereserve) location.hash = '#' + route;
+    else window.open(BOOK, '_blank', 'noopener');
+  }
+  document.addEventListener('click', function(e){
+    if (e.defaultPrevented) return;
+    var booking = e.target.closest('[data-book]');
+    if (booking){
+      e.preventDefault(); if (booking.closest('#siteMenu')) setMenu(false);
+      openBooking(booking.getAttribute('data-book')); return;
+    }
+    // Keep page anchors from conflicting with the HomeReserve hash router.
+    var a = e.target.closest('a[href^="#"]');
+    if (!a || a.closest('#hr-modal,#hr-widget')) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!id || id.charAt(0) === '/') return;
+    var target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault(); target.scrollIntoView({behavior:reduce ? 'auto' : 'smooth',block:'start'});
+  });
   /* Расстояния, маршрут и схема дороги */
   Object.keys(DIST).forEach(function(k){ var v = DIST[k];
     document.querySelectorAll('[data-dist="' + k + '"]').forEach(function(el){ var b = el.querySelector('.dv');

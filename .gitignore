@@ -1,3 +1,15 @@
 .DS_Store
 __pycache__/
 *.bak*.html
+
+# User-requested skills checkout for local design work
+/design-skills/
+
+# Original local comparison, never part of the release
+/.local-original/
+
+# Local image-generation archives; optimized active WebP assets are versioned.
+/src/facade-retouched-*.png
+/src/facade-summer-v1.png
+/src/room-retouched-v1/
+/.local-hr-widget.js
