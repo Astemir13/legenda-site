@@ -149,6 +149,7 @@
 #lg .widget.hrw{display:block}
 #lg .hrw .w-head{margin-bottom:14px}
 #lg #hr-widget{min-height:66px}
+#lg .hr-fb[hidden],#lg #hr-widget[hidden]{display:none!important}
 #lg .hr-fb{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;padding:16px 18px;border-radius:16px;background:var(--soft)}
 #lg .hr-fb p{color:var(--ink2);font-size:15px}
 #lg .foot .fnote{color:var(--ink2);font-size:13px;line-height:1.35}
@@ -589,7 +590,10 @@
 /* Оформление модуля HomeReserve под сайт (вне #lg: окно модуля живёт прямо в body) */
 #hr-widget,#hr-widget *,#hr-modal,#hr-modal *{--custom-main:#1F5C4A!important;--custom-main-dark:#163F33!important;--custom-main-light:#E6F0EC!important;--custom-text:#13202A!important;--custom-background:#F4F7F8!important}
 #hr-widget,#hr-modal{font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif!important}
-#hr-widget .search__container{border-radius:16px!important;overflow:hidden}
+#hr-widget .search__container{border-radius:16px!important;padding:2px!important;box-shadow:0 6px 20px rgba(19,32,42,.08)!important}
+#hr-widget .search__input-mobile{border-radius:14px!important}
+#hr-widget .search__input_first{border-radius:14px 0 0 14px!important}
+#hr-widget .search__input-button{border-radius:14px!important}
 #hr-modal .button-primary,#hr-widget .button-primary{border-radius:12px!important}
 </style>
 <footer>
@@ -789,32 +793,65 @@
     });
   }
 
-  /* Сцена неба: облака, солнце/луна, звёзды, осадки, туман, молнии */
-  function Scene(canvas, opt){ this.c = canvas; this.x = canvas.getContext('2d'); this.o = opt; this.p = []; this.clouds = []; this.stars = []; this.fogs = []; this.size(); }
+  /* Сцена неба: облака, солнце/луна (по реальной фазе), звёзды, метеоры, осадки, туман, молнии.
+     Луна, солнце и облака рисуются один раз в маленькие холсты (спрайты) и потом просто переносятся. */
+  function sprite(w, h){ var c = document.createElement('canvas'), d = Math.min(window.devicePixelRatio||1, 2); c.width = Math.ceil(w*d); c.height = Math.ceil(h*d); var x = c.getContext('2d'); x.scale(d, d); return {c:c, x:x, w:w, h:h}; }
+  function moonPhase(){ var p = ((Date.now()/864e5 - 10962.76) % 29.530588853) / 29.530588853; return p < 0 ? p + 1 : p; } /* 0 — новолуние, .5 — полнолуние */
+  function moonSprite(R){ var S = R*8, s = sprite(S, S), x = s.x, c = S/2, p = moonPhase(), f = (1 - Math.cos(2*Math.PI*p))/2;
+    if (f < .03) return null;
+    var g = x.createRadialGradient(c, c, R*.8, c, c, R*3.8); g.addColorStop(0, 'rgba(255,246,220,' + (.12 + .2*f) + ')'); g.addColorStop(1, 'rgba(255,246,220,0)');
+    x.fillStyle = g; x.beginPath(); x.arc(c, c, R*3.8, 0, 6.283); x.fill();
+    var d = sprite(S, S), y = d.x, dg = y.createRadialGradient(c - R*.35, c - R*.35, R*.1, c, c, R);
+    dg.addColorStop(0, '#FFFCF2'); dg.addColorStop(1, '#E4DCC4'); y.fillStyle = dg; y.beginPath(); y.arc(c, c, R, 0, 6.283); y.fill();
+    y.fillStyle = 'rgba(170,160,135,.22)'; [[-.32,.18,.24],[.22,-.28,.17],[.18,.36,.13],[-.05,-.05,.1]].forEach(function(k){ y.beginPath(); y.arc(c + k[0]*R, c + k[1]*R, k[2]*R, 0, 6.283); y.fill(); });
+    y.globalCompositeOperation = 'destination-out'; y.beginPath(); y.arc(c + 2*R*f*(p < .5 ? -1 : 1), c, R*1.03, 0, 6.283); y.fill();
+    x.drawImage(d.c, 0, 0, S, S); return s; }
+  function sunSprite(R, warm){ var S = R*9, s = sprite(S, S), x = s.x, c = S/2;
+    var g = x.createRadialGradient(c, c, R*.6, c, c, R*4.5); g.addColorStop(0, warm ? 'rgba(255,170,90,.45)' : 'rgba(255,226,150,.42)'); g.addColorStop(1, 'rgba(255,220,150,0)');
+    x.fillStyle = g; x.beginPath(); x.arc(c, c, R*4.5, 0, 6.283); x.fill();
+    var dg = x.createRadialGradient(c, c, 0, c, c, R); dg.addColorStop(0, '#FFF6D8'); dg.addColorStop(1, warm ? '#FFB86E' : '#FFE08A');
+    x.fillStyle = dg; x.beginPath(); x.arc(c, c, R, 0, 6.283); x.fill(); return s; }
+  function cloudSprite(size, rgb, a){ var W = size*3.4, H = size*1.7, s = sprite(W, H), x = s.x, n = 7, i;
+    for (i = 0; i < n; i++){ var cx = size*.7 + (W - size*1.4)*i/(n - 1) + (Math.random() - .5)*size*.2, cy = H*.58 - Math.sin(i/(n - 1)*Math.PI)*size*.35 + (Math.random() - .5)*size*.12, r = size*(.55 + Math.random()*.3);
+      var g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, 'rgba(' + rgb + ',' + a + ')'); g.addColorStop(.6, 'rgba(' + rgb + ',' + (a*.55) + ')'); g.addColorStop(1, 'rgba(' + rgb + ',0)');
+      x.fillStyle = g; x.beginPath(); x.arc(cx, cy, r, 0, 6.283); x.fill(); }
+    return s; }
+
+  function Scene(canvas, opt){ this.c = canvas; this.x = canvas.getContext('2d'); this.o = opt; this.p = []; this.clouds = []; this.stars = []; this.fogs = []; this.met = null; this.size(); }
   Scene.prototype.size = function(){ var d = Math.min(window.devicePixelRatio||1, 2); this.w = this.c.clientWidth; this.h = this.c.clientHeight; this.c.width = this.w*d; this.c.height = this.h*d; this.x.setTransform(d,0,0,d,0,0);
-    this.stars = []; for (var j=0;j<Math.round(this.w/14);j++) this.stars.push({x:Math.random()*this.w, y:Math.random()*this.h*(this.o.starH||1), r:Math.random()*1.1+.3, p:Math.random()*6}); this.reset(); };
-  Scene.prototype.reset = function(){ var K = KINDS[W.kind], A = this.w*this.h, d = this.o.density, kind = K.precip, i;
+    var band = this.o.starBand || this.h; this.stars = [];
+    for (var j = 0; j < Math.round(this.w/(this.o.starBand ? 9 : 14)); j++){ var big = Math.random() < .1;
+      this.stars.push({x:Math.random()*this.w, y:band*Math.pow(Math.random(), 1.35), r:big ? 1.1 + Math.random()*.5 : .35 + Math.random()*.7, p:Math.random()*6.283, sp:.0007 + Math.random()*.0022}); }
+    this.reset(); };
+  Scene.prototype.reset = function(){ var K = KINDS[W.kind], A = this.w*this.h, d = this.o.density, kind = K.precip, i, night = W.phase === 'night' || W.phase === 'dusk';
     var n = {snow:A/(d*1.1), heavysnow:A/(d*.45), blizzard:A/(d*.3), rain:A/(d*.8), drizzle:A/(d*1.2), sleet:A/(d*.8)}[kind] || 0;
     this.p = []; for (i=0;i<Math.round(n);i++){ var isSnow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i%2);
       this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, snow:isSnow, r:(kind === 'heavysnow' ? 1.2 : .6) + Math.random()*(kind === 'heavysnow' ? 2.4 : 1.8)*this.o.scale, s:.35 + Math.random()*.55, w:Math.random()*6, len:(kind === 'drizzle' ? 5 : 11) + Math.random()*8}); }
-    var cl = (this.o.clouds ? (W.cloudNow != null ? W.cloudNow : K.cloud) : 0)/100, cn = Math.round(cl * this.w/85);
-    this.clouds = []; for (i=0;i<cn;i++) { var band = this.o.cloudBand || this.h; this.clouds.push({x:Math.random()*(this.w+200)-100, y:band*(.2 + Math.random()*.6), s:band*(.12 + Math.random()*.14), v:.5 + Math.random()*.5}); }
-    this.fogs = []; if (K.fog) for (i=0;i<4;i++) this.fogs.push({x:Math.random()*this.w, y:this.h*(.25 + i*.2), rx:this.w*(.35 + Math.random()*.3), ry:this.h*(.12 + Math.random()*.1), v:.15 + Math.random()*.2}); };
+    var cloud = (W.cloudNow != null ? W.cloudNow : K.cloud), cl = (this.o.clouds ? cloud : 0)/100, cn = Math.round(cl * this.w/110), band = this.o.cloudBand || this.h;
+    var rgb = night ? '168,180,204' : (cloud > 85 ? '222,228,234' : '255,255,255'), ca = night ? .5 : (cloud > 85 ? .5 : .62);
+    this.clouds = []; for (i=0;i<cn;i++){ var sz = band*(.22 + Math.random()*.22); this.clouds.push({x:Math.random()*(this.w + 300) - 150, y:band*(.15 + Math.random()*.55) - sz*.85, v:.25 + Math.random()*.45, s:cloudSprite(sz, rgb, ca)}); }
+    this.fogs = []; if (K.fog) for (i=0;i<4;i++) this.fogs.push({x:Math.random()*this.w, y:this.h*(.25 + i*.2), rx:this.w*(.35 + Math.random()*.3), ry:this.h*(.12 + Math.random()*.1), v:.15 + Math.random()*.2});
+    if (this.o.body){ this.moon = moonSprite(this.o.bodyR + 2); this.sun = sunSprite(this.o.bodyR, W.phase !== 'day'); } };
   Scene.prototype.draw = function(t, dt){ var x = this.x, w = this.w, h = this.h, K = KINDS[W.kind], night = W.phase === 'night', cloud = (W.cloudNow != null ? W.cloudNow : K.cloud);
-    var wind = (W.windNow != null ? W.windNow : K.wind), wx = wind/12, move = reduce ? 0 : dt/16;
+    var wind = (W.windNow != null ? W.windNow : K.wind), wx = wind/12, move = reduce ? 0 : dt/16, skyOn = this.o.cloudsOn !== false, band = this.o.starBand || h;
     x.clearRect(0,0,w,h);
-    if ((night || W.phase === 'dusk') && cloud < 45){ var a0 = (night ? 1 : .35)*(1 - cloud/45); for (var i=0;i<this.stars.length;i++){ var s = this.stars[i]; x.fillStyle = 'rgba(255,255,255,'+(a0*(.35+.5*Math.abs(Math.sin(t*.0015+s.p))))+')'; x.beginPath(); x.arc(s.x,s.y,s.r,0,6.283); x.fill(); } }
-    if (this.o.body && cloud < 80){ var k;
+    /* звёзды: мерцают каждая в своём ритме, к низу полосы неба гаснут */
+    if (skyOn && (night || W.phase === 'dusk') && cloud < 50){ var a0 = (night ? 1 : .4)*(1 - cloud/50);
+      for (var i=0;i<this.stars.length;i++){ var s = this.stars[i], fade = this.o.starBand ? Math.max(0, 1 - s.y/band) : 1, tw = .45 + .55*(.5 + .5*Math.sin(t*s.sp + s.p));
+        x.fillStyle = 'rgba(255,255,255,' + (a0*tw*fade).toFixed(3) + ')'; x.beginPath(); x.arc(s.x, s.y, s.r, 0, 6.283); x.fill(); }
+      /* редкий метеор в ясную ночь */
+      if (this.o.meteors && night && cloud < 30 && !reduce){ if (!this.met && Math.random() < .0008*move) this.met = {x:w*(.3 + Math.random()*.6), y:band*(.05 + Math.random()*.35), vx:-(7 + Math.random()*4), vy:2.2 + Math.random()*1.4, life:0};
+        if (this.met){ var M = this.met; M.life += .022*move; M.x += M.vx*move; M.y += M.vy*move; var al2 = Math.sin(Math.min(1, M.life)*Math.PI)*.9;
+          var gr0 = x.createLinearGradient(M.x, M.y, M.x - M.vx*11, M.y - M.vy*11); gr0.addColorStop(0, 'rgba(255,255,255,' + al2 + ')'); gr0.addColorStop(1, 'rgba(255,255,255,0)');
+          x.strokeStyle = gr0; x.lineWidth = 1.4; x.beginPath(); x.moveTo(M.x, M.y); x.lineTo(M.x - M.vx*11, M.y - M.vy*11); x.stroke(); if (M.life >= 1) this.met = null; } } }
+    /* солнце или луна идут по дуге согласно времени восхода и заката */
+    if (this.o.body && cloud < 85){ var k;
       if (!night){ k = Math.min(1, Math.max(0, (minutes - (W.sunrise-45))/((W.sunset+45) - (W.sunrise-45)))); } else { var mm = minutes < W.sunrise ? minutes + 1440 : minutes; k = Math.min(1, Math.max(0, (mm - W.sunset)/((W.sunrise + 1440) - W.sunset))); }
       if (W.forced) k = {dawn:.08, day:.5, dusk:.92, night:.5}[W.phase];
-      var bx = 40 + k*(w-80), by = this.o.arcTop + (1 - Math.sin(k*Math.PI))*this.o.arcDrop, R = this.o.bodyR, al = Math.max(0, 1 - cloud/80);
-      x.globalAlpha = al; x.fillStyle = night ? 'rgba(240,238,225,.22)' : 'rgba(255,214,140,.3)'; x.beginPath(); x.arc(bx,by,R*2.2,0,6.283); x.fill();
-      x.fillStyle = night ? '#F2F0E4' : (W.phase === 'day' ? '#FFE6A8' : '#FFB46B'); x.beginPath(); x.arc(bx,by,R,0,6.283); x.fill();
-      if (night){ x.fillStyle = getComputedStyle(LG).getPropertyValue('--sky1'); x.beginPath(); x.arc(bx+R*.45,by-R*.3,R*.85,0,6.283); x.fill(); }
-      x.globalAlpha = 1; }
-    for (var c = 0; c < (this.o.cloudsOn === false ? 0 : this.clouds.length); c++){ var C = this.clouds[c]; C.x += C.v*(.2 + wx*.25)*move; if (C.x - C.s*3 > w) C.x = -C.s*3;
-      var col = night ? 'rgba(120,132,155,.32)' : (cloud > 85 ? 'rgba(215,221,227,.42)' : 'rgba(255,255,255,.5)'); x.fillStyle = col;
-      x.beginPath(); x.arc(C.x, C.y, C.s, 0, 6.283); x.arc(C.x + C.s*1.1, C.y - C.s*.35, C.s*1.15, 0, 6.283); x.arc(C.x + C.s*2.2, C.y, C.s*.95, 0, 6.283); x.arc(C.x + C.s*1.1, C.y + C.s*.25, C.s*1.05, 0, 6.283); x.fill(); }
+      var bx = 40 + k*(w-80), by = this.o.arcTop + (1 - Math.sin(k*Math.PI))*this.o.arcDrop, spr = night ? this.moon : this.sun;
+      if (spr){ x.globalAlpha = Math.max(0, 1 - cloud/85); x.drawImage(spr.c, bx - spr.w/2, by - spr.h/2, spr.w, spr.h); x.globalAlpha = 1; } }
+    if (skyOn) for (var c = 0; c < this.clouds.length; c++){ var C = this.clouds[c]; C.x += C.v*(.2 + wx*.25)*move; if (C.x > w + 20) C.x = -C.s.w - 20;
+      x.drawImage(C.s.c, C.x, C.y, C.s.w, C.s.h); }
     for (var f = 0; f < this.fogs.length; f++){ var F = this.fogs[f]; F.x += F.v*move; if (F.x - F.rx > w) F.x = -F.rx;
       var gr = x.createRadialGradient(F.x, F.y, 0, F.x, F.y, F.rx); gr.addColorStop(0, night ? 'rgba(150,160,175,.35)' : 'rgba(240,243,246,.55)'); gr.addColorStop(1, 'rgba(240,243,246,0)');
       x.fillStyle = gr; x.save(); x.translate(F.x, F.y); x.scale(1, F.ry/F.rx); x.translate(-F.x, -F.y); x.beginPath(); x.arc(F.x, F.y, F.rx, 0, 6.283); x.fill(); x.restore(); }
@@ -829,11 +866,12 @@
         if (P.y > h + 20){ P.y = -20; P.x = Math.random()*(w + 60) - 30; }
         x.strokeStyle = kind === 'drizzle' ? 'rgba(220,232,242,.45)' : 'rgba(210,225,240,.6)'; x.lineWidth = kind === 'drizzle' ? .8 : 1.1;
         x.beginPath(); x.moveTo(P.x, P.y); x.lineTo(P.x - wx*1.2, P.y - P.len); x.stroke(); } }
-    if (K.thunder && !reduce && this.o.flashSrc){ if (Math.random() < .004*move) W.flash = 1; }
-    if (W.flash > .02){ x.fillStyle = 'rgba(255,255,255,' + (W.flash*.55) + ')'; x.fillRect(0,0,w,h); if (this.o.flashSrc) W.flash *= Math.pow(.86, move); } };
+    /* молния: короткая двойная вспышка */
+    if (K.thunder && !reduce && this.o.flashSrc){ if (W.flash < .02 && Math.random() < .0035*move){ W.flash = 1; W.flash2 = 7; } if (W.flash2 > 0){ W.flash2 -= move; if (W.flash2 <= 0) W.flash = Math.max(W.flash, .8); } }
+    if (W.flash > .02){ x.fillStyle = 'rgba(235,242,255,' + (W.flash*.38).toFixed(3) + ')'; x.fillRect(0,0,w,h); if (this.o.flashSrc) W.flash *= Math.pow(.84, move); } };
 
-  var hdrScene = new Scene(document.getElementById('skyHdr'), {density:900, scale:.8, body:true, bodyR:7, arcTop:22, arcDrop:32, starH:1, clouds:true, flashSrc:true});
-  var heroScene = new Scene(document.getElementById('skyHero'), {density:5200, scale:1.2, body:false, starH:.4, clouds:true, cloudBand:84});
+  var hdrScene = new Scene(document.getElementById('skyHdr'), {density:900, scale:.8, body:true, bodyR:7, arcTop:24, arcDrop:30, clouds:true, flashSrc:true});
+  var heroScene = new Scene(document.getElementById('skyHero'), {density:5200, scale:1.2, body:false, starBand:150, meteors:true, clouds:true, cloudBand:84});
   var last = 0, heroVis = true;
   function loop(t){ var dt = last ? Math.min(t-last, 50) : 16; last = t; hdrScene.draw(t, dt); if (heroVis) heroScene.draw(t, dt); requestAnimationFrame(loop); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ heroVis = e[0].isIntersecting; }).observe(document.getElementById('skyHero'));
@@ -963,9 +1001,17 @@
   (function(){ var s = document.createElement('script'); s.type = 'module'; s.src = 'https://homereserve.ru/widget.js';
     s.onload = function(){ try { window.homereserve.initWidgetSearch({token: HR.token, apartments: rooms.map(function(r){ return r.hr; }).filter(Boolean)}); hrReady = true; hrBox.hidden = false; document.getElementById('hrFallback').hidden = true; } catch (e) { hrFallback(); } };
     s.onerror = hrFallback; document.head.appendChild(s); setTimeout(hrFallback, 10000); })();
+  /* На телефонах HomeReserve сам открывает свою страницу, поэтому ведём туда сразу, на нужный номер */
+  /* Номер, открытый прямо с карточки: крестик модуля закрывает окно целиком, а не ведёт в общий список */
+  var hrDirect = false;
+  document.addEventListener('click', function(e){ if (hrDirect && e.target.closest('.vanilla-overlay > svg, .vanilla-overlay > button')){ hrDirect = false; setTimeout(function(){ location.hash = '#/'; }, 60); } }, true);
+  window.addEventListener('hashchange', function(){ if (!/^#\/detail\//.test(location.hash) && location.hash !== '#/search') hrDirect = false; });
+  var IS_MOBILE = /mobile|iphone|ipad|ipod|android/i.test(navigator.userAgent);
+  function hrUrl(id){ return 'https://homereserve.ru/' + HR.token + (id ? '/detail/' + id : ''); }
   function openBooking(id){
-    if (hrReady && window.homereserve){ location.hash = id ? '#/detail/' + id : '#/search'; }
-    else { window.open(BOOK, '_blank', 'noopener'); } }
+    if (IS_MOBILE){ location.href = hrUrl(id); }
+    else if (hrReady && window.homereserve){ hrDirect = !!id; location.hash = id ? '#/detail/' + id : '#/search'; }
+    else { window.open(hrUrl(id), '_blank', 'noopener'); } }
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-book]');
     if (b){ e.preventDefault(); if (b.closest('#siteMenu')) setMenu(false); openBooking(b.getAttribute('data-book')); return; }
