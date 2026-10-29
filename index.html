@@ -461,6 +461,54 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   .fl-dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35)}
   .fl-dots i.on{background:#fff}
 }
+
+/* ---------- Стекло в духе iOS 26 ----------
+   Светлое стекло — для карточек на светлом фоне, тёмное «чёрное» стекло — для плашек и всего, что лежит поверх фото.
+   Блик сверху-слева (--sheen) и тонкая светлая кромка делают элементы объёмными, как стекло в шапке. */
+:root{
+  --gl:rgba(255,255,255,.68); --gl-rim:inset 0 0 0 1px rgba(255,255,255,.9),inset 0 1px 0 #fff; --gl-sh:0 1px 2px rgba(19,32,42,.04),0 12px 32px rgba(19,32,42,.07);
+  --gd-rim:inset 0 0 0 1px rgba(255,255,255,.14),inset 0 1px 0 rgba(255,255,255,.22);
+  --sheen:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,0) 36%,rgba(255,255,255,0) 72%,rgba(255,255,255,.05));
+}
+/* мягкая подложка страницы — чтобы стеклу было что «преломлять» */
+body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,245,0) 70%),radial-gradient(900px 640px at 100% 1700px,#F5E8D5 0,rgba(245,232,213,0) 70%),radial-gradient(1000px 700px at 0% 2900px,#E0EEE7 0,rgba(224,238,231,0) 70%),radial-gradient(900px 640px at 100% 4100px,#DCEAF5 0,rgba(220,234,245,0) 70%),var(--bg);background-repeat:no-repeat}
+/* шапка-капсула: тот же блик */
+.hdr[data-m="glass"].solid:not(.light)::after{background:var(--sheen),rgba(14,22,32,.42);box-shadow:var(--gd-rim),0 10px 30px rgba(0,0,0,.22)}
+.hdr[data-m="glass"].light::before{box-shadow:var(--gl-rim),0 10px 30px rgba(19,32,42,.14)}
+/* тёмное стекло поверх фото */
+.now,.fact{background:var(--sheen),rgba(12,20,28,.36);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);box-shadow:var(--gd-rim),0 8px 24px rgba(0,0,0,.16)}
+a.fact{transition:background .2s, transform .15s}
+a.fact:hover{background:var(--sheen),rgba(12,20,28,.5);transform:translateY(-1px)}
+.now .ni,.fact .fi{background:rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+/* светлое стекло: карточки */
+.widget,.room,.panel,.road,.rv{background:var(--sheen),var(--gl);box-shadow:var(--gl-rim),var(--gl-sh)}
+.room:hover{box-shadow:var(--gl-rim),0 18px 40px rgba(19,32,42,.12)}
+/* плашки под модулем — чёрное стекло */
+.why{background:var(--sheen),linear-gradient(180deg,rgba(28,38,48,.92),rgba(14,21,29,.94));box-shadow:var(--gd-rim),0 14px 34px rgba(13,22,31,.2)}
+.why>div+div{border-color:rgba(255,255,255,.1)}
+.why b{color:#fff}
+.why p{color:rgba(226,234,239,.7)}
+.why svg{color:#FFD58A}
+/* кнопки: лёгкий блик сверху */
+.btn-accent{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.06),0 6px 18px rgba(208,143,47,.3)}
+.btn-pine{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 6px 18px rgba(31,92,74,.22)}
+.btn-soft{background:rgba(255,255,255,.62);box-shadow:var(--gl-rim),0 4px 14px rgba(19,32,42,.06)}
+/* переключатель «Фото / План» и метки на карточках номеров */
+.mtog{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(14px) saturate(1.6);backdrop-filter:blur(14px) saturate(1.6);box-shadow:var(--gl-rim),0 4px 14px rgba(19,32,42,.1)}
+.mtog button[aria-pressed="true"]{background:rgba(19,32,42,.88);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.room .badge{background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(14px) saturate(1.6);backdrop-filter:blur(14px) saturate(1.6);box-shadow:var(--gl-rim)}
+/* меню у логотипа, окно планировки и затемнение под ними */
+.menu{background:rgba(250,252,253,.8);-webkit-backdrop-filter:blur(24px) saturate(1.8);backdrop-filter:blur(24px) saturate(1.8);box-shadow:var(--gl-rim),0 24px 60px rgba(10,18,28,.28)}
+.menu-act .ico{background:rgba(255,255,255,.7);box-shadow:var(--gl-rim)}
+.pm{background:rgba(252,253,254,.9);-webkit-backdrop-filter:blur(24px) saturate(1.8);backdrop-filter:blur(24px) saturate(1.8);box-shadow:var(--gl-rim),0 30px 80px rgba(10,18,28,.35)}
+.menu-bd,.pm-bd{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+/* кнопки-иконки в финальном блоке */
+.ico-d{background:var(--sheen),rgba(255,255,255,.12);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--gd-rim)}
+/* нижняя панель на телефоне — плавающая стеклянная капсула, как шапка */
+@media (max-width:760px){
+  .mbar{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:8px 8px 8px 16px;border-radius:22px;background:rgba(250,252,253,.74);-webkit-backdrop-filter:blur(20px) saturate(1.8);backdrop-filter:blur(20px) saturate(1.8);box-shadow:var(--gl-rim),0 10px 30px rgba(19,32,42,.18)}
+  .mbar .btn{min-height:46px;border-radius:15px}
+}
 </style>
 
 <header class="hdr" id="hdr">
@@ -756,19 +804,19 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   };
   PLANS.lux[1].p = PLANS.lux[0].p;
 
-  /* Фразы под погоду: day/night обязательны, dawn/dusk — где можно сказать точнее */
+  /* Фразы под погоду: dawn — утро, day — день, dusk — вечер, night — ночь */
   var LINES = {
-    clear:{dawn:'Ясное утро — горы розовеют в первых лучах.', day:'Ясно — с Чегета сегодня отлично виден Эльбрус.', dusk:'Ясный вечер — самое время для шашлыка в нашей беседке.', night:'Ясная ночь — над Терсколом звёзды, а в номерах тепло.'},
-    partly:{day:'Солнце сквозь облака — хороший день для прогулки к нарзанам.', dusk:'Тихий вечер — разожгите мангал в нашей беседке.', night:'Тихая ночь в Терсколе. Ресепшен на связи круглосуточно.'},
-    overcast:{day:'Пасмурно — для шашлыка в беседке погода не помеха.', night:'Пасмурная ночь — в деревянном доме особенно уютно.'},
-    fog:{day:'Туман в ущелье — горячий завтрак и никуда не спешить.', night:'Туман в ущелье — а в срубе тепло и тихо.'},
-    drizzle:{day:'Морось — чай с видом на горы прямо из окна номера.', night:'Морось за окном — под неё особенно хорошо спится.'},
-    rain:{day:'Дождь — отличный повод выспаться в тёплом номере.', night:'Дождь стучит по крыше — в деревянном доме под него сладко спится.'},
-    sleet:{day:'Мокрый снег — а в номерах сухо и тепло.', night:'Мокрый снег за окном — в срубе тепло и тихо.'},
-    snow:{day:'Идёт снег — на склонах свежий пухляк.', dusk:'Идёт снег — завтра склоны будут как новые.', night:'Идёт снег — к утру горы станут ещё белее.'},
-    heavysnow:{day:'Сильный снегопад — завтра на склонах будет много пухляка.', night:'Сильный снегопад — к утру навалит свежего снега.'},
-    blizzard:{day:'Метель — подъёмники могут закрыть, а в номере тепло и уютно.', night:'Метель — лучше переждать её в тепле, ресепшен на связи.'},
-    thunder:{day:'Гроза в горах — смотрите на неё из окна тёплого номера.', night:'Гроза над ущельем — а в номерах тепло и спокойно.'}
+    clear:{dawn:'Ясное утро — с Чегета откроется вид на Эльбрус.', day:'Ясно — с Чегета сегодня отлично виден Эльбрус.', dusk:'Ясный вечер — самое время для шашлыка в нашей беседке.', night:'Ясная ночь — над Терсколом звёзды, а в номерах тепло.'},
+    partly:{dawn:'Утро с облаками — солнце то и дело выглядывает над Чегетом.', day:'Солнце сквозь облака — хороший день для прогулки к нарзанам.', dusk:'Тихий вечер — разожгите мангал в нашей беседке.', night:'Тихая ночь в Терсколе. Ресепшен на связи круглосуточно.'},
+    overcast:{dawn:'Пасмурное утро — не спешите, горячий завтрак уже ждёт.', day:'Пасмурно — для шашлыка в беседке погода не помеха.', dusk:'Пасмурный вечер — тёплый номер, плед и чай с горными травами.', night:'Пасмурная ночь — в деревянном доме особенно уютно.'},
+    fog:{dawn:'Утренний туман в ущелье — красиво и тихо, как в сказке.', day:'Туман в ущелье — горячий завтрак и никуда не спешить.', dusk:'Туман опускается в ущелье — вечер для тёплого номера и разговоров.', night:'Туман в ущелье — а в срубе тепло и тихо.'},
+    drizzle:{dawn:'Утренняя морось — самое время для неспешного завтрака.', day:'Морось — чай с видом на горы прямо из окна номера.', dusk:'Вечерняя морось — уютно смотреть на огни Терскола из окна.', night:'Морось за окном — под неё особенно хорошо спится.'},
+    rain:{dawn:'Дождливое утро — неспешный завтрак и облака в ущелье.', day:'Дождь — отличный повод выспаться в тёплом номере.', dusk:'Дождливый вечер — тёплый номер и тихий шум дождя за окном.', night:'Дождь стучит по крыше — в деревянном доме под него сладко спится.'},
+    sleet:{dawn:'Мокрый снег с утра — одевайтесь теплее, склоны подождут.', day:'Мокрый снег — а в номерах сухо и тепло.', dusk:'Мокрый снег к вечеру — самое время отогреться в номере.', night:'Мокрый снег за окном — в срубе тепло и тихо.'},
+    snow:{dawn:'Снежное утро — первыми на склон за свежим пухляком!', day:'Идёт снег — на склонах свежий пухляк.', dusk:'Идёт снег — завтра склоны будут как новые.', night:'Идёт снег — к утру горы станут ещё белее.'},
+    heavysnow:{dawn:'Снегопад с утра — к обеду на склонах будет много пухляка.', day:'Сильный снегопад — завтра на склонах будет много пухляка.', dusk:'Снегопад к вечеру — завтра склоны засыплет свежим снегом.', night:'Сильный снегопад — к утру навалит свежего снега.'},
+    blizzard:{dawn:'Метель с утра — уточните на ресепшене, работают ли подъёмники.', day:'Метель — подъёмники могут закрыть, а в номере тепло и уютно.', dusk:'Метель к вечеру — тёплый номер и горячий чай.', night:'Метель — лучше переждать её в тепле, ресепшен на связи.'},
+    thunder:{dawn:'Гроза с утра — переждите её в тёплом номере.', day:'Гроза в горах — смотрите на неё из окна тёплого номера.', dusk:'Вечерняя гроза — зарницы над ущельем видно прямо из окна.', night:'Гроза над ущельем — а в номерах тепло и спокойно.'}
   };
 
   /* ===================== конец настроек ===================== */
@@ -796,22 +844,38 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     thunder:{name:'Гроза', cloud:100, precip:'rain', thunder:true, t:14, wind:22}
   };
   var ORDER = ['clear','partly','overcast','fog','drizzle','rain','sleet','snow','heavysnow','blizzard','thunder'];
-  var PHASES = {dawn:'Рассвет', day:'День', dusk:'Закат', night:'Ночь'};
-  var BASE = {
-    dawn:{s1:'#F3C7A6', s2:'#A9CBE9'}, day:{s1:'#6FAEE0', s2:'#D6EAF7'},
-    dusk:{s1:'#3E4E80', s2:'#EE9F6E'}, night:{s1:'#0A1530', s2:'#22365F'}
+  var PHASES = {dawn:'Утро', day:'День', dusk:'Вечер', night:'Ночь'};
+  /* Утро — от предрассветных сумерек до ~10:00 (летом раньше, зимой позже), вечер — за полтора часа до заката и полчаса после.
+     Внутри утра и вечера небо плавно меняется: сумерки → рассвет → утро → день; день → золотой час → закат → сумерки */
+  var SKY = {
+    predawn:{s1:'#2B3A66', s2:'#B98A98'}, dawn:{s1:'#F3C7A6', s2:'#A9CBE9'}, morning:{s1:'#86B8E4', s2:'#E6E0D2'},
+    day:{s1:'#6FAEE0', s2:'#D6EAF7'}, gold:{s1:'#6488BE', s2:'#F2BC8C'}, dusk:{s1:'#3E4E80', s2:'#EE9F6E'},
+    late:{s1:'#16224A', s2:'#3D4470'}, night:{s1:'#0A1530', s2:'#22365F'}
   };
   var GREY = {
     dawn:{s1:'#7D8794', s2:'#B4B8BE'}, day:{s1:'#8E9AA6', s2:'#C8CFD5'},
     dusk:{s1:'#3A404C', s2:'#6E6A6C'}, night:{s1:'#1A2029', s2:'#2C333E'}
   };
   function hex(h){ var n = parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function mixH(a, b, k){ var x = hex(a), y = hex(b); return '#' + x.map(function(v,i){ var c = Math.round(v + (y[i]-v)*k); return (c < 16 ? '0' : '') + c.toString(16); }).join(''); }
+  function lum(h){ var c = hex(h); return .2126*c[0] + .7152*c[1] + .0722*c[2]; }
   function mix(a, b, k){ var x = hex(a), y = hex(b); return 'rgb(' + x.map(function(v,i){ return Math.round(v + (y[i]-v)*k); }).join(',') + ')'; }
 
   var W = {kind:'clear', phase:'day', temp:null, wind:6, cloud:4, sunrise:420, sunset:1050, live:false, forced:false, flash:0};
   var o0 = msk(), month = +o0.month, minutes = (+o0.hour)*60 + (+o0.minute);
   function toMin(s){ var m = /T(\d\d):(\d\d)/.exec(s); return m ? (+m[1])*60 + (+m[2]) : null; }
-  function phaseFor(m){ if (Math.abs(m - W.sunrise) <= 45) return 'dawn'; if (Math.abs(m - W.sunset) <= 45) return 'dusk'; return (m > W.sunrise && m < W.sunset) ? 'day' : 'night'; }
+  function mornEnd(){ return Math.max(W.sunrise + 150, 600); }
+  function phaseFor(m){ var r = W.sunrise, s = W.sunset;
+    if (m >= r - 40 && m < mornEnd()) return 'dawn';
+    if (m >= s - 90 && m < s + 40) return 'dusk';
+    return (m > r && m < s) ? 'day' : 'night'; }
+  /* время для неба: в предпросмотре — характерный момент выбранной части суток */
+  function skyTime(){ return W.forced ? {dawn:W.sunrise + 20, day:780, dusk:W.sunset - 10, night:60}[W.phase] : minutes; }
+  function skyAt(m){ var r = W.sunrise, s = W.sunset, P;
+    if (W.phase === 'dawn') P = [[r - 40, 'predawn'], [r + 5, 'dawn'], [r + 70, 'morning'], [mornEnd(), 'day']];
+    else if (W.phase === 'dusk') P = [[s - 90, 'day'], [s - 25, 'gold'], [s + 10, 'dusk'], [s + 40, 'late']];
+    else return SKY[W.phase];
+    for (var i = 1; i < P.length; i++) if (m <= P[i][0] || i === P.length - 1){ var k = Math.min(1, Math.max(0, (m - P[i-1][0])/(P[i][0] - P[i-1][0]))), a = SKY[P[i-1][1]], b = SKY[P[i][1]]; return {s1:mixH(a.s1, b.s1, k), s2:mixH(a.s2, b.s2, k)}; } }
   function kindFromCode(c, wind, temp, cloud){
     if (c <= 1 || (c === 2 && cloud != null && cloud < 40)) return 'clear'; if (c === 2) return 'partly'; if (c === 3) return 'overcast'; if (c === 45 || c === 48) return 'fog';
     if (c >= 51 && c <= 55) return 'drizzle'; if (c === 56 || c === 57 || c === 66 || c === 67) return 'sleet';
@@ -836,15 +900,20 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   function applyWeather(){
     var K = KINDS[W.kind], cloud = W.forced ? K.cloud : (W.cloud != null ? W.cloud : K.cloud), g = Math.min(1, cloud/100*.85 + (K.fog ? .15 : 0) + (K.precip ? .1 : 0));
     W.cloudNow = cloud;
-    var b = BASE[W.phase], gr = GREY[W.phase], r = document.documentElement.style;
+    var tm = skyTime(), b = skyAt(tm), gr = GREY[W.phase], r = document.documentElement.style;
+    W.dark = W.phase === 'night' || lum(b.s1) < 110;
+    /* звёзды: ночью полностью, в сумерках — проявляются после заката и гаснут к рассвету */
+    W.starK = W.phase === 'night' ? 1 : W.phase === 'dusk' ? Math.min(1, Math.max(0, (tm - (W.sunset + 5))/35)) : W.phase === 'dawn' ? Math.min(1, Math.max(0, ((W.sunrise - 5) - tm)/35)) : 0;
     r.setProperty('--sky1', mix(b.s1, gr.s1, g)); r.setProperty('--sky2', mix(b.s2, gr.s2, g));
-    r.setProperty('--hdr-ink', (W.phase === 'night' || W.phase === 'dusk') ? '#FFFFFF' : '#13202A');
+    r.setProperty('--hdr-ink', W.dark ? '#FFFFFF' : '#13202A');
     var temp = W.forced || W.temp == null ? K.t : Math.round(W.temp), wind = W.forced || W.wind == null ? K.wind : Math.round(W.wind), night = W.phase === 'night';
     var t = (temp > 0 ? '+' : temp < 0 ? '−' : '') + Math.abs(temp) + '°';
     document.getElementById('wxChip').innerHTML = icon(W.kind, night) + '<b>' + t + '</b><span>' + K.name + '</span>';
     document.getElementById('nowTxt').innerHTML = '<span class="sg">Терскол, ' + o0.hour + ':' + o0.minute + '</span><span class="sg tp">' + t + '</span>' + (wind >= 25 ? '<span class="sg">ветер ' + wind + ' км/ч</span>' : '');
-    var L = LINES[W.kind], dark = night || W.phase === 'dusk';
-    document.getElementById('nowLine').textContent = L[W.phase] || L[dark ? 'night' : 'day'];
+    /* фраза: вечерняя — до 21:30, даже если уже стемнело; утренняя — с 6:00, даже если ещё темно */
+    var tp = W.phase; if (!W.forced && tp === 'night'){ if (minutes >= W.sunset && minutes < 1290) tp = 'dusk'; else if (minutes < W.sunrise && minutes >= 360) tp = 'dawn'; }
+    var L = LINES[W.kind], dark = W.dark;
+    document.getElementById('nowLine').textContent = L[tp] || L[dark ? 'night' : 'day'];
     document.getElementById('nowIc').innerHTML = icon(W.kind, dark);
     W.windNow = wind;
     document.getElementById('wxMode').textContent = W.forced ? 'предпросмотр' : (W.live ? 'реальная' : 'демо');
@@ -911,7 +980,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     for (var j = 0; j < Math.round(this.w/(this.o.starBand ? 9 : 14)); j++){ var big = Math.random() < .1;
       this.stars.push({x:Math.random()*this.w, y:band*Math.pow(Math.random(), 1.35), r:big ? 1.1 + Math.random()*.5 : .35 + Math.random()*.7, p:Math.random()*6.283, sp:.0007 + Math.random()*.0022}); }
     this.reset(); };
-  Scene.prototype.reset = function(){ var K = KINDS[W.kind], A = this.w*this.h, d = this.o.density, kind = K.precip, i, night = W.phase === 'night' || W.phase === 'dusk';
+  Scene.prototype.reset = function(){ var K = KINDS[W.kind], A = this.w*this.h, d = this.o.density, kind = K.precip, i, night = !!W.dark;
     var n = {snow:A/(d*1.1), heavysnow:A/(d*.45), blizzard:A/(d*.3), rain:A/(d*.8), drizzle:A/(d*1.2), sleet:A/(d*.8)}[kind] || 0;
     this.p = []; for (i=0;i<Math.round(n);i++){ var isSnow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i%2);
       this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, snow:isSnow, r:(kind === 'heavysnow' ? 1.2 : .6) + Math.random()*(kind === 'heavysnow' ? 2.4 : 1.8)*this.o.scale, s:.35 + Math.random()*.55, w:Math.random()*6, len:(kind === 'drizzle' ? 5 : 11) + Math.random()*8}); }
@@ -924,7 +993,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     var wind = (W.windNow != null ? W.windNow : K.wind), wx = wind/12, move = reduce ? 0 : dt/16, skyOn = this.o.cloudsOn !== false, band = this.o.starBand || h;
     x.clearRect(0,0,w,h);
     /* звёзды: мерцают каждая в своём ритме, к низу полосы неба гаснут */
-    if (skyOn && (night || W.phase === 'dusk') && cloud < 50){ var a0 = (night ? 1 : .4)*(1 - cloud/50);
+    if (skyOn && W.starK > 0 && cloud < 50){ var a0 = W.starK*(1 - cloud/50);
       for (var i=0;i<this.stars.length;i++){ var s = this.stars[i], fade = this.o.starBand ? Math.max(0, 1 - s.y/band) : 1, tw = .45 + .55*(.5 + .5*Math.sin(t*s.sp + s.p));
         x.fillStyle = 'rgba(255,255,255,' + (a0*tw*fade).toFixed(3) + ')'; x.beginPath(); x.arc(s.x, s.y, s.r, 0, 6.283); x.fill(); }
       /* редкий метеор в ясную ночь */
@@ -935,10 +1004,10 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     /* солнце или луна идут по дуге согласно времени восхода и заката */
     if (this.o.body && cloud < 85){ var k;
       if (!night){ k = Math.min(1, Math.max(0, (minutes - (W.sunrise-45))/((W.sunset+45) - (W.sunrise-45)))); } else { var mm = minutes < W.sunrise ? minutes + 1440 : minutes; k = Math.min(1, Math.max(0, (mm - W.sunset)/((W.sunrise + 1440) - W.sunset))); }
-      if (W.forced) k = {dawn:.08, day:.5, dusk:.92, night:.5}[W.phase];
+      if (W.forced) k = {dawn:.1, day:.5, dusk:.9, night:.5}[W.phase];
       /* светило идёт по дуге в свободном промежутке шапки — между логотипом, меню и кнопками */
       var Z = hdrZone(); if (!Z) { spr = null; }
-      var bx = Z ? Z[0] + k*(Z[1] - Z[0]) : 0, by = 22 + (1 - Math.sin(k*Math.PI))*24 + Math.sin(t*.0006)*1, spr = Z ? (night ? this.moon : this.sun) : null;
+      var bx = Z ? Z[0] + k*(Z[1] - Z[0]) : 0, by = 22 + (1 - Math.sin(k*Math.PI))*24 + Math.sin(t*.0006)*1, spr = Z ? (night ? this.moon : (W.starK > .5 ? null : this.sun)) : null;
       if (spr) { var br = .94 + .06*Math.sin(t*.0012); x.globalAlpha = Math.max(0, 1 - cloud/85)*br; }
       if (spr){ x.drawImage(spr.c, bx - spr.w/2, by - spr.h/2, spr.w, spr.h); x.globalAlpha = 1; } }
     if (skyOn) for (var c = 0; c < this.clouds.length; c++){ var C = this.clouds[c]; C.x += C.v*(.2 + wx*.25)*move; if (C.x > w + 20) C.x = -C.s.w - 20;
