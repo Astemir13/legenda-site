@@ -360,15 +360,17 @@ section[id]{scroll-margin-top:84px}
 .rmap .dist-t rect{fill:var(--accent-soft);stroke:#E9C88F}
 .rmap text.dl{font-size:12px;font-weight:600;fill:#9A6417}
 .rmap .edge path{fill:#C9952F}
+.rmap .lift circle{fill:#fff;stroke:#1C2830;stroke-width:2}.rmap .lift path{fill:none;stroke:#1C2830;stroke-width:1.6;stroke-linecap:round}.rmap .lift rect{fill:var(--accent)}
+.rmap text.dl2{font-size:12px;font-weight:600;fill:#9A6417}
 .rmap .m-n circle{fill:#fff;stroke:#DDE5E9}.rmap .m-n path{fill:#1C2830}.rmap .m-n text{font-size:10px;font-weight:600;fill:#52616B}
-@media (max-width:560px){.rmap text{font-size:15px}.rmap text.sm,.rmap text.rv{font-size:13px}.rmap text.vl{font-size:19px}.rmap text.tag-t{font-size:17px}.rmap text.tag-s{font-size:12px}.rmap text.dl{font-size:13px}.rmap text.rv{display:none}}
+@media (max-width:560px){.rmap text{font-size:15px}.rmap text.sm,.rmap text.rv{font-size:13px}.rmap text.vl{font-size:19px}.rmap text.tag-t{font-size:17px}.rmap text.tag-s{font-size:12px}.rmap text.dl,.rmap text.dl2{font-size:13px}.rmap text.rv{display:none}}
 .road-n{position:absolute;right:14px;bottom:10px;font-size:11px;color:#8695A0}
 @media (max-width:560px){.road-m{flex-direction:column;align-items:stretch}.road-n{position:static;display:block;padding:0 14px 10px;text-align:right}}
 .rmap.wait .d,.rmap.wait text,.rmap.wait .me,.rmap.wait .pt,.rmap.wait .dist-t,.rmap.wait .m-bld{opacity:0}
 .rmap.drawing .d{opacity:1;animation:pdraw 1.2s cubic-bezier(.55,0,.25,1) both}
 .rmap.drawing text,.rmap.drawing .pt,.rmap.drawing .dist-t,.rmap.drawing .m-bld{opacity:1;animation:pfade .6s ease 1.1s both}
-.rmap.wait .route,.rmap.wait .cab{opacity:0}
-.rmap.drawing .route,.rmap.drawing .cab{animation:pfade .8s ease 1.3s both}
+.rmap.wait .lift{opacity:0}
+.rmap.drawing .lift{animation:pfade .6s ease 1.1s both}
 .rmap.drawing .me{animation:pfade .5s ease 1.3s both}
 @media (max-width:860px){.road{grid-template-columns:1fr}.road-m{min-height:0}}
 @media (max-width:420px){.dist2 b{font-size:19px}.road-b .btn{flex:1 1 100%}}
@@ -601,16 +603,12 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
           <g class="m-res"><path class="d" d="M809 343L805 351L803 357L798 365L766 392"/><path class="d" d="M713 281L705 291L697 293L685 290L670 289"/><path class="d" d="M633 219L628 234L636 238L636 241L630 256L635 264L630 271L626 271L623 266L617 266"/><path class="d" d="M675 241L665 254L656 260L646 265L637 266"/><path class="d" d="M635 264L641 269L644 268"/><path class="d" d="M708 275L714 271L717 267"/><path class="d" d="M720 289L727 280L730 281"/><path class="d" d="M761 422L766 392"/></g>
           <path class="rd-case" d="M266 88L272 87L293 83L303 85L311 90L324 105L329 115L361 142L383 153L400 154L447 180L464 184L471 185L473 183L475 181L482 178L504 184L529 198L561 206L573 207L633 219L664 231L692 256L711 278L740 305L754 321L768 332L803 338L854 362L875 364L877 364L930 380L968 383L1025 374"/>
           <path class="rd d" d="M266 88L272 87L293 83L303 85L311 90L324 105L329 115L361 142L383 153L400 154L447 180L464 184L471 185L473 183L475 181L482 178L504 184L529 198L561 206L573 207L633 219L664 231L692 256L711 278L740 305L754 321L768 332L803 338L854 362L875 364L877 364L930 380L968 383L1025 374"/>
-          <path class="route" d="M793 396L745 407"/>
-          <path class="route" d="M793 396L780 394L766 392L798 365L803 357L805 351L809 343L803 338L768 332L754 321L740 305L711 278L692 256L664 231L633 219L573 207L561 206L529 198L504 184L482 178L475 181L471 185L464 184L447 180L400 154L383 153L361 142L329 115L324 105L311 90L303 85L293 83L272 87"/>
-          <path class="cab" d="M745 407L581 464M580 466L475 472"/>
-          <circle class="pt" cx="745" cy="407" r="5"/>
-          <text class="lb" x="733" y="396" text-anchor="end">Поляна Чегет</text>
-          <text class="sm" x="733" y="411" text-anchor="end">подъёмник на Чегет</text>
+          <g class="lift" transform="translate(745 407)"><circle r="12"/><path d="M-8 -7L8 -2"/><path d="M0 -4.5V-1"/><rect x="-5" y="-1" width="10" height="8" rx="2"/></g>
+          <text class="lb" x="726" y="403" text-anchor="end">Подъёмник Чегет</text>
+          <text class="dl2" id="mapCheget" x="726" y="420" text-anchor="end"></text>
           <text class="vl" x="600" y="186">Терскол</text>
           <text class="sm" x="992" y="356" text-anchor="end">Нальчик, Минводы →</text>
           <g class="dist-t"><rect x="446" y="214" width="104" height="24" rx="12"/><text class="dl" id="mapAzau" x="498" y="230"></text></g>
-          <g class="dist-t"><rect x="739" y="418" width="60" height="22" rx="11"/><text class="dl" id="mapCheget" x="769" y="433"></text></g>
           <g class="me" transform="translate(793 396)">
             <circle class="pulse" r="16"/>
             <g filter="url(#mshadow)"><path class="pin" d="M0 6C-3 -2 -17 -6 -17 -20A17 17 0 1 1 17 -20C17 -6 3 -2 0 6Z"/></g>
@@ -1118,7 +1116,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     document.querySelectorAll('[data-dist="' + k + '"]').forEach(function(el){ var b = el.querySelector('.dv');
       if (v){ b.textContent = v; } else if (PREVIEW){ b.textContent = '[?]'; } else { el.classList.add('nodist'); } }); });
   document.getElementById('mapAzau').textContent = '← Азау · ' + (DIST.azau || '');
-  document.getElementById('mapCheget').textContent = DIST.cheget || '';
+  document.getElementById('mapCheget').textContent = DIST.cheget ? DIST.cheget + ' от отеля' : '';
   document.getElementById('routeBtn').href = 'https://yandex.ru/maps/?rtext=~' + LAT + '%2C' + LON + '&rtt=auto';
   /* Плашка подъёмников на телефоне: Чегет и Азау по очереди, по нажатию или сами раз в 4 с */
   (function(){ var tile = document.querySelector('.fact-lift'); if (!tile) return;
