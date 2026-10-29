@@ -1,5 +1,5 @@
 """Собирает из исходника src/legenda-template.html:
-  1) dist/legenda-tilda.html — файл для блока T123 на Тильде;
+  1) dist/tilda-blok-1.html и dist/tilda-blok-2.html — код для двух блоков T123 на Тильде;
   2) index.html — живой предпросмотр с панелью погоды (GitHub Pages).
 Особенности файла для Тильды:
 - все стили под #lg (Тильда просит не трогать общие теги);
@@ -10,7 +10,8 @@
 import re, sys
 
 SRC = 'src/legenda-template.html'
-OUT = 'dist/legenda-tilda.html'
+OUT1 = 'dist/tilda-blok-1.html'
+OUT2 = 'dist/tilda-blok-2.html'
 PREVIEW = 'index.html'
 PHOTO = sys.argv[1] if len(sys.argv) > 1 else 'ССЫЛКА_НА_ФОТО_ФАСАДА'
 
@@ -115,7 +116,18 @@ for bad in ('wxMode', 'wxNote', 'wxKinds', 'wxPanel', 'wxAuto', 'wxClose'):
     assert bad not in js, bad
 assert 'wxPanel' not in body
 
-out = ('<!-- Эко-отель «Легенда» · главная страница · блок T123. Весь код в одном блоке: при обновлении заменяйте его целиком. -->\n'
-       + fonts + '\n<style>\n' + css + '</style>\n' + body + '\n<script>\n' + js + '</script>\n')
-open(OUT, 'w', encoding='utf-8').write(out)
-print(OUT, len(out.encode()), 'bytes;', PREVIEW, 'обновлён')
+# Тильда не сохраняет блок T123 больше ~120 000 знаков, поэтому код делится на два блока:
+# 1) шрифты, стили и разметка; 2) скрипт. На странице блок 1 должен стоять выше блока 2.
+import json
+parts = {
+    OUT1: '<!-- Эко-отель «Легенда» · главная · блок 1 из 2 (стили и разметка). Блок 2 со скриптом стоит сразу под ним. -->\n'
+          + fonts + '\n<style>\n' + css + '</style>\n' + body + '\n',
+    OUT2: '<!-- Эко-отель «Легенда» · главная · блок 2 из 2 (скрипт). Ставится сразу под блоком 1. -->\n'
+          + '<script>\n' + js + '</script>\n',
+}
+for path, code in parts.items():
+    n = len(json.dumps(code, ensure_ascii=False))
+    assert n < 110000, (path, n, 'блок не влезет в T123 — лимит Тильды около 120 000 знаков')
+    open(path, 'w', encoding='utf-8').write(code)
+    print(path, len(code), 'знаков')
+print(PREVIEW, 'обновлён')
