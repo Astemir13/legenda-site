@@ -435,6 +435,10 @@
   /* Над фото шапка прозрачная (осадки рисует сцена фото, чтобы не было двойного снега); после прокрутки — своё небо */
   var hdrEl = document.getElementById('hdr');
   var heroEl = document.getElementById('hero');
+  /* нижняя панель на телефоне: появляется после первого экрана, прячется, когда виден блок бронирования */
+  var mbar = document.getElementById('mbar'), bookEl = document.getElementById('book'), vis = {hero:true, book:false};
+  if (mbar && 'IntersectionObserver' in window){ var mio = new IntersectionObserver(function(es){ es.forEach(function(e){ vis[e.target === bookEl ? 'book' : 'hero'] = e.isIntersecting; }); mbar.classList.toggle('on', !vis.hero && !vis.book); }, {threshold:0});
+    mio.observe(document.getElementById('hero')); mio.observe(bookEl); } else if (mbar) mbar.classList.add('on');
   function onScroll(){ var y = window.scrollY, solid = y > 24, heroEnd = heroEl.offsetTop + heroEl.offsetHeight - 72,
       light = (HDR_MODE === 'fade' || HDR_MODE === 'glass') ? y > heroEnd + 6 : solid;
     hdrEl.dataset.m = HDR_MODE; hdrEl.classList.toggle('light', light); hdrEl.classList.toggle('solid', solid); }
