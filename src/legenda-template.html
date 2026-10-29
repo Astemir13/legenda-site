@@ -133,6 +133,7 @@ section[id]{scroll-margin-top:84px}
 .fact .fi{flex:0 0 40px;height:40px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center}
 .fact b{display:block;font-family:var(--display);font-weight:600;font-size:19px;line-height:1.15;white-space:nowrap}
 .fact span{display:block;font-size:13px;color:#D9E3E8;line-height:1.3}
+.fact b span{display:inline;font:inherit;color:inherit}.fact em{font-style:normal}.fact .st{display:none;font-style:normal;color:#FFD58A;margin-right:4px}
 .fact .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 4px rgba(74,222,128,.22);margin-right:7px;vertical-align:2px}
 .fl2{display:flex;gap:14px;min-width:0;flex:1}
 .fl2>div+div{padding-left:14px;border-left:1px solid rgba(255,255,255,.2)}
@@ -198,12 +199,14 @@ section[id]{scroll-margin-top:84px}
 @media (max-width:760px){.hero-in{padding-block:calc(72px + 30px + env(safe-area-inset-top,0px)) 20px;min-height:min(680px,86svh)}.facts{margin-top:24px;gap:6px}.fact{padding:10px;flex-direction:column;align-items:flex-start;gap:2px}.fact .fi{display:none}.fact b{font-size:16px}.fact span{font-size:12px}}
 
 /* Почему напрямую */
-.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.why div{background:var(--card);border-radius:20px;padding:22px;display:flex;gap:14px;align-items:flex-start}
-.why .ic{flex:0 0 46px;height:46px;border-radius:14px;background:var(--accent-soft);display:grid;place-items:center}
-.why b{color:var(--ink);display:block;font-family:var(--display);font-weight:600;font-size:18px;margin-bottom:4px}
-.why p{color:var(--ink2);font-size:15px}
-@media (max-width:860px){.why{grid-template-columns:1fr;gap:8px}.why div{padding:16px 18px}}
+.whysec{padding:14px 0 0}
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--card);border-radius:20px;box-shadow:inset 0 0 0 1px var(--line)}
+.why>div{display:flex;gap:12px;align-items:flex-start;padding:18px 22px;min-width:0}
+.why>div+div{border-left:1px solid var(--line)}
+.why svg{flex:none;color:var(--pine);margin-top:2px}
+.why p{color:var(--ink2);font-size:14px;line-height:1.45}
+.why b{display:block;color:var(--ink);font-family:var(--display);font-weight:600;font-size:16px;line-height:1.3;margin-bottom:2px}
+@media (max-width:860px){.why{grid-template-columns:1fr}.why>div{padding:14px 18px}.why>div+div{border-left:0;border-top:1px solid var(--line)}}
 
 /* Номера */
 .rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
@@ -393,6 +396,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 .ft-col{display:flex;flex-direction:column;gap:2px}
 .ft-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8695A0;margin-bottom:6px}
 .ft-col a{color:var(--ink);text-decoration:none;min-height:36px;display:inline-flex;align-items:center;align-self:flex-start}
+.ft-col a.doc{line-height:1.35;padding-block:6px;max-width:260px}
 .ft-col a:hover{color:var(--pine);text-decoration:underline}
 .ft-bot{margin-top:28px;font-size:13px;color:#8695A0}
 .ft-bot::before{content:"";display:block;border-top:1px solid var(--line);margin-bottom:18px}
@@ -441,6 +445,8 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 @media (max-width:360px){.fact{padding:9px 6px}.fact b{font-size:13px;letter-spacing:-.02em}.fact span{font-size:11px}.fact .dot{width:6px;height:6px;margin-right:4px;box-shadow:none}}
 @media (max-width:760px){
   .facts{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fact .vt{display:none}
+  .fact .st{display:inline}
   .fact{padding:10px 10px 11px}
   .fact b{font-size:15px}.fact span{font-size:11.5px}
   .fact-lift{cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -495,7 +501,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     </div>
     <div class="facts">
       <div class="fact fact-lift" role="button" tabindex="0" aria-label="Расстояния до подъёмников: нажмите, чтобы переключить"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg></span><div class="fl2"><span class="fl-dots" aria-hidden="true"><i></i><i></i></span><div data-dist="cheget"><b class="dv">— км</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">— км</b><span>до Азау</span></div></div></div>
-      <a class="fact" href="#reviews"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD58A" stroke="#FFD58A" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg></span><div><b>[4,9] из 5</b><span>на Яндекс Картах</span></div></a>
+      <a class="fact" id="heroRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD58A" stroke="#FFD58A" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg></span><div><b><i class="st" aria-hidden="true">★</i><span class="rt">5,0</span> из 5</b><span><em class="vt">1293 оценки · </em>Яндекс Карты</span></div></a>
       <div class="fact" id="heroRest"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.5-3 7h3"/></svg></span><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></div>
     </div>
   </div>
@@ -504,19 +510,19 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 <section class="booksec" id="book">
   <div class="wrap">
     <div class="widget hrw">
-      <div class="w-head"><h2>Подберём номер под ваши даты</h2><p class="w-note">Бронируя напрямую — <b>[ваш бонус]</b> и без комиссии агрегаторов</p></div>
+      <div class="w-head"><h2>Подберём номер под ваши даты</h2><p class="w-note">Бронируя напрямую — <b>завтрак на двоих включён</b>, без комиссии агрегаторов</p></div>
       <div id="hr-widget"></div>
       <div class="hr-fb" id="hrFallback" hidden><p id="hrFbTxt">Свободные даты и актуальные цены — в онлайн-бронировании.</p><a class="btn btn-accent" href="https://homereserve.ru/gDYYpGYEnb" target="_blank" rel="noopener">Проверить свободные даты</a></div>
     </div>
   </div>
 </section>
 
-<section class="sec" style="padding-block:40px 0">
-  <div class="wrap why">
-    <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9A6417" stroke-width="2" stroke-linecap="round"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 20V7M12 7H8a2 2 0 1 1 0-4c3 0 4 4 4 4zM12 7h4a2 2 0 1 0 0-4c-3 0-4 4-4 4z"/></svg></span><p><b>[Ваш бонус]</b>Только при бронировании на сайте: например, поздний выезд или скидка.</p></div>
-    <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9A6417" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></span><p><b>Без комиссии</b>Платите отелю напрямую — без наценок агрегаторов.</p></div>
-    <div><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9A6417" stroke-width="2" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg></span><p><b>Ответим за минуты</b>Ресепшен круглосуточно: звонок, WhatsApp или Telegram.</p></div>
-  </div>
+<section class="whysec">
+  <div class="wrap"><div class="why">
+    <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h13v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3"/></svg><p><b>Завтрак на двоих включён</b>При бронировании напрямую — на сайте или по телефону</p></div>
+    <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.3 4.6-4.8"/></svg><p><b>Без комиссии</b>Оплата отелю напрямую, без наценок агрегаторов</p></div>
+    <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg><p><b>Ответим за минуты</b>Ресепшен 24/7: звонок, WhatsApp, Telegram</p></div>
+  </div></div>
 </section>
 
 <section class="sec" id="rooms">
@@ -551,7 +557,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   <div class="wrap">
     <div class="sec-h"><div><span class="kick">Отзывы</span><h2>Что говорят гости</h2></div></div>
     <div class="revs">
-      <div class="score"><span>Яндекс Карты</span><b>[4,9]</b><span>[N] отзывов</span><a href="https://yandex.ru/maps/org/legenda/1184772629/reviews/" target="_blank" rel="noopener">Читать все →</a></div>
+      <div class="score"><span>Яндекс Карты</span><b>5,0</b><span>1293 оценки</span><a href="https://yandex.ru/maps/org/legenda/1184772629/reviews/" target="_blank" rel="noopener">Читать все →</a></div>
       <div class="rv"><span class="st" aria-hidden="true">★★★★★</span><p>«[Отзыв гостя с Яндекс Карт, дословно]»</p><small>[Имя · месяц год]</small></div>
       <div class="rv"><span class="st" aria-hidden="true">★★★★★</span><p>«[Отзыв про ресторан или персонал]»</p><small>[Имя · месяц год]</small></div>
       <div class="rv"><span class="st" aria-hidden="true">★★★★★</span><p>«[Отзыв семьи с детьми]»</p><small>[Имя · месяц год]</small></div>
@@ -566,7 +572,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
       <div class="faq">
         <details><summary>Во сколько заезд и выезд?</summary><p>Заезд с [14:00], выезд до [12:00]. Ресепшен работает круглосуточно.</p></details>
         <details><summary>Можно ли отменить бронь?</summary><p>Бесплатно [за N дней до заезда].</p></details>
-        <details><summary>Входит ли завтрак?</summary><p>[Ответ]. Ресторан работает с 8:00 до 21:00.</p></details>
+        <details><summary>Входит ли завтрак?</summary><p>При бронировании напрямую — на сайте или по телефону — завтрак на двоих включён. Ресторан работает с 8:00 до 21:00.</p></details>
         <details><summary>Как добраться без машины?</summary><p>Из Минвод или Нальчика — [трансфер / такси], около [время]. Позвоните, подскажем.</p></details>
       </div>
     </div>
@@ -654,8 +660,8 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
     </div>
     <div class="ft-col">
       <span class="ft-h">Документы</span>
-      <a href="#">Реестр</a>
-      <a href="https://hotellegenda.ru/privacypolicy" target="_blank" rel="noopener">Политика конфиденциальности</a>
+      <a class="doc" href="https://tourism.fsa.gov.ru/ru/resorts/hotels/27b1db81-c608-11ef-92da-b31a8e03f896/about-resort" target="_blank" rel="noopener">Запись в реестре классифицированных средств размещения</a>
+      <a class="doc" href="https://hotellegenda.ru/privacypolicy" target="_blank" rel="noopener">Политика конфиденциальности</a>
     </div>
   </div>
   <div class="wrap ft-bot">© 2026 эко-отель «Легенда» · ИП Иригова А. Р., ИНН 500405068071</div>
@@ -708,6 +714,9 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 
   /* Расстояния от отеля, с единицами: '500 м', '5 км'. Пустые кавычки '' — строка не показывается */
   var DIST = {cheget:'500 м', azau:'5 км'};
+
+  /* Оценка на Яндекс Картах: обновляйте раз в месяц-два по карточке отеля */
+  var YA = {rating:'5,0', votes:'1293 оценки', url:'https://yandex.ru/maps/-/CXbtI4I5'};
 
   /* Номера: название, вместимость g, площадь m, цена «от» за ночь, метки, описание.
      hr — номер этого типа в HomeReserve (кнопка «Забронировать» открывает его). id не менять: к нему привязаны схемы. */
@@ -1117,6 +1126,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
   Object.keys(DIST).forEach(function(k){ var v = DIST[k];
     document.querySelectorAll('[data-dist="' + k + '"]').forEach(function(el){ var b = el.querySelector('.dv');
       if (v){ b.textContent = v; } else if (PREVIEW){ b.textContent = '[?]'; } else { el.classList.add('nodist'); } }); });
+  (function(){ var a = document.getElementById('heroRate'); if (!a) return; a.href = YA.url; a.querySelector('.rt').textContent = YA.rating; a.querySelector('.vt').textContent = YA.votes ? YA.votes + ' · ' : ''; a.setAttribute('aria-label', 'Оценка ' + YA.rating + ' из 5' + (YA.votes ? ', ' + YA.votes : '') + ' на Яндекс Картах'); })();
   document.getElementById('mapAzau').textContent = '← Азау · ' + (DIST.azau || '');
   document.getElementById('mapCheget').textContent = DIST.cheget ? DIST.cheget + ' от отеля' : '';
   document.getElementById('routeBtn').href = 'https://yandex.ru/maps/?rtext=~' + LAT + '%2C' + LON + '&rtt=auto';

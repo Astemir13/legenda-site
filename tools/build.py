@@ -79,24 +79,20 @@ def prefix(s):
 
 css = prefix(css)
 css = css.replace('#lg{scroll-behavior:smooth;', '#lg{')  # html{scroll-behavior} -> через JS
-css += '\n#lg .facts{grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px}\n@media (min-width:861px){#lg .why{grid-template-columns:repeat(2,minmax(0,1fr))}}\n#lg .fact-lift{grid-column:auto}\n#lg .nowx-hide{}\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n#lg{min-height:100vh;position:relative}\n'
+css += '\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n#lg{min-height:100vh;position:relative}\n'
 
 # ---------- Разметка ----------
 body = re.sub(r'<details class="wxpanel".*?</details>\n', '', body, flags=re.S)
 body = must(body, '<img src="__FACADE__"', '<img src="' + PHOTO + '" fetchpriority="high"')
 # заглушки
-body = re.sub(r'\s*<a class="fact" href="#reviews">.*?</a>', '', body, flags=re.S)
 body = re.sub(r'<section class="sec" id="reviews".*?</section>\n\n', '', body, flags=re.S)
 body = must(body, '<a href="#reviews">Отзывы</a>', '')
 body = re.sub(r'\s*<a href="#reviews">.*?Отзывы гостей</a>', '', body, flags=re.S)
-body = re.sub(r'\s*<div><span class="ic" aria-hidden="true">(?:(?!</div>).)*\[Ваш бонус\].*?</div>', '', body, count=1, flags=re.S)
-body = must(body, 'Бронируя напрямую — <b>[ваш бонус]</b> и без комиссии агрегаторов', 'Бронируя напрямую — без комиссии агрегаторов')
 body = must(body, ' — сауна ([цена]) и партия', ' — сауна и партия')
 body = must(body, ' (за питомца [доплата])', '')
 body = re.sub(r'\s*<div><span>[^<]*</span><span>\[[^\]]*\][^<]*</span></div>', '', body)
 body = re.sub(r'<section class="sec" id="faq".*?</section>\n\n', '', body, count=1, flags=re.S)
 body = re.sub(r'\s*<li data-ph>.*?</li>', '', body)
-body = must(body, '\n      <a href="#">Реестр</a>', '')
 assert '[' not in re.sub(r'<script.*?</script>', '', body, flags=re.S).replace('[open]', ''), re.findall(r'.{40}\[[^\]]*\].{20}', body)
 body = '<div id="lg" class="nowx">' + body.strip() + '\n</div>'
 

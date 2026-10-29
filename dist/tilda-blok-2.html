@@ -28,6 +28,9 @@
   /* Расстояния от отеля, с единицами: '500 м', '5 км'. Пустые кавычки '' — строка не показывается */
   var DIST = {cheget:'500 м', azau:'5 км'};
 
+  /* Оценка на Яндекс Картах: обновляйте раз в месяц-два по карточке отеля */
+  var YA = {rating:'5,0', votes:'1293 оценки', url:'https://yandex.ru/maps/-/CXbtI4I5'};
+
   /* Номера: название, вместимость g, площадь m, цена «от» за ночь, метки, описание.
      hr — номер этого типа в HomeReserve (кнопка «Забронировать» открывает его). id не менять: к нему привязаны схемы. */
   var rooms = [
@@ -420,6 +423,7 @@
   Object.keys(DIST).forEach(function(k){ var v = DIST[k];
     document.querySelectorAll('[data-dist="' + k + '"]').forEach(function(el){ var b = el.querySelector('.dv');
       if (v){ b.textContent = v; } else if (PREVIEW){ b.textContent = '[?]'; } else { el.classList.add('nodist'); } }); });
+  (function(){ var a = document.getElementById('heroRate'); if (!a) return; a.href = YA.url; a.querySelector('.rt').textContent = YA.rating; a.querySelector('.vt').textContent = YA.votes ? YA.votes + ' · ' : ''; a.setAttribute('aria-label', 'Оценка ' + YA.rating + ' из 5' + (YA.votes ? ', ' + YA.votes : '') + ' на Яндекс Картах'); })();
   document.getElementById('mapAzau').textContent = '← Азау · ' + (DIST.azau || '');
   document.getElementById('mapCheget').textContent = DIST.cheget ? DIST.cheget + ' от отеля' : '';
   document.getElementById('routeBtn').href = 'https://yandex.ru/maps/?rtext=~' + LAT + '%2C' + LON + '&rtt=auto';
