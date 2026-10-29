@@ -42,6 +42,17 @@
     {id:'barn', hr:231967, name:'Барнхаус «Легенда»', g:5, m:80, price:14000, half:true, tags:['до 5 гостей','80 м²','свой вход'], text:'Половина отдельного дома: два этажа и две спальни.'}
   ];
 
+  /* Фото номеров — файлы, загруженные в Тильду (адрес после static.tildacdn.com/). Первое фото — обложка карточки.
+     Чтобы добавить фото: загрузите его в Тильду, скопируйте адрес картинки и вставьте сюда кусок после static.tildacdn.com/ */
+  var PHOTOS = {
+    std2:['tild6562-3762-4365-b863-633164313833/IMG_7979_-fotor-2025.jpg', 'tild3635-3639-4938-b739-396563383233/IMG_8100_-fotor-2025.jpg', 'tild3830-6237-4264-b665-366333326339/IMG_7944_-fotor-2025.jpg', 'tild6664-3031-4238-a630-623563303835/IMG_8092_-fotor-2025.jpg', 'tild3562-6531-4439-a539-613262343866/IMG_8120_-fotor-2025.jpg', 'tild6365-3962-4839-b835-353731626662/IMG_7988_-fotor-2025.jpg', 'tild6532-3739-4131-b861-666236613261/IMG_7935_-fotor-2025.jpg', 'tild3233-3936-4162-a139-666161656661/IMG_7949_-fotor-2025.jpg'],
+    std3:['tild6263-6664-4561-a337-303462353165/IMG_7901-fotor-20250.jpg', 'tild3334-6439-4134-b531-336533656538/IMG_7903_-fotor-2025.jpg', 'tild6430-3833-4565-b331-646236336233/IMG_7902_-fotor-2025.jpg', 'tild3563-3036-4662-a462-613938613861/IMG_7904-fotor-20250.png', 'tild3533-3761-4237-b064-396562623331/IMG_7899-fotor-20250.jpg'],
+    semi:['tild6635-6432-4331-b266-636665363965/IMG_1300-fotor-20250.jpg', 'tild3764-6231-4364-b930-373564623861/IMG_5841_-fotor-2025.jpg', 'tild6133-6666-4263-b434-646533376162/IMG_7966_-fotor-2025.jpg', 'tild6633-3339-4437-b666-666364383862/IMG_7965_-fotor-2025.jpg', 'tild6634-3930-4538-a638-363563663739/IMG_4295-fotor-20250.jpg', 'tild6664-3435-4136-b435-383165656463/IMG_7994_-fotor-2025.jpg'],
+    fam:['tild3736-6266-4632-b531-643164336361/IMG_8071_-fotor-2025.jpg', 'tild6231-6132-4266-a664-306630373935/IMG_8074_-fotor-2025.jpg', 'tild3638-3766-4364-a266-616366346335/IMG_7994_-fotor-2025.jpg'],
+    lux:['tild3435-6263-4836-a337-616333343437/IMG_7920_-fotor-2025.jpg', 'tild3638-3537-4735-b661-346137363437/IMG_7922_-fotor-2025.jpg', 'tild3966-3330-4566-b466-356562376633/IMG_7907-fotor-20250.jpg', 'tild6662-3730-4065-a662-306366663935/IMG_7908_-fotor-2025.jpg', 'tild6263-3834-4334-b137-316432616464/IMG_7909_-fotor-2025.jpg', 'tild6565-6630-4734-b335-333462393937/IMG_7918_-fotor-2025.jpg', 'tild6135-6162-4638-a332-353832366236/IMG_7915_-fotor-2025.jpg', 'tild3031-6636-4362-b734-383865376136/IMG_7913_-fotor-2025.jpg'],
+    barn:['tild6662-3863-4162-a166-626632663066/5440642714493384045.jpg', 'tild6638-3962-4566-a432-656236396232/legenda.jpeg', 'tild3337-3865-4365-b266-343635623830/photo_2025-05-17_150.jpg', 'tild3838-3161-4662-a536-306663313934/photo_2025-05-17_150.jpg', 'tild6336-6166-4431-a561-313831353165/photo_2025-05-17_150.jpg', 'tild6462-3330-4434-a235-643835343561/photo_2025-05-17_150.jpg', 'tild6261-3936-4965-b531-313530623338/photo_2025-05-17_150.jpg', 'tild3131-3037-4363-b663-386532633130/photo_2025-05-17_150.jpg']
+  };
+
   /* ---------- Схемы планировок ----------
      Каждый номер описан в метрах: W×H — комната, дальше предметы. Чтобы уточнить конкретный номер,
      достаточно поправить его строку в PLANS (размеры, окна, кровати) — схема перерисуется сама.
@@ -85,6 +96,8 @@
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var rub = function(n){ return n.toLocaleString('ru-RU') + ' ₽'; };
+  function phUrl(p, w){ var i = p.indexOf('/'); return w ? 'https://thb.tildacdn.com/' + p.slice(0, i) + '/-/resize/' + w + 'x/-/format/webp/' + p.slice(i + 1) : 'https://static.tildacdn.com/' + p; }
+  var CHEV_L = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>', CHEV_R = CHEV_L.replace('M15 6l-6 6 6 6', 'M9 6l6 6-6 6');
   function plural(n,a,b,c){ var m=n%10,h=n%100; return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<12||h>14))?b:c; }
 
   function msk(){ var p = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',month:'numeric',hour12:false,timeZone:'Europe/Moscow'}).formatToParts(new Date()), o={}; p.forEach(function(x){o[x.type]=x.value;}); return o; }
@@ -329,7 +342,7 @@
   /* ---------- Подбор номера ---------- */
   var grid = document.getElementById('roomGrid');
   rooms.forEach(function(r){ var el = document.createElement('article'); el.className = 'room'; el.id = 'r-'+r.id;
-    el.innerHTML = '<div class="ph" data-view="plan"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="false">Фото</button><button type="button" data-v="plan" aria-pressed="true">План</button></div><div class="mphoto">фото номера</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><small class="fnote">Цены на ваши даты —<br>в бронировании</small><a class="btn btn-pine" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'">Забронировать</a></div></div>';
+    var ph = PHOTOS[r.id] || []; el.innerHTML = '<div class="ph" data-view="'+(ph.length ? 'photo' : 'plan')+'"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="'+!!ph.length+'">Фото</button><button type="button" data-v="plan" aria-pressed="'+!ph.length+'">План</button></div><div class="mphoto">'+(ph.length ? '<div class="mph-s">'+ph.map(function(u, i){ return '<img src="'+phUrl(u, 760)+'" alt="'+r.name+', фото '+(i+1)+'" loading="lazy" decoding="async" data-i="'+i+'">'; }).join('')+'</div>'+(ph.length > 1 ? '<span class="mph-n">1 / '+ph.length+'</span><button type="button" class="mph-a p" aria-label="Предыдущее фото">'+CHEV_L+'</button><button type="button" class="mph-a n" aria-label="Следующее фото">'+CHEV_R+'</button>' : '') : '<span class="mph-ph">фото номера</span>')+'</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><small class="fnote">Цены на ваши даты —<br>в бронировании</small><a class="btn btn-pine" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'">Забронировать</a></div></div>';
     grid.appendChild(el); });
   var NS = 'http://www.w3.org/2000/svg';
   function sv(tag, a, par){ var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (par) par.appendChild(e); return e; }
@@ -392,6 +405,26 @@
     box.addEventListener('click', function(){ openPlan(r.id, 0); }); });
   if (!reduce && 'IntersectionObserver' in window){ var pio = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ replay(e.target); pio.unobserve(e.target); } }); }, {threshold:.35});
     document.querySelectorAll('.room .pl').forEach(function(b){ b.classList.add('wait'); pio.observe(b); }); }
+
+  /* фото в карточках: листание свайпом и стрелками, по нажатию — галерея на весь экран */
+  document.querySelectorAll('.mph-s').forEach(function(s){ var box = s.parentNode, n = box.querySelector('.mph-n'), cnt = s.children.length, id = box.closest('.room').id.slice(2);
+    function idx(){ return Math.round(s.scrollLeft / Math.max(1, s.clientWidth)); }
+    s.addEventListener('scroll', function(){ if (n) n.textContent = (idx() + 1) + ' / ' + cnt; }, {passive:true});
+    box.querySelectorAll('.mph-a').forEach(function(a){ a.addEventListener('click', function(){ var k = idx() + (a.classList.contains('n') ? 1 : -1); if (k >= cnt) k = 0; if (k < 0) k = cnt - 1; s.scrollTo({left:k*s.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }); });
+    s.addEventListener('click', function(e){ var im = e.target.closest('img'); if (im) openGal(id, +im.dataset.i); }); });
+  var gal = document.getElementById('gal'), galS = document.getElementById('galS'), galN = document.getElementById('galN'), galLast = null;
+  function galIdx(){ return Math.round(galS.scrollLeft / Math.max(1, galS.clientWidth)); }
+  function openGal(id, i){ var ph = PHOTOS[id] || [], r = rooms.filter(function(x){ return x.id === id; })[0]; if (!ph.length) return; galLast = document.activeElement;
+    galS.innerHTML = ph.map(function(u, k){ return '<img src="' + phUrl(u, 0) + '" alt="' + r.name + ', фото ' + (k+1) + '"' + (Math.abs(k - i) > 1 ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
+    document.getElementById('galT').textContent = r.name; gal.hidden = false; document.documentElement.style.overflow = 'hidden';
+    galS.scrollLeft = i * galS.clientWidth; galN.textContent = (i + 1) + ' / ' + ph.length; document.getElementById('galX').focus(); }
+  function closeGal(){ gal.hidden = true; galS.innerHTML = ''; document.documentElement.style.overflow = ''; if (galLast) galLast.focus(); }
+  function galGo(d){ var c = galS.children.length, k = galIdx() + d; if (k >= c) k = 0; if (k < 0) k = c - 1; galS.scrollTo({left:k*galS.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }
+  galS.addEventListener('scroll', function(){ galN.textContent = (galIdx() + 1) + ' / ' + galS.children.length; }, {passive:true});
+  document.getElementById('galX').addEventListener('click', closeGal);
+  gal.querySelector('.gal-a.p').addEventListener('click', function(){ galGo(-1); });
+  gal.querySelector('.gal-a.n').addEventListener('click', function(){ galGo(1); });
+  document.addEventListener('keydown', function(e){ if (gal.hidden) return; if (e.key === 'Escape') closeGal(); else if (e.key === 'ArrowRight') galGo(1); else if (e.key === 'ArrowLeft') galGo(-1); });
 
   /* окно с планировками */
   var pm = document.getElementById('pm'), pmBd = document.getElementById('pmBd'), pmBox = document.getElementById('pmBox'), pmVars = document.getElementById('pmVars'), pmCur = null, pmLast = null;
