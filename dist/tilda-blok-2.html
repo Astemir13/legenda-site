@@ -25,6 +25,9 @@
      'glass' — плавающая стеклянная капсула: тёмная над фото, светлая ниже */
   var HDR_MODE = 'glass';
 
+  /* Вид первого экрана: 'clean' — чистая обложка (одна панель, кнопки, один цвет), 'classic' — прежняя (плашка погоды и три плитки) */
+  var HERO = 'clean';
+
   /* Расстояния от отеля, с единицами: '500 м', '5 км'. Пустые кавычки '' — строка не показывается */
   var DIST = {cheget:'500 м', azau:'5 км'};
 
@@ -189,6 +192,7 @@
     var L = LINES[W.kind], dark = W.dark;
     document.getElementById('nowLine').textContent = L[tp] || L[dark ? 'night' : 'day'];
     document.getElementById('nowIc').innerHTML = icon(W.kind, dark);
+    var hpI = document.getElementById('hpIc'); if (hpI){ hpI.innerHTML = icon(W.kind, dark); document.getElementById('hpT').textContent = 'Терскол · ' + t; document.getElementById('hpK').textContent = K.name; document.getElementById('hpLine').textContent = L[tp] || L[dark ? 'night' : 'day']; }
     W.windNow = wind;
     hdrScene.reset(); heroScene.reset(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); }
   }
@@ -334,7 +338,7 @@
     if (this.o.body){ var R = this.w < 700 ? 6 : 8, warm = W.phase !== 'day'; this.moon = moonSprite(R + 1); this.sun = sunSprite(R, warm); this.rays = raysSprite(R, warm); return; }
     var A = this.w*this.h, kind = K.precip, rgb = W.dark ? '214,224,240' : '255,255,255';
     /* осадки: пересобираем, только если сменился их вид — иначе снег не «прыгает» */
-    if (kindChanged || !this.p.length){ var n = Math.min(1100, Math.round(A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
+    if (kindChanged || !this.p.length){ var n = Math.min(1100, Math.round((this.o.soft ? .55 : 1)*A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
       for (i = 0; i < n; i++){ var z = i < n*LAYERS[0].part ? 0 : i < n*(LAYERS[0].part + LAYERS[1].part) ? 1 : 2, L = LAYERS[z], snow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i % 2);
         this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15)}); }
       this.p.sort(function(a, b){ return b.z - a.z; }); /* дальние — в конце: при нехватке сил телефона отбрасываются первыми */ }
@@ -342,10 +346,10 @@
     this.flakes = [flakeSprite(1, false, sc), flakeSprite(1.6, false, sc), flakeSprite(3.4, true, sc)];
     /* облака: дальний слой — мельче и медленнее, ближний — крупнее и быстрее; при сплошной облачности — плотная пелена */
     var cl = cloud/100, band = this.o.cloudBand || this.h, tone = cloudTone(cloud); this.clouds = [];
-    var nf = Math.max(cloud > 20 ? 2 : 0, Math.round(cl*this.w/150)), nn = Math.max(cloud > 30 ? 1 : 0, Math.round(cl*this.w/230));
+    var nf = this.o.noClouds ? 0 : Math.max(cloud > 20 ? 2 : 0, Math.round(cl*this.w/150)), nn = this.o.noClouds ? 0 : Math.max(cloud > 30 ? 1 : 0, Math.round(cl*this.w/230));
     for (i = 0; i < nf; i++){ var sz = band*rnd(.2, .32); this.clouds.push({z:0, x:rnd(-sz*3.6, this.w), y:band*rnd(-.05, .3) - sz*.9, v:rnd(.07, .14), s:cloudSprite(sz, tone, cloud > 85), a:rnd(.7, .9)}); }
     for (i = 0; i < nn; i++){ var sz2 = band*rnd(.32, .52); this.clouds.push({z:1, x:rnd(-sz2*3.6, this.w), y:band*rnd(.1, .5) - sz2*1.05, v:rnd(.18, .3), s:cloudSprite(sz2, tone, cloud > 85), a:1}); }
-    this.deck = cloud > 80 ? tone : null;
+    this.deck = cloud > 80 && !this.o.noClouds ? tone : null;
     /* дымка: туман, метель, пелена дождя */
     var hz = W.dark ? '150,160,178' : (W.phase === 'dawn' || W.phase === 'dusk') ? '240,230,224' : '244,246,248', hw = Math.min(2400, Math.round(this.w*1.4));
     var H = {fog:[[.0, .55, .9, .05, .2], [.35, .7, .85, .12, .26]], blizzard:[[.1, .6, .55, .9, .14], [.4, .65, .45, 1.6, .14]], heavysnow:[[.3, .7, .35, .25, .1]], rain:[[.35, .65, .3, .35, .08]], drizzle:[[.3, .7, .35, .12, .1]], sleet:[[.35, .65, .3, .3, .08]]}[K.fog ? 'fog' : kind] || [];
@@ -442,6 +446,11 @@
   function onScroll(){ var y = window.scrollY, solid = y > 24, heroEnd = heroEl.offsetTop + heroEl.offsetHeight - 72,
       light = (HDR_MODE === 'fade' || HDR_MODE === 'glass') ? y > heroEnd + 6 : solid;
     hdrEl.dataset.m = HDR_MODE; hdrEl.classList.toggle('light', light); hdrEl.classList.toggle('solid', solid); }
+  var ROOT = document.getElementById('lg') || document.documentElement;
+  function setHero(m){ HERO = m; ROOT.classList.toggle('hc', m === 'clean'); heroScene.o.noClouds = heroScene.o.soft = m === 'clean'; heroScene.key = ''; heroScene.p = []; heroScene.reset();
+    var hb = document.getElementById('heroModes'); if (hb) hb.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.hero === m); }); }
+  setHero(HERO);
+  var hbx = document.getElementById('heroModes'); if (hbx) hbx.addEventListener('click', function(e){ var b = e.target.closest('[data-hero]'); if (b) setHero(b.dataset.hero); });
   var hm = document.getElementById('hdrModes');
   if (hm){ function hmSync(){ hm.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.hm === HDR_MODE); }); }
     hm.addEventListener('click', function(e){ var b = e.target.closest('[data-hm]'); if (!b) return; HDR_MODE = b.dataset.hm; hmSync(); onScroll(); }); hmSync(); }
@@ -462,7 +471,8 @@
   function restOpen(){ return minutes >= REST.open*60 && minutes < REST.close*60; }
   function tick(){ o0 = msk(); minutes = (+o0.hour)*60 + (+o0.minute); if (!W.forced){ W.phase = phaseFor(minutes); } applyWeather();
     var open = restOpen(), l = document.getElementById('restLive'); l.classList.toggle('closed', !open); l.lastElementChild.textContent = open ? 'Ресторан открыт до ' + REST.close + ':00' : 'Ресторан откроется в ' + REST.open + ':00';
-    var hr = document.getElementById('heroRest'); hr.classList.toggle('closed', !open); hr.querySelector(':scope > div > span').textContent = open ? 'открыт до ' + REST.close + ':00' : 'откроется в ' + REST.open + ':00'; }
+    var hr = document.getElementById('heroRest'); hr.classList.toggle('closed', !open); hr.querySelector(':scope > div > span').textContent = open ? 'открыт до ' + REST.close + ':00' : 'откроется в ' + REST.open + ':00';
+    var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').textContent = hr.querySelector(':scope > div > span').textContent; } }
 
 
   W.phase = phaseFor(minutes); W.kind = (month >= 11 || month <= 3) ? 'snow' : 'clear';
@@ -607,6 +617,7 @@
   Object.keys(DIST).forEach(function(k){ var v = DIST[k];
     document.querySelectorAll('[data-dist="' + k + '"]').forEach(function(el){ var b = el.querySelector('.dv');
       if (v){ b.textContent = v; } else if (PREVIEW){ b.textContent = '[?]'; } else { el.classList.add('nodist'); } }); });
+  (function(){ var b = document.getElementById('hpRate'); if (b){ b.href = YA.url; b.querySelector('.rt').textContent = YA.rating; b.querySelector('.vv').textContent = YA.votes ? YA.votes + ' · ' : ''; } })();
   (function(){ var a = document.getElementById('heroRate'); if (!a) return; a.href = YA.url; a.querySelector('.rt').textContent = YA.rating; a.querySelector('.vt').textContent = YA.votes ? YA.votes + ' · ' : ''; a.setAttribute('aria-label', 'Оценка ' + YA.rating + ' из 5' + (YA.votes ? ', ' + YA.votes : '') + ' на Яндекс Картах'); })();
   document.getElementById('mapAzau').textContent = '← Азау · ' + (DIST.azau || '');
   document.getElementById('mapCheget').textContent = DIST.cheget ? DIST.cheget + ' от отеля' : '';
