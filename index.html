@@ -20,7 +20,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--sky1);transition:background 1s}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:1002;background:var(--sky1);transition:background 1s}
 a{color:var(--pine)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
 h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-height:1.08;margin:0;text-wrap:balance}
@@ -40,7 +40,7 @@ p{margin:0}
 
 /* ---------- Живая шапка ---------- */
 /* Шапка прозрачная над фото: небо шапки и небо фото — одна сцена без шва. При прокрутке шапка плавно получает свой фон. */
-.hdr{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:58;height:72px;color:var(--hdr-ink);transition:color .8s;overflow:hidden}
+.hdr{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:1000;height:72px;color:var(--hdr-ink);transition:color .8s;overflow:hidden}
 .hdr::before{content:"";position:absolute;inset:0;background:var(--sky1);background:color-mix(in srgb,var(--sky1) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);opacity:0;transition:opacity .35s, background .5s;box-shadow:inset 0 -1px 0 rgba(255,255,255,.12)}
 .hdr.solid::before{opacity:1}
 .hdr canvas{transition:opacity .4s}
@@ -78,9 +78,9 @@ section[id]{scroll-margin-top:84px}
 .logo .chev{width:14px;height:14px;opacity:.75;transition:transform .25s}
 .logo[aria-expanded="true"] .chev{transform:rotate(180deg)}
 /* Меню по нажатию на логотип */
-.menu-bd{position:fixed;inset:0;z-index:57;background:rgba(10,18,28,.35);opacity:0;transition:opacity .25s;pointer-events:none}
+.menu-bd{position:fixed;inset:0;z-index:999;background:rgba(10,18,28,.35);opacity:0;transition:opacity .25s;pointer-events:none}
 .menu-bd.on{opacity:1;pointer-events:auto}
-.menu{position:fixed;z-index:59;top:calc(76px + env(safe-area-inset-top,0px));left:max(16px,calc((100vw - 1240px)/2 + 24px));width:min(400px,calc(100vw - 32px));max-height:calc(100dvh - 96px);overflow:auto;background:var(--card);color:var(--ink);border-radius:22px;box-shadow:0 24px 60px rgba(10,18,28,.28);padding:10px;opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top left;transition:opacity .2s, transform .25s;pointer-events:none;visibility:hidden}
+.menu{position:fixed;z-index:1001;top:calc(76px + env(safe-area-inset-top,0px));left:max(16px,calc((100vw - 1240px)/2 + 24px));width:min(400px,calc(100vw - 32px));max-height:calc(100dvh - 96px);overflow:auto;background:var(--card);color:var(--ink);border-radius:22px;box-shadow:0 24px 60px rgba(10,18,28,.28);padding:10px;opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top left;transition:opacity .2s, transform .25s;pointer-events:none;visibility:hidden}
 .menu.on{opacity:1;transform:none;pointer-events:auto;visibility:visible}
 .menu-now{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,var(--sky1),var(--sky2));color:var(--hdr-ink);font-size:14px;font-weight:500;transition:background 1s}
 .menu-now b{font-family:var(--display);font-weight:600;font-size:16px}
@@ -231,7 +231,7 @@ section[id]{scroll-margin-top:84px}
 .room:hover .mph-a,.mph-a:focus-visible{opacity:1}
 @media (hover:none){.mph-a{display:none}}
 /* галерея на весь экран */
-.gal{position:fixed;inset:0;z-index:80;background:rgba(8,12,18,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.gal{position:fixed;inset:0;z-index:1100;background:rgba(8,12,18,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .gal[hidden]{display:none}
 .gal-s{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior:contain}
 .gal-s::-webkit-scrollbar{display:none}
@@ -275,9 +275,9 @@ section[id]{scroll-margin-top:84px}
 @keyframes pdraw{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
 @keyframes pfade{from{opacity:0}to{opacity:1}}
 /* Окно с планировками */
-.pm-bd{position:fixed;inset:0;z-index:70;background:rgba(10,18,28,.5);opacity:0;pointer-events:none;transition:opacity .25s}
+.pm-bd{position:fixed;inset:0;z-index:1050;background:rgba(10,18,28,.5);opacity:0;pointer-events:none;transition:opacity .25s}
 .pm-bd.on{opacity:1;pointer-events:auto}
-.pm{position:fixed;z-index:71;left:50%;top:50%;width:min(860px,calc(100vw - 32px));max-height:calc(100dvh - 40px);overflow:auto;transform:translate(-50%,-48%) scale(.98);opacity:0;visibility:hidden;transition:opacity .25s, transform .3s, visibility 0s .3s;background:var(--card);border-radius:24px;box-shadow:0 30px 80px rgba(10,18,28,.35);padding:20px}
+.pm{position:fixed;z-index:1051;left:50%;top:50%;width:min(860px,calc(100vw - 32px));max-height:calc(100dvh - 40px);overflow:auto;transform:translate(-50%,-48%) scale(.98);opacity:0;visibility:hidden;transition:opacity .25s, transform .3s, visibility 0s .3s;background:var(--card);border-radius:24px;box-shadow:0 30px 80px rgba(10,18,28,.35);padding:20px}
 .pm.on{opacity:1;visibility:visible;transform:translate(-50%,-50%);transition:opacity .25s, transform .3s}
 .pm-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .pm-h h3{font-size:24px}
@@ -498,7 +498,7 @@ footer{padding-block:48px 120px;font-size:15px;color:var(--ink2);border-top:1px 
 body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,245,0) 70%),radial-gradient(900px 640px at 100% 1700px,#F5E8D5 0,rgba(245,232,213,0) 70%),radial-gradient(1000px 700px at 0% 2900px,#E0EEE7 0,rgba(224,238,231,0) 70%),radial-gradient(900px 640px at 100% 4100px,#DCEAF5 0,rgba(220,234,245,0) 70%),var(--bg);background-repeat:no-repeat}
 /* шапка-капсула: тот же блик */
 .hdr[data-m="glass"].solid:not(.light)::after{background:var(--sheen),rgba(14,22,32,.42);box-shadow:var(--gd-rim),0 10px 30px rgba(0,0,0,.22)}
-.hdr[data-m="glass"].light::before{box-shadow:var(--gl-rim),0 10px 30px rgba(19,32,42,.14)}
+.hdr[data-m="glass"].light::before{background:rgba(250,252,253,.86);-webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6);box-shadow:var(--gl-rim),inset 0 0 0 1px rgba(19,32,42,.07),0 12px 34px rgba(19,32,42,.18)}
 /* тёмное стекло поверх фото */
 .now,.fact{background:var(--sheen),rgba(12,20,28,.36);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);box-shadow:var(--gd-rim),0 8px 24px rgba(0,0,0,.16)}
 a.fact{transition:background .2s, transform .15s}
@@ -581,10 +581,10 @@ a.fact:hover{background:var(--sheen),rgba(12,20,28,.5);transform:translateY(-1px
 .lsub{white-space:nowrap}
 :root.hc .lsub{display:block;font:600 10px var(--body);letter-spacing:.16em;text-transform:uppercase;opacity:.78;margin-top:5px}
 :root.hc .now,:root.hc .facts{display:none}
-:root.hc .hcta{display:flex;align-items:center;gap:8px 22px;flex-wrap:wrap;margin-top:26px}
-:root.hc .hcta .btn{min-height:54px;padding:0 24px 0 26px;gap:12px;font-size:16px}
-.hlink{display:inline-flex;align-items:center;gap:10px;min-height:48px;color:#fff;text-decoration:none;font-weight:600;font-size:16px;text-shadow:0 1px 10px rgba(0,0,0,.3)}
-.hlink:hover{text-decoration:underline;text-underline-offset:4px}
+:root.hc .hcta{display:flex;align-items:center;gap:10px 12px;flex-wrap:wrap;margin-top:26px}
+:root.hc .hcta .btn{min-height:54px;padding:0 26px;font-size:16px}
+.hlink{color:#fff;background:var(--sheen),rgba(12,20,28,.32);-webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5);box-shadow:var(--gd-rim),0 6px 18px rgba(0,0,0,.14)}
+.hlink:hover{background:var(--sheen),rgba(255,255,255,.18)}
 :root.hc .hero h1{font-size:clamp(42px,6vw,78px);letter-spacing:-.03em;line-height:1.02}
 :root.hc .hero .lead{max-width:40ch}
 :root.hc .hero-in{justify-content:flex-end}
@@ -623,8 +623,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 @media (max-width:760px){
   :root.hc .hero-in{min-height:min(760px,92svh)}
   :root.hc .hero h1{font-size:clamp(38px,11vw,48px)}
-  :root.hc .hcta{margin-top:20px;gap:6px 18px}
-  :root.hc .hcta .btn{min-height:50px;padding:0 18px 0 20px;font-size:15.5px}
+  :root.hc .hcta{margin-top:20px;gap:8px 10px}
+  :root.hc .hcta .btn{min-height:50px;padding:0 20px;font-size:15.5px}
   :root.hc .hpanel{margin-top:22px;border-radius:20px}
   .hp-c{padding:12px 14px;gap:10px}
   .hp-c>svg,.hp-ic svg{width:19px;height:19px}
@@ -681,7 +681,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     <div class="hero-copy">
       <h1>Тёплый дом у подножия Чегета</h1>
       <p class="lead">Эко-отель из сруба на 17 номеров: вид на горы, ресторан, сауна и беседка с мангалом.</p>
-      <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="hlink" href="#hotel">Об отеле <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+      <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel">
       <div class="hp-c hp-dist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/></svg><div data-dist="cheget"><b class="dv">— км</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">— км</b><span>до Азау</span></div></div>
@@ -879,7 +879,6 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   <div class="wxbody">
     <p class="wxnote" id="wxNote">Загружаем погоду…</p>
     <span class="wxh">Состояние</span><div class="wxkinds" id="wxKinds"></div>
-    <span class="wxh">Время суток</span><div class="wxphases" id="wxPhases"></div>
     <span class="wxh">Обложка</span><div class="wxphases hm3" id="heroModes"><button type="button" data-hero="clean">Чистая</button><button type="button" data-hero="classic">Прежняя</button></div>
     <span class="wxh">Шапка при прокрутке</span><div class="wxphases hm3" id="hdrModes"><button type="button" data-hm="fade">Тёмное стекло</button><button type="button" data-hm="light">Светлая</button><button type="button" data-hm="pill">Капсула</button><button type="button" data-hm="glass">Стекло-капсула</button></div>
     <div class="wxbtns"><button type="button" class="btn btn-soft" id="wxAuto" style="min-height:44px;padding:0 12px">Вернуть реальную погоду</button><button type="button" class="btn btn-pine" id="wxClose" style="min-height:44px;padding:0 18px">Закрыть</button></div>
@@ -1389,9 +1388,9 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   /* Панель предпросмотра погоды */
   var kindsBox = document.getElementById('wxKinds'), phBox = document.getElementById('wxPhases');
   kindsBox.innerHTML = ORDER.map(function(k){ return '<button type="button" data-k="' + k + '" aria-pressed="false">' + icon(k, false) + KINDS[k].name + '</button>'; }).join('');
-  phBox.innerHTML = Object.keys(PHASES).map(function(p){ return '<button type="button" data-ph="' + p + '" aria-pressed="false">' + PHASES[p] + '</button>'; }).join('');
+  if (phBox) phBox.innerHTML = Object.keys(PHASES).map(function(p){ return '<button type="button" data-ph="' + p + '" aria-pressed="false">' + PHASES[p] + '</button>'; }).join('');
   kindsBox.addEventListener('click', function(e){ var b = e.target.closest('[data-k]'); if (!b) return; W.forced = true; W.kind = b.dataset.k; applyWeather(); });
-  phBox.addEventListener('click', function(e){ var b = e.target.closest('[data-ph]'); if (!b) return; W.forced = true; W.phase = b.dataset.ph; applyWeather(); });
+  if (phBox) phBox.addEventListener('click', function(e){ var b = e.target.closest('[data-ph]'); if (!b) return; W.forced = true; W.phase = b.dataset.ph; applyWeather(); });
   document.getElementById('wxAuto').addEventListener('click', function(){ W.forced = false; W.phase = phaseFor(minutes); loadWeather(); });
 
   W.phase = phaseFor(minutes); W.kind = (month >= 11 || month <= 3) ? 'snow' : 'clear';
