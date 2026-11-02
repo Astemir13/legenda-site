@@ -640,6 +640,26 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 @media (max-width:620px){:root.hc .lsub{font-size:8.5px;letter-spacing:.12em;margin-top:3px}}
 @media (max-width:400px){:root.hc .lsub{font-size:8px;letter-spacing:.04em}}
 @media (max-width:385px){:root.hc .lsub{display:none}}
+
+/* подвал: бренд + документы */
+.ft{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start}
+.ft-mail{display:inline-flex;align-items:center;gap:8px;margin-top:10px;min-height:40px;color:var(--ink);text-decoration:none;font-weight:500}
+.ft-mail svg{color:var(--pine)}
+.ft-mail:hover{color:var(--pine)}
+.ft-docs{gap:8px}
+.ft-doc{display:flex!important;align-items:center;gap:14px;padding:12px 14px 12px 12px;border-radius:18px;text-decoration:none!important;color:var(--ink);background:var(--sheen),rgba(255,255,255,.55);box-shadow:var(--gl-rim),0 1px 3px rgba(19,32,42,.05);transition:background .2s, transform .15s, box-shadow .2s;align-self:stretch!important;min-height:0!important}
+.ft-doc:hover{background:var(--sheen),rgba(255,255,255,.85);transform:translateY(-1px);box-shadow:var(--gl-rim),0 8px 20px rgba(19,32,42,.08)}
+.ft-doc>span:nth-child(2){flex:1;min-width:0}
+.ft-doc b{display:block;font:600 15px var(--display);line-height:1.3;color:var(--ink)}
+.ft-doc small{display:block;font-size:13px;color:var(--ink2);line-height:1.35;margin-top:2px}
+.ft-arr{flex:none;color:var(--ink2);transition:transform .2s, color .2s}
+.ft-doc:hover .ft-arr{color:var(--pine);transform:translate(2px,-2px)}
+@media (max-width:760px){.ft{grid-template-columns:1fr;gap:24px}}
+@media (hover:none){.ft-doc:hover{transform:none}}
+/* стеклянная капсула шапки: тень не обрезается краем шапки */
+.hdr[data-m="glass"].solid{overflow:visible}
+/* значок трубки — всегда фирменный зелёный */
+:root.hc .call .ci,:root.hc .hdr.light .call .ci,:root.hc .hdr.solid .call .ci{background:var(--pine);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
 </style>
 
 <header class="hdr" id="hdr">
@@ -859,16 +879,12 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     <div class="ft-brand">
       <span class="ft-logo"><svg class="ft-mk" viewBox="229 128.3 474.8 185.7" aria-hidden="true"><g transform="translate(0,698) scale(0.1,-0.1)"><path fill="currentColor" d="M3875 5529 c-143 -138 -259 -256 -257 -262 2 -7 41 -119 88 -250 47 -131 84 -241 81 -243 -2 -3 -118 38 -257 91 l-252 95 -316 -303 c-174 -166 -414 -394 -533 -507 -119 -113 -217 -208 -218 -213 -1 -4 61 41 137 101 75 59 326 256 557 437 l419 328 399 -132 c219 -73 400 -131 403 -129 2 3 -63 150 -146 328 -82 177 -148 326 -145 330 2 4 72 60 154 124 97 75 155 115 163 110 33 -20 1058 -837 1055 -841 -3 -2 -121 44 -263 102 -142 58 -263 104 -269 101 -7 -2 -140 -161 -297 -353 -157 -191 -317 -387 -357 -435 -40 -49 -70 -88 -68 -88 3 0 172 157 378 349 205 192 377 347 383 345 32 -10 799 -194 809 -193 7 0 -103 112 -243 250 l-255 250 65 60 c36 32 70 57 77 55 6 -3 407 -252 890 -554 959 -599 915 -572 893 -550 -8 9 -226 188 -485 398 -258 210 -656 534 -883 719 -227 185 -417 337 -421 339 -4 1 -57 -57 -116 -130 -60 -73 -121 -148 -136 -165 l-28 -33 -366 358 c-201 196 -369 358 -373 359 -4 1 -124 -111 -267 -248z"/></g></svg>ЛЕГЕНДА</span>
       <p>Эко-отель в Терсколе<br>с. Терскол, ул. Чегет, 5А</p>
+      <a class="ft-mail" href="mailto:Legenda_hotel@mail.ru"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Legenda_hotel@mail.ru</a>
     </div>
-    <div class="ft-col">
-      <span class="ft-h">Контакты</span>
-      <a href="tel:+79993000088">+7 999 300-00-88</a>
-      <a href="mailto:Legenda_hotel@mail.ru">Legenda_hotel@mail.ru</a>
-    </div>
-    <div class="ft-col">
+    <div class="ft-col ft-docs">
       <span class="ft-h">Документы</span>
-      <a class="doc" href="https://tourism.fsa.gov.ru/ru/resorts/hotels/27b1db81-c608-11ef-92da-b31a8e03f896/about-resort" target="_blank" rel="noopener">Запись в реестре классифицированных средств размещения</a>
-      <a class="doc" href="https://hotellegenda.ru/privacypolicy" target="_blank" rel="noopener">Политика конфиденциальности</a>
+      <a class="ft-doc" href="https://tourism.fsa.gov.ru/ru/resorts/hotels/27b1db81-c608-11ef-92da-b31a8e03f896/about-resort" target="_blank" rel="noopener"><span class="gc" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span><b>Реестр средств размещения</b><small>Запись о классификации отеля</small></span><svg class="ft-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a class="ft-doc" href="https://hotellegenda.ru/privacypolicy" target="_blank" rel="noopener"><span class="gc" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><span><b>Политика конфиденциальности</b><small>Как мы обращаемся с данными гостей</small></span><svg class="ft-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
     </div>
   </div>
   <div class="wrap ft-bot">© 2026 эко-отель «Легенда» · ИП Иригова А. Р., ИНН 500405068071</div>
