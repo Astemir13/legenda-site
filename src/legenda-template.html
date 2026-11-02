@@ -1263,12 +1263,13 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     if (this.o.body) return this.drawBody(t, cloud, night);
     /* свет солнца на фото: тёплое свечение сверху со стороны солнца; ночью — холодный лунный отсвет */
     var kb = bodyK();
-    if (!K.precip && cloud < 75){ var clear = 1 - cloud/75, warm = W.phase === 'dawn' || W.phase === 'dusk', sx = w*(.1 + .8*kb), rg;
+    /* в чистой обложке фото уже со своим светом — время суток поверх него не рисуем: только погода */
+    if (!this.o.soft && !K.precip && cloud < 75){ var clear = 1 - cloud/75, warm = W.phase === 'dawn' || W.phase === 'dusk', sx = w*(.1 + .8*kb), rg;
       if (!W.dark){ rg = x.createRadialGradient(sx, -h*.08, 0, sx, -h*.08, Math.max(w, h)*.75); var c0 = warm ? '255,190,130' : '255,244,214', a0 = (warm ? .34 : .16)*clear*(.92 + .08*Math.sin(t*.0005));
         rg.addColorStop(0, 'rgba(' + c0 + ',' + a0 + ')'); rg.addColorStop(.45, 'rgba(' + c0 + ',' + (a0*.35) + ')'); rg.addColorStop(1, 'rgba(' + c0 + ',0)'); x.fillStyle = rg; x.fillRect(0, 0, w, h); }
       else if (night){ var mf = (1 - Math.cos(2*Math.PI*moonPhase()))/2; rg = x.createRadialGradient(sx, -h*.1, 0, sx, -h*.1, w*.6); rg.addColorStop(0, 'rgba(200,215,255,' + (.12*mf*clear) + ')'); rg.addColorStop(1, 'rgba(200,215,255,0)'); x.fillStyle = rg; x.fillRect(0, 0, w, h); } }
     /* звёзды: мерцают каждая в своём ритме и цвете, к низу полосы неба гаснут */
-    if (W.starK > 0 && cloud < 60){ var as = W.starK*(1 - cloud/60);
+    if (!this.o.soft && W.starK > 0 && cloud < 60){ var as = W.starK*(1 - cloud/60);
       for (i = 0; i < this.stars.length; i++){ var s = this.stars[i], fade = this.o.starBand ? Math.max(0, 1 - s.y/band) : 1, tw = .4 + .6*(.5 + .5*Math.sin(t*s.sp + s.p)), al = as*tw*fade; if (al < .02) continue;
         if (s.big){ x.globalAlpha = al; x.drawImage(this.glint.c, s.x - 7, s.y - 7, 14, 14); x.globalAlpha = 1; }
         else { x.fillStyle = 'rgba(' + s.c + ',' + al.toFixed(3) + ')'; x.fillRect(s.x - s.r, s.y - s.r, s.r*2, s.r*2); } }
@@ -1321,7 +1322,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
           var k2 = ln/rv; x.moveTo(P.x, P.y); x.lineTo(P.x - rx*k2, P.y - ln); }
         x.stroke(); } } };
   /* шапка: солнце с медленно вращающимися лучами или луна в реальной фазе */
-  Scene.prototype.drawBody = function(t, cloud, night){ var x = this.x, w = this.w, h = this.h;
+  Scene.prototype.drawBody = function(t, cloud, night){ var x = this.x, w = this.w, h = this.h; if (this.o.noBody) return;
     if (cloud < 85){ var k = bodyK(), Z = hdrZone();
       if (Z){ var bx = Z[0] + k*(Z[1] - Z[0]), by = 22 + (1 - Math.sin(k*Math.PI))*24 + Math.sin(t*.0006)*1, spr = night ? this.moon : (W.starK > .5 ? null : this.sun), vis = Math.max(0, 1 - cloud/85);
         if (spr){ var br = .94 + .06*Math.sin(t*.0012);
@@ -1349,7 +1350,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
       light = (HDR_MODE === 'fade' || HDR_MODE === 'glass') ? y > heroEnd + 6 : solid;
     hdrEl.dataset.m = HDR_MODE; hdrEl.classList.toggle('light', light); hdrEl.classList.toggle('solid', solid); }
   var ROOT = document.getElementById('lg') || document.documentElement;
-  function setHero(m){ HERO = m; ROOT.classList.toggle('hc', m === 'clean'); heroScene.o.noClouds = heroScene.o.soft = m === 'clean'; heroScene.key = ''; heroScene.p = []; heroScene.reset();
+  function setHero(m){ HERO = m; ROOT.classList.toggle('hc', m === 'clean'); heroScene.o.noClouds = heroScene.o.soft = hdrScene.o.noBody = m === 'clean'; heroScene.key = ''; heroScene.p = []; heroScene.reset();
     var hb = document.getElementById('heroModes'); if (hb) hb.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.hero === m); }); }
   setHero(HERO);
   var hbx = document.getElementById('heroModes'); if (hbx) hbx.addEventListener('click', function(e){ var b = e.target.closest('[data-hero]'); if (b) setHero(b.dataset.hero); });
