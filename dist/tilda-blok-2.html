@@ -174,7 +174,7 @@
     document.getElementById('wxChip').innerHTML = icon(W.kind, night) + '<b>' + t + '</b><span>' + K.name + '</span>';
     document.getElementById('nowTxt').innerHTML = '<span class="sg">Терскол, ' + o0.hour + ':' + o0.minute + '</span><span class="sg tp">' + t + '</span>' + (wind >= 25 ? '<span class="sg">ветер ' + wind + ' км/ч</span>' : '');
     document.getElementById('nowIc').innerHTML = icon(W.kind, W.dark);
-    var hpI = document.getElementById('hpIc'); if (hpI){ hpI.innerHTML = icon(W.kind, W.dark); document.getElementById('hpT').textContent = 'Терскол · ' + t; document.getElementById('hpK').textContent = K.name; }
+    var hpI = document.getElementById('hpIc'); if (hpI){ hpI.innerHTML = icon(W.kind, W.dark); document.getElementById('hpT').textContent = t; document.getElementById('hpK').textContent = K.name.toLowerCase(); document.getElementById('hpW').textContent = 'ветер ' + wind + ' км/ч'; }
     W.windNow = wind;
     hdrScene.reset(); heroScene.reset(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); }
   }
@@ -444,7 +444,6 @@
   var lb = document.getElementById('logoBtn'), sm = document.getElementById('siteMenu'), bd = document.getElementById('menuBd');
   function setMenu(open){ lb.setAttribute('aria-expanded', open); sm.classList.toggle('on', open); bd.classList.toggle('on', open);
     if (open){ var c = document.getElementById('wxChip'); document.getElementById('menuWx').innerHTML = 'Сейчас в Терсколе <b>' + (c.querySelector('b') ? c.querySelector('b').textContent : '') + '</b> · ' + KINDS[W.kind].name.toLowerCase();
-      var op = restOpen(); document.getElementById('menuRest').textContent = op ? 'Ресторан открыт' : 'Ресторан с ' + REST.open + ':00';
       setTimeout(function(){ var f = sm.querySelector('a'); if (f) f.focus({preventScroll:true}); }, 60); } }
   lb.addEventListener('click', function(){ setMenu(lb.getAttribute('aria-expanded') !== 'true'); });
   bd.addEventListener('click', function(){ setMenu(false); });
