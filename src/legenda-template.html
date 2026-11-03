@@ -968,6 +968,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 
   /* Погода: координаты отеля (Яндекс Карты) и высота над морем, м */
   var LAT = 43.246012, LON = 42.526408, ELEV = 2150;
+  /* куда смотрит камера на фото обложки, градусы от севера: фасад обращён на север (~7°, панорама Яндекс Карт), камера снимает его наискосок — на юго-восток, ~155° (оценка владельца), восток слева */
+  var CAM = 155;
 
   /* Шапка при прокрутке: 'fade' — тёмное матовое стекло над фото, светлое ниже;
      'light' — сразу светлое стекло; 'pill' — сразу светлая плавающая капсула;
@@ -1126,7 +1128,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     document.getElementById('nowIc').innerHTML = icon(W.kind, W.dark);
     var hpI = document.getElementById('hpIc'); if (hpI){ hpI.innerHTML = icon(W.kind, W.dark); document.getElementById('hpT').textContent = t; document.getElementById('hpK').textContent = K.name.toLowerCase(); document.getElementById('hpW').textContent = 'ветер ' + wind + ' км/ч'; }
     W.windNow = wind; W.tempNow = temp;
-    var dxw = W.forced || W.wdir == null ? 1 : -Math.sin(W.wdir*Math.PI/180); W.wsgn = dxw >= 0 ? Math.max(.5, dxw) : Math.min(-.5, dxw);
+    var dxw = W.forced || W.wdir == null ? 1 : -Math.sin((W.wdir - CAM)*Math.PI/180); W.wsgn = dxw >= 0 ? Math.max(.5, dxw) : Math.min(-.5, dxw);
     var sd = W.forced ? (PREVIEW && /snow|blizzard/.test(K.precip || '') ? .85 : null) : W.snowD, sdE = document.getElementById('hpSD'); if (sdE) sdE.textContent = sd != null && sd >= .02 ? 'снега ' + Math.round(sd*100) + ' см' : '';
     document.getElementById('wxMode').textContent = W.forced ? 'предпросмотр' : (W.live ? 'реальная' : 'демо');
     document.querySelectorAll('[data-k]').forEach(function(bt){ bt.setAttribute('aria-pressed', W.forced && bt.dataset.k === W.kind); });
