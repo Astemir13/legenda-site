@@ -1,3 +1,5 @@
 .DS_Store
 __pycache__/
 *.bak*.html
+shots/
+node_modules/
