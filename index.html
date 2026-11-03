@@ -1332,7 +1332,6 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
           x.globalAlpha = al2; x.drawImage(this.glint.c, M.x - 5, M.y - 5, 10, 10); x.globalAlpha = 1; if (M.life >= 1) this.met = null; } } }
     /* пелена сплошной облачности */
     if (this.deck){ var cb = this.o.cloudBand || h, dg = x.createLinearGradient(0, 0, 0, cb*1.5); dg.addColorStop(0, 'rgba(' + this.deck.sh + ',' + (this.deck.a*.7) + ')'); dg.addColorStop(.55, 'rgba(' + this.deck.sh + ',' + (this.deck.a*.3) + ')'); dg.addColorStop(1, 'rgba(' + this.deck.sh + ',0)'); x.fillStyle = dg; x.fillRect(0, 0, w, cb*1.5); }
-    if (this.o.soft){ var V = VEIL[K.thunder ? 'thunder' : W.kind]; if (V){ var vg = x.createLinearGradient(0, 0, 0, h); V.forEach(function(st){ vg.addColorStop(st[0], 'rgba(' + st[1] + ',' + st[2] + ')'); }); x.fillStyle = vg; x.fillRect(0, 0, w, h); } }
     this.drawClouds(0, wx, move);
     /* молния позади ближних облаков */
     if (BOLT && BOLT.segs && BOLT.a > .02){ x.save(); x.globalCompositeOperation = 'lighter'; x.lineCap = 'round'; x.lineJoin = 'round';
@@ -1471,17 +1470,21 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   function drawLight(move){ if (!LT.x) return; if (!LT.w) lightSize(); var on = heroScene.o.soft, K = KINDS[W.kind];
     var want = on && (K.thunder || K.precip === 'blizzard' || K.precip === 'heavysnow' || K.precip === 'rain' || K.precip === 'sleet') ? 1 : 0;
     LT.a += (want - LT.a)*Math.min(1, .025*move); if (Math.abs(want - LT.a) < .004) LT.a = want;
-    var fl = on && !reduce ? W.flash : 0, key = LT.a.toFixed(3) + '|' + fl.toFixed(3) + '|' + LT.w; if (key === LT.last) return; LT.last = key;
-    var x = LT.x, w = LT.w, h = LT.h, pm = heroScene.pm, act = LT.a > .01 || fl > .02; x.clearRect(0, 0, w, h);
+    var vk = on ? (K.thunder ? 'thunder' : W.kind) : '', V = VEIL[vk];
+    /* окна разгораются ступенями — слой перерисовывается ~12 раз, а не каждый кадр */
+    var fl = on && !reduce ? W.flash : 0, key = Math.round(LT.a*12) + '|' + fl.toFixed(3) + '|' + LT.w + '|' + LT.h + '|' + (V ? vk : ''); if (key === LT.last) return; LT.last = key;
+    var x = LT.x, w = LT.w, h = LT.h, pm = heroScene.pm, act = !!V || LT.a > .01 || fl > .02; x.clearRect(0, 0, w, h);
     /* слой света включаем, только когда есть что показать */
     if (act !== LT.on){ LT.on = act; LT.c.style.display = act ? '' : 'none'; } if (!pm || !act) return;
+    /* тон воздуха при осадках — здесь, а не в кадре частиц: рисуется только при смене погоды */
+    if (V){ var vg = x.createLinearGradient(0, 0, 0, h); V.forEach(function(st){ vg.addColorStop(st[0], 'rgba(' + st[1] + ',' + st[2] + ')'); }); x.fillStyle = vg; x.fillRect(0, 0, w, h); }
     if (fl > .02 && heroScene.skyM){ var bx = BOLT ? BOLT.x : w/2, sheet = BOLT && !BOLT.segs, g = x.createRadialGradient(bx, h*.25, 0, bx, h*.25, Math.max(w, h)*.7);
       g.addColorStop(0, 'rgba(176,194,255,' + (fl*(sheet ? 1 : .8)).toFixed(3) + ')'); g.addColorStop(1, 'rgba(176,194,255,' + (fl*.15).toFixed(3) + ')'); x.fillStyle = g; x.fillRect(0, 0, w, h);
       x.globalCompositeOperation = 'destination-in'; x.drawImage(heroScene.skyM, 0, 0, heroScene.dgw*4, heroScene.dgh*4); x.globalCompositeOperation = 'source-over'; }
     if (fl > .02 && BOLT && BOLT.segs){ var g2 = x.createRadialGradient(BOLT.x, 0, 0, BOLT.x, 0, Math.max(w, h)*1.1);
       g2.addColorStop(0, 'rgba(150,172,236,' + (fl*.55).toFixed(3) + ')'); g2.addColorStop(.55, 'rgba(120,142,205,' + (fl*.24).toFixed(3) + ')'); g2.addColorStop(1, 'rgba(120,142,205,' + (fl*.08).toFixed(3) + ')'); x.fillStyle = g2; x.fillRect(0, 0, w, h); }
     if (LT.a > .01){ var k = pm.k; x.save(); x.translate(pm.ox, pm.oy); x.scale(k, k);
-      x.globalAlpha = LT.a*(1 - fl*.7); x.shadowColor = 'rgba(255,150,60,.75)'; x.shadowBlur = 16*k*DPR; x.fillStyle = 'rgba(255,184,104,.5)';
+      x.globalAlpha = Math.round(LT.a*12)/12*(1 - fl*.7); x.shadowColor = 'rgba(255,150,60,.75)'; x.shadowBlur = 16*k*DPR; x.fillStyle = 'rgba(255,184,104,.5)';
       PHOTO.win.forEach(function(p){ drawPoly(x, p); }); x.shadowBlur = 0;
       var L = PHOTO.lamp, gl = x.createRadialGradient(L[0], L[1] + 20, 0, L[0], L[1] + 20, 95); gl.addColorStop(0, 'rgba(255,196,120,.75)'); gl.addColorStop(.18, 'rgba(255,170,90,.4)'); gl.addColorStop(.6, 'rgba(255,150,70,.12)'); gl.addColorStop(1, 'rgba(255,150,70,0)');
       x.fillStyle = gl; x.fillRect(L[0] - 95, L[1] - 75, 190, 190); x.restore(); } }
@@ -1523,7 +1526,10 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     if (dt > 26){ if (++slow > 45){ QUALITY = Math.max(.45, QUALITY - .15); slow = 0; } } else if (slow > 0) slow--; else if (QUALITY < 1 && Math.random() < .002) QUALITY = Math.min(1, QUALITY + .05);
     stepBolt(t, heroScene.w, heroScene.h, heroScene.o.cloudBand, heroScene.o.soft); hdrScene.draw(t, dt); if (heroVis){ heroScene.draw(t, dt); drawLight(dt/16); drawPanelFx(dt/16); if (++prT > 90){ prT = 0; heroScene.panelRect(); } } requestAnimationFrame(loop); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ heroVis = e[0].isIntersecting; }).observe(document.getElementById('skyHero'));
-  window.addEventListener('resize', function(){ hdrScene.size(); heroScene.size(); lightSize(); if (PF.x) pfSize(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); } });
+  function onResize(){ hdrScene.size(); heroScene.size(); lightSize(); if (PF.x) pfSize(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); } }
+  window.addEventListener('resize', onResize);
+  /* обложка меняет высоту и без смены окна (догрузились шрифты, перенос строк) — иначе окна, труба и глубина съезжают */
+  if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(document.getElementById('hero'));
   /* Над фото шапка прозрачная (осадки рисует сцена фото, чтобы не было двойного снега); после прокрутки — своё небо */
   var hdrEl = document.getElementById('hdr');
   var heroEl = document.getElementById('hero');
