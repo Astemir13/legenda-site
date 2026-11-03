@@ -17,7 +17,7 @@ PHOTO = sys.argv[1] if len(sys.argv) > 1 else 'ССЫЛКА_НА_ФОТО_ФАС
 
 t = open(SRC, encoding='utf-8').read()
 # предпросмотр: исходник как есть, фото — файлом рядом
-open(PREVIEW, 'w', encoding='utf-8').write(
+open(PREVIEW, 'w', encoding='utf-8', newline='\n').write(
     '<!doctype html>\n<html lang="ru">\n<meta charset="utf-8">\n<meta name="robots" content="noindex">\n'
     + t.replace('__FACADE__', 'src/facade.jpg'))
 fonts = re.search(r'<link rel="preconnect".*?display=swap">', t, re.S).group(0)
@@ -124,6 +124,6 @@ parts = {
 for path, code in parts.items():
     n = len(json.dumps(code, ensure_ascii=False))
     assert n < 110000, (path, n, 'блок не влезет в T123 — лимит Тильды около 120 000 знаков')
-    open(path, 'w', encoding='utf-8').write(code)
+    open(path, 'w', encoding='utf-8', newline='\n').write(code)
     print(path, len(code), 'знаков')
 print(PREVIEW, 'обновлён')
