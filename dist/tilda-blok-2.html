@@ -93,6 +93,7 @@
   /* ---------- Реальная погода Терскола (Open-Meteo) ---------- */
   var API = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest' +
     '&current=temperature_2m,weather_code,is_day,wind_speed_10m,cloud_cover&daily=sunrise,sunset&timezone=Europe%2FMoscow&forecast_days=1';
+  var API2 = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest&current=wind_direction_10m,snow_depth&timezone=Europe%2FMoscow&forecast_days=1';
   var KINDS = {
     clear:{name:'Ясно', cloud:4, t:-6, wind:6},
     partly:{name:'Переменная облачность', cloud:45, t:-3, wind:10},
@@ -175,15 +176,19 @@
     document.getElementById('nowTxt').innerHTML = '<span class="sg">Терскол, ' + o0.hour + ':' + o0.minute + '</span><span class="sg tp">' + t + '</span>' + (wind >= 25 ? '<span class="sg">ветер ' + wind + ' км/ч</span>' : '');
     document.getElementById('nowIc').innerHTML = icon(W.kind, W.dark);
     var hpI = document.getElementById('hpIc'); if (hpI){ hpI.innerHTML = icon(W.kind, W.dark); document.getElementById('hpT').textContent = t; document.getElementById('hpK').textContent = K.name.toLowerCase(); document.getElementById('hpW').textContent = 'ветер ' + wind + ' км/ч'; }
-    W.windNow = wind;
+    W.windNow = wind; W.tempNow = temp;
+    var dxw = W.forced || W.wdir == null ? 1 : -Math.sin(W.wdir*Math.PI/180); W.wsgn = dxw >= 0 ? Math.max(.5, dxw) : Math.min(-.5, dxw);
+    var sd = W.forced ? (PREVIEW && /snow|blizzard/.test(K.precip || '') ? .85 : null) : W.snowD, sdE = document.getElementById('hpSD'); if (sdE) sdE.textContent = sd != null && sd >= .02 ? 'снега ' + Math.round(sd*100) + ' см' : '';
     var hE = document.getElementById('hero'); if (hE) hE.dataset.wx = W.kind;
     hdrScene.reset(); heroScene.reset(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); }
   }
 
+  /* направление ветра и высота снега — отдельным запросом: если не ответит, основная погода не страдает */
+  function loadExtra(){ fetch(API2).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ if (!d || !d.current) return; W.wdir = d.current.wind_direction_10m; W.snowD = d.current.snow_depth; applyWeather(); }).catch(function(){}); }
   function loadWeather(){
     if (W.forced) return;
     fetch(API).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
-      var c = d.current; LG.classList.remove('nowx'); W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover;
+      var c = d.current; LG.classList.remove('nowx'); W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover; loadExtra();
       var sr = toMin(d.daily.sunrise[0]), ss = toMin(d.daily.sunset[0]); if (sr != null) W.sunrise = sr; if (ss != null) W.sunset = ss;
       if (!W.forced){ W.kind = kindFromCode(c.weather_code, c.wind_speed_10m, c.temperature_2m, c.cloud_cover); W.phase = phaseFor(minutes); }
       applyWeather();
@@ -282,7 +287,7 @@
       segs.push({p:pts, w:lw});
       if (depth < 2) for (i = 0; i < 3; i++) if (Math.random() < .5){ var k = 8 + Math.floor(Math.random()*(pts.length - 16)), s0 = pts[k], dir = Math.random() < .5 ? -1 : 1, L = (yb - ya)*rnd(.18, .36);
         br(s0[0], s0[1], s0[0] + dir*L*rnd(.4, .9), s0[1] + L, disp*.9, depth + 1, lw*.55); } }
-    var sheet = Math.random() < (soft ? .18 : .35); if (!sheet) br(x0, -8, x0 + rnd(-.06, .06)*w, y1, Math.min(w*.09, 120), 0, w < 700 ? 2.2 : 2.8);
+    var sheet = Math.random() < (soft ? .3 : .35); if (!sheet) br(x0, -8, x0 + rnd(-.06, .06)*w, y1, Math.min(w*.09, 120), 0, w < 700 ? 2.2 : 2.8);
     return {segs:sheet ? null : segs, x:x0, y1:y1, t0:0, a:0}; }
   function boltAlpha(t){ for (var i = 1; i < BOLT_A.length; i++) if (t <= BOLT_A[i][0]){ var a = BOLT_A[i-1], b = BOLT_A[i]; return a[1] + (b[1] - a[1])*(t - a[0])/(b[0] - a[0]); } return 0; }
   function stepBolt(t, w, h, band, soft){ if (!KINDS[W.kind].thunder || reduce){ BOLT = null; W.flash = 0; return; }
@@ -309,15 +314,12 @@
   var RAIN = {rain:{v:[6.5, 9.5, 13.5], len:[9, 15, 26], lw:[.7, 1, 1.5], a:[.3, .48, .66]}, drizzle:{v:[2.6, 3.6, 5], len:[4, 6, 9], lw:[.6, .8, 1.05], a:[.22, .32, .42]}};
   var QUALITY = 1;
   /* общий тон воздуха в чистой обложке: сверху вниз — [доля высоты, цвет, прозрачность] */
-  var VEIL = {overcast:[[0, '58,68,82', .42], [.5, '58,68,82', .1], [1, '58,68,82', 0]],
-    fog:[[0, '226,231,236', .34], [.4, '226,231,236', .26], [.72, '226,231,236', .44], [1, '226,231,236', .22]],
-    drizzle:[[0, '46,58,74', .45], [.55, '46,58,74', .14], [1, '46,58,74', .05]],
-    rain:[[0, '30,40,56', .55], [.5, '30,40,56', .2], [1, '30,40,56', .08]],
-    sleet:[[0, '52,62,78', .45], [.55, '52,62,78', .14], [1, '52,62,78', .05]],
-    snow:[[0, '200,212,230', .16], [.6, '200,212,230', .04], [1, '200,212,230', 0]],
-    heavysnow:[[0, '210,220,232', .34], [.6, '210,220,232', .14], [1, '210,220,232', .06]],
-    blizzard:[[0, '232,238,244', .5], [.5, '232,238,244', .3], [1, '232,238,244', .16]],
-    thunder:[[0, '10,14,26', .66], [.45, '14,18,30', .3], [1, '14,18,30', .1]]};
+  var VEIL = {drizzle:[[0, '46,58,74', .18], [.55, '46,58,74', .05], [1, '46,58,74', 0]],
+    rain:[[0, '30,40,56', .28], [.5, '30,40,56', .1], [1, '30,40,56', .03]],
+    sleet:[[0, '52,62,78', .2], [.55, '52,62,78', .06], [1, '52,62,78', 0]],
+    heavysnow:[[0, '210,220,232', .14], [.6, '210,220,232', .05], [1, '210,220,232', 0]],
+    blizzard:[[0, '232,238,244', .3], [.5, '232,238,244', .16], [1, '232,238,244', .08]],
+    thunder:[[0, '10,14,26', .5], [.45, '14,18,30', .2], [1, '14,18,30', .06]]};
 
   function Scene(canvas, opt){ this.c = canvas; this.x = canvas.getContext('2d'); this.o = opt; this.p = []; this.clouds = []; this.stars = []; this.haze = []; this.met = null; this.key = ''; this.w = 0; this.h = 0; this.size(); }
   Scene.prototype.size = function(){ var w = this.c.clientWidth, h = this.c.clientHeight; if (w === this.w && Math.abs(h - this.h) < 2 && this.w) return;
@@ -325,7 +327,7 @@
     var band = this.o.starBand || this.h; this.stars = []; this.glint = glintSprite();
     for (var j = 0; j < Math.round(this.w/(this.o.starBand ? 8 : 14)); j++){ var big = Math.random() < .08, tint = Math.random();
       this.stars.push({x:Math.random()*this.w, y:band*Math.pow(Math.random(), 1.35), r:big ? 1 : .35 + Math.random()*.6, big:big, p:Math.random()*6.283, sp:.0007 + Math.random()*.0024, c:tint < .18 ? '214,226,255' : tint < .27 ? '255,236,212' : '255,255,255'}); }
-    this.key = ''; this.reset(); };
+    if (this.o.photo) this.mapPhoto(); this.key = ''; this.reset(); };
   Scene.prototype.reset = function(){ var K = KINDS[W.kind], cloud = (W.cloudNow != null ? W.cloudNow : K.cloud), i, j;
     var key = [W.kind, W.phase, !!W.dark, Math.round(cloud/10), this.w, this.h].join('|'); if (key === this.key) return; var kindChanged = this.key.split('|')[0] !== W.kind; this.key = key;
     if (this.o.body){ var R = this.w < 700 ? 6 : 8, warm = W.phase !== 'day'; this.moon = moonSprite(R + 1); this.sun = sunSprite(R, warm); this.rays = raysSprite(R, warm); return; }
@@ -333,7 +335,7 @@
     /* осадки: пересобираем, только если сменился их вид — иначе снег не «прыгает» */
     if (kindChanged || !this.p.length){ var n = Math.min(1100, Math.round((this.o.soft ? (kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : .6) : 1)*A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
       for (i = 0; i < n; i++){ var z = i < n*LAYERS[0].part ? 0 : i < n*(LAYERS[0].part + LAYERS[1].part) ? 1 : 2, L = LAYERS[z], snow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i % 2);
-        this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15)}); }
+        this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15), d:z === 2 ? 2 : z === 0 ? rnd(.06, .3) : rnd(.3, .5)}); }
       this.p.sort(function(a, b){ return b.z - a.z; }); /* дальние — в конце: при нехватке сил телефона отбрасываются первыми */ }
     var sc = kind === 'sleet' ? '232,238,244' : rgb;
     this.flakes = [flakeSprite(1, false, sc), flakeSprite(1.6, false, sc), flakeSprite(3.4, true, sc)];
@@ -345,13 +347,14 @@
     this.deck = cloud > 80 && !this.o.noClouds ? tone : null;
     /* дымка: туман, метель, пелена дождя */
     var hz = W.dark ? '150,160,178' : (W.phase === 'dawn' || W.phase === 'dusk') ? '240,230,224' : '244,246,248', hw = Math.min(2400, Math.round(this.w*1.4));
-    var H = this.o.soft ? {fog:[[-.08, .62, .9, .05, .3], [.22, .62, .95, .1, .34], [.5, .55, 1, .17, .4]], partly:[[0, 1, .6, .14, .15, '16,24,36']], overcast:[[.0, .7, .7, .06, .12], [.0, 1, .5, .1, .14, '16,24,36']], blizzard:[[.0, .6, .75, .9, .2], [.35, .7, .7, 1.6, .2]], heavysnow:[[.25, .75, .55, .25, .14]], snow:[[.4, .6, .35, .15, .08]], rain:[[.3, .7, .45, .35, .1]], drizzle:[[.25, .75, .5, .12, .12]], sleet:[[.3, .7, .4, .3, .1]], thunder:[[.25, .75, .4, .4, .08]]}[K.thunder ? 'thunder' : K.fog ? 'fog' : kind || W.kind] || [] : {fog:[[.0, .55, .9, .05, .2], [.35, .7, .85, .12, .26]], blizzard:[[.1, .6, .55, .9, .14], [.4, .65, .45, 1.6, .14]], heavysnow:[[.3, .7, .35, .25, .1]], rain:[[.35, .65, .3, .35, .08]], drizzle:[[.3, .7, .35, .12, .1]], sleet:[[.35, .65, .3, .3, .08]]}[K.fog ? 'fog' : kind] || [];
+    var H = this.o.soft ? {blizzard:[[.05, .6, .5, .9, .16], [.4, .6, .45, 1.6, .16]], heavysnow:[[.3, .7, .3, .25, .1]]}[kind] || [] : {fog:[[.0, .55, .9, .05, .2], [.35, .7, .85, .12, .26]], blizzard:[[.1, .6, .55, .9, .14], [.4, .65, .45, 1.6, .14]], heavysnow:[[.3, .7, .35, .25, .1]], rain:[[.35, .65, .3, .35, .08]], drizzle:[[.3, .7, .35, .12, .1]], sleet:[[.35, .65, .3, .3, .08]]}[K.fog ? 'fog' : kind] || [];
     this.haze = H.map(function(q){ var hh = this.h*q[1]; return {y:this.h*q[0], s:hazeSprite(hw, hh, q[5] || (W.kind === 'blizzard' ? '250,252,255' : hz), q[4]), a:q[2], v:q[3], x:Math.random()*hw}; }, this);
   };
   Scene.prototype.draw = function(t, dt){ var x = this.x, w = this.w, h = this.h, K = KINDS[W.kind], night = W.phase === 'night', cloud = (W.cloudNow != null ? W.cloudNow : K.cloud);
-    var g0 = gust(t), wind = (W.windNow != null ? W.windNow : K.wind), wx = wind/12*g0, move = reduce ? 0 : dt/16, band = this.o.starBand || h, i;
+    var g0 = gust(t), wind = (W.windNow != null ? W.windNow : K.wind), wx = wind/12*g0*(W.wsgn || 1), move = reduce ? 0 : dt/16, band = this.o.starBand || h, i;
     x.clearRect(0, 0, w, h);
     if (this.o.body) return this.drawBody(t, cloud, night);
+    if (this.o.soft){ var sy = Math.min(window.scrollY || 0, h); this.dScroll = this.lastSy == null ? 0 : Math.max(-40, Math.min(40, sy - this.lastSy)); this.lastSy = sy; }
     /* свет солнца на фото: тёплое свечение сверху со стороны солнца; ночью — холодный лунный отсвет */
     var kb = bodyK();
     /* в чистой обложке фото уже со своим светом — время суток поверх него не рисуем: только погода */
@@ -383,36 +386,52 @@
       x.restore(); }
     this.drawClouds(1, wx, move);
     /* дымка: туман, метель, пелена дождя — бесшовно плывёт по ветру */
-    for (i = 0; i < this.haze.length; i++){ var Hz = this.haze[i], sw = Hz.s.w; Hz.x = (Hz.x + Hz.v*(.3 + wx*.25)*move) % sw;
+    for (i = 0; i < this.haze.length; i++){ var Hz = this.haze[i], sw = Hz.s.w; Hz.x = (Hz.x + Hz.v*(.3 + wx*.25)*move) % sw; if (Hz.x < 0) Hz.x += sw;
       x.globalAlpha = Hz.a*(W.kind === 'blizzard' ? .75 + .25*Math.sin(t*.0011 + i) : K.fog ? .82 + .18*Math.sin(t*.00045 + i*2.1) : 1); x.drawImage(Hz.s.c, Hz.x - sw, Hz.y, sw, Hz.s.h); x.drawImage(Hz.s.c, Hz.x, Hz.y, sw, Hz.s.h); if (Hz.x + sw < w) x.drawImage(Hz.s.c, Hz.x + sw, Hz.y, sw, Hz.s.h); x.globalAlpha = 1; }
+    if (this.o.soft && this.pm) this.drawSmoke(t, wx, move);
     this.drawPrecip(t, wx, move, K);
+    if (this.o.soft) this.drawDrift(move, K);
     /* вспышка молнии: свет из точки удара, сверху сильнее */
-    if (W.flash > .02){ var fx = BOLT ? BOLT.x : w/2, fg = x.createRadialGradient(fx, 0, 0, fx, 0, Math.max(w, h)*.9); fg.addColorStop(0, 'rgba(228,234,255,' + (W.flash*.5).toFixed(3) + ')'); fg.addColorStop(.5, 'rgba(228,234,255,' + (W.flash*.16).toFixed(3) + ')'); fg.addColorStop(1, 'rgba(228,234,255,' + (W.flash*.05).toFixed(3) + ')');
-      x.fillStyle = fg; x.fillRect(0, 0, w, h); if (this.o.soft){ x.fillStyle = 'rgba(214,224,255,' + (W.flash*.2).toFixed(3) + ')'; x.fillRect(0, 0, w, h); } } };
+    if (W.flash > .02){ var fx = BOLT ? BOLT.x : w/2, fg = x.createRadialGradient(fx, 0, 0, fx, 0, Math.max(w, h)*.9); fg.addColorStop(0, 'rgba(228,234,255,' + (W.flash*(this.o.soft ? .3 : .5)).toFixed(3) + ')'); fg.addColorStop(.5, 'rgba(228,234,255,' + (W.flash*.16).toFixed(3) + ')'); fg.addColorStop(1, 'rgba(228,234,255,' + (W.flash*.05).toFixed(3) + ')');
+      x.fillStyle = fg; x.fillRect(0, 0, w, h); if (this.o.soft){ x.fillStyle = 'rgba(214,224,255,' + (W.flash*.08).toFixed(3) + ')'; x.fillRect(0, 0, w, h); } } };
   Scene.prototype.drawClouds = function(z, wx, move){ var x = this.x, w = this.w;
     for (var c = 0; c < this.clouds.length; c++){ var C = this.clouds[c]; if (C.z !== z) continue; C.x += C.v*(.35 + wx*.18)*move; if (C.x > w + 30) C.x = -C.s.w - 30;
       if (C.a < 1) x.globalAlpha = C.a; x.drawImage(C.s.c, C.x, C.y, C.s.w, C.s.h); x.globalAlpha = 1; } };
   Scene.prototype.drawPrecip = function(t, wx, move, K){ var x = this.x, w = this.w, h = this.h, kind = K.precip, P, i, z, n = Math.ceil(this.p.length*QUALITY), bl = kind === 'blizzard', dim = W.dark ? .75 : 1;
     if (!kind) return;
     var spd = kind === 'heavysnow' ? 1.25 : bl ? 1.7 : kind === 'sleet' ? 1.9 : 1, rk = kind === 'drizzle' ? RAIN.drizzle : RAIN.rain, rc = W.dark ? '190,205,225' : '220,232,244';
-    /* снег (и мокрый снег в слякоть) */
+    /* в чистой обложке: глубина (дальние частицы за домом), параллакс при прокрутке, палец/курсор, снег на панели */
+    var soft = this.o.soft, dep = soft ? this.dep : null, ds = soft ? this.dScroll || 0 : 0, PK = [.05, .14, .32];
+    var pa = soft && t - PTR.t < 1500 ? 1 - (t - PTR.t)/1500 : 0, PR = w < 700 ? 80 : 110, PR2 = PR*PR;
+    var pr = soft && (kind === 'snow' || kind === 'heavysnow' || bl) ? this.pr : null, dr = this.drift, dmax = w < 700 ? 6 : 8, landed = false;
     for (z = 0; z < 3; z++){ var L = LAYERS[z], spr = this.flakes[z], streak = (bl && z > 0) || (kind === 'sleet' && z === 2);
       if (streak){ x.strokeStyle = 'rgba(255,255,255,' + ((z === 2 ? .38 : .62)*dim).toFixed(3) + ')'; x.lineCap = 'round'; x.lineWidth = (z === 2 ? 2 : 1.2)*this.o.scale; x.beginPath(); }
       for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || !P.snow) continue;
-        P.ph += P.fs*16*move; var vy = P.v*spd*P.j, vx = Math.sin(P.ph)*P.amp*(bl ? .4 : 1) + wx*(bl ? 1.15 : .32)*L.wz;
-        P.y += vy*move; P.x += vx*move;
-        if (P.y > h + 10){ P.y = -10 - Math.random()*30; P.x = Math.random()*(w + w*.3) - w*.3*Math.min(1, wx/3); } if (P.x > w + 16) { P.x -= w + 32; } else if (P.x < -16) P.x += w + 32;
-        if (streak){ var sl = 1.6 + P.j*1.6; x.moveTo(P.x, P.y); x.lineTo(P.x - vx*sl, P.y - vy*sl); }
+        P.ph += P.fs*16*move; var vy = P.v*spd*P.j, vx = Math.sin(P.ph)*P.amp*(bl ? .4 : 1) + wx*(bl ? 1.15 : .32)*L.wz, py0 = P.y;
+        P.y += vy*move - ds*PK[z]; P.x += vx*move;
+        if (pa){ var dxp = P.x - PTR.x, dyp = P.y - PTR.y, d2 = dxp*dxp + dyp*dyp; if (d2 < PR2 && d2 > 1){ var dd = Math.sqrt(d2), f = (1 - dd/PR)*pa*(1.2 + z*.8)*move; P.x += (dxp*1.5 - dyp*.8)/dd*f; P.y += (dyp*1.5 + dxp*.8)/dd*f; } }
+        if (P.y > h + 10){ P.y = -10 - Math.random()*30; P.x = Math.random()*(w + w*.3) - w*.3*Math.min(1, wx/3); } else if (P.y < -60) P.y += h + 70;
+        if (P.x > w + 16) { P.x -= w + 32; } else if (P.x < -16) P.x += w + 32;
+        if (pr && z > 0 && py0 < pr.t && P.y >= pr.t && P.x > pr.l + pr.rad*.6 && P.x < pr.l + pr.w - pr.rad*.6 && Math.random() < .55){
+          var di = ((P.x - pr.l)/3) | 0; for (var q = -3; q <= 3; q++){ var j2 = di + q; if (j2 >= 0 && j2 < dr.length) dr[j2] = Math.min(dmax, dr[j2] + P.r*.26*(1 - Math.abs(q)/4)); }
+          P.y = -10 - Math.random()*30; landed = true; continue; }
+        var vis = 1; if (dep && P.d < 1.5){ vis = (P.d - this.depthAt(P.x, P.y))*20 + .5; if (vis <= 0) continue; if (vis > 1) vis = 1; }
+        if (streak){ if (vis < .5) continue; var sl = 1.6 + P.j*1.6; x.moveTo(P.x, P.y); x.lineTo(P.x - vx*sl, P.y - vy*sl); }
         else { var sz = spr.w*(P.r/(z === 0 ? 1 : z === 1 ? 1.6 : 3.4));
-          x.globalAlpha = L.a*dim*(z === 2 ? .85 + .15*Math.sin(P.ph*1.3) : 1); x.drawImage(spr.c, P.x - sz/2, P.y - sz/2, sz, sz); } }
+          x.globalAlpha = L.a*dim*vis*(z === 2 ? .85 + .15*Math.sin(P.ph*1.3) : 1); x.drawImage(spr.c, P.x - sz/2, P.y - sz/2, sz, sz); } }
       if (streak) x.stroke();
       x.globalAlpha = 1;
       /* дождь: штрихи под углом ветра, ближние — длиннее и ярче */
       if (kind === 'rain' || kind === 'drizzle' || kind === 'sleet'){ x.strokeStyle = 'rgba(' + rc + ',' + (rk.a[z]*dim).toFixed(3) + ')'; x.lineWidth = rk.lw[z]; x.lineCap = 'round'; x.beginPath();
         for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || P.snow) continue; var rv = rk.v[z]*P.j, rx = wx*.55*L.wz, ln = rk.len[z]*P.j;
-          P.y += rv*move; P.x += rx*move; if (P.y > h + ln){ P.y = -ln - Math.random()*40; P.x = Math.random()*(w + 80) - 40 - rx*20; } if (P.x > w + 20) P.x -= w + 40;
+          P.y += rv*move - ds*PK[z]; P.x += rx*move;
+          if (pa){ var ex = P.x - PTR.x, ey = P.y - PTR.y, e2 = ex*ex + ey*ey; if (e2 < PR2 && e2 > 1){ var ed = Math.sqrt(e2); P.x += ex/ed*(1 - ed/PR)*pa*3*move; } }
+          if (P.y > h + ln){ P.y = -ln - Math.random()*40; P.x = Math.random()*(w + 80) - 40 - rx*20; } else if (P.y < -60) P.y += h + 70;
+          if (P.x > w + 20) P.x -= w + 40; else if (P.x < -20) P.x += w + 40;
+          if (dep && P.d < 1.5 && this.depthAt(P.x, P.y) > P.d) continue;
           var k2 = ln/rv; x.moveTo(P.x, P.y); x.lineTo(P.x - rx*k2, P.y - ln); }
-        x.stroke(); } } };
+        x.stroke(); } }
+    if (landed) for (i = 1; i < dr.length - 1; i++) dr[i] = (dr[i-1] + dr[i]*6 + dr[i+1])/8; };
   /* шапка: солнце с медленно вращающимися лучами или луна в реальной фазе */
   Scene.prototype.drawBody = function(t, cloud, night){ var x = this.x, w = this.w, h = this.h; if (this.o.noBody) return;
     if (cloud < 85){ var k = bodyK(), Z = hdrZone();
@@ -422,15 +441,132 @@
           x.globalAlpha = vis*br; x.drawImage(spr.c, bx - spr.w/2, by - spr.h/2, spr.w, spr.h); x.globalAlpha = 1; } } }
     if (W.flash > .02){ x.fillStyle = 'rgba(232,238,255,' + (W.flash*.3).toFixed(3) + ')'; x.fillRect(0, 0, w, h); } };
 
+  /* ---------- Обложка: глубина сцены, дым из трубы, свет в окнах, капли и иней на панели ---------- */
+  /* карта глубины фото (тёмное — небо и даль, светлое — у камеры): дальний снег прячется за домом и деревьями и «ложится» на землю */
+  var DEPTH_SRC = 'data:image/jpeg;base64,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';
+  /* точки на фото в пикселях исходника 2000×1333: труба, фонарь у входа, окна */
+  var PHOTO = {w:2000, h:1333, chimney:[1430, 272], lamp:[1222, 850],
+    win:[[[1158,370],[1195,370],[1195,460],[1158,460]], [[1202,370],[1242,370],[1242,460],[1202,460]], [[1250,370],[1290,370],[1290,460],[1250,460]], [[1297,370],[1337,370],[1337,460],[1297,460]],
+      [[1172,522],[1225,522],[1225,682],[1203,682],[1172,659]], [[1230,522],[1280,522],[1280,682],[1230,682]], [[1285,522],[1338,522],[1338,682],[1285,682]],
+      [[1399,541],[1399,635],[1508,635]], [[1112,566],[1112,650],[1046,650]],
+      [[890,996],[925,996],[925,1025],[890,1025]], [[1557,1009],[1600,1009],[1600,1040],[1557,1040]], [[1720,1009],[1765,1009],[1765,1040],[1720,1040]]],
+    door:[[1162,828],[1268,828],[1268,950],[1162,950]]};
+  var depthImg = new Image(), depthOK = false; depthImg.onload = function(){ depthOK = true; if (window.__lgHero) window.__lgHero.mapPhoto(); }; depthImg.src = DEPTH_SRC;
+  var PTR = {x:0, y:0, t:-1e9};
+  function puffSprite(){ var s = sprite(64, 64, 1), x = s.x, i;
+    for (i = 0; i < 8; i++){ var a = rnd(0, 6.283), d = rnd(0, 11), cx = 32 + Math.cos(a)*d, cy = 32 + Math.sin(a)*d, r = rnd(13, 21), g = x.createRadialGradient(cx, cy, 0, cx, cy, r);
+      g.addColorStop(0, 'rgba(236,239,243,.42)'); g.addColorStop(1, 'rgba(236,239,243,0)'); x.fillStyle = g; x.beginPath(); x.arc(cx, cy, r, 0, 6.283); x.fill(); }
+    return s; }
+  /* как фото вписано в обложку (object-fit: cover) — чтобы эффекты попадали точно в трубу, окна и край панели */
+  Scene.prototype.mapPhoto = function(){ var img = this.o.photo; if (!img || !this.w) return;
+    var w = this.w, h = this.h, iw = img.naturalWidth || PHOTO.w, ih = img.naturalHeight || PHOTO.h, op = (getComputedStyle(img).objectPosition || '').split(' ');
+    var px = /%$/.test(op[0] || '') ? parseFloat(op[0])/100 : .5, py = /%$/.test(op[1] || '') ? parseFloat(op[1])/100 : .5, S = Math.max(w/iw, h/ih), dw = iw*S, dh = ih*S;
+    this.pm = {k:dw/PHOTO.w, ox:(w - dw)*px, oy:(h - dh)*py}; this.dep = null; this.skyM = null;
+    if (depthOK){ var gw = Math.ceil(w/4), gh = Math.ceil(h/4), c = document.createElement('canvas'); c.width = gw; c.height = gh; var cx = c.getContext('2d');
+      cx.drawImage(depthImg, this.pm.ox/4, this.pm.oy/4, dw/4, dh/4); var d = cx.getImageData(0, 0, gw, gh).data, a = new Uint8Array(gw*gh), sk = cx.createImageData(gw, gh), i;
+      for (i = 0; i < gw*gh; i++){ a[i] = d[i*4]; sk.data[i*4] = sk.data[i*4+1] = sk.data[i*4+2] = 255; sk.data[i*4+3] = Math.max(0, Math.min(255, (42 - d[i*4])*8)); }
+      cx.clearRect(0, 0, gw, gh); cx.putImageData(sk, 0, 0); this.dep = a; this.dgw = gw; this.dgh = gh; this.skyM = c; }
+    this.panelRect(); if (typeof LT !== 'undefined') LT.last = ''; };
+  Scene.prototype.depthAt = function(x, y){ var gx = x >> 2, gy = y >> 2; if (gy < 0) return 0; if (gx < 0) gx = 0; else if (gx >= this.dgw) gx = this.dgw - 1; if (gy >= this.dgh) gy = this.dgh - 1; return this.dep[gy*this.dgw + gx]/255; };
+  Scene.prototype.panelRect = function(){ var p = document.querySelector('.hpanel'); this.pr = null; if (!p || !p.offsetWidth || !this.o.soft) return;
+    var a = p.getBoundingClientRect(), b = this.c.getBoundingClientRect(), n = Math.ceil(a.width/3);
+    this.pr = {l:a.left - b.left, t:a.top - b.top, w:a.width, rad:parseFloat(getComputedStyle(p).borderTopLeftRadius) || 20};
+    if (!this.drift || this.drift.length !== n) this.drift = new Float32Array(n); };
+  /* дым из трубы: поднимается и сносится реальным ветром, в метель и грозу рвётся быстрее */
+  Scene.prototype.drawSmoke = function(t, wx, move){ var pm = this.pm, x = this.x, K = KINDS[W.kind], S = this.smoke || (this.smoke = []), k = pm.k, cx = pm.ox + PHOTO.chimney[0]*k, cy = pm.oy + PHOTO.chimney[1]*k, i;
+    if (cx < -60 || cx > this.w + 60 || cy < -20) return;
+    var storm = K.precip === 'blizzard' || !!K.thunder, sk = Math.max(.5, k*(this.w < 700 ? .85 : 1.35));
+    this.smokeT = (this.smokeT || 0) + move; if (!reduce && this.smokeT > (storm ? 9 : 6)){ this.smokeT = 0; S.push({x:cx + rnd(-3, 3)*sk, y:cy - 2*sk, vx:rnd(-.09, .09), vy:-rnd(.26, .4), r:rnd(7, 10)*sk, life:rnd(260, 380)*(storm ? .5 : 1), age:0}); }
+    var spr = this.puff || (this.puff = puffSprite()), aw = Math.abs(wx);
+    for (i = S.length - 1; i >= 0; i--){ var p = S[i]; p.age += move; var f = p.age/p.life; if (f >= 1){ S.splice(i, 1); continue; }
+      p.x += (p.vx + wx*.2*Math.min(1, f*3 + .15))*move; p.y += p.vy*(1 - f*.45)*(1 - Math.min(.75, aw*.15))*move; p.r += .085*sk*(1 + aw*.15)*move;
+      x.globalAlpha = Math.min(1, f*6)*(1 - f)*(1 - f)*(storm ? .26 : .34); x.drawImage(spr.c, p.x - p.r, p.y - p.r, p.r*2, p.r*2); }
+    x.globalAlpha = 1; };
+  /* снег оседает на верхнем крае стеклянной панели и тает, когда снегопад кончился */
+  Scene.prototype.drawDrift = function(move, K){ var pr = this.pr, dr = this.drift, i; if (!pr || !dr) return;
+    var snowing = K.precip === 'snow' || K.precip === 'heavysnow' || K.precip === 'blizzard', mx = 0;
+    for (i = 0; i < dr.length; i++){ if (!snowing && dr[i] > 0) dr[i] = Math.max(0, dr[i] - .01*move); if (dr[i] > mx) mx = dr[i]; }
+    if (mx < .25) return;
+    var x = this.x, l = pr.l + pr.rad*.5, r = pr.l + pr.w - pr.rad*.5, top = pr.t + .5;
+    x.beginPath(); x.moveTo(l, top + 1.5);
+    for (i = 0; i < dr.length; i++){ var px = pr.l + i*3 + 1.5; if (px < l || px > r) continue; var e = Math.min(1, (px - l)/26, (r - px)/26); x.lineTo(px, top - dr[i]*e*e*(3 - 2*e)); }
+    x.lineTo(r, top + 1.5); x.closePath();
+    var g = x.createLinearGradient(0, top - 9, 0, top + 1.5); g.addColorStop(0, 'rgba(255,255,255,.97)'); g.addColorStop(1, 'rgba(214,226,240,.94)');
+    x.fillStyle = g; x.shadowColor = 'rgba(0,0,0,.22)'; x.shadowBlur = 3; x.shadowOffsetY = 1; x.fill(); x.shadowColor = 'transparent'; x.shadowBlur = 0; x.shadowOffsetY = 0; };
+
   var hdrScene = new Scene(document.getElementById('skyHdr'), {scale:.8, body:true});
-  var heroScene = new Scene(document.getElementById('skyHero'), {scale:1.2, starBand:150, meteors:true, cloudBand:window.innerWidth < 700 ? 96 : 128});
-  var last = 0, heroVis = true, slow = 0;
+  var heroScene = new Scene(document.getElementById('skyHero'), {scale:1.2, starBand:150, meteors:true, cloudBand:window.innerWidth < 700 ? 96 : 128, photo:document.querySelector('#hero img')});
+  window.__lgHero = heroScene;
+  /* палец или курсор разгоняет снежинки и капли */
+  (function(){ var he = document.getElementById('hero'); if (!he) return;
+    function at(cx, cy){ var r = heroScene.c.getBoundingClientRect(); PTR.x = cx - r.left; PTR.y = cy - r.top; PTR.t = performance.now(); }
+    he.addEventListener('pointermove', function(e){ if (e.pointerType !== 'touch') at(e.clientX, e.clientY); }, {passive:true});
+    he.addEventListener('touchstart', function(e){ var t = e.touches[0]; if (t) at(t.clientX, t.clientY); }, {passive:true});
+    he.addEventListener('touchmove', function(e){ var t = e.touches[0]; if (t) at(t.clientX, t.clientY); }, {passive:true});
+    he.addEventListener('pointerleave', function(e){ if (e.pointerType !== 'touch') PTR.t = -1e9; }); })();
+  var heroImg = document.querySelector('#hero img'); if (heroImg && !heroImg.complete) heroImg.addEventListener('load', function(){ heroScene.mapPhoto(); });
+
+  /* Свет поверх фото: тёплые окна в непогоду, отсвет молнии на фасаде, зарница только в небе */
+  var LT = {c:document.getElementById('fxLight'), a:0, last:''};
+  LT.x = LT.c ? LT.c.getContext('2d') : null;
+  function lightSize(){ if (!LT.x) return; var sd = LT.c.style.display; LT.c.style.display = ''; var w = LT.c.clientWidth, h = LT.c.clientHeight; LT.c.style.display = sd; LT.c.width = Math.round(w*DPR); LT.c.height = Math.round(h*DPR); LT.x.setTransform(DPR, 0, 0, DPR, 0, 0); LT.w = w; LT.h = h; LT.last = ''; }
+  function drawPoly(x, p){ x.beginPath(); x.moveTo(p[0][0], p[0][1]); for (var j = 1; j < p.length; j++) x.lineTo(p[j][0], p[j][1]); x.closePath(); x.fill(); }
+  function drawLight(move){ if (!LT.x) return; if (!LT.w) lightSize(); var on = heroScene.o.soft, K = KINDS[W.kind];
+    var want = on && (K.thunder || K.precip === 'blizzard' || K.precip === 'heavysnow' || K.precip === 'rain' || K.precip === 'sleet') ? 1 : 0;
+    LT.a += (want - LT.a)*Math.min(1, .025*move); if (Math.abs(want - LT.a) < .004) LT.a = want;
+    var fl = on && !reduce ? W.flash : 0, key = LT.a.toFixed(3) + '|' + fl.toFixed(3) + '|' + LT.w; if (key === LT.last) return; LT.last = key;
+    var x = LT.x, w = LT.w, h = LT.h, pm = heroScene.pm, act = LT.a > .01 || fl > .02; x.clearRect(0, 0, w, h);
+    /* слой света включаем, только когда есть что показать */
+    if (act !== LT.on){ LT.on = act; LT.c.style.display = act ? '' : 'none'; } if (!pm || !act) return;
+    if (fl > .02 && heroScene.skyM){ var bx = BOLT ? BOLT.x : w/2, sheet = BOLT && !BOLT.segs, g = x.createRadialGradient(bx, h*.25, 0, bx, h*.25, Math.max(w, h)*.7);
+      g.addColorStop(0, 'rgba(176,194,255,' + (fl*(sheet ? 1 : .8)).toFixed(3) + ')'); g.addColorStop(1, 'rgba(176,194,255,' + (fl*.15).toFixed(3) + ')'); x.fillStyle = g; x.fillRect(0, 0, w, h);
+      x.globalCompositeOperation = 'destination-in'; x.drawImage(heroScene.skyM, 0, 0, heroScene.dgw*4, heroScene.dgh*4); x.globalCompositeOperation = 'source-over'; }
+    if (fl > .02 && BOLT && BOLT.segs){ var g2 = x.createRadialGradient(BOLT.x, 0, 0, BOLT.x, 0, Math.max(w, h)*1.1);
+      g2.addColorStop(0, 'rgba(150,172,236,' + (fl*.55).toFixed(3) + ')'); g2.addColorStop(.55, 'rgba(120,142,205,' + (fl*.24).toFixed(3) + ')'); g2.addColorStop(1, 'rgba(120,142,205,' + (fl*.08).toFixed(3) + ')'); x.fillStyle = g2; x.fillRect(0, 0, w, h); }
+    if (LT.a > .01){ var k = pm.k; x.save(); x.translate(pm.ox, pm.oy); x.scale(k, k);
+      x.globalAlpha = LT.a*(1 - fl*.7); x.shadowColor = 'rgba(255,150,60,.75)'; x.shadowBlur = 16*k*DPR; x.fillStyle = 'rgba(255,184,104,.5)';
+      PHOTO.win.forEach(function(p){ drawPoly(x, p); }); x.shadowBlur = 0;
+      var L = PHOTO.lamp, gl = x.createRadialGradient(L[0], L[1] + 20, 0, L[0], L[1] + 20, 95); gl.addColorStop(0, 'rgba(255,196,120,.75)'); gl.addColorStop(.18, 'rgba(255,170,90,.4)'); gl.addColorStop(.6, 'rgba(255,150,70,.12)'); gl.addColorStop(1, 'rgba(255,150,70,0)');
+      x.fillStyle = gl; x.fillRect(L[0] - 95, L[1] - 75, 190, 190); x.restore(); } }
+
+  /* Капли дождя на стекле панели и иней по углам в сильный мороз */
+  var PF = {c:document.getElementById('hpFx'), drops:[], frost:0, lastFrost:-1, fs:null, w:0, h:0};
+  PF.x = PF.c ? PF.c.getContext('2d') : null;
+  function pfSize(){ var w = PF.c.clientWidth, h = PF.c.clientHeight; if (!w || (w === PF.w && h === PF.h)) return; PF.w = w; PF.h = h;
+    PF.c.width = Math.round(w*DPR); PF.c.height = Math.round(h*DPR); PF.x.setTransform(DPR, 0, 0, DPR, 0, 0); PF.fs = null; PF.drops = []; PF.lastFrost = -1; }
+  function frostSprite(w, h){ var s = sprite(w, h), x = s.x; x.lineCap = 'round';
+    function crystal(px, py, ang, len, lw, depth){ var ex = px + Math.cos(ang)*len, ey = py + Math.sin(ang)*len; x.lineWidth = lw; x.beginPath(); x.moveTo(px, py); x.lineTo(ex, ey); x.stroke();
+      if (depth < 2) for (var i = 1; i <= 3; i++){ var f = i/4, bx = px + (ex - px)*f, by = py + (ey - py)*f, bl = len*(.5 - f*.28)*rnd(.7, 1.2); crystal(bx, by, ang + 1.047, bl, lw*.7, depth + 1); crystal(bx, by, ang - 1.047, bl, lw*.7, depth + 1); } }
+    [[0, 0, .785], [w, 0, 2.356], [0, h, -.785], [w, h, -2.356]].forEach(function(c){ var g = x.createRadialGradient(c[0], c[1], 0, c[0], c[1], Math.min(w, h)*.85);
+      g.addColorStop(0, 'rgba(232,242,255,.26)'); g.addColorStop(.45, 'rgba(232,242,255,.1)'); g.addColorStop(1, 'rgba(232,242,255,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h);
+      x.strokeStyle = 'rgba(238,246,255,.38)'; for (var i = 0; i < 8; i++){ var a = c[2] + rnd(-.7, .7), r0 = rnd(0, 16); crystal(c[0] + Math.cos(a)*r0, c[1] + Math.sin(a)*r0, a, rnd(14, 34), rnd(.55, .9), 0); } });
+    return s; }
+  function drawDrop(x, d){ var r = d.r, a = d.a, st = d.vy > .3 ? 1.22 : 1;
+    x.save(); x.translate(d.x, d.y); x.scale(1/Math.sqrt(st), st);
+    x.fillStyle = 'rgba(0,8,16,' + (.24*a).toFixed(3) + ')'; x.beginPath(); x.arc(0, r*.35, r, 0, 6.283); x.fill();
+    var g = x.createRadialGradient(-r*.25, -r*.3, r*.1, 0, 0, r); g.addColorStop(0, 'rgba(255,255,255,' + (.05*a).toFixed(3) + ')'); g.addColorStop(.72, 'rgba(206,222,240,' + (.14*a).toFixed(3) + ')'); g.addColorStop(1, 'rgba(255,255,255,' + (.42*a).toFixed(3) + ')');
+    x.fillStyle = g; x.beginPath(); x.arc(0, 0, r, 0, 6.283); x.fill();
+    x.fillStyle = 'rgba(255,255,255,' + (.8*a).toFixed(3) + ')'; x.beginPath(); x.arc(-r*.34, -r*.4, Math.max(.4, r*.26), 0, 6.283); x.fill(); x.restore(); }
+  function drawPanelFx(move){ if (!PF.x) return; var K = KINDS[W.kind], on = heroScene.o.soft, wet = on && (K.precip === 'rain' || K.precip === 'drizzle' || K.precip === 'sleet');
+    var rate = !wet || reduce ? 0 : K.thunder ? .14 : K.precip === 'rain' ? .12 : .06, tN = W.tempNow != null ? W.tempNow : K.t, fw = on && tN <= -10 ? 1 : 0;
+    PF.frost += (fw - PF.frost)*Math.min(1, .015*move); if (Math.abs(fw - PF.frost) < .004) PF.frost = fw;
+    pfSize(); if (!PF.drops.length && !rate && PF.frost === PF.lastFrost) return; PF.lastFrost = PF.frost;
+    var x = PF.x, w = PF.w, h = PF.h, D = PF.drops, i; if (!w) return; x.clearRect(0, 0, w, h);
+    if (PF.frost > .005){ if (!PF.fs) PF.fs = frostSprite(w, h); x.globalAlpha = PF.frost; x.drawImage(PF.fs.c, 0, 0, w, h); x.globalAlpha = 1; }
+    if (Math.random() < rate*move && D.length < 70){ var r = Math.random() < .2 ? rnd(3, 4.6) : rnd(1.1, 2.6); D.push({x:rnd(4, w - 4), y:rnd(3, h - 4), r:r, a:0, life:rnd(420, 900), age:0, vy:0, slide:r > 2.8 && Math.random() < .75, last:0}); }
+    for (i = D.length - 1; i >= 0; i--){ var d = D[i]; d.age += move*(rate ? 1 : 3);
+      if (d.slide && d.age > 40){ d.vy = Math.min(1.5, d.vy + .018*move); d.y += d.vy*move; d.x += Math.sin(d.y*.15 + d.r)*.12*move;
+        if (d.y - d.last > 7){ d.last = d.y; if (D.length < 90) D.push({x:d.x + rnd(-.6, .6), y:d.y - d.r*1.3, r:rnd(.5, 1), a:0, life:rnd(160, 360), age:0, vy:0, slide:false, last:0}); d.r *= .985; } }
+      var f = d.age/d.life; if (f >= 1 || d.y > h + 6 || d.r < .45){ D.splice(i, 1); continue; }
+      d.a = Math.min(1, d.age/12)*(f > .75 ? (1 - f)/.25 : 1); drawDrop(x, d); } }
+
+  var last = 0, heroVis = true, slow = 0, prT = 0;
   function loop(t){ var dt = last ? Math.min(t - last, 50) : 16; last = t;
     /* если телефон не успевает — рисуем меньше дальних снежинок, качество возвращается само */
     if (dt > 26){ if (++slow > 45){ QUALITY = Math.max(.45, QUALITY - .15); slow = 0; } } else if (slow > 0) slow--; else if (QUALITY < 1 && Math.random() < .002) QUALITY = Math.min(1, QUALITY + .05);
-    stepBolt(t, heroScene.w, heroScene.h, heroScene.o.cloudBand, heroScene.o.soft); hdrScene.draw(t, dt); if (heroVis) heroScene.draw(t, dt); requestAnimationFrame(loop); }
+    stepBolt(t, heroScene.w, heroScene.h, heroScene.o.cloudBand, heroScene.o.soft); hdrScene.draw(t, dt); if (heroVis){ heroScene.draw(t, dt); drawLight(dt/16); drawPanelFx(dt/16); if (++prT > 90){ prT = 0; heroScene.panelRect(); } } requestAnimationFrame(loop); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ heroVis = e[0].isIntersecting; }).observe(document.getElementById('skyHero'));
-  window.addEventListener('resize', function(){ hdrScene.size(); heroScene.size(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); } });
+  window.addEventListener('resize', function(){ hdrScene.size(); heroScene.size(); lightSize(); if (PF.x) pfSize(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); } });
   /* Над фото шапка прозрачная (осадки рисует сцена фото, чтобы не было двойного снега); после прокрутки — своё небо */
   var hdrEl = document.getElementById('hdr');
   var heroEl = document.getElementById('hero');
@@ -442,7 +578,7 @@
       light = (HDR_MODE === 'fade' || HDR_MODE === 'glass') ? y > heroEnd + 6 : solid;
     hdrEl.dataset.m = HDR_MODE; hdrEl.classList.toggle('light', light); hdrEl.classList.toggle('solid', solid); }
   var ROOT = document.getElementById('lg') || document.documentElement;
-  function setHero(m){ HERO = m; ROOT.classList.toggle('hc', m === 'clean'); heroScene.o.noClouds = heroScene.o.soft = hdrScene.o.noBody = m === 'clean'; heroScene.key = ''; heroScene.p = []; heroScene.reset();
+  function setHero(m){ HERO = m; ROOT.classList.toggle('hc', m === 'clean'); heroScene.o.noClouds = heroScene.o.soft = hdrScene.o.noBody = m === 'clean'; heroScene.key = ''; heroScene.p = []; heroScene.reset(); heroScene.mapPhoto(); LT.last = ''; PF.lastFrost = -1;
     var hb = document.getElementById('heroModes'); if (hb) hb.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.hero === m); }); }
   setHero(HERO);
   var hbx = document.getElementById('heroModes'); if (hbx) hbx.addEventListener('click', function(e){ var b = e.target.closest('[data-hero]'); if (b) setHero(b.dataset.hero); });
