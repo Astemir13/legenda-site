@@ -25,6 +25,8 @@ open(PREVIEW, 'w', encoding='utf-8', newline='\n').write(
 fonts = re.search(r'<link rel="preconnect".*?display=swap">', t, re.S).group(0)
 css = re.search(r'<style>(.*?)</style>', t, re.S).group(1)
 js = re.search(r'<script>(.*?)</script>', t, re.S).group(1)
+# разметка для поисковиков (JSON-LD) стоит в конце исходника — в Тильде уходит в блок 2 (в блоке 1 нет места)
+ld = re.search(r'<script type="application/ld\+json">.*?</script>', t, re.S).group(0)
 body = t[t.index('</style>') + len('</style>'):t.index('<script>')]
 
 def must(s, a, b, n=1):
@@ -135,7 +137,7 @@ parts = {
           + fonts + '\n<style>\n' + css + '</style>\n' + body + '\n',
     OUT2: '<!-- Эко-отель «Легенда» · главная · блок 2 из 2 (скрипт). Ставится сразу под блоком 1. -->\n'
           + ('<style>\n' + panel_css + '</style>\n' + panel_html if DEMO else '')
-          + '<script>\n' + js + '</script>\n',
+          + '<script>\n' + js + '</script>\n' + ld + '\n',
 }
 for path, code in parts.items():
     n = len(json.dumps(code, ensure_ascii=False))

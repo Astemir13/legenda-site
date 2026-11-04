@@ -609,7 +609,7 @@
 
   var grid = document.getElementById('roomGrid');
   rooms.forEach(function(r){ var el = document.createElement('article'); el.className = 'room'; el.id = 'r-'+r.id;
-    var ph = PHOTOS[r.id] || []; el.innerHTML = '<div class="ph" data-view="'+(ph.length ? 'photo' : 'plan')+'"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="'+!!ph.length+'">Фото</button><button type="button" data-v="plan" aria-pressed="'+!ph.length+'">План</button></div><div class="mphoto">'+(ph.length ? '<div class="mph-s">'+ph.map(function(u, i){ return '<img src="'+phUrl(u, 760)+'" alt="'+r.name+', фото '+(i+1)+'" loading="lazy" decoding="async" data-i="'+i+'">'; }).join('')+'</div>'+(ph.length > 1 ? '<span class="mph-n">1 / '+ph.length+'</span><button type="button" class="mph-a p" aria-label="Предыдущее фото">'+CHEV_L+'</button><button type="button" class="mph-a n" aria-label="Следующее фото">'+CHEV_R+'</button>' : '') : '<span class="mph-ph">фото номера</span>')+'</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><small class="fnote">Цены на ваши даты —<br>в бронировании</small><a class="btn btn-pine" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'">Забронировать</a></div></div>';
+    var ph = PHOTOS[r.id] || []; el.innerHTML = '<div class="ph" data-view="'+(ph.length ? 'photo' : 'plan')+'"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="'+!!ph.length+'">Фото</button><button type="button" data-v="plan" aria-pressed="'+!ph.length+'">План</button></div><div class="mphoto">'+(ph.length ? '<div class="mph-s">'+ph.map(function(u, i){ return '<img src="'+phUrl(u, 760)+'" alt="'+r.name+' — номер в эко-отеле «Легенда», Терскол, фото '+(i+1)+'" loading="lazy" decoding="async" data-i="'+i+'">'; }).join('')+'</div>'+(ph.length > 1 ? '<span class="mph-n">1 / '+ph.length+'</span><button type="button" class="mph-a p" aria-label="Предыдущее фото">'+CHEV_L+'</button><button type="button" class="mph-a n" aria-label="Следующее фото">'+CHEV_R+'</button>' : '') : '<span class="mph-ph">фото номера</span>')+'</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><small class="fnote">Цены на ваши даты —<br>в бронировании</small><a class="btn btn-pine" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'">Забронировать</a></div></div>';
     grid.appendChild(el); });
   var NS = 'http://www.w3.org/2000/svg';
   function sv(tag, a, par){ var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (par) par.appendChild(e); return e; }
@@ -683,7 +683,7 @@
     [].forEach.call(galTh.children, function(b, k){ b.setAttribute('aria-current', k === i); });
     var b = galTh.children[i]; if (b) galTh.scrollTo({left:b.offsetLeft - (galTh.clientWidth - b.offsetWidth)/2, behavior:reduce ? 'auto' : 'smooth'}); }
   function openGal(id, i){ var ph = PHOTOS[id] || [], r = rooms.filter(function(x){ return x.id === id; })[0]; if (!ph.length) return; galLast = document.activeElement;
-    galS.innerHTML = ph.map(function(u, k){ return '<img src="' + phUrl(u, 0) + '" alt="' + r.name + ', фото ' + (k+1) + '"' + (Math.abs(k - i) > 1 ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
+    galS.innerHTML = ph.map(function(u, k){ return '<img src="' + phUrl(u, 0) + '" alt="' + r.name + ' — номер в эко-отеле «Легенда», Терскол, фото ' + (k+1) + '"' + (Math.abs(k - i) > 1 ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
     galTh.innerHTML = ph.length < 2 ? '' : ph.map(function(u, k){ return '<button type="button" data-i="' + k + '" aria-label="Фото ' + (k+1) + '"><img src="' + phUrl(u, 160) + '" alt="" loading="lazy" decoding="async"></button>'; }).join('');
     document.getElementById('galT').textContent = r.name; gal.hidden = false; document.documentElement.style.overflow = 'hidden';
     galS.scrollLeft = i * galS.clientWidth; galCur = -1; galMark(i); document.getElementById('galX').focus(); }
@@ -764,4 +764,47 @@
     els.forEach(function(el, i){ el.classList.add('rv-in'); el.style.transitionDelay = (i % 3)*70 + 'ms'; io.observe(el); });
   }
 })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Hotel",
+  "@id": "https://hotellegenda.ru/#hotel",
+  "name": "Эко-отель «Легенда»",
+  "alternateName": ["Отель Легенда Терскол", "Гостиница Легенда", "Legenda hotel"],
+  "description": "Эко-отель из деревянного сруба на 17 номеров в Терсколе (Приэльбрусье): 500 м до подъёмника Чегет, 5 км до канатной дороги Азау на Эльбрус. Номера с видом на горы, ресторан кавказской и европейской кухни, сауна, бильярд, беседка с мангалом. При бронировании напрямую завтрак на двоих включён.",
+  "url": "https://hotellegenda.ru/",
+  "telephone": "+7 999 300-00-88",
+  "email": "Legenda_hotel@mail.ru",
+  "image": ["https://static.tildacdn.com/tila3835-3766-4537-b437-653539313566/facade.jpg"],
+  "address": {"@type": "PostalAddress", "streetAddress": "ул. Чегет, 5А", "addressLocality": "Терскол", "addressRegion": "Кабардино-Балкарская Республика", "addressCountry": "RU"},
+  "geo": {"@type": "GeoCoordinates", "latitude": 43.246012, "longitude": 42.526408},
+  "hasMap": "https://yandex.ru/maps/org/legenda/1184772629/",
+  "sameAs": ["https://yandex.ru/maps/org/legenda/1184772629/"],
+  "numberOfRooms": 17,
+  "petsAllowed": true,
+  "priceRange": "₽₽",
+  "currenciesAccepted": "RUB",
+  "availableLanguage": ["ru"],
+  "amenityFeature": [
+    {"@type": "LocationFeatureSpecification", "name": "Ресторан, 8:00–21:00", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Завтрак включён при бронировании напрямую", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Сауна", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Бильярд", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Беседка с мангалом", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Бесплатная парковка", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Бесплатный Wi-Fi", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Круглосуточная стойка регистрации", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Можно с детьми и с домашними животными", "value": true}
+  ],
+  "containsPlace": [
+    {"@type": "HotelRoom", "name": "Стандарт двухместный", "description": "Одна большая кровать или две раздельные — на выбор. Вид на горы.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 2}, "floorSize": {"@type": "QuantitativeValue", "value": 32, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Стандарт трёхместный", "description": "Три кровати — для друзей или семьи с подростком.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 3}, "floorSize": {"@type": "QuantitativeValue", "value": 32, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Полулюкс", "description": "Спальня с большой кроватью и гостиная с диван-кроватью.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 3}, "floorSize": {"@type": "QuantitativeValue", "value": 35, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Семейный", "description": "Две отдельные спальни с двуспальными кроватями.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 4}, "floorSize": {"@type": "QuantitativeValue", "value": 35, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Люкс", "description": "Самый просторный номер: спальня и гостиная, вид на горы.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 3}, "floorSize": {"@type": "QuantitativeValue", "value": 37, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Барнхаус «Легенда»", "description": "Половина отдельного дома со своим входом: два этажа и две спальни.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 5}, "floorSize": {"@type": "QuantitativeValue", "value": 80, "unitCode": "MTK"}}
+  ],
+  "potentialAction": {"@type": "ReserveAction", "target": "https://homereserve.ru/gDYYpGYEnb", "name": "Забронировать напрямую"}
+}
 </script>

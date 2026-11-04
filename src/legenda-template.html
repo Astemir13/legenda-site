@@ -128,6 +128,7 @@ section[id]{scroll-margin-top:84px}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .hero-in{position:relative;padding-block:calc(72px + 44px + env(safe-area-inset-top,0px)) 32px;display:flex;flex-direction:column;justify-content:flex-end;min-height:min(820px,100svh)}
 .hero-copy{max-width:680px}
+.h1k{display:block;font:600 14px/1.3 var(--body);letter-spacing:.1em;text-transform:uppercase;color:#E3EBEF;margin-bottom:14px}
 .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:36px;max-width:960px}
 .fact{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:rgba(12,22,32,.38);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);min-width:0;color:#fff;text-decoration:none}
 .fact .fi{flex:0 0 40px;height:40px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center}
@@ -734,25 +735,25 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 
 <main id="top">
 <section class="hero" id="hero">
-  <img src="__FACADE__" alt="Отель «Легенда»: деревянный дом с зелёной крышей среди сосен">
+  <img src="__FACADE__" alt="Эко-отель «Легенда» в Терсколе: деревянный дом из сруба с зелёной крышей среди сосен, Приэльбрусье">
   <div class="tint" aria-hidden="true"></div>
   <canvas id="fxLight" aria-hidden="true"></canvas>
   <canvas id="skyHero" aria-hidden="true"></canvas>
   <div class="wrap hero-in">
     <div class="now" aria-live="polite"><span class="ni" id="nowIc" aria-hidden="true"></span><span><span class="now-t" id="nowTxt"><span class="sg">Терскол</span></span></span></div>
     <div class="hero-copy">
-      <h1>Тёплый дом у подножия Чегета</h1>
+      <h1><span class="h1k">Эко-отель в Терсколе · Приэльбрусье</span>Тёплый дом у подножия Чегета</h1>
       <p class="lead">Эко-отель из сруба на 17 номеров: вид на горы, ресторан, сауна и беседка с мангалом.</p>
       <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
-      <div class="hp-c hp-dist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/></svg><div data-dist="cheget"><b class="dv">— км</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">— км</b><span>до Азау</span></div></div>
+      <div class="hp-c hp-dist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/></svg><div data-dist="cheget"><b class="dv">500 м</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">5 км</b><span>до Азау</span></div></div>
       <a class="hp-c hp-rate" id="hpRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg><div><b><span class="rt">5,0</span> из 5</b><span class="vt"><em class="vv">1293 оценки · </em>Яндекс Карты</span></div></a>
       <div class="hp-c hp-rest" id="hpRest"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.6-3 7h3"/></svg><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></div>
       <div class="hp-wx" aria-live="polite"><span class="hp-ic" id="hpIc" aria-hidden="true"></span><span class="hp-wl">Сейчас в Терсколе</span><b id="hpT"></b><span class="hp-wk" id="hpK"></span><span class="hp-ww" id="hpW"></span><span class="hp-sd" id="hpSD"></span></div>
     </div>
     <div class="facts">
-      <div class="fact fact-lift" role="button" tabindex="0" aria-label="Расстояния до подъёмников: нажмите, чтобы переключить"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg></span><div class="fl2"><span class="fl-dots" aria-hidden="true"><i></i><i></i></span><div data-dist="cheget"><b class="dv">— км</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">— км</b><span>до Азау</span></div></div></div>
+      <div class="fact fact-lift" role="button" tabindex="0" aria-label="Расстояния до подъёмников: нажмите, чтобы переключить"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg></span><div class="fl2"><span class="fl-dots" aria-hidden="true"><i></i><i></i></span><div data-dist="cheget"><b class="dv">500 м</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">5 км</b><span>до Азау</span></div></div></div>
       <a class="fact" id="heroRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#FFD58A" stroke="#FFD58A" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg></span><div><b><i class="st" aria-hidden="true">★</i><span class="rt">5,0</span> из 5</b><span><em class="vt">1293 оценки · </em>Яндекс Карты</span></div></a>
       <div class="fact" id="heroRest"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.5-3 7h3"/></svg></span><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></div>
     </div>
@@ -844,8 +845,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
         <h2>Ждём вас в Терсколе</h2>
         <p class="road-a">с. Терскол, ул. Чегет, 5А · ресепшен круглосуточно</p>
         <ul class="dist2">
-          <li data-dist="cheget"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M3 6.6 21 3"/><path d="M12 4.8V9"/><rect x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M7 13.2h10"/></svg></span><b class="dv">— км</b><span>до подъёмника Чегет</span></li>
-          <li data-dist="azau"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M3 5h18M12 5v4"/><path d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M7.2 12.8h9.6"/></svg></span><b class="dv">— км</b><span>до канатной дороги Азау</span></li>
+          <li data-dist="cheget"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M3 6.6 21 3"/><path d="M12 4.8V9"/><rect x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M7 13.2h10"/></svg></span><b class="dv">500 м</b><span>до подъёмника Чегет</span></li>
+          <li data-dist="azau"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M3 5h18M12 5v4"/><path d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M7.2 12.8h9.6"/></svg></span><b class="dv">5 км</b><span>до канатной дороги Азау</span></li>
           <li data-ph><b>[время]</b><span>от аэропорта Нальчик</span></li>
           <li data-ph><b>[время]</b><span>от аэропорта Минводы</span></li>
         </ul>
@@ -1632,7 +1633,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   /* ---------- Подбор номера ---------- */
   var grid = document.getElementById('roomGrid');
   rooms.forEach(function(r){ var el = document.createElement('article'); el.className = 'room'; el.id = 'r-'+r.id;
-    var ph = PHOTOS[r.id] || []; el.innerHTML = '<div class="ph" data-view="'+(ph.length ? 'photo' : 'plan')+'"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="'+!!ph.length+'">Фото</button><button type="button" data-v="plan" aria-pressed="'+!ph.length+'">План</button></div><div class="mphoto">'+(ph.length ? '<div class="mph-s">'+ph.map(function(u, i){ return '<img src="'+phUrl(u, 760)+'" alt="'+r.name+', фото '+(i+1)+'" loading="lazy" decoding="async" data-i="'+i+'">'; }).join('')+'</div>'+(ph.length > 1 ? '<span class="mph-n">1 / '+ph.length+'</span><button type="button" class="mph-a p" aria-label="Предыдущее фото">'+CHEV_L+'</button><button type="button" class="mph-a n" aria-label="Следующее фото">'+CHEV_R+'</button>' : '') : '<span class="mph-ph">фото номера</span>')+'</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><small class="fnote">Цены на ваши даты —<br>в бронировании</small><a class="btn btn-pine" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'">Забронировать</a></div></div>';
+    var ph = PHOTOS[r.id] || []; el.innerHTML = '<div class="ph" data-view="'+(ph.length ? 'photo' : 'plan')+'"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="'+!!ph.length+'">Фото</button><button type="button" data-v="plan" aria-pressed="'+!ph.length+'">План</button></div><div class="mphoto">'+(ph.length ? '<div class="mph-s">'+ph.map(function(u, i){ return '<img src="'+phUrl(u, 760)+'" alt="'+r.name+' — номер в эко-отеле «Легенда», Терскол, фото '+(i+1)+'" loading="lazy" decoding="async" data-i="'+i+'">'; }).join('')+'</div>'+(ph.length > 1 ? '<span class="mph-n">1 / '+ph.length+'</span><button type="button" class="mph-a p" aria-label="Предыдущее фото">'+CHEV_L+'</button><button type="button" class="mph-a n" aria-label="Следующее фото">'+CHEV_R+'</button>' : '') : '<span class="mph-ph">фото номера</span>')+'</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><small class="fnote">Цены на ваши даты —<br>в бронировании</small><a class="btn btn-pine" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'">Забронировать</a></div></div>';
     grid.appendChild(el); });
   var NS = 'http://www.w3.org/2000/svg';
   function sv(tag, a, par){ var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (par) par.appendChild(e); return e; }
@@ -1711,7 +1712,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     [].forEach.call(galTh.children, function(b, k){ b.setAttribute('aria-current', k === i); });
     var b = galTh.children[i]; if (b) galTh.scrollTo({left:b.offsetLeft - (galTh.clientWidth - b.offsetWidth)/2, behavior:reduce ? 'auto' : 'smooth'}); }
   function openGal(id, i){ var ph = PHOTOS[id] || [], r = rooms.filter(function(x){ return x.id === id; })[0]; if (!ph.length) return; galLast = document.activeElement;
-    galS.innerHTML = ph.map(function(u, k){ return '<img src="' + phUrl(u, 0) + '" alt="' + r.name + ', фото ' + (k+1) + '"' + (Math.abs(k - i) > 1 ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
+    galS.innerHTML = ph.map(function(u, k){ return '<img src="' + phUrl(u, 0) + '" alt="' + r.name + ' — номер в эко-отеле «Легенда», Терскол, фото ' + (k+1) + '"' + (Math.abs(k - i) > 1 ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
     galTh.innerHTML = ph.length < 2 ? '' : ph.map(function(u, k){ return '<button type="button" data-i="' + k + '" aria-label="Фото ' + (k+1) + '"><img src="' + phUrl(u, 160) + '" alt="" loading="lazy" decoding="async"></button>'; }).join('');
     document.getElementById('galT').textContent = r.name; gal.hidden = false; document.documentElement.style.overflow = 'hidden';
     galS.scrollLeft = i * galS.clientWidth; galCur = -1; galMark(i); document.getElementById('galX').focus(); }
@@ -1804,4 +1805,51 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     els.forEach(function(el, i){ el.classList.add('rv-in'); el.style.transitionDelay = (i % 3)*70 + 'ms'; io.observe(el); });
   }
 })();
+</script>
+
+<!-- Разметка для поисковиков (Яндекс, Google): что это за место, где оно, как связаться и какие есть номера.
+     Номера здесь повторяют массив rooms в скрипте — при изменении номеров править и тут. Отзывы и рейтинг сюда не добавлять:
+     Google не учитывает оценки, которые сайт ставит сам себе, а у Яндекса рейтинг берётся из карточки на Картах. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Hotel",
+  "@id": "https://hotellegenda.ru/#hotel",
+  "name": "Эко-отель «Легенда»",
+  "alternateName": ["Отель Легенда Терскол", "Гостиница Легенда", "Legenda hotel"],
+  "description": "Эко-отель из деревянного сруба на 17 номеров в Терсколе (Приэльбрусье): 500 м до подъёмника Чегет, 5 км до канатной дороги Азау на Эльбрус. Номера с видом на горы, ресторан кавказской и европейской кухни, сауна, бильярд, беседка с мангалом. При бронировании напрямую завтрак на двоих включён.",
+  "url": "https://hotellegenda.ru/",
+  "telephone": "+7 999 300-00-88",
+  "email": "Legenda_hotel@mail.ru",
+  "image": ["https://static.tildacdn.com/tila3835-3766-4537-b437-653539313566/facade.jpg"],
+  "address": {"@type": "PostalAddress", "streetAddress": "ул. Чегет, 5А", "addressLocality": "Терскол", "addressRegion": "Кабардино-Балкарская Республика", "addressCountry": "RU"},
+  "geo": {"@type": "GeoCoordinates", "latitude": 43.246012, "longitude": 42.526408},
+  "hasMap": "https://yandex.ru/maps/org/legenda/1184772629/",
+  "sameAs": ["https://yandex.ru/maps/org/legenda/1184772629/"],
+  "numberOfRooms": 17,
+  "petsAllowed": true,
+  "priceRange": "₽₽",
+  "currenciesAccepted": "RUB",
+  "availableLanguage": ["ru"],
+  "amenityFeature": [
+    {"@type": "LocationFeatureSpecification", "name": "Ресторан, 8:00–21:00", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Завтрак включён при бронировании напрямую", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Сауна", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Бильярд", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Беседка с мангалом", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Бесплатная парковка", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Бесплатный Wi-Fi", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Круглосуточная стойка регистрации", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Можно с детьми и с домашними животными", "value": true}
+  ],
+  "containsPlace": [
+    {"@type": "HotelRoom", "name": "Стандарт двухместный", "description": "Одна большая кровать или две раздельные — на выбор. Вид на горы.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 2}, "floorSize": {"@type": "QuantitativeValue", "value": 32, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Стандарт трёхместный", "description": "Три кровати — для друзей или семьи с подростком.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 3}, "floorSize": {"@type": "QuantitativeValue", "value": 32, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Полулюкс", "description": "Спальня с большой кроватью и гостиная с диван-кроватью.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 3}, "floorSize": {"@type": "QuantitativeValue", "value": 35, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Семейный", "description": "Две отдельные спальни с двуспальными кроватями.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 4}, "floorSize": {"@type": "QuantitativeValue", "value": 35, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Люкс", "description": "Самый просторный номер: спальня и гостиная, вид на горы.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 3}, "floorSize": {"@type": "QuantitativeValue", "value": 37, "unitCode": "MTK"}},
+    {"@type": "HotelRoom", "name": "Барнхаус «Легенда»", "description": "Половина отдельного дома со своим входом: два этажа и две спальни.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 5}, "floorSize": {"@type": "QuantitativeValue", "value": 80, "unitCode": "MTK"}}
+  ],
+  "potentialAction": {"@type": "ReserveAction", "target": "https://homereserve.ru/gDYYpGYEnb", "name": "Забронировать напрямую"}
+}
 </script>
