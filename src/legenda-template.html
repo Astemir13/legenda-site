@@ -704,13 +704,17 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 :root.hc .call .ci,:root.hc .hdr.light .call .ci,:root.hc .hdr.solid .call .ci{background:var(--pine);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
 /* ---- в Тильде: блок 2 ---- */
 .hp-rest i{font-style:normal}
+/* ресторан открыт — точка мягко пульсирует */
+@keyframes dotp{0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}70%,100%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
+.hp-rest:not(.closed) .dot{animation:dotp 2s ease-out infinite}
+@media (prefers-reduced-motion:reduce){.hp-rest .dot{animation:none}}
 .hp-rate .st,.hp-rate .ym,.hp-rest .sw{display:none}
 /* Телефон, чистая обложка: заголовок вверху слева, середина — открытое фото, панель в две строки у нижнего края:
    Чегет | Азау | оценка со значком Яндекс Карт | ресторан, ниже — погода по центру */
 @media (max-width:760px){
-  :root.hc .hero-in{justify-content:flex-start;padding-top:calc(72px + 16px + env(safe-area-inset-top,0px));padding-bottom:12px}
+  :root.hc .hero-in{justify-content:flex-start;padding-top:calc(72px + 2px + env(safe-area-inset-top,0px));padding-bottom:12px}
   :root.hc .hero .tint{background:linear-gradient(180deg,rgba(8,14,22,.62) 0,rgba(8,14,22,.34) 34%,rgba(8,14,22,0) 56%),linear-gradient(0deg,rgba(8,14,22,.6) 0,rgba(8,14,22,0) 26%)}
-  :root.hc .hero-copy{max-width:310px}
+  :root.hc .hero-copy{max-width:310px;margin-top:6px}
   :root.hc .hero .h1k{font-size:10.5px;margin-bottom:8px}
   :root.hc .hero h1{font-size:31px;line-height:1.06;letter-spacing:-.02em}
   :root.hc .hero .lead{font-size:14.5px;line-height:1.45;margin-top:10px;max-width:31ch}
@@ -731,7 +735,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   .hp-wx{justify-content:center}
 }
 /* узкие телефоны: мельче шрифт панели; на самых узких вместо слов «Яндекс Карты» остаётся значок */
-@media (max-width:430px){.hpanel .hp-dist>div,.hpanel .hp-c{padding:10px 3px}.hp-c b{font-size:14px}.hp-c span,.hpanel .hp-dist span{font-size:10px}.hp-rest .dot{width:6px;height:6px;margin-right:4px;box-shadow:none}}
+@media (max-width:430px){.hpanel .hp-dist>div,.hpanel .hp-c{padding:10px 3px}.hp-c b{font-size:14px}.hp-c span,.hpanel .hp-dist span{font-size:10px}.hp-rest .dot{width:6px;height:6px;margin-right:5px}}
 @media (max-width:380px){.hp-c b{font-size:13px}.hp-rate .ym{font-size:0;gap:0}.hp-rate .ym svg{width:10px;height:13px}}
 @media (max-width:340px){.hp-c b{font-size:12px}.hp-rest .dot{display:none}}
 </style>
@@ -775,7 +779,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     <div class="now" aria-live="polite"><span class="ni" id="nowIc" aria-hidden="true"></span><span><span class="now-t" id="nowTxt"><span class="sg">Терскол</span></span></span></div>
     <div class="hero-copy">
       <h1><span class="h1k">Гостиница в Терсколе · Приэльбрусье</span> Тёплый дом у подножия Чегета</h1>
-      <p class="lead">Дом из сруба на 20 номеров и отдельный коттедж. Свой ресторан и вид на горы.</p>
+      <p class="lead">Дом из сруба на 20 номеров и отдельный коттедж. Бронируйте напрямую — завтрак включён.</p>
       <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
@@ -826,7 +830,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/><path d="M7.3 11.4 9 12.3l1.6-.9"/></svg></span><span>Подъёмник Чегет в 500 м, канатная дорога Азау — 5 км</span></li>
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="4" y="4" width="16" height="16" rx="4.5"/><rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M10 16.5v-9h2.8a2.6 2.6 0 0 1 0 5.2H10"/></svg></span><span>Бесплатная парковка и Wi-Fi на всей территории</span></li>
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="8.5" cy="7.2" r="2.6"/><circle cx="8.5" cy="7.2" r="2.6"/><path d="M4.3 20v-4.3a4.2 4.2 0 0 1 8.4 0V20"/><circle cx="16.8" cy="10.2" r="2"/><path d="M14 20v-2.8a2.8 2.8 0 0 1 5.6 0V20"/></svg></span><span>Можно с детьми и с питомцами (за питомца [доплата])</span></li>
-        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="4" y="12" width="16" height="4.5" rx="1"/><path d="M8 3.6c-1 1.4 1 2.4 0 3.8M12 3.1c-1 1.4 1 2.4 0 3.8M16 3.6c-1 1.4 1 2.4 0 3.8"/><path d="M4 12h16M4 16.5h16M6 12v8M18 12v8"/></svg></span><span>Сауна — рядом, в соседней гостинице</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="4" y="12" width="16" height="4.5" rx="1"/><path d="M8 3.6c-1 1.4 1 2.4 0 3.8M12 3.1c-1 1.4 1 2.4 0 3.8M16 3.6c-1 1.4 1 2.4 0 3.8"/><path d="M4 12h16M4 16.5h16M6 12v8M18 12v8"/></svg></span><span>Сауна на территории</span></li>
       </ul>
     </div>
     <div class="panel">
