@@ -14,6 +14,8 @@ OUT1 = 'dist/tilda-blok-1.html'
 OUT2 = 'dist/tilda-blok-2.html'
 PREVIEW = 'index.html'
 PHOTO = sys.argv[1] if len(sys.argv) > 1 else 'ССЫЛКА_НА_ФОТО_ФАСАДА'
+# панель «Погода» на /new — чтобы владелец переключал погоды с телефона; когда /new станет главной — False
+DEMO = True
 
 t = open(SRC, encoding='utf-8').read()
 # предпросмотр: исходник как есть, фото — файлом рядом
@@ -32,6 +34,11 @@ def must(s, a, b, n=1):
 
 # ---------- CSS: префикс #lg ----------
 css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+# стили панели «Погода» — отдельно: в блоке 1 нет места, они уходят в блок 2 (или вовсе выкидываются)
+PANEL_RE = re.compile(r'\.wx(?:panel|x|btns|body|note|h|kinds|phases)\b|#wxMode')
+css_lines = css.split('\n')
+panel_css = '\n'.join(l for l in css_lines if PANEL_RE.search(l))
+css = '\n'.join(l for l in css_lines if not PANEL_RE.search(l))
 
 def pref_sel(sel):
     out = []
@@ -78,11 +85,13 @@ def prefix(s):
     return ''.join(out)
 
 css = prefix(css)
+panel_css = prefix(panel_css)
 css = css.replace('#lg{scroll-behavior:smooth;', '#lg{')  # html{scroll-behavior} -> через JS
 css += '\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n#lg{min-height:100vh;position:relative}\n'
 
 # ---------- Разметка ----------
-body = re.sub(r'<details class="wxpanel".*?</details>\n', '', body, flags=re.S)
+panel_html = re.search(r'<details class="wxpanel".*?</details>\n', body, re.S).group(0)
+body = body.replace(panel_html, '')
 body = must(body, '<img src="__FACADE__"', '<img src="' + PHOTO + '" fetchpriority="high"')
 # заглушки
 body = re.sub(r'<section class="sec" id="reviews".*?</section>\n\n', '', body, flags=re.S)
@@ -101,15 +110,19 @@ assert js.lstrip().startswith('(function(){')
 js = js.replace("(function(){\n", "(function(){\n  var LG = document.getElementById('lg'); document.documentElement.style.scrollBehavior = 'smooth';\n", 1)
 js = must(js, "r = document.documentElement.style;", "r = LG.style;")
 js = must(js, "var PREVIEW = true;", "var PREVIEW = false;")
-js = re.sub(r"    document\.getElementById\('wxMode'\).*?\n", '', js)
-js = re.sub(r"    document\.querySelectorAll\('\[data-(?:k|ph)\]'\).*?\n", '', js)
-js = re.sub(r"      document\.getElementById\('wxNote'\).*?\n", '', js)
 js = must(js, "W.live = true; W.temp", "LG.classList.remove('nowx'); W.live = true; W.temp")
 js = must(js, "    }).catch(function(){\n      W.live = false;", "    }).catch(function(){\n      if (W.live) return; LG.classList.add('nowx');\n      W.live = false;")
-js = re.sub(r"  /\* Закрыть панель погоды.*?\n(?:  .*wxp.*\n)+", '', js)
-js = re.sub(r"  /\* Панель предпросмотра погоды \*/\n(?:  .*\n){6}", '', js)
-for bad in ('wxMode', 'wxNote', 'wxKinds', 'wxPanel', 'wxAuto', 'wxClose'):
-    assert bad not in js, bad
+if DEMO:
+    # панель стоит в блоке 2, а стили у неё под #lg — переносим её внутрь
+    js = js.replace("var LG = document.getElementById('lg');", "var LG = document.getElementById('lg'); LG.appendChild(document.getElementById('wxPanel'));", 1)
+else:
+    js = re.sub(r"    document\.getElementById\('wxMode'\).*?\n", '', js)
+    js = re.sub(r"    document\.querySelectorAll\('\[data-(?:k|ph)\]'\).*?\n", '', js)
+    js = re.sub(r"      document\.getElementById\('wxNote'\).*?\n", '', js)
+    js = re.sub(r"  /\* Закрыть панель погоды.*?\n(?:  .*wxp.*\n)+", '', js)
+    js = re.sub(r"  /\* Панель предпросмотра погоды \*/\n(?:  .*\n){6}", '', js)
+    for bad in ('wxMode', 'wxNote', 'wxKinds', 'wxPanel', 'wxAuto', 'wxClose'):
+        assert bad not in js, bad
 assert 'wxPanel' not in body
 
 # Тильда не сохраняет блок T123 больше ~120 000 знаков, поэтому код делится на два блока:
@@ -119,6 +132,7 @@ parts = {
     OUT1: '<!-- Эко-отель «Легенда» · главная · блок 1 из 2 (стили и разметка). Блок 2 со скриптом стоит сразу под ним. -->\n'
           + fonts + '\n<style>\n' + css + '</style>\n' + body + '\n',
     OUT2: '<!-- Эко-отель «Легенда» · главная · блок 2 из 2 (скрипт). Ставится сразу под блоком 1. -->\n'
+          + ('<style>\n' + panel_css + '</style>\n' + panel_html if DEMO else '')
           + '<script>\n' + js + '</script>\n',
 }
 for path, code in parts.items():
