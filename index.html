@@ -706,6 +706,38 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .hdr[data-m="glass"].light::before{background:rgba(255,255,255,.95);box-shadow:var(--gl-rim),inset 0 0 0 1px rgba(19,32,42,.10),0 2px 6px rgba(19,32,42,.08),0 18px 44px rgba(19,32,42,.26)}
 /* значок трубки — всегда фирменный зелёный */
 :root.hc .call .ci,:root.hc .hdr.light .call .ci,:root.hc .hdr.solid .call .ci{background:var(--pine);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+/* ---- в Тильде: блок 2 ---- */
+.hp-rest i{font-style:normal}
+.hp-rate .st,.hp-rate .ym,.hp-rest .sw{display:none}
+/* Телефон, чистая обложка: заголовок вверху слева, середина — открытое фото, панель в две строки у нижнего края:
+   Чегет | Азау | оценка со значком Яндекс Карт | ресторан, ниже — погода по центру */
+@media (max-width:760px){
+  :root.hc .hero-in{justify-content:flex-start;padding-top:calc(72px + 16px + env(safe-area-inset-top,0px));padding-bottom:12px}
+  :root.hc .hero .tint{background:linear-gradient(180deg,rgba(8,14,22,.62) 0,rgba(8,14,22,.34) 34%,rgba(8,14,22,0) 56%),linear-gradient(0deg,rgba(8,14,22,.6) 0,rgba(8,14,22,0) 26%)}
+  :root.hc .hero-copy{max-width:310px}
+  :root.hc .hero .h1k{font-size:10.5px;margin-bottom:8px}
+  :root.hc .hero h1{font-size:31px;line-height:1.06;letter-spacing:-.02em}
+  :root.hc .hero .lead{font-size:14.5px;line-height:1.45;margin-top:10px;max-width:31ch}
+  :root.hc .hcta{margin-top:14px}
+  :root.hc .hcta .btn{min-height:42px;padding:0 18px;font-size:14px}
+  :root.hc .hcta .hlink{display:none}
+  :root.hc .hpanel{margin-top:auto;border-radius:18px;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .hpanel .hp-dist>div,.hpanel .hp-c{padding:10px 6px;justify-content:center;text-align:center}
+  .hpanel .hp-dist>div+div{padding-left:6px}
+  .hpanel .hp-rate,.hpanel .hp-rest{border-top:0;border-left:1px solid rgba(255,255,255,.12)}
+  .hp-c b{font-size:15px}
+  .hp-c span,.hpanel .hp-dist span{font-size:10.5px}
+  .hp-rate .of,.hp-rate .vt,.hp-rest .lw{display:none}
+  .hp-rate .st{display:inline;color:#FFD58A;margin-left:3px;font-style:normal}
+  .hp-rate .ym{display:flex;align-items:center;justify-content:center;gap:3px;white-space:nowrap}
+  .hp-rest .sw{display:inline}
+  .hp-rest .dot{margin-right:5px}
+  .hp-wx{justify-content:center}
+}
+/* узкие телефоны: мельче шрифт панели; на самых узких вместо слов «Яндекс Карты» остаётся значок */
+@media (max-width:430px){.hpanel .hp-dist>div,.hpanel .hp-c{padding:10px 3px}.hp-c b{font-size:14px}.hp-c span,.hpanel .hp-dist span{font-size:10px}.hp-rest .dot{width:6px;height:6px;margin-right:4px;box-shadow:none}}
+@media (max-width:380px){.hp-c b{font-size:13px}.hp-rate .ym{font-size:0;gap:0}.hp-rate .ym svg{width:10px;height:13px}}
+@media (max-width:340px){.hp-c b{font-size:12px}.hp-rest .dot{display:none}}
 </style>
 
 <header class="hdr" id="hdr">
@@ -752,7 +784,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
       <div class="hp-c hp-dist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/></svg><div data-dist="cheget"><b class="dv">500 м</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">5 км</b><span>до Азау</span></div></div>
-      <a class="hp-c hp-rate" id="hpRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg><div><b><span class="rt">5,0</span> из 5</b><span class="vt"><em class="vv">1293 оценки · </em>Яндекс Карты</span></div></a>
+      <a class="hp-c hp-rate" id="hpRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg><div><b><span class="rt">5,0</span><span class="of"> из 5</span><i class="st" aria-hidden="true">★</i></b><span class="vt"><em class="vv">1293 оценки · </em>Яндекс Карты</span><span class="ym" aria-hidden="true"><svg width="9" height="12" viewBox="0 0 12 16"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg>Яндекс Карты</span></div></a>
       <div class="hp-c hp-rest" id="hpRest"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.6-3 7h3"/></svg><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></div>
       <div class="hp-wx" aria-live="polite"><span class="hp-ic" id="hpIc" aria-hidden="true"></span><span class="hp-wl">Сейчас в Терсколе</span><b id="hpT"></b><span class="hp-wk" id="hpK"></span><span class="hp-ww" id="hpW"></span><span class="hp-sd" id="hpSD"></span></div>
     </div>
@@ -1620,7 +1652,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   function tick(){ o0 = msk(); minutes = (+o0.hour)*60 + (+o0.minute); if (!W.forced){ W.phase = phaseFor(minutes); } applyWeather();
     var open = restOpen(), l = document.getElementById('restLive'); l.classList.toggle('closed', !open); l.lastElementChild.textContent = open ? 'Ресторан открыт до ' + REST.close + ':00' : 'Ресторан откроется в ' + REST.open + ':00';
     var hr = document.getElementById('heroRest'); hr.classList.toggle('closed', !open); hr.querySelector(':scope > div > span').textContent = open ? 'открыт до ' + REST.close + ':00' : 'откроется в ' + REST.open + ':00';
-    var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').textContent = hr.querySelector(':scope > div > span').textContent; } }
+    /* в панели обложки: на телефоне коротко — «до 21:00» / «с 8:00» */
+    var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').innerHTML = open ? '<i class="lw">открыт </i>до ' + REST.close + ':00' : '<i class="lw">откроется в</i><i class="sw">с</i> ' + REST.open + ':00'; } }
 
   /* Панель предпросмотра погоды */
   var kindsBox = document.getElementById('wxKinds'), phBox = document.getElementById('wxPhases');

@@ -26,7 +26,8 @@ fonts = re.search(r'<link rel="preconnect".*?display=swap">', t, re.S).group(0)
 css = re.search(r'<style>(.*?)</style>', t, re.S).group(1)
 js = re.search(r'<script>(.*?)</script>', t, re.S).group(1)
 # разметка для поисковиков (JSON-LD) стоит в конце исходника — в Тильде уходит в блок 2 (в блоке 1 нет места)
-ld = re.search(r'<script type="application/ld\+json">.*?</script>', t, re.S).group(0)
+ld = re.search(r'<script type="application/ld\+json">(.*?)</script>', t, re.S).group(1)
+ld = '<script type="application/ld+json">' + __import__('json').dumps(__import__('json').loads(ld), ensure_ascii=False, separators=(',', ':')) + '</script>'  # без отступов — экономит место
 body = t[t.index('</style>') + len('</style>'):t.index('<script>')]
 
 def must(s, a, b, n=1):
@@ -35,6 +36,10 @@ def must(s, a, b, n=1):
     return s.replace(a, b)
 
 # ---------- CSS: префикс #lg ----------
+# стили после метки уходят в блок 2: в блоке 1 нет места (порядок каскада сохраняется — блок 2 стоит ниже)
+B2 = '/* ---- в Тильде: блок 2 ---- */'
+css, css2 = (css.split(B2) + [''])[:2]
+css2 = re.sub(r'/\*.*?\*/', '', css2, flags=re.S)
 css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
 # стили панели «Погода» — отдельно: в блоке 1 нет места, они уходят в блок 2 (или вовсе выкидываются)
 PANEL_RE = re.compile(r'\.wx(?:panel|x|btns|body|note|h|kinds|phases)\b|#wxMode')
@@ -88,6 +93,7 @@ def prefix(s):
 
 css = prefix(css)
 panel_css = prefix(panel_css)
+css2 = prefix(css2)
 css = css.replace('#lg{scroll-behavior:smooth;', '#lg{')  # html{scroll-behavior} -> через JS
 css += '\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n#lg{min-height:100vh;position:relative}\n'
 
@@ -128,6 +134,7 @@ else:
 assert 'wxPanel' not in body
 # комментарии, стоящие отдельными строками, в Тильде не нужны — экономят место в блоке 2 (в исходнике остаются)
 js = re.sub(r'^[ \t]*/\*.*?\*/[ \t]*\n', '', js, flags=re.M | re.S)
+js = re.sub(r'^[ \t]+', '', js, flags=re.M)  # отступы в начале строк тоже не нужны (в скрипте нет многострочных строк)
 
 # Тильда не сохраняет блок T123 больше ~120 000 знаков, поэтому код делится на два блока:
 # 1) шрифты, стили и разметка; 2) скрипт. На странице блок 1 должен стоять выше блока 2.
@@ -136,7 +143,7 @@ parts = {
     OUT1: '<!-- Эко-отель «Легенда» · главная · блок 1 из 2 (стили и разметка). Блок 2 со скриптом стоит сразу под ним. -->\n'
           + fonts + '\n<style>\n' + css + '</style>\n' + body + '\n',
     OUT2: '<!-- Эко-отель «Легенда» · главная · блок 2 из 2 (скрипт). Ставится сразу под блоком 1. -->\n'
-          + ('<style>\n' + panel_css + '</style>\n' + panel_html if DEMO else '')
+          + '<style>\n' + css2 + (panel_css if DEMO else '') + '</style>\n' + (panel_html if DEMO else '')
           + '<script>\n' + js + '</script>\n' + ld + '\n',
 }
 for path, code in parts.items():
