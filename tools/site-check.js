@@ -1,0 +1,40 @@
+// Проверка собранного сайта для хостинга (site/), поднятого локально: node tools/site-check.js http://127.0.0.1:8765
+// Ошибки скриптов, битые картинки и запросы, ссылки на Тильду, просмотр фото, политика, горизонтальная прокрутка, снимки.
+const pw = require('playwright'), path = require('path'), fs = require('fs');
+const BASE = process.argv[2] || 'http://127.0.0.1:8765';
+(async () => {
+  const b = await pw.chromium.launch(); fs.mkdirSync('shots', { recursive: true }); let bad = 0;
+  for (const [w, h, t] of [[1440, 900, 'd'], [390, 844, 'm'], [320, 640, 's']]) {
+    const p = await b.newPage({ viewport: { width: w, height: h }, hasTouch: w < 700 });
+    const errs = [], fails = [], tilda = [];
+    p.on('pageerror', e => errs.push(e.message));
+    // чужие запросы (Метрика, модуль бронирования, погода) не считаем — у них свои ошибки, и на Тильде тоже
+    const ext = /yandex\.(ru|net)|homereserve|realtycalendar|open-meteo/;
+    p.on('requestfailed', r => { if (!ext.test(r.url())) fails.push(r.url()); });
+    p.on('response', r => { if (r.status() >= 400 && !ext.test(r.url())) fails.push(r.status() + ' ' + r.url()); });
+    p.on('request', r => { if (/tildacdn|tilda\.ws/.test(r.url())) tilda.push(r.url()); });
+    await p.goto(BASE + '/', { waitUntil: 'networkidle' }).catch(() => {});
+    for (let y = 0; y < 9000; y += 700) { await p.evaluate(y => scrollTo(0, y), y); await p.waitForTimeout(150); }
+    await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(1500);
+    const info = await p.evaluate(() => ({
+      title: document.title, h1: document.querySelector('h1').textContent, lang: document.documentElement.lang,
+      hscroll: document.documentElement.scrollWidth > innerWidth, ld: !!document.querySelector('script[type="application/ld+json"]'),
+      brokenImg: [...document.images].filter(i => i.complete && i.naturalWidth === 0 && i.getAttribute('src')).map(i => i.getAttribute('src')),
+      panel: !!document.getElementById('wxPanel'), ym: typeof window.ym }));
+    await p.screenshot({ path: `shots/site_${t}.png` });
+    // просмотр фото номера: открыть, перейти на миниатюру, проверить, что фото загрузилось
+    const im = p.locator('img[data-i]').first(); await im.scrollIntoViewIfNeeded(); await im.click(); await p.waitForTimeout(1500);
+    const th = p.locator('#galTh button'); if (await th.count() > 2) { await th.nth(2).click(); await p.waitForTimeout(1200); }
+    const gal = await p.evaluate(() => { const i = document.querySelectorAll('#galS img')[2] || document.querySelector('#galS img'); return { n: document.getElementById('galN').textContent, ok: !!i && i.complete && i.naturalWidth > 0 }; });
+    if (t === 'm') await p.screenshot({ path: 'shots/site_gal.png' });
+    console.log(t, JSON.stringify({ ...info, gal, errs, fails: fails.slice(0, 5), tilda: tilda.slice(0, 3) }));
+    if (errs.length || fails.length || tilda.length || info.hscroll || info.brokenImg.length || info.panel || !gal.ok) bad++;
+    await p.close();
+  }
+  const p = await b.newPage({ viewport: { width: 390, height: 844 } });
+  const r = await p.goto(BASE + '/privacypolicy/'); await p.screenshot({ path: 'shots/site_privacy.png' });
+  const pv = await p.evaluate(() => ({ h1: document.querySelector('h1').textContent, h2: document.querySelectorAll('h2').length, p: document.querySelectorAll('p').length, hscroll: document.documentElement.scrollWidth > innerWidth }));
+  console.log('privacy', r.status(), JSON.stringify(pv)); if (r.status() !== 200 || pv.hscroll) bad++;
+  for (const f of ['/robots.txt', '/sitemap.xml', '/404.html', '/img/og.jpg', '/favicon.svg']) { const x = await p.goto(BASE + f); console.log(f, x.status()); if (x.status() !== 200) bad++; }
+  await b.close(); console.log(bad ? 'ПРОБЛЕМЫ: ' + bad : 'ВСЁ ХОРОШО'); process.exit(bad ? 1 : 0);
+})();

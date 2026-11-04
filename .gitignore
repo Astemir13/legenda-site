@@ -3,3 +3,6 @@ __pycache__/
 *.bak*.html
 shots/
 node_modules/
+.cache/
+site/
+site-zip/

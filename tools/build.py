@@ -6,6 +6,8 @@
 - без панели «Погода: демо», погода только реальная, без неё плашки скрываются;
 - фото по ссылке вместо вшитого;
 - заглушки в [скобках] убраны вместе с блоками, где их нечем заменить.
+  3) site/ — готовый сайт для своего хостинга (Timeweb): страница без лимитов Тильды, свои фото,
+     политика конфиденциальности, robots.txt, sitemap.xml, .htaccess (см. tools/site_build.py).
 Запуск из корня репозитория: python3 tools/build.py [ссылка_на_фото_в_Тильде]"""
 import re, sys
 
@@ -41,6 +43,7 @@ B2 = '/* ---- в Тильде: блок 2 ---- */'
 css, css2 = (css.split(B2) + [''])[:2]
 css2 = re.sub(r'/\*.*?\*/', '', css2, flags=re.S)
 css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+site_css = css + css2  # свой хостинг: стили без префикса #lg
 # стили панели «Погода» — отдельно: в блоке 1 нет места, они уходят в блок 2 (или вовсе выкидываются)
 PANEL_RE = re.compile(r'\.wx(?:panel|x|btns|body|note|h|kinds|phases)\b|#wxMode')
 css_lines = css.split('\n')
@@ -100,7 +103,6 @@ css += '\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n#lg{min-height:100vh;pos
 # ---------- Разметка ----------
 panel_html = re.search(r'<details class="wxpanel".*?</details>\n', body, re.S).group(0)
 body = body.replace(panel_html, '')
-body = must(body, '<img src="__FACADE__"', '<img src="' + PHOTO + '" fetchpriority="high"')
 # заглушки
 body = re.sub(r'<section class="sec" id="reviews".*?</section>\n\n', '', body, flags=re.S)
 body = must(body, '<a href="#reviews">Отзывы</a>', '')
@@ -110,19 +112,19 @@ body = re.sub(r'\s*<div><span>[^<]*</span><span>\[[^\]]*\][^<]*</span></div>', '
 body = re.sub(r'<section class="sec" id="faq".*?</section>\n\n', '', body, count=1, flags=re.S)
 body = re.sub(r'\s*<li data-ph>.*?</li>', '', body)
 assert '[' not in re.sub(r'<script.*?</script>', '', body, flags=re.S).replace('[open]', ''), re.findall(r'.{40}\[[^\]]*\].{20}', body)
-body = '<div id="lg" class="nowx">' + body.strip() + '\n</div>'
+site_body = '<div id="lg" class="nowx">' + body.strip() + '\n</div>'
+# фото обложки у Тильды и у своего хостинга лежат по разным адресам
+body = must(site_body, '<img src="__FACADE__"', '<img src="' + PHOTO + '" fetchpriority="high"')
 
 # ---------- Скрипт ----------
 assert js.lstrip().startswith('(function(){')
 js = js.replace("(function(){\n", "(function(){\n  var LG = document.getElementById('lg'); document.documentElement.style.scrollBehavior = 'smooth';\n", 1)
-js = must(js, "r = document.documentElement.style;", "r = LG.style;")
 js = must(js, "var PREVIEW = true;", "var PREVIEW = false;")
 js = must(js, "W.live = true; W.temp", "LG.classList.remove('nowx'); W.live = true; W.temp")
 js = must(js, "    }).catch(function(){\n      W.live = false;", "    }).catch(function(){\n      if (W.live) return; LG.classList.add('nowx');\n      W.live = false;")
-if DEMO:
-    # панель стоит в блоке 2, а стили у неё под #lg — переносим её внутрь
-    js = js.replace("var LG = document.getElementById('lg');", "var LG = document.getElementById('lg'); LG.appendChild(document.getElementById('wxPanel'));", 1)
-else:
+
+def no_panel(js):
+    """Скрипт без панели «Погода» (на запущенном сайте её нет)."""
     js = re.sub(r"    document\.getElementById\('wxMode'\).*?\n", '', js)
     js = re.sub(r"    document\.querySelectorAll\('\[data-(?:k|ph)\]'\).*?\n", '', js)
     js = re.sub(r"      document\.getElementById\('wxNote'\).*?\n", '', js)
@@ -130,12 +132,25 @@ else:
     js = re.sub(r"  /\* Панель предпросмотра погоды \*/\n(?:  .*\n){6}", '', js)
     for bad in ('wxMode', 'wxNote', 'wxKinds', 'wxPanel', 'wxAuto', 'wxClose'):
         assert bad not in js, bad
+    return js
+
+def compact(js):
+    """Без комментариев и отступов (в исходнике остаются): в Тильде лимит знаков, на хостинге — быстрее загрузка."""
+    js = re.sub(r'^[ \t]*/\*.*?\*/[ \t]*\n', '', js, flags=re.M | re.S)
+    js = re.sub(r'^[ \t]+', '', js, flags=re.M)  # в скрипте нет многострочных строк
+    assert not re.search(r"""['"][^'"\n]*/\*""", js), 'в строке скрипта есть /* — вырезание комментариев её испортит'
+    return re.sub(r'[ \t]*/\*.*?\*/', '', js, flags=re.S)
+
+site_js = compact(no_panel(js))
+# Тильда: цветовые переменные живут на #lg, а не на :root
+js = must(js, "r = document.documentElement.style;", "r = LG.style;")
+if DEMO:
+    # панель стоит в блоке 2, а стили у неё под #lg — переносим её внутрь
+    js = js.replace("var LG = document.getElementById('lg');", "var LG = document.getElementById('lg'); LG.appendChild(document.getElementById('wxPanel'));", 1)
+else:
+    js = no_panel(js)
 assert 'wxPanel' not in body
-# комментарии, стоящие отдельными строками, в Тильде не нужны — экономят место в блоке 2 (в исходнике остаются)
-js = re.sub(r'^[ \t]*/\*.*?\*/[ \t]*\n', '', js, flags=re.M | re.S)
-js = re.sub(r'^[ \t]+', '', js, flags=re.M)  # отступы в начале строк тоже не нужны (в скрипте нет многострочных строк)
-assert not re.search(r"""['"][^'"\n]*/\*""", js), 'в строке скрипта есть /* — вырезание комментариев её испортит'
-js = re.sub(r'[ \t]*/\*.*?\*/', '', js, flags=re.S)  # и комментарии внутри строк
+js = compact(js)
 
 # Тильда не сохраняет блок T123 больше ~120 000 знаков, поэтому код делится на два блока:
 # 1) шрифты, стили и разметка; 2) скрипт. На странице блок 1 должен стоять выше блока 2.
@@ -153,3 +168,9 @@ for path, code in parts.items():
     open(path, 'w', encoding='utf-8', newline='\n').write(code)
     print(path, len(code), 'знаков')
 print(PREVIEW, 'обновлён')
+
+# ---------- Свой хостинг: папка site/ ----------
+sys.path.insert(0, 'tools')
+import site_build
+site_css = '\n'.join(l for l in site_css.split('\n') if not PANEL_RE.search(l)) + '\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n'
+site_build.build(fonts=fonts, css=site_css, body=site_body, js=site_js, ld=ld)
