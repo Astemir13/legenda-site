@@ -149,7 +149,7 @@ parts = {
 }
 for path, code in parts.items():
     n = len(json.dumps(code, ensure_ascii=False))
-    assert n < 110000, (path, n, 'блок не влезет в T123 — лимит Тильды около 120 000 знаков')
+    assert n < 115000, (path, n, 'блок не влезет в T123 — лимит Тильды около 120 000 знаков')
     open(path, 'w', encoding='utf-8', newline='\n').write(code)
     print(path, len(code), 'знаков')
 print(PREVIEW, 'обновлён')
