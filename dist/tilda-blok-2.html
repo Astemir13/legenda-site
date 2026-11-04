@@ -38,41 +38,23 @@
 
 (function(){
   var LG = document.getElementById('lg'); LG.appendChild(document.getElementById('wxPanel')); document.documentElement.style.scrollBehavior = 'smooth';
-  /* ================================================================
-     НАСТРОЙКИ САЙТА. Здесь всё, что меняется чаще всего.
-     Правила: меняйте только то, что внутри кавычек '…' и числа;
-     запятые, скобки и кавычки не трогайте. Тексты страницы — ниже в разметке.
-     ================================================================ */
 
-  /* Онлайн-бронирование HomeReserve: ссылка (запасной вариант) и токен модуля.
-     Цены и свободные даты сайт не хранит — их показывает модуль. */
   var BOOK = 'https://homereserve.ru/gDYYpGYEnb';
   var HR = {token:'gDYYpGYEnb'};
 
-  /* Ресторан: часы работы (для статуса «открыт / откроется») */
   var REST = {open:8, close:21};
 
-  /* Погода: координаты отеля (Яндекс Карты) и высота над морем, м */
   var LAT = 43.246012, LON = 42.526408, ELEV = 2150;
-  /* куда смотрит камера на фото обложки, градусы от севера: фасад обращён на север (~7°, панорама Яндекс Карт), камера снимает его наискосок — на юго-восток, ~155° (оценка владельца), восток слева */
   var CAM = 155;
 
-  /* Шапка при прокрутке: 'fade' — тёмное матовое стекло над фото, светлое ниже;
-     'light' — сразу светлое стекло; 'pill' — сразу светлая плавающая капсула;
-     'glass' — плавающая стеклянная капсула: тёмная над фото, светлая ниже */
   var HDR_MODE = 'glass';
 
-  /* Вид первого экрана: 'clean' — чистая обложка (одна панель, кнопки, один цвет), 'classic' — прежняя (плашка погоды и три плитки) */
   var HERO = 'clean';
 
-  /* Расстояния от отеля, с единицами: '500 м', '5 км'. Пустые кавычки '' — строка не показывается */
   var DIST = {cheget:'500 м', azau:'5 км'};
 
-  /* Оценка на Яндекс Картах: обновляйте раз в месяц-два по карточке отеля */
   var YA = {rating:'5,0', votes:'1293 оценки', url:'https://yandex.ru/maps/-/CXbtI4I5'};
 
-  /* Номера: название, вместимость g, площадь m, цена «от» за ночь, метки, описание.
-     hr — номер этого типа в HomeReserve (кнопка «Забронировать» открывает его). id не менять: к нему привязаны схемы. */
   var rooms = [
     {id:'std2', hr:231962, name:'Стандарт двухместный', g:2, m:32, price:4000, tags:['до 2 гостей','32 м²','вид на горы'], text:'Одна большая кровать или две раздельные — на выбор.'},
     {id:'std3', hr:231964, name:'Стандарт трёхместный', g:3, m:32, price:5500, tags:['до 3 гостей','32 м²','3 кровати'], text:'Для друзей или семьи с подростком.'},
@@ -82,8 +64,6 @@
     {id:'barn', hr:231967, name:'Барнхаус «Легенда»', g:5, m:80, price:14000, half:true, tags:['до 5 гостей','80 м²','свой вход'], text:'Половина отдельного дома: два этажа и две спальни.'}
   ];
 
-  /* Фото номеров — файлы, загруженные в Тильду (адрес после static.tildacdn.com/). Первое фото — обложка карточки.
-     Чтобы добавить фото: загрузите его в Тильду, скопируйте адрес картинки и вставьте сюда кусок после static.tildacdn.com/ */
   var PHOTOS = {
     std2:['tild6562-3762-4365-b863-633164313833/IMG_7979_-fotor-2025.jpg', 'tild3635-3639-4938-b739-396563383233/IMG_8100_-fotor-2025.jpg', 'tild3830-6237-4264-b665-366333326339/IMG_7944_-fotor-2025.jpg', 'tild6664-3031-4238-a630-623563303835/IMG_8092_-fotor-2025.jpg', 'tild3562-6531-4439-a539-613262343866/IMG_8120_-fotor-2025.jpg', 'tild6365-3962-4839-b835-353731626662/IMG_7988_-fotor-2025.jpg', 'tild6532-3739-4131-b861-666236613261/IMG_7935_-fotor-2025.jpg', 'tild3233-3936-4162-a139-666161656661/IMG_7949_-fotor-2025.jpg'],
     std3:['tild6263-6664-4561-a337-303462353165/IMG_7901-fotor-20250.jpg', 'tild3334-6439-4134-b531-336533656538/IMG_7903_-fotor-2025.jpg', 'tild6430-3833-4565-b331-646236336233/IMG_7902_-fotor-2025.jpg', 'tild3563-3036-4662-a462-613938613861/IMG_7904-fotor-20250.png', 'tild3533-3761-4237-b064-396562623331/IMG_7899-fotor-20250.jpg'],
@@ -93,11 +73,6 @@
     barn:['tild6662-3863-4162-a166-626632663066/5440642714493384045.jpg', 'tild6638-3962-4566-a432-656236396232/legenda.jpeg', 'tild3337-3865-4365-b266-343635623830/photo_2025-05-17_150.jpg', 'tild3838-3161-4662-a536-306663313934/photo_2025-05-17_150.jpg', 'tild6336-6166-4431-a561-313831353165/photo_2025-05-17_150.jpg', 'tild6462-3330-4434-a235-643835343561/photo_2025-05-17_150.jpg', 'tild6261-3936-4965-b531-313530623338/photo_2025-05-17_150.jpg', 'tild3131-3037-4363-b663-386532633130/photo_2025-05-17_150.jpg']
   };
 
-  /* ---------- Схемы планировок ----------
-     Каждый номер описан в метрах: W×H — комната, дальше предметы. Чтобы уточнить конкретный номер,
-     достаточно поправить его строку в PLANS (размеры, окна, кровати) — схема перерисуется сама.
-     bath [x,y,w,h] · door [сторона,откуда] · win [сторона,от,до,вид] · part [x1,y1,x2,y2,проём от,до]
-     bed2/bed1 [x,y,изголовье l|r|t] · sofa [x,y,длина,спинка l|r|t|b] · ward/table [x,y,w,h] · stairs [x,y,w,h] · lbl [x,y,текст] */
   var STD2 = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',1.6,4.4,1],['bed2',0.15,1.45,'l'],['ward',0.3,4.4,1.9,0.5],['table',4.9,0.35,1.1,0.7]]};
   var STD2T = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',1.6,4.4,1],['bed1',0.15,0.8,'l'],['bed1',0.15,2.35,'l'],['ward',0.3,4.4,1.9,0.5],['table',4.9,0.35,1.1,0.7]]};
   var STD2W = {W:6.0, H:5.3, items:[['bath',3.9,3.3,2.1,2.0],['door','b',2.85],['win','t',0.5,2.3,1],['win','t',3.4,5.4,1],['bed2',0.15,1.5,'l'],['ward',0.3,4.7,1.9,0.5],['table',4.6,0.35,1.0,0.7]]};
@@ -117,7 +92,6 @@
   PLANS.lux[1].p = PLANS.lux[0].p;
 
 
-  /* ===================== конец настроек ===================== */
   var PREVIEW = false; /* прототип: показывать [?] вместо пустых расстояний */
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -127,7 +101,6 @@
   function plural(n,a,b,c){ var m=n%10,h=n%100; return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<12||h>14))?b:c; }
 
   function msk(){ var p = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',month:'numeric',hour12:false,timeZone:'Europe/Moscow'}).formatToParts(new Date()), o={}; p.forEach(function(x){o[x.type]=x.value;}); return o; }
-  /* ---------- Реальная погода Терскола (Open-Meteo) ---------- */
   var API = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest' +
     '&current=temperature_2m,weather_code,is_day,wind_speed_10m,cloud_cover&daily=sunrise,sunset&timezone=Europe%2FMoscow&forecast_days=1';
   var API2 = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest&current=wind_direction_10m,snow_depth&timezone=Europe%2FMoscow&forecast_days=1';
@@ -146,8 +119,6 @@
   };
   var ORDER = ['clear','partly','overcast','fog','drizzle','rain','sleet','snow','heavysnow','blizzard','thunder'];
   var PHASES = {dawn:'Утро', day:'День', dusk:'Вечер', night:'Ночь'};
-  /* Утро — от предрассветных сумерек до ~10:00 (летом раньше, зимой позже), вечер — за полтора часа до заката и полчаса после.
-     Внутри утра и вечера небо плавно меняется: сумерки → рассвет → утро → день; день → золотой час → закат → сумерки */
   var SKY = {
     predawn:{s1:'#2B3A66', s2:'#B98A98'}, dawn:{s1:'#F3C7A6', s2:'#A9CBE9'}, morning:{s1:'#86B8E4', s2:'#E6E0D2'},
     day:{s1:'#6FAEE0', s2:'#D6EAF7'}, gold:{s1:'#6488BE', s2:'#F2BC8C'}, dusk:{s1:'#3E4E80', s2:'#EE9F6E'},
@@ -170,7 +141,6 @@
     if (m >= r - 40 && m < mornEnd()) return 'dawn';
     if (m >= s - 90 && m < s + 40) return 'dusk';
     return (m > r && m < s) ? 'day' : 'night'; }
-  /* время для неба: в предпросмотре — характерный момент выбранной части суток */
   function skyTime(){ return W.forced ? {dawn:W.sunrise + 20, day:780, dusk:W.sunset - 10, night:60}[W.phase] : minutes; }
   function skyAt(m){ var r = W.sunrise, s = W.sunset, P;
     if (W.phase === 'dawn') P = [[r - 40, 'predawn'], [r + 5, 'dawn'], [r + 70, 'morning'], [mornEnd(), 'day']];
@@ -203,7 +173,6 @@
     W.cloudNow = cloud;
     var tm = skyTime(), b = skyAt(tm), gr = GREY[W.phase], r = LG.style;
     W.dark = W.phase === 'night' || lum(b.s1) < 110;
-    /* звёзды: ночью полностью, в сумерках — проявляются после заката и гаснут к рассвету */
     W.starK = W.phase === 'night' ? 1 : W.phase === 'dusk' ? Math.min(1, Math.max(0, (tm - (W.sunset + 5))/35)) : W.phase === 'dawn' ? Math.min(1, Math.max(0, ((W.sunrise - 5) - tm)/35)) : 0;
     r.setProperty('--sky1', mix(b.s1, gr.s1, g)); r.setProperty('--sky2', mix(b.s2, gr.s2, g));
     r.setProperty('--hdr-ink', W.dark ? '#FFFFFF' : '#13202A');
@@ -223,7 +192,6 @@
     hdrScene.reset(); heroScene.reset(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); }
   }
 
-  /* направление ветра и высота снега — отдельным запросом: если не ответит, основная погода не страдает */
   function loadExtra(){ fetch(API2).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ if (!d || !d.current) return; W.wdir = d.current.wind_direction_10m; W.snowD = d.current.snow_depth; applyWeather(); }).catch(function(){}); }
   function loadWeather(){
     if (W.forced) return;
@@ -242,11 +210,6 @@
     });
   }
 
-  /* ===================== Сцена неба =====================
-     Два холста: в шапке — солнце или луна, на фото — небо и погода (облака, звёзды, осадки, туман, молнии).
-     Облака, снежинки, туман и солнце рисуются один раз в маленькие холсты-спрайты и дальше только переносятся,
-     поэтому анимация лёгкая даже на телефоне. Осадки летят в три слоя — далеко, средне, близко: так появляется глубина.
-     Ветер дует порывами, общими для облаков, снега и дождя. */
   var DPR = Math.min(window.devicePixelRatio || 1, 2);
   function sprite(w, h, res){ var d = res || DPR, c = document.createElement('canvas'); c.width = Math.max(1, Math.ceil(w*d)); c.height = Math.max(1, Math.ceil(h*d)); var x = c.getContext('2d'); x.scale(d, d); return {c:c, x:x, w:w, h:h}; }
   function rnd(a, b){ return a + Math.random()*(b - a); }
@@ -256,7 +219,6 @@
     var g = x.createRadialGradient(c, c, R*.8, c, c, R*3.6); g.addColorStop(0, 'rgba(255,246,220,' + (.14 + .22*f) + ')'); g.addColorStop(.45, 'rgba(225,232,255,' + (.05 + .07*f) + ')'); g.addColorStop(1, 'rgba(225,232,255,0)');
     x.fillStyle = g; x.fillRect(0, 0, S, S);
     var d = sprite(S, S), y = d.x;
-    /* пепельный свет: тёмная часть диска чуть видна */
     y.fillStyle = 'rgba(120,132,160,.28)'; y.beginPath(); y.arc(c, c, R, 0, 6.283); y.fill();
     var e = sprite(S, S), z = e.x, dg = z.createRadialGradient(c - R*.35, c - R*.35, R*.1, c, c, R);
     dg.addColorStop(0, '#FFFCF2'); dg.addColorStop(1, '#E2D9C0'); z.fillStyle = dg; z.beginPath(); z.arc(c, c, R, 0, 6.283); z.fill();
@@ -268,33 +230,27 @@
     x.fillStyle = g; x.fillRect(0, 0, S, S);
     var dg = x.createRadialGradient(c - R*.25, c - R*.25, 0, c, c, R); dg.addColorStop(0, '#FFFCEE'); dg.addColorStop(.65, warm ? '#FFD596' : '#FFF2C0'); dg.addColorStop(1, warm ? '#FFAC66' : '#FFDD86');
     x.fillStyle = dg; x.beginPath(); x.arc(c, c, R, 0, 6.283); x.fill(); return s; }
-  /* лучи вокруг солнца — отдельный спрайт, он медленно поворачивается */
   function raysSprite(R, warm){ var S = R*12, s = sprite(S, S), x = s.x, c = S/2, n = 14, i;
     x.translate(c, c);
     for (i = 0; i < n; i++){ var a = i/n*6.283, L = R*(i % 2 ? 3 : 4.6), g = x.createLinearGradient(0, 0, Math.cos(a)*L, Math.sin(a)*L);
       g.addColorStop(0, warm ? 'rgba(255,205,150,.42)' : 'rgba(255,244,210,.4)'); g.addColorStop(1, 'rgba(255,244,210,0)');
       x.fillStyle = g; x.beginPath(); x.moveTo(Math.cos(a - .07)*R*1.05, Math.sin(a - .07)*R*1.05); x.lineTo(Math.cos(a)*L, Math.sin(a)*L); x.lineTo(Math.cos(a + .07)*R*1.05, Math.sin(a + .07)*R*1.05); x.closePath(); x.fill(); }
     return s; }
-  /* снежинка: чёткая (далеко и средне) или размытая «боке» (близко) */
   function flakeSprite(r, soft, rgb){ var S = Math.ceil(r*2*(soft ? 2.6 : 1.7)), s = sprite(S, S), x = s.x, c = S/2, g = x.createRadialGradient(c, c, 0, c, c, S/2);
     if (soft){ g.addColorStop(0, 'rgba(' + rgb + ',.6)'); g.addColorStop(.3, 'rgba(' + rgb + ',.42)'); g.addColorStop(.62, 'rgba(' + rgb + ',.12)'); g.addColorStop(1, 'rgba(' + rgb + ',0)'); }
     else { g.addColorStop(0, 'rgba(' + rgb + ',1)'); g.addColorStop(.42, 'rgba(' + rgb + ',.92)'); g.addColorStop(.68, 'rgba(' + rgb + ',.32)'); g.addColorStop(1, 'rgba(' + rgb + ',0)'); }
     x.fillStyle = g; x.fillRect(0, 0, S, S); return s; }
-  /* яркая звезда с лучиками-бликом */
   function glintSprite(){ var S = 14, s = sprite(S, S), x = s.x, c = S/2, g = x.createRadialGradient(c, c, 0, c, c, 3.2);
     g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, S, S);
     [[1,0],[0,1]].forEach(function(d){ var l = x.createLinearGradient(c - d[0]*c, c - d[1]*c, c + d[0]*c, c + d[1]*c); l.addColorStop(0, 'rgba(255,255,255,0)'); l.addColorStop(.5, 'rgba(255,255,255,.75)'); l.addColorStop(1, 'rgba(255,255,255,0)');
       x.fillStyle = l; if (d[0]) x.fillRect(0, c - .45, S, .9); else x.fillRect(c - .45, 0, .9, S); });
     return s; }
-  /* объёмное облако: форма из множества «клубов», сверху подсветка, снизу тень, мягкое основание.
-     Рисуется в пониженном разрешении и растягивается — края получаются естественно размытыми */
   function cloudSprite(size, tone, flat){ var W2 = size*3.6, H2 = size*(flat ? 1.4 : 2), s = sprite(W2, H2, .7), x = s.x, P = [], i, n = flat ? 22 : 16 + Math.floor(Math.random()*8), base = H2 - size*(flat ? .5 : .62);
     for (i = 0; i < n; i++){ var u = rnd(.04, .96), dome = Math.pow(Math.sin(u*Math.PI), flat ? 2 : .8), r = size*(flat ? rnd(.22, .36) : rnd(.24, .44))*(.6 + dome*.6);
       P.push([size*.55 + (W2 - size*1.1)*u, base - dome*size*(flat ? .16 : .5)*rnd(.7, 1.1) + rnd(-.06, .06)*size, r]); }
     P.sort(function(a, b){ return b[1] - a[1]; });
     P.forEach(function(p){ var g = x.createRadialGradient(p[0], p[1], 0, p[0], p[1], p[2]); g.addColorStop(0, 'rgba(' + tone.sh + ',' + tone.a + ')'); g.addColorStop(.55, 'rgba(' + tone.sh + ',' + (tone.a*.8) + ')'); g.addColorStop(1, 'rgba(' + tone.sh + ',0)');
       x.fillStyle = g; x.beginPath(); x.arc(p[0], p[1], p[2], 0, 6.283); x.fill(); });
-    /* свет сверху: ложится только на само облако */
     x.globalCompositeOperation = 'source-atop';
     var top = base - size*(flat ? .5 : 1.05), lg = x.createLinearGradient(tone.lx*W2*.15, top, -tone.lx*W2*.15, base + size*.1);
     lg.addColorStop(0, 'rgba(' + tone.lt + ',' + (flat ? .55 : .95) + ')'); lg.addColorStop(.55, 'rgba(' + tone.lt + ',' + (flat ? .18 : .4) + ')'); lg.addColorStop(1, 'rgba(' + tone.lt + ',0)');
@@ -303,25 +259,20 @@
       x.fillStyle = g; x.beginPath(); x.arc(hx, hy, p[2]*.7, 0, 6.283); x.fill(); });
     x.globalCompositeOperation = 'destination-in'; var m = x.createLinearGradient(0, 0, 0, H2); m.addColorStop(0, '#000'); m.addColorStop(.78, '#000'); m.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = m; x.fillRect(0, 0, W2, H2);
     x.globalCompositeOperation = 'source-over'; return s; }
-  /* полоса тумана/дымки, бесшовная по ширине — её можно бесконечно прокручивать */
   function hazeSprite(w, h, rgb, dens){ var s = sprite(w, h), x = s.x, n = Math.max(6, Math.round(w/36)), i, k;
     for (i = 0; i < n; i++){ var cx = rnd(0, w), cy = rnd(h*.3, h*.75), r = rnd(h*.22, h*.55);
       for (k = -1; k <= 1; k++){ var g = x.createRadialGradient(cx + k*w, cy, 0, cx + k*w, cy, r); g.addColorStop(0, 'rgba(' + rgb + ',' + dens + ')'); g.addColorStop(1, 'rgba(' + rgb + ',0)'); x.fillStyle = g; x.beginPath(); x.arc(cx + k*w, cy, r, 0, 6.283); x.fill(); } }
     return s; }
-  /* цвет облаков по времени суток и погоде */
   function cloudTone(cloud){ var K = KINDS[W.kind], storm = K.thunder || W.kind === 'heavysnow' || W.kind === 'blizzard' || W.kind === 'rain', warm = W.phase === 'dawn' || W.phase === 'dusk';
     if (W.dark) return {lt:storm ? '120,130,150' : '150,162,190', sh:storm ? '44,50,64' : '66,76,100', a:.58, lx:0};
     var lt = warm ? '255,224,198' : '255,255,255', sh = warm ? '168,158,182' : '205,215,228';
     if (cloud > 85){ lt = warm ? '214,204,204' : storm ? '178,186,198' : '222,228,234'; sh = storm ? '108,118,134' : '164,174,188'; }
     return {lt:lt, sh:sh, a:cloud > 85 ? .8 : .74, lx:W.phase === 'dawn' ? .25 : W.phase === 'dusk' ? -.25 : 0}; }
-  /* путь светила за день (0 — восход, 1 — закат) или за ночь */
   function bodyK(){ if (W.forced) return {dawn:.1, day:.5, dusk:.9, night:.5}[W.phase];
     if (W.phase !== 'night') return Math.min(1, Math.max(0, (minutes - (W.sunrise - 45))/((W.sunset + 45) - (W.sunrise - 45))));
     var mm = minutes < W.sunrise ? minutes + 1440 : minutes; return Math.min(1, Math.max(0, (mm - W.sunset)/((W.sunrise + 1440) - W.sunset))); }
-  /* порывы ветра: плавные, без рывков */
   function gust(t){ return Math.max(.35, 1 + .32*Math.sin(t*.00029) + .2*Math.sin(t*.00071 + 1.3) + .12*Math.sin(t*.0017 + 2.1)); }
 
-  /* молния: ветвистый разряд, двойная-тройная вспышка, иногда — только зарница в облаках */
   var BOLT = null, boltNext = 0, BOLT_A = [[0,0],[35,1],[85,.18],[135,.95],[200,.3],[265,.75],[430,0]];
   function makeBolt(w, h, band, soft){ var segs = [], x0 = soft ? w*(Math.random() < .62 ? rnd(.07, .34) : rnd(.85, .95)) : w*rnd(.12, .88), y1 = soft ? h*rnd(.3, .46) : Math.min(h*.42, band*rnd(1.5, 2.3));
     function br(xa, ya, xb, yb, disp, depth, lw){ var pts = [[xa, ya], [xb, yb]], i, j;
@@ -336,7 +287,6 @@
     if (!BOLT && t > boltNext){ BOLT = makeBolt(w, h, band, soft); BOLT.t0 = t; }
     if (BOLT){ var bt = t - BOLT.t0; BOLT.a = boltAlpha(bt); W.flash = BOLT.a*(BOLT.segs ? 1 : .6); if (bt > 430){ BOLT = null; W.flash = 0; boltNext = t + (soft ? rnd(2600, 7500) : rnd(3500, 11000)); } } }
 
-  /* Свободное место в шапке: самый широкий промежуток между логотипом, меню и правыми кнопками */
   var zoneCache = null;
   function hdrZone(){ if (zoneCache !== null) return zoneCache;
     var hb = document.getElementById('hdr'); if (!hb) return (zoneCache = false);
@@ -349,13 +299,11 @@
   window.addEventListener('resize', function(){ zoneCache = null; });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ zoneCache = null; });
 
-  /* слои осадков: доля частиц, размер, скорость, прозрачность */
   var LAYERS = [{part:.5, r:[.55, 1.05], v:[.32, .5], a:.55, sway:.16, wz:.75},
                 {part:.33, r:[1.15, 1.9], v:[.6, .85], a:.85, sway:.3, wz:1},
                 {part:.17, r:[2.6, 4.4], v:[1.05, 1.5], a:.8, sway:.5, wz:1.35}];
   var RAIN = {rain:{v:[6.5, 9.5, 13.5], len:[9, 15, 26], lw:[.7, 1, 1.5], a:[.3, .48, .66]}, drizzle:{v:[2.6, 3.6, 5], len:[4, 6, 9], lw:[.6, .8, 1.05], a:[.22, .32, .42]}};
   var QUALITY = 1;
-  /* общий тон воздуха в чистой обложке: сверху вниз — [доля высоты, цвет, прозрачность] */
   var VEIL = {drizzle:[[0, '46,58,74', .18], [.55, '46,58,74', .05], [1, '46,58,74', 0]],
     rain:[[0, '30,40,56', .28], [.5, '30,40,56', .1], [1, '30,40,56', .03]],
     sleet:[[0, '52,62,78', .2], [.55, '52,62,78', .06], [1, '52,62,78', 0]],
@@ -374,20 +322,17 @@
     var key = [W.kind, W.phase, !!W.dark, Math.round(cloud/10), this.w, this.h].join('|'); if (key === this.key) return; var kindChanged = this.key.split('|')[0] !== W.kind; this.key = key;
     if (this.o.body){ var R = this.w < 700 ? 6 : 8, warm = W.phase !== 'day'; this.moon = moonSprite(R + 1); this.sun = sunSprite(R, warm); this.rays = raysSprite(R, warm); return; }
     var A = this.w*this.h, kind = K.precip, rgb = W.dark ? '214,224,240' : '255,255,255';
-    /* осадки: пересобираем, только если сменился их вид — иначе снег не «прыгает» */
-    if (kindChanged || !this.p.length){ var n = Math.min(1100, Math.round((this.o.soft ? (kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : .6) : 1)*A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
+    if (kindChanged || !this.p.length){ var n = Math.min(1100, Math.round((this.o.soft ? (kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : 1) : 1)*A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
       for (i = 0; i < n; i++){ var z = i < n*LAYERS[0].part ? 0 : i < n*(LAYERS[0].part + LAYERS[1].part) ? 1 : 2, L = LAYERS[z], snow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i % 2);
         this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15), d:z === 2 ? 2 : z === 0 ? rnd(.06, .3) : rnd(.3, .5)}); }
       this.p.sort(function(a, b){ return b.z - a.z; }); /* дальние — в конце: при нехватке сил телефона отбрасываются первыми */ }
     var sc = kind === 'sleet' ? '232,238,244' : rgb;
     this.flakes = [flakeSprite(1, false, sc), flakeSprite(1.6, false, sc), flakeSprite(3.4, true, sc)];
-    /* облака: дальний слой — мельче и медленнее, ближний — крупнее и быстрее; при сплошной облачности — плотная пелена */
     var cl = cloud/100, band = this.o.cloudBand || this.h, tone = cloudTone(cloud); this.clouds = [];
     var nf = this.o.noClouds ? 0 : Math.max(cloud > 20 ? 2 : 0, Math.round(cl*this.w/150)), nn = this.o.noClouds ? 0 : Math.max(cloud > 30 ? 1 : 0, Math.round(cl*this.w/230));
     for (i = 0; i < nf; i++){ var sz = band*rnd(.2, .32); this.clouds.push({z:0, x:rnd(-sz*3.6, this.w), y:band*rnd(-.05, .3) - sz*.9, v:rnd(.07, .14), s:cloudSprite(sz, tone, cloud > 85), a:rnd(.7, .9)}); }
     for (i = 0; i < nn; i++){ var sz2 = band*rnd(.32, .52); this.clouds.push({z:1, x:rnd(-sz2*3.6, this.w), y:band*rnd(.1, .5) - sz2*1.05, v:rnd(.18, .3), s:cloudSprite(sz2, tone, cloud > 85), a:1}); }
     this.deck = cloud > 80 && !this.o.noClouds ? tone : null;
-    /* дымка: туман, метель, пелена дождя */
     var hz = W.dark ? '150,160,178' : (W.phase === 'dawn' || W.phase === 'dusk') ? '240,230,224' : '244,246,248', hw = Math.min(2400, Math.round(this.w*1.4));
     var H = this.o.soft ? {blizzard:[[.05, .6, .5, .9, .16], [.4, .6, .45, 1.6, .16]], heavysnow:[[.3, .7, .3, .25, .1]]}[kind] || [] : {fog:[[.0, .55, .9, .05, .2], [.35, .7, .85, .12, .26]], blizzard:[[.1, .6, .55, .9, .14], [.4, .65, .45, 1.6, .14]], heavysnow:[[.3, .7, .35, .25, .1]], rain:[[.35, .65, .3, .35, .08]], drizzle:[[.3, .7, .35, .12, .1]], sleet:[[.35, .65, .3, .3, .08]]}[K.fog ? 'fog' : kind] || [];
     this.haze = H.map(function(q){ var hh = this.h*q[1]; return {y:this.h*q[0], s:hazeSprite(hw, hh, q[5] || (W.kind === 'blizzard' ? '250,252,255' : hz), q[4]), a:q[2], v:q[3], x:Math.random()*hw}; }, this);
@@ -397,42 +342,33 @@
     x.clearRect(0, 0, w, h);
     if (this.o.body) return this.drawBody(t, cloud, night);
     if (this.o.soft){ var sy = Math.min(window.scrollY || 0, h); this.dScroll = this.lastSy == null ? 0 : Math.max(-40, Math.min(40, sy - this.lastSy)); this.lastSy = sy; }
-    /* свет солнца на фото: тёплое свечение сверху со стороны солнца; ночью — холодный лунный отсвет */
     var kb = bodyK();
-    /* в чистой обложке фото уже со своим светом — время суток поверх него не рисуем: только погода */
     if (!this.o.soft && !K.precip && cloud < 75){ var clear = 1 - cloud/75, warm = W.phase === 'dawn' || W.phase === 'dusk', sx = w*(.1 + .8*kb), rg;
       if (!W.dark){ rg = x.createRadialGradient(sx, -h*.08, 0, sx, -h*.08, Math.max(w, h)*.75); var c0 = warm ? '255,190,130' : '255,244,214', a0 = (warm ? .34 : .16)*clear*(.92 + .08*Math.sin(t*.0005));
         rg.addColorStop(0, 'rgba(' + c0 + ',' + a0 + ')'); rg.addColorStop(.45, 'rgba(' + c0 + ',' + (a0*.35) + ')'); rg.addColorStop(1, 'rgba(' + c0 + ',0)'); x.fillStyle = rg; x.fillRect(0, 0, w, h); }
       else if (night){ var mf = (1 - Math.cos(2*Math.PI*moonPhase()))/2; rg = x.createRadialGradient(sx, -h*.1, 0, sx, -h*.1, w*.6); rg.addColorStop(0, 'rgba(200,215,255,' + (.12*mf*clear) + ')'); rg.addColorStop(1, 'rgba(200,215,255,0)'); x.fillStyle = rg; x.fillRect(0, 0, w, h); } }
-    /* звёзды: мерцают каждая в своём ритме и цвете, к низу полосы неба гаснут */
     if (!this.o.soft && W.starK > 0 && cloud < 60){ var as = W.starK*(1 - cloud/60);
       for (i = 0; i < this.stars.length; i++){ var s = this.stars[i], fade = this.o.starBand ? Math.max(0, 1 - s.y/band) : 1, tw = .4 + .6*(.5 + .5*Math.sin(t*s.sp + s.p)), al = as*tw*fade; if (al < .02) continue;
         if (s.big){ x.globalAlpha = al; x.drawImage(this.glint.c, s.x - 7, s.y - 7, 14, 14); x.globalAlpha = 1; }
         else { x.fillStyle = 'rgba(' + s.c + ',' + al.toFixed(3) + ')'; x.fillRect(s.x - s.r, s.y - s.r, s.r*2, s.r*2); } }
-      /* редкий метеор в ясную ночь */
       if (this.o.meteors && night && cloud < 30 && !reduce){ if (!this.met && Math.random() < .0009*move) this.met = {x:w*rnd(.3, .9), y:band*rnd(.05, .4), vx:-rnd(7, 11), vy:rnd(2.2, 3.6), life:0};
         if (this.met){ var M = this.met; M.life += .02*move; M.x += M.vx*move; M.y += M.vy*move; var al2 = Math.sin(Math.min(1, M.life)*Math.PI)*.95, tx = M.x - M.vx*12, ty = M.y - M.vy*12;
           var gm = x.createLinearGradient(M.x, M.y, tx, ty); gm.addColorStop(0, 'rgba(255,255,255,' + al2 + ')'); gm.addColorStop(.3, 'rgba(200,220,255,' + (al2*.4) + ')'); gm.addColorStop(1, 'rgba(200,220,255,0)');
           x.strokeStyle = gm; x.lineWidth = 1.6; x.lineCap = 'round'; x.beginPath(); x.moveTo(M.x, M.y); x.lineTo(tx, ty); x.stroke();
           x.globalAlpha = al2; x.drawImage(this.glint.c, M.x - 5, M.y - 5, 10, 10); x.globalAlpha = 1; if (M.life >= 1) this.met = null; } } }
-    /* пелена сплошной облачности */
     if (this.deck){ var cb = this.o.cloudBand || h, dg = x.createLinearGradient(0, 0, 0, cb*1.5); dg.addColorStop(0, 'rgba(' + this.deck.sh + ',' + (this.deck.a*.7) + ')'); dg.addColorStop(.55, 'rgba(' + this.deck.sh + ',' + (this.deck.a*.3) + ')'); dg.addColorStop(1, 'rgba(' + this.deck.sh + ',0)'); x.fillStyle = dg; x.fillRect(0, 0, w, cb*1.5); }
     this.drawClouds(0, wx, move);
-    /* молния позади ближних облаков */
     if (BOLT && BOLT.segs && BOLT.a > .02){ x.save(); x.globalCompositeOperation = 'lighter'; x.lineCap = 'round'; x.lineJoin = 'round';
       [[6, '150,175,255', .18], [2.4, '210,222,255', .5], [.9, '255,255,255', 1]].forEach(function(L){ var sg0 = x.createLinearGradient(0, 0, 0, BOLT.y1), al = BOLT.a*L[2];
-        /* разряд выходит из облаков и растворяется в дымке, не перекрывая дом на фото */
         sg0.addColorStop(0, 'rgba(' + L[1] + ',' + al.toFixed(3) + ')'); sg0.addColorStop(.6, 'rgba(' + L[1] + ',' + (al*.75).toFixed(3) + ')'); sg0.addColorStop(1, 'rgba(' + L[1] + ',0)'); x.strokeStyle = sg0;
         BOLT.segs.forEach(function(sg){ x.lineWidth = sg.w*L[0]; x.beginPath(); x.moveTo(sg.p[0][0], sg.p[0][1]); for (var k = 1; k < sg.p.length; k++) x.lineTo(sg.p[k][0], sg.p[k][1]); x.stroke(); }); });
       x.restore(); }
     this.drawClouds(1, wx, move);
-    /* дымка: туман, метель, пелена дождя — бесшовно плывёт по ветру */
     for (i = 0; i < this.haze.length; i++){ var Hz = this.haze[i], sw = Hz.s.w; Hz.x = (Hz.x + Hz.v*(.3 + wx*.25)*move) % sw; if (Hz.x < 0) Hz.x += sw;
       x.globalAlpha = Hz.a*(W.kind === 'blizzard' ? .75 + .25*Math.sin(t*.0011 + i) : K.fog ? .82 + .18*Math.sin(t*.00045 + i*2.1) : 1); x.drawImage(Hz.s.c, Hz.x - sw, Hz.y, sw, Hz.s.h); x.drawImage(Hz.s.c, Hz.x, Hz.y, sw, Hz.s.h); if (Hz.x + sw < w) x.drawImage(Hz.s.c, Hz.x + sw, Hz.y, sw, Hz.s.h); x.globalAlpha = 1; }
     if (this.o.soft && this.pm) this.drawSmoke(t, wx, move);
     this.drawPrecip(t, wx, move, K);
     if (this.o.soft) this.drawDrift(move, K);
-    /* вспышка молнии: свет из точки удара, сверху сильнее */
     if (W.flash > .02){ var fx = BOLT ? BOLT.x : w/2, fg = x.createRadialGradient(fx, 0, 0, fx, 0, Math.max(w, h)*.9); fg.addColorStop(0, 'rgba(228,234,255,' + (W.flash*(this.o.soft ? .3 : .5)).toFixed(3) + ')'); fg.addColorStop(.5, 'rgba(228,234,255,' + (W.flash*.16).toFixed(3) + ')'); fg.addColorStop(1, 'rgba(228,234,255,' + (W.flash*.05).toFixed(3) + ')');
       x.fillStyle = fg; x.fillRect(0, 0, w, h); if (this.o.soft){ x.fillStyle = 'rgba(214,224,255,' + (W.flash*.08).toFixed(3) + ')'; x.fillRect(0, 0, w, h); } } };
   Scene.prototype.drawClouds = function(z, wx, move){ var x = this.x, w = this.w;
@@ -441,7 +377,6 @@
   Scene.prototype.drawPrecip = function(t, wx, move, K){ var x = this.x, w = this.w, h = this.h, kind = K.precip, P, i, z, n = Math.ceil(this.p.length*QUALITY), bl = kind === 'blizzard', dim = W.dark ? .75 : 1;
     if (!kind) return;
     var spd = kind === 'heavysnow' ? 1.25 : bl ? 1.7 : kind === 'sleet' ? 1.9 : 1, rk = kind === 'drizzle' ? RAIN.drizzle : RAIN.rain, rc = W.dark ? '190,205,225' : '220,232,244';
-    /* в чистой обложке: глубина (дальние частицы за домом), параллакс при прокрутке, палец/курсор, снег на панели */
     var soft = this.o.soft, dep = soft ? this.dep : null, ds = soft ? this.dScroll || 0 : 0, PK = [.05, .14, .32];
     var pa = soft && t - PTR.t < 1500 ? 1 - (t - PTR.t)/1500 : 0, PR = w < 700 ? 80 : 110, PR2 = PR*PR;
     var pr = soft && (kind === 'snow' || kind === 'heavysnow' || bl) ? this.pr : null, dr = this.drift, dmax = w < 700 ? 6 : 8, landed = false;
@@ -462,7 +397,6 @@
           x.globalAlpha = L.a*dim*vis*(z === 2 ? .85 + .15*Math.sin(P.ph*1.3) : 1); x.drawImage(spr.c, P.x - sz/2, P.y - sz/2, sz, sz); } }
       if (streak) x.stroke();
       x.globalAlpha = 1;
-      /* дождь: штрихи под углом ветра, ближние — длиннее и ярче */
       if (kind === 'rain' || kind === 'drizzle' || kind === 'sleet'){ x.strokeStyle = 'rgba(' + rc + ',' + (rk.a[z]*dim).toFixed(3) + ')'; x.lineWidth = rk.lw[z]; x.lineCap = 'round'; x.beginPath();
         for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || P.snow) continue; var rv = rk.v[z]*P.j, rx = wx*.55*L.wz, ln = rk.len[z]*P.j;
           P.y += rv*move - ds*PK[z]; P.x += rx*move;
@@ -473,7 +407,6 @@
           var k2 = ln/rv; x.moveTo(P.x, P.y); x.lineTo(P.x - rx*k2, P.y - ln); }
         x.stroke(); } }
     if (landed) for (i = 1; i < dr.length - 1; i++) dr[i] = (dr[i-1] + dr[i]*6 + dr[i+1])/8; };
-  /* шапка: солнце с медленно вращающимися лучами или луна в реальной фазе */
   Scene.prototype.drawBody = function(t, cloud, night){ var x = this.x, w = this.w, h = this.h; if (this.o.noBody) return;
     if (cloud < 85){ var k = bodyK(), Z = hdrZone();
       if (Z){ var bx = Z[0] + k*(Z[1] - Z[0]), by = 22 + (1 - Math.sin(k*Math.PI))*24 + Math.sin(t*.0006)*1, spr = night ? this.moon : (W.starK > .5 ? null : this.sun), vis = Math.max(0, 1 - cloud/85);
@@ -482,23 +415,14 @@
           x.globalAlpha = vis*br; x.drawImage(spr.c, bx - spr.w/2, by - spr.h/2, spr.w, spr.h); x.globalAlpha = 1; } } }
     if (W.flash > .02){ x.fillStyle = 'rgba(232,238,255,' + (W.flash*.3).toFixed(3) + ')'; x.fillRect(0, 0, w, h); } };
 
-  /* ---------- Обложка: глубина сцены, дым из трубы, свет в окнах, капли и иней на панели ---------- */
-  /* карта глубины фото (тёмное — небо и даль, светлое — у камеры): дальний снег прячется за домом и деревьями и «ложится» на землю */
   var DEPTH_SRC = 'data:image/jpeg;base64,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';
-  /* точки на фото в пикселях исходника 2000×1333: труба, фонарь у входа, окна */
-  var PHOTO = {w:2000, h:1333, chimney:[1430, 272], lamp:[1222, 850],
-    win:[[[1158,370],[1195,370],[1195,460],[1158,460]], [[1202,370],[1242,370],[1242,460],[1202,460]], [[1250,370],[1290,370],[1290,460],[1250,460]], [[1297,370],[1337,370],[1337,460],[1297,460]],
-      [[1172,522],[1225,522],[1225,682],[1203,682],[1172,659]], [[1230,522],[1280,522],[1280,682],[1230,682]], [[1285,522],[1338,522],[1338,682],[1285,682]],
-      [[1399,541],[1399,635],[1508,635]], [[1112,566],[1112,650],[1046,650]],
-      [[890,996],[925,996],[925,1025],[890,1025]], [[1557,1009],[1600,1009],[1600,1040],[1557,1040]], [[1720,1009],[1765,1009],[1765,1040],[1720,1040]]],
-    door:[[1162,828],[1268,828],[1268,950],[1162,950]]};
+  var PHOTO = {w:2000, h:1333, chimney:[1430, 272], porch:[1220, 803]};
   var depthImg = new Image(), depthOK = false; depthImg.onload = function(){ depthOK = true; if (window.__lgHero) window.__lgHero.mapPhoto(); }; depthImg.src = DEPTH_SRC;
   var PTR = {x:0, y:0, t:-1e9};
   function puffSprite(){ var s = sprite(64, 64, 1), x = s.x, i;
     for (i = 0; i < 8; i++){ var a = rnd(0, 6.283), d = rnd(0, 11), cx = 32 + Math.cos(a)*d, cy = 32 + Math.sin(a)*d, r = rnd(13, 21), g = x.createRadialGradient(cx, cy, 0, cx, cy, r);
       g.addColorStop(0, 'rgba(236,239,243,.42)'); g.addColorStop(1, 'rgba(236,239,243,0)'); x.fillStyle = g; x.beginPath(); x.arc(cx, cy, r, 0, 6.283); x.fill(); }
     return s; }
-  /* как фото вписано в обложку (object-fit: cover) — чтобы эффекты попадали точно в трубу, окна и край панели */
   Scene.prototype.mapPhoto = function(){ var img = this.o.photo; if (!img || !this.w) return;
     var w = this.w, h = this.h, iw = img.naturalWidth || PHOTO.w, ih = img.naturalHeight || PHOTO.h, op = (getComputedStyle(img).objectPosition || '').split(' ');
     var px = /%$/.test(op[0] || '') ? parseFloat(op[0])/100 : .5, py = /%$/.test(op[1] || '') ? parseFloat(op[1])/100 : .5, S = Math.max(w/iw, h/ih), dw = iw*S, dh = ih*S;
@@ -513,7 +437,6 @@
     var a = p.getBoundingClientRect(), b = this.c.getBoundingClientRect(), n = Math.ceil(a.width/3);
     this.pr = {l:a.left - b.left, t:a.top - b.top, w:a.width, rad:parseFloat(getComputedStyle(p).borderTopLeftRadius) || 20};
     if (!this.drift || this.drift.length !== n) this.drift = new Float32Array(n); };
-  /* дым из трубы: поднимается и сносится реальным ветром, в метель и грозу рвётся быстрее */
   Scene.prototype.drawSmoke = function(t, wx, move){ var pm = this.pm, x = this.x, K = KINDS[W.kind], S = this.smoke || (this.smoke = []), k = pm.k, cx = pm.ox + PHOTO.chimney[0]*k, cy = pm.oy + PHOTO.chimney[1]*k, i;
     if (cx < -60 || cx > this.w + 60 || cy < -20) return;
     var storm = K.precip === 'blizzard' || !!K.thunder, sk = Math.max(.5, k*(this.w < 700 ? .85 : 1.35));
@@ -523,7 +446,6 @@
       p.x += (p.vx + wx*.2*Math.min(1, f*3 + .15))*move; p.y += p.vy*(1 - f*.45)*(1 - Math.min(.75, aw*.15))*move; p.r += .085*sk*(1 + aw*.15)*move;
       x.globalAlpha = Math.min(1, f*6)*(1 - f)*(1 - f)*(storm ? .26 : .34); x.drawImage(spr.c, p.x - p.r, p.y - p.r, p.r*2, p.r*2); }
     x.globalAlpha = 1; };
-  /* снег оседает на верхнем крае стеклянной панели и тает, когда снегопад кончился */
   Scene.prototype.drawDrift = function(move, K){ var pr = this.pr, dr = this.drift, i; if (!pr || !dr) return;
     var snowing = K.precip === 'snow' || K.precip === 'heavysnow' || K.precip === 'blizzard', mx = 0;
     for (i = 0; i < dr.length; i++){ if (!snowing && dr[i] > 0) dr[i] = Math.max(0, dr[i] - .01*move); if (dr[i] > mx) mx = dr[i]; }
@@ -538,7 +460,6 @@
   var hdrScene = new Scene(document.getElementById('skyHdr'), {scale:.8, body:true});
   var heroScene = new Scene(document.getElementById('skyHero'), {scale:1.2, starBand:150, meteors:true, cloudBand:window.innerWidth < 700 ? 96 : 128, photo:document.querySelector('#hero img')});
   window.__lgHero = heroScene;
-  /* палец или курсор разгоняет снежинки и капли */
   (function(){ var he = document.getElementById('hero'); if (!he) return;
     function at(cx, cy){ var r = heroScene.c.getBoundingClientRect(); PTR.x = cx - r.left; PTR.y = cy - r.top; PTR.t = performance.now(); }
     he.addEventListener('pointermove', function(e){ if (e.pointerType !== 'touch') at(e.clientX, e.clientY); }, {passive:true});
@@ -547,38 +468,49 @@
     he.addEventListener('pointerleave', function(e){ if (e.pointerType !== 'touch') PTR.t = -1e9; }); })();
   var heroImg = document.querySelector('#hero img'); if (heroImg && !heroImg.complete) heroImg.addEventListener('load', function(){ heroScene.mapPhoto(); });
 
-  /* Свет поверх фото: тёплые окна в непогоду, отсвет молнии на фасаде, зарница только в небе */
   var LT = {c:document.getElementById('fxLight'), a:0, last:''};
   LT.x = LT.c ? LT.c.getContext('2d') : null;
   function lightSize(){ if (!LT.x) return; var sd = LT.c.style.display; LT.c.style.display = ''; var w = LT.c.clientWidth, h = LT.c.clientHeight; LT.c.style.display = sd; LT.c.width = Math.round(w*DPR); LT.c.height = Math.round(h*DPR); LT.x.setTransform(DPR, 0, 0, DPR, 0, 0); LT.w = w; LT.h = h; LT.last = ''; }
-  function drawPoly(x, p){ x.beginPath(); x.moveTo(p[0][0], p[0][1]); for (var j = 1; j < p.length; j++) x.lineTo(p[j][0], p[j][1]); x.closePath(); x.fill(); }
-  function drawLight(move){ if (!LT.x) return; if (!LT.w) lightSize(); var on = heroScene.o.soft, K = KINDS[W.kind];
-    var want = on && (K.thunder || K.precip === 'blizzard' || K.precip === 'heavysnow' || K.precip === 'rain' || K.precip === 'sleet') ? 1 : 0;
-    LT.a += (want - LT.a)*Math.min(1, .025*move); if (Math.abs(want - LT.a) < .004) LT.a = want;
+  var WN = {c:document.createElement('canvas'), key:'', on:false};
+  WN.c.id = 'fxWin'; WN.c.setAttribute('aria-hidden', 'true'); WN.c.style.cssText = 'opacity:0;display:none;transition:opacity 2.6s ease';
+  if (LT.c) LT.c.parentNode.insertBefore(WN.c, document.getElementById('skyHero'));
+  WN.c.addEventListener('transitionend', function(){ if (!WN.on) WN.c.style.display = 'none'; });
+  function cnv(w, h){ var c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); return c; }
+  function buildWin(){ var img = heroScene.o.photo, pm = heroScene.pm, w = heroScene.w, h = heroScene.h; if (!pm || !w || !img || !img.complete || !img.naturalWidth) return false;
+    var key = w + '|' + h + '|' + pm.k.toFixed(4) + '|' + Math.round(pm.ox) + '|' + Math.round(pm.oy); if (key === WN.key) return true; WN.key = key;
+    var s = Math.min(DPR, 2), W2 = Math.round(w*s), H2 = Math.round(h*s), k = pm.k*s, ox = pm.ox*s, oy = pm.oy*s, dw = PHOTO.w*k, dh = dw*img.naturalHeight/img.naturalWidth;
+    function X(v){ return ox + v*k; } function Y(v){ return oy + v*k; }
+    function glow(x, cx, cy, r, a, sy){ x.save(); x.translate(cx, cy); x.scale(1, sy || 1); var g = x.createRadialGradient(0, 0, 0, 0, 0, r);
+      [[0, 1], [.2, .62], [.45, .3], [.7, .11], [1, 0]].forEach(function(q){ g.addColorStop(q[0], 'rgba(255,' + (196 - q[0]*40 | 0) + ',' + (128 - q[0]*40 | 0) + ',' + (a*q[1]).toFixed(3) + ')'); });
+      x.fillStyle = g; x.fillRect(-r, -r, r*2, r*2); x.restore(); }
+    function lit(tint, lift){ var q = cnv(W2, H2).getContext('2d'); q.drawImage(img, ox, oy, dw, dh);
+      q.globalCompositeOperation = 'multiply'; q.fillStyle = tint; q.fillRect(0, 0, W2, H2); q.globalCompositeOperation = 'screen'; q.fillStyle = lift; q.fillRect(0, 0, W2, H2); return q; }
+    var c = WN.c; c.width = W2; c.height = H2; var x = c.getContext('2d'), q, L = PHOTO.porch, lx = X(L[0]), ly = Y(L[1]);
+    q = lit('#ffc98a', 'rgba(255,160,84,.5)'); q.globalCompositeOperation = 'screen'; glow(q, lx, ly + 50*k, 110*k, .45, 1.2);
+    q.globalCompositeOperation = 'destination-in'; glow(q, lx, ly, 210*k, 1, 1.5);
+    q.globalCompositeOperation = 'destination-out'; var tg = q.createLinearGradient(0, ly - 4*k, 0, ly + 8*k); tg.addColorStop(0, '#000'); tg.addColorStop(1, 'rgba(0,0,0,0)');
+    q.fillStyle = tg; q.fillRect(0, 0, W2, ly + 8*k); x.drawImage(q.canvas, 0, 0);
+    glow(x, lx, ly + 4*k, 34*k, .55, .7);
+    return true; }
+  function drawLight(){ if (!LT.x) return; if (!LT.w) lightSize(); var on = heroScene.o.soft, K = KINDS[W.kind];
+    var want = on && (K.thunder || K.precip === 'blizzard' || K.precip === 'heavysnow' || K.precip === 'rain' || K.precip === 'sleet');
+    if (want && buildWin() && !WN.on){ WN.on = true; WN.c.style.display = ''; void WN.c.offsetWidth; WN.c.style.opacity = 1; }
+    else if (!want && WN.on){ WN.on = false; WN.c.style.opacity = 0; }
     var vk = on ? (K.thunder ? 'thunder' : W.kind) : '', V = VEIL[vk];
-    /* окна разгораются ступенями — слой перерисовывается ~12 раз, а не каждый кадр */
-    var fl = on && !reduce ? W.flash : 0, key = Math.round(LT.a*12) + '|' + fl.toFixed(3) + '|' + LT.w + '|' + LT.h + '|' + (V ? vk : ''); if (key === LT.last) return; LT.last = key;
-    var x = LT.x, w = LT.w, h = LT.h, pm = heroScene.pm, act = !!V || LT.a > .01 || fl > .02; x.clearRect(0, 0, w, h);
-    /* слой света включаем, только когда есть что показать */
+    var fl = on && !reduce ? W.flash : 0, key = fl.toFixed(3) + '|' + LT.w + '|' + LT.h + '|' + (V ? vk : ''); if (key === LT.last) return; LT.last = key;
+    var x = LT.x, w = LT.w, h = LT.h, pm = heroScene.pm, act = !!V || fl > .02; x.clearRect(0, 0, w, h);
     if (act !== LT.on){ LT.on = act; LT.c.style.display = act ? '' : 'none'; } if (!pm || !act) return;
-    /* тон воздуха при осадках — здесь, а не в кадре частиц: рисуется только при смене погоды */
     if (V){ var vg = x.createLinearGradient(0, 0, 0, h); V.forEach(function(st){ vg.addColorStop(st[0], 'rgba(' + st[1] + ',' + st[2] + ')'); }); x.fillStyle = vg; x.fillRect(0, 0, w, h); }
     if (fl > .02 && heroScene.skyM){ var bx = BOLT ? BOLT.x : w/2, sheet = BOLT && !BOLT.segs, g = x.createRadialGradient(bx, h*.25, 0, bx, h*.25, Math.max(w, h)*.7);
       g.addColorStop(0, 'rgba(176,194,255,' + (fl*(sheet ? 1 : .8)).toFixed(3) + ')'); g.addColorStop(1, 'rgba(176,194,255,' + (fl*.15).toFixed(3) + ')'); x.fillStyle = g; x.fillRect(0, 0, w, h);
       x.globalCompositeOperation = 'destination-in'; x.drawImage(heroScene.skyM, 0, 0, heroScene.dgw*4, heroScene.dgh*4); x.globalCompositeOperation = 'source-over'; }
     if (fl > .02 && BOLT && BOLT.segs){ var g2 = x.createRadialGradient(BOLT.x, 0, 0, BOLT.x, 0, Math.max(w, h)*1.1);
-      g2.addColorStop(0, 'rgba(150,172,236,' + (fl*.55).toFixed(3) + ')'); g2.addColorStop(.55, 'rgba(120,142,205,' + (fl*.24).toFixed(3) + ')'); g2.addColorStop(1, 'rgba(120,142,205,' + (fl*.08).toFixed(3) + ')'); x.fillStyle = g2; x.fillRect(0, 0, w, h); }
-    if (LT.a > .01){ var k = pm.k; x.save(); x.translate(pm.ox, pm.oy); x.scale(k, k);
-      x.globalAlpha = Math.round(LT.a*12)/12*(1 - fl*.7); x.shadowColor = 'rgba(255,150,60,.75)'; x.shadowBlur = 16*k*DPR; x.fillStyle = 'rgba(255,184,104,.5)';
-      PHOTO.win.forEach(function(p){ drawPoly(x, p); }); x.shadowBlur = 0;
-      var L = PHOTO.lamp, gl = x.createRadialGradient(L[0], L[1] + 20, 0, L[0], L[1] + 20, 95); gl.addColorStop(0, 'rgba(255,196,120,.75)'); gl.addColorStop(.18, 'rgba(255,170,90,.4)'); gl.addColorStop(.6, 'rgba(255,150,70,.12)'); gl.addColorStop(1, 'rgba(255,150,70,0)');
-      x.fillStyle = gl; x.fillRect(L[0] - 95, L[1] - 75, 190, 190); x.restore(); } }
+      g2.addColorStop(0, 'rgba(150,172,236,' + (fl*.55).toFixed(3) + ')'); g2.addColorStop(.55, 'rgba(120,142,205,' + (fl*.24).toFixed(3) + ')'); g2.addColorStop(1, 'rgba(120,142,205,' + (fl*.08).toFixed(3) + ')'); x.fillStyle = g2; x.fillRect(0, 0, w, h); } }
 
-  /* Капли дождя на стекле панели и иней по углам в сильный мороз */
   var PF = {c:document.getElementById('hpFx'), drops:[], frost:0, lastFrost:-1, fs:null, w:0, h:0};
   PF.x = PF.c ? PF.c.getContext('2d') : null;
   function pfSize(){ var w = PF.c.clientWidth, h = PF.c.clientHeight; if (!w || (w === PF.w && h === PF.h)) return; PF.w = w; PF.h = h;
-    PF.c.width = Math.round(w*DPR); PF.c.height = Math.round(h*DPR); PF.x.setTransform(DPR, 0, 0, DPR, 0, 0); PF.fs = null; PF.drops = []; PF.lastFrost = -1; }
+    PF.c.width = Math.round(w*DPR); PF.c.height = Math.round(h*DPR); PF.x.setTransform(DPR, 0, 0, DPR, 0, 0); PF.fs = null; PF.drops = []; PF.trails = []; PF.lastFrost = -1; }
   function frostSprite(w, h){ var s = sprite(w, h), x = s.x; x.lineCap = 'round';
     function crystal(px, py, ang, len, lw, depth){ var ex = px + Math.cos(ang)*len, ey = py + Math.sin(ang)*len; x.lineWidth = lw; x.beginPath(); x.moveTo(px, py); x.lineTo(ex, ey); x.stroke();
       if (depth < 2) for (var i = 1; i <= 3; i++){ var f = i/4, bx = px + (ex - px)*f, by = py + (ey - py)*f, bl = len*(.5 - f*.28)*rnd(.7, 1.2); crystal(bx, by, ang + 1.047, bl, lw*.7, depth + 1); crystal(bx, by, ang - 1.047, bl, lw*.7, depth + 1); } }
@@ -586,39 +518,49 @@
       g.addColorStop(0, 'rgba(232,242,255,.26)'); g.addColorStop(.45, 'rgba(232,242,255,.1)'); g.addColorStop(1, 'rgba(232,242,255,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h);
       x.strokeStyle = 'rgba(238,246,255,.38)'; for (var i = 0; i < 8; i++){ var a = c[2] + rnd(-.7, .7), r0 = rnd(0, 16); crystal(c[0] + Math.cos(a)*r0, c[1] + Math.sin(a)*r0, a, rnd(14, 34), rnd(.55, .9), 0); } });
     return s; }
-  function drawDrop(x, d){ var r = d.r, a = d.a, st = d.vy > .3 ? 1.22 : 1;
-    x.save(); x.translate(d.x, d.y); x.scale(1/Math.sqrt(st), st);
-    x.fillStyle = 'rgba(0,8,16,' + (.24*a).toFixed(3) + ')'; x.beginPath(); x.arc(0, r*.35, r, 0, 6.283); x.fill();
-    var g = x.createRadialGradient(-r*.25, -r*.3, r*.1, 0, 0, r); g.addColorStop(0, 'rgba(255,255,255,' + (.05*a).toFixed(3) + ')'); g.addColorStop(.72, 'rgba(206,222,240,' + (.14*a).toFixed(3) + ')'); g.addColorStop(1, 'rgba(255,255,255,' + (.42*a).toFixed(3) + ')');
-    x.fillStyle = g; x.beginPath(); x.arc(0, 0, r, 0, 6.283); x.fill();
-    x.fillStyle = 'rgba(255,255,255,' + (.8*a).toFixed(3) + ')'; x.beginPath(); x.arc(-r*.34, -r*.4, Math.max(.4, r*.26), 0, 6.283); x.fill(); x.restore(); }
+  function dropPath(x, r, tl){ x.beginPath(); if (tl > .05){ var t = r*(1 + tl*1.6);
+      x.moveTo(-r, 0); x.bezierCurveTo(-r, -r*.7, -r*.25, -t*.8, 0, -t); x.bezierCurveTo(r*.25, -t*.8, r, -r*.7, r, 0); x.arc(0, 0, r, 0, Math.PI); }
+    else x.arc(0, 0, r, 0, 6.283); }
+  function drawDrop(x, d){ var r = d.r, a = d.a, tl = d.slide ? Math.min(1, d.vy*1.2) : 0;
+    x.save(); x.translate(d.x, d.y);
+    x.translate(0, r*.3); x.fillStyle = 'rgba(0,8,16,' + (.22*a).toFixed(3) + ')'; dropPath(x, r, tl); x.fill(); x.translate(0, -r*.3);
+    var g = x.createRadialGradient(-r*.25, -r*.35, r*.1, 0, 0, r*1.05); g.addColorStop(0, 'rgba(255,255,255,' + (.05*a).toFixed(3) + ')'); g.addColorStop(.7, 'rgba(206,222,240,' + (.13*a).toFixed(3) + ')'); g.addColorStop(1, 'rgba(255,255,255,' + (.4*a).toFixed(3) + ')');
+    x.fillStyle = g; dropPath(x, r, tl); x.fill();
+    x.fillStyle = 'rgba(255,255,255,' + (.8*a).toFixed(3) + ')'; x.beginPath(); x.arc(-r*.34, -r*.4, Math.max(.4, r*.24), 0, 6.283); x.fill();
+    if (r > 1.4){ x.strokeStyle = 'rgba(255,255,255,' + (.3*a).toFixed(3) + ')'; x.lineWidth = Math.max(.5, r*.16); x.beginPath(); x.arc(0, 0, r*.7, .6, 2.54); x.stroke(); }
+    x.restore(); }
+  function drawTrail(x, T){ var p = T.p, a = T.a, i; if (p.length < 2 || a < .02) return;
+    x.lineCap = 'round'; x.lineJoin = 'round'; x.beginPath(); x.moveTo(p[0][0], p[0][1]); for (i = 1; i < p.length; i++) x.lineTo(p[i][0], p[i][1]);
+    x.strokeStyle = 'rgba(196,216,240,' + (.11*a).toFixed(3) + ')'; x.lineWidth = T.w; x.stroke();
+    x.save(); x.translate(-T.w*.28, 0); x.strokeStyle = 'rgba(255,255,255,' + (.22*a).toFixed(3) + ')'; x.lineWidth = Math.max(.5, T.w*.16); x.stroke(); x.restore(); }
   function drawPanelFx(move){ if (!PF.x) return; var K = KINDS[W.kind], on = heroScene.o.soft, wet = on && (K.precip === 'rain' || K.precip === 'drizzle' || K.precip === 'sleet');
     var rate = !wet || reduce ? 0 : K.thunder ? .14 : K.precip === 'rain' ? .12 : .06, tN = W.tempNow != null ? W.tempNow : K.t, fw = on && tN <= -10 ? 1 : 0;
     PF.frost += (fw - PF.frost)*Math.min(1, .015*move); if (Math.abs(fw - PF.frost) < .004) PF.frost = fw;
-    pfSize(); if (!PF.drops.length && !rate && PF.frost === PF.lastFrost) return; PF.lastFrost = PF.frost;
-    var x = PF.x, w = PF.w, h = PF.h, D = PF.drops, i; if (!w) return; x.clearRect(0, 0, w, h);
+    pfSize(); var TR = PF.trails || (PF.trails = []); if (!PF.drops.length && !TR.length && !rate && PF.frost === PF.lastFrost) return; PF.lastFrost = PF.frost;
+    var x = PF.x, w = PF.w, h = PF.h, D = PF.drops, i, j; if (!w) return; x.clearRect(0, 0, w, h);
     if (PF.frost > .005){ if (!PF.fs) PF.fs = frostSprite(w, h); x.globalAlpha = PF.frost; x.drawImage(PF.fs.c, 0, 0, w, h); x.globalAlpha = 1; }
-    if (Math.random() < rate*move && D.length < 70){ var r = Math.random() < .2 ? rnd(3, 4.6) : rnd(1.1, 2.6); D.push({x:rnd(4, w - 4), y:rnd(3, h - 4), r:r, a:0, life:rnd(420, 900), age:0, vy:0, slide:r > 2.8 && Math.random() < .75, last:0}); }
+    if (Math.random() < rate*move && D.length < 70){ var r = Math.random() < .2 ? rnd(2.6, 4) : rnd(1.1, 2.4); D.push({x:rnd(4, w - 4), y:rnd(3, h - 4), r:r, a:0, life:rnd(420, 900), age:0, vy:0, slide:false, last:0}); }
+    for (i = TR.length - 1; i >= 0; i--){ var T = TR[i]; if (!T.d) T.a -= .006*move; if (T.a <= 0){ TR.splice(i, 1); continue; } drawTrail(x, T); }
     for (i = D.length - 1; i >= 0; i--){ var d = D[i]; d.age += move*(rate ? 1 : 3);
-      if (d.slide && d.age > 40){ d.vy = Math.min(1.5, d.vy + .018*move); d.y += d.vy*move; d.x += Math.sin(d.y*.15 + d.r)*.12*move;
-        if (d.y - d.last > 7){ d.last = d.y; if (D.length < 90) D.push({x:d.x + rnd(-.6, .6), y:d.y - d.r*1.3, r:rnd(.5, 1), a:0, life:rnd(160, 360), age:0, vy:0, slide:false, last:0}); d.r *= .985; } }
-      var f = d.age/d.life; if (f >= 1 || d.y > h + 6 || d.r < .45){ D.splice(i, 1); continue; }
-      d.a = Math.min(1, d.age/12)*(f > .75 ? (1 - f)/.25 : 1); drawDrop(x, d); } }
+      if (!d.slide && d.r > 2.7 && d.age > 40 && Math.random() < .02*move){ d.slide = true; d.dx = rnd(-.15, .15); d.tr = {p:[[d.x, d.y]], w:d.r*1.1, a:1, d:d}; TR.push(d.tr); }
+      if (d.slide){ d.vy = Math.min(1.6, d.vy + .02*move); if (Math.random() < .012*move) d.vy *= .15; if (Math.random() < .02*move) d.dx = rnd(-.18, .18);
+        d.y += d.vy*move; d.x += d.dx*d.vy*move;
+        var tp = d.tr.p, lp = tp[tp.length - 1]; if (Math.abs(d.y - lp[1]) > 2) tp.push([d.x, d.y - d.r*.4]);
+        for (j = D.length - 1; j >= 0; j--){ var o = D[j]; if (o === d || o.slide) continue; var ex = o.x - d.x, ey = o.y - d.y; if (ex*ex + ey*ey < (d.r + o.r)*(d.r + o.r)){ d.r = Math.min(4.6, Math.sqrt(d.r*d.r + o.r*o.r)); D.splice(j, 1); if (j < i) i--; } }
+        if (d.y - d.last > 9){ d.last = d.y; if (D.length < 90 && Math.random() < .6) D.push({x:d.x + rnd(-.6, .6), y:d.y - d.r*1.6, r:rnd(.5, 1), a:0, life:rnd(160, 360), age:0, vy:0, slide:false, last:0}); d.r *= .985; } }
+      var f = d.age/d.life; if (f >= 1 || d.y > h + 6 || d.r < .45){ if (d.tr) d.tr.d = null; D.splice(i, 1); continue; }
+      d.a = Math.min(1, d.age/12)*(f > .75 && !d.slide ? (1 - f)/.25 : 1); drawDrop(x, d); } }
 
   var last = 0, heroVis = true, slow = 0, prT = 0;
   function loop(t){ var dt = last ? Math.min(t - last, 50) : 16; last = t;
-    /* если телефон не успевает — рисуем меньше дальних снежинок, качество возвращается само */
     if (dt > 26){ if (++slow > 45){ QUALITY = Math.max(.45, QUALITY - .15); slow = 0; } } else if (slow > 0) slow--; else if (QUALITY < 1 && Math.random() < .002) QUALITY = Math.min(1, QUALITY + .05);
     stepBolt(t, heroScene.w, heroScene.h, heroScene.o.cloudBand, heroScene.o.soft); hdrScene.draw(t, dt); if (heroVis){ heroScene.draw(t, dt); drawLight(dt/16); drawPanelFx(dt/16); if (++prT > 90){ prT = 0; heroScene.panelRect(); } } requestAnimationFrame(loop); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ heroVis = e[0].isIntersecting; }).observe(document.getElementById('skyHero'));
   function onResize(){ hdrScene.size(); heroScene.size(); lightSize(); if (PF.x) pfSize(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); } }
   window.addEventListener('resize', onResize);
-  /* обложка меняет высоту и без смены окна (догрузились шрифты, перенос строк) — иначе окна, труба и глубина съезжают */
   if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(document.getElementById('hero'));
-  /* Над фото шапка прозрачная (осадки рисует сцена фото, чтобы не было двойного снега); после прокрутки — своё небо */
   var hdrEl = document.getElementById('hdr');
   var heroEl = document.getElementById('hero');
-  /* нижняя панель на телефоне: появляется после первого экрана, прячется, когда виден блок бронирования */
   var mbar = document.getElementById('mbar'), bookEl = document.getElementById('book'), vis = {hero:true, book:false};
   if (mbar && 'IntersectionObserver' in window){ var mio = new IntersectionObserver(function(es){ es.forEach(function(e){ vis[e.target === bookEl ? 'book' : 'hero'] = e.isIntersecting; }); mbar.classList.toggle('on', !vis.hero && !vis.book); }, {threshold:0});
     mio.observe(document.getElementById('hero')); mio.observe(bookEl); } else if (mbar) mbar.classList.add('on');
@@ -636,12 +578,10 @@
   hdrScene.o.precip = false; hdrScene.o.cloudsOn = false; window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
 
-  /* Закрыть панель погоды: кнопкой, крестиком, кликом мимо или Esc */
   var wxp = document.getElementById('wxPanel');
   document.getElementById('wxClose').addEventListener('click', function(){ wxp.open = false; });
   document.addEventListener('click', function(e){ if (wxp.open && !wxp.contains(e.target)) wxp.open = false; });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && wxp.open){ wxp.open = false; wxp.querySelector('summary').focus(); } });
-  /* Меню по логотипу */
   var lb = document.getElementById('logoBtn'), sm = document.getElementById('siteMenu'), bd = document.getElementById('menuBd');
   function setMenu(open){ lb.setAttribute('aria-expanded', open); sm.classList.toggle('on', open); bd.classList.toggle('on', open);
     if (open){ var c = document.getElementById('wxChip'); document.getElementById('menuWx').innerHTML = 'Сейчас в Терсколе <b>' + (c.querySelector('b') ? c.querySelector('b').textContent : '') + '</b> · ' + KINDS[W.kind].name.toLowerCase();
@@ -650,14 +590,12 @@
   bd.addEventListener('click', function(){ setMenu(false); });
   sm.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && sm.classList.contains('on')){ setMenu(false); lb.focus(); } });
-  /* Время и ресторан */
   function restOpen(){ return minutes >= REST.open*60 && minutes < REST.close*60; }
   function tick(){ o0 = msk(); minutes = (+o0.hour)*60 + (+o0.minute); if (!W.forced){ W.phase = phaseFor(minutes); } applyWeather();
     var open = restOpen(), l = document.getElementById('restLive'); l.classList.toggle('closed', !open); l.lastElementChild.textContent = open ? 'Ресторан открыт до ' + REST.close + ':00' : 'Ресторан откроется в ' + REST.open + ':00';
     var hr = document.getElementById('heroRest'); hr.classList.toggle('closed', !open); hr.querySelector(':scope > div > span').textContent = open ? 'открыт до ' + REST.close + ':00' : 'откроется в ' + REST.open + ':00';
     var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').textContent = hr.querySelector(':scope > div > span').textContent; } }
 
-  /* Панель предпросмотра погоды */
   var kindsBox = document.getElementById('wxKinds'), phBox = document.getElementById('wxPhases');
   kindsBox.innerHTML = ORDER.map(function(k){ return '<button type="button" data-k="' + k + '" aria-pressed="false">' + icon(k, false) + KINDS[k].name + '</button>'; }).join('');
   if (phBox) phBox.innerHTML = Object.keys(PHASES).map(function(p){ return '<button type="button" data-ph="' + p + '" aria-pressed="false">' + PHASES[p] + '</button>'; }).join('');
@@ -669,7 +607,6 @@
   applyWeather(); hdrScene.draw(0,16); heroScene.draw(0,16); if (!reduce) requestAnimationFrame(loop);
   loadWeather(); setInterval(loadWeather, 15*60*1000); setInterval(tick, 30000); tick();
 
-  /* ---------- Подбор номера ---------- */
   var grid = document.getElementById('roomGrid');
   rooms.forEach(function(r){ var el = document.createElement('article'); el.className = 'room'; el.id = 'r-'+r.id;
     var ph = PHOTOS[r.id] || []; el.innerHTML = '<div class="ph" data-view="'+(ph.length ? 'photo' : 'plan')+'"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="'+!!ph.length+'">Фото</button><button type="button" data-v="plan" aria-pressed="'+!ph.length+'">План</button></div><div class="mphoto">'+(ph.length ? '<div class="mph-s">'+ph.map(function(u, i){ return '<img src="'+phUrl(u, 760)+'" alt="'+r.name+', фото '+(i+1)+'" loading="lazy" decoding="async" data-i="'+i+'">'; }).join('')+'</div>'+(ph.length > 1 ? '<span class="mph-n">1 / '+ph.length+'</span><button type="button" class="mph-a p" aria-label="Предыдущее фото">'+CHEV_L+'</button><button type="button" class="mph-a n" aria-label="Следующее фото">'+CHEV_R+'</button>' : '') : '<span class="mph-ph">фото номера</span>')+'</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><small class="fnote">Цены на ваши даты —<br>в бронировании</small><a class="btn btn-pine" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'">Забронировать</a></div></div>';
@@ -687,7 +624,6 @@
     function side(sd){ return mir ? ({l:'r', r:'l'}[sd] || sd) : sd; }
     function seg(sd, a, b){ var x1, y1, x2, y2; if (sd === 't' || sd === 'b'){ y1 = y2 = sd === 't' ? 0 : H; x1 = a; x2 = b; } else { x1 = x2 = (sd === 'l' ? 0 : W); y1 = a; y2 = b; }
       return {a:[X(x1), Y(y1)], b:[X(x2), Y(y2)]}; }
-    /* стены и размеры */
     path('M'+X(0)+' '+Y(0)+'L'+X(W)+' '+Y(0)+'L'+X(W)+' '+Y(H)+'L'+X(0)+' '+Y(H)+'Z', 'w', 0);
     var dt = pad - 14; path('M'+pad+' '+dt+'h'+(W*S)+'M'+pad+' '+(dt-4)+'v8M'+(pad+W*S)+' '+(dt-4)+'v8', 'dim', .5);
     var dl = pad - 14; path('M'+dl+' '+pad+'v'+(H*S)+'M'+(dl-4)+' '+pad+'h8M'+(dl-4)+' '+(pad+H*S)+'h8', 'dim', .5);
@@ -725,7 +661,6 @@
   }
   function replay(box){ if (reduce) return; box.classList.remove('drawing'); void box.getBoundingClientRect(); box.classList.add('drawing'); }
 
-  /* карточки: переключатель Фото / План и мини-схема */
   rooms.forEach(function(r){ var card = document.getElementById('r-'+r.id), vs = PLANS[r.id]; if (!vs) return;
     var ph = card.querySelector('.ph'), box = ph.querySelector('.pl'), cap = ph.querySelector('.mcap');
     drawPlan(box.querySelector('svg'), vs[0]);
@@ -736,27 +671,35 @@
   if (!reduce && 'IntersectionObserver' in window){ var pio = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ replay(e.target); pio.unobserve(e.target); } }); }, {threshold:.35});
     document.querySelectorAll('.room .pl').forEach(function(b){ b.classList.add('wait'); pio.observe(b); }); }
 
-  /* фото в карточках: листание свайпом и стрелками, по нажатию — галерея на весь экран */
   document.querySelectorAll('.mph-s').forEach(function(s){ var box = s.parentNode, n = box.querySelector('.mph-n'), cnt = s.children.length, id = box.closest('.room').id.slice(2);
     function idx(){ return Math.round(s.scrollLeft / Math.max(1, s.clientWidth)); }
     s.addEventListener('scroll', function(){ if (n) n.textContent = (idx() + 1) + ' / ' + cnt; }, {passive:true});
     box.querySelectorAll('.mph-a').forEach(function(a){ a.addEventListener('click', function(){ var k = idx() + (a.classList.contains('n') ? 1 : -1); if (k >= cnt) k = 0; if (k < 0) k = cnt - 1; s.scrollTo({left:k*s.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }); });
     s.addEventListener('click', function(e){ var im = e.target.closest('img'); if (im) openGal(id, +im.dataset.i); }); });
-  var gal = document.getElementById('gal'), galS = document.getElementById('galS'), galN = document.getElementById('galN'), galLast = null;
+  var gal = document.getElementById('gal'), galS = document.getElementById('galS'), galN = document.getElementById('galN'), galTh = document.getElementById('galTh'), galLast = null, galCur = -1;
   function galIdx(){ return Math.round(galS.scrollLeft / Math.max(1, galS.clientWidth)); }
+  function galMark(i){ if (i === galCur) return; galCur = i;
+    [i - 1, i + 1].forEach(function(k){ var im = galS.children[k]; if (im) im.loading = 'eager'; }); galN.textContent = (i + 1) + ' / ' + galS.children.length;
+    [].forEach.call(galTh.children, function(b, k){ b.setAttribute('aria-current', k === i); });
+    var b = galTh.children[i]; if (b) galTh.scrollTo({left:b.offsetLeft - (galTh.clientWidth - b.offsetWidth)/2, behavior:reduce ? 'auto' : 'smooth'}); }
   function openGal(id, i){ var ph = PHOTOS[id] || [], r = rooms.filter(function(x){ return x.id === id; })[0]; if (!ph.length) return; galLast = document.activeElement;
     galS.innerHTML = ph.map(function(u, k){ return '<img src="' + phUrl(u, 0) + '" alt="' + r.name + ', фото ' + (k+1) + '"' + (Math.abs(k - i) > 1 ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
+    galTh.innerHTML = ph.length < 2 ? '' : ph.map(function(u, k){ return '<button type="button" data-i="' + k + '" aria-label="Фото ' + (k+1) + '"><img src="' + phUrl(u, 160) + '" alt="" loading="lazy" decoding="async"></button>'; }).join('');
     document.getElementById('galT').textContent = r.name; gal.hidden = false; document.documentElement.style.overflow = 'hidden';
-    galS.scrollLeft = i * galS.clientWidth; galN.textContent = (i + 1) + ' / ' + ph.length; document.getElementById('galX').focus(); }
-  function closeGal(){ gal.hidden = true; galS.innerHTML = ''; document.documentElement.style.overflow = ''; if (galLast) galLast.focus(); }
-  function galGo(d){ var c = galS.children.length, k = galIdx() + d; if (k >= c) k = 0; if (k < 0) k = c - 1; galS.scrollTo({left:k*galS.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }
-  galS.addEventListener('scroll', function(){ galN.textContent = (galIdx() + 1) + ' / ' + galS.children.length; }, {passive:true});
+    galS.scrollLeft = i * galS.clientWidth; galCur = -1; galMark(i); document.getElementById('galX').focus(); }
+  function closeGal(){ clearTimeout(galT); galS.classList.remove('fade'); gal.hidden = true; galS.innerHTML = ''; galTh.innerHTML = ''; document.documentElement.style.overflow = ''; if (galLast) galLast.focus(); }
+  var galT = 0;
+  function galTo(k){ if (k === galIdx()) return; var im = galS.children[k]; if (im) im.loading = 'eager'; clearTimeout(galT);
+    if (reduce){ galS.scrollLeft = k*galS.clientWidth; return; }
+    galS.classList.add('fade'); galT = setTimeout(function(){ galS.scrollLeft = k*galS.clientWidth; galMark(k); requestAnimationFrame(function(){ galS.classList.remove('fade'); }); }, 160); }
+  function galGo(d){ var c = galS.children.length, k = galIdx() + d; if (k >= c) k = 0; if (k < 0) k = c - 1; galTo(k); }
+  galS.addEventListener('scroll', function(){ galMark(galIdx()); }, {passive:true});
+  galTh.addEventListener('click', function(e){ var b = e.target.closest('[data-i]'); if (b) galTo(+b.dataset.i); });
   document.getElementById('galX').addEventListener('click', closeGal);
   gal.querySelector('.gal-a.p').addEventListener('click', function(){ galGo(-1); });
   gal.querySelector('.gal-a.n').addEventListener('click', function(){ galGo(1); });
   document.addEventListener('keydown', function(e){ if (gal.hidden) return; if (e.key === 'Escape') closeGal(); else if (e.key === 'ArrowRight') galGo(1); else if (e.key === 'ArrowLeft') galGo(-1); });
 
-  /* окно с планировками */
   var pm = document.getElementById('pm'), pmBd = document.getElementById('pmBd'), pmBox = document.getElementById('pmBox'), pmVars = document.getElementById('pmVars'), pmCur = null, pmLast = null;
   function openPlan(id, i){ var r = rooms.filter(function(x){ return x.id === id; })[0], vs = PLANS[id]; pmCur = id;
     document.getElementById('pmT').textContent = r.name; document.getElementById('pmMeta').textContent = r.tags.join(' · ') + ' · от ' + rub(r.price) + (r.half ? ' за ½ дома' : ' за ночь');
@@ -774,18 +717,12 @@
   document.getElementById('pmPick').onclick = function(){ var r = rooms.filter(function(x){ return x.id === pmCur; })[0]; closePlan(); openBooking(r && r.hr); };
 
 
-  /* ---------- Модуль бронирования HomeReserve ----------
-     Строка поиска встаёт в блок «Подберём номер», окно с номерами и бронью модуль открывает сам.
-     Кнопки «Забронировать» открывают поиск или сразу нужный номер. Если модуль не загрузился —
-     кнопки ведут на страницу бронирования в новой вкладке. */
   var hrReady = false, hrBox = document.getElementById('hr-widget');
   function hrFallback(){ if (hrReady) return; hrBox.hidden = true; var fb = document.getElementById('hrFallback'); fb.hidden = false;
     if (PREVIEW) document.getElementById('hrFbTxt').textContent = 'На сайте здесь будет строка поиска модуля HomeReserve. В предпросмотре она не загружается.'; }
   (function(){ var s = document.createElement('script'); s.type = 'module'; s.src = 'https://homereserve.ru/widget.js';
     s.onload = function(){ try { window.homereserve.initWidgetSearch({token: HR.token, apartments: rooms.map(function(r){ return r.hr; }).filter(Boolean)}); hrReady = true; hrBox.hidden = false; document.getElementById('hrFallback').hidden = true; } catch (e) { hrFallback(); } };
     s.onerror = hrFallback; document.head.appendChild(s); setTimeout(hrFallback, 10000); })();
-  /* На телефонах HomeReserve сам открывает свою страницу, поэтому ведём туда сразу, на нужный номер */
-  /* Номер, открытый прямо с карточки: крестик модуля закрывает окно целиком, а не ведёт в общий список */
   var hrDirect = false;
   document.addEventListener('click', function(e){ if (hrDirect && e.target.closest('.vanilla-overlay > svg, .vanilla-overlay > button')){ hrDirect = false; setTimeout(function(){ location.hash = '#/'; }, 60); } }, true);
   window.addEventListener('hashchange', function(){ if (!/^#\/detail\//.test(location.hash) && location.hash !== '#/search') hrDirect = false; });
@@ -798,12 +735,10 @@
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-book]');
     if (b){ e.preventDefault(); if (b.closest('#siteMenu')) setMenu(false); openBooking(b.getAttribute('data-book')); return; }
-    /* свои якоря (#rooms, #way…) прокручиваем сами, не трогая адрес: адресом пользуется модуль бронирования */
     var a = e.target.closest('a[href^="#"]'); if (!a || a.closest('#hr-modal, #hr-widget')) return;
     var id = a.getAttribute('href').slice(1); if (!id || id.charAt(0) === '/') return;
     var target = document.getElementById(id); if (!target) return;
     e.preventDefault(); target.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'start'}); });
-  /* Расстояния, маршрут и схема дороги */
   Object.keys(DIST).forEach(function(k){ var v = DIST[k];
     document.querySelectorAll('[data-dist="' + k + '"]').forEach(function(el){ var b = el.querySelector('.dv');
       if (v){ b.textContent = v; } else if (PREVIEW){ b.textContent = '[?]'; } else { el.classList.add('nodist'); } }); });
@@ -812,7 +747,6 @@
   document.getElementById('mapAzau').textContent = '← Азау · ' + (DIST.azau || '');
   document.getElementById('mapCheget').textContent = DIST.cheget ? DIST.cheget + ' от отеля' : '';
   document.getElementById('routeBtn').href = 'https://yandex.ru/maps/?rtext=~' + LAT + '%2C' + LON + '&rtt=auto';
-  /* Плашка подъёмников на телефоне: Чегет и Азау по очереди, по нажатию или сами раз в 4 с */
   (function(){ var tile = document.querySelector('.fact-lift'); if (!tile) return;
     var items = [].slice.call(tile.querySelectorAll('.fl2>div:not(.nodist)')), dots = [].slice.call(tile.querySelectorAll('.fl-dots i')), i = 0, timer;
     if (items.length < 2){ tile.querySelector('.fl-dots').remove(); tile.removeAttribute('role'); tile.removeAttribute('tabindex'); return; }
@@ -825,7 +759,6 @@
   var rmap = document.querySelector('.rmap');
   rmap.querySelectorAll('path.d').forEach(function(p){ p.setAttribute('pathLength', '1'); });
   if (!reduce && 'IntersectionObserver' in window){ rmap.classList.add('wait'); var rio = new IntersectionObserver(function(es){ if (es[0].isIntersecting){ rmap.classList.add('drawing'); rio.disconnect(); } }, {threshold:.3}); rio.observe(rmap); }
-  /* Мягкое появление блоков при прокрутке */
   if (!reduce && 'IntersectionObserver' in window){
     var els = document.querySelectorAll('.why>div, .room, .panel, .score, .rv, .road, .sec-h'), io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ var el = e.target; el.classList.add('in'); io.unobserve(el); setTimeout(function(){ el.classList.remove('rv-in','in'); el.style.transitionDelay = ''; }, 1000); } }); }, {rootMargin:'0px 0px -8% 0px'});
     els.forEach(function(el, i){ el.classList.add('rv-in'); el.style.transitionDelay = (i % 3)*70 + 'ms'; io.observe(el); });
