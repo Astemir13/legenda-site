@@ -1553,17 +1553,34 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
       g2.addColorStop(0, 'rgba(150,172,236,' + (fl*.55).toFixed(3) + ')'); g2.addColorStop(.55, 'rgba(120,142,205,' + (fl*.24).toFixed(3) + ')'); g2.addColorStop(1, 'rgba(120,142,205,' + (fl*.08).toFixed(3) + ')'); x.fillStyle = g2; x.fillRect(0, 0, w, h); } }
 
   /* Капли дождя на стекле панели и иней по углам в сильный мороз */
-  var PF = {c:document.getElementById('hpFx'), drops:[], frost:0, lastFrost:-1, fs:null, w:0, h:0};
+  var PF = {c:document.getElementById('hpFx'), sk:0, fmf:-1, drops:[], frost:0, lastFrost:-1, fs:null, w:0, h:0};
   PF.x = PF.c ? PF.c.getContext('2d') : null;
   function pfSize(){ var w = PF.c.clientWidth, h = PF.c.clientHeight; if (!w || (w === PF.w && h === PF.h)) return; PF.w = w; PF.h = h;
-    PF.c.width = Math.round(w*DPR); PF.c.height = Math.round(h*DPR); PF.x.setTransform(DPR, 0, 0, DPR, 0, 0); PF.fs = null; PF.drops = []; PF.trails = []; PF.lastFrost = -1; }
-  function frostSprite(w, h){ var s = sprite(w, h), x = s.x; x.lineCap = 'round';
-    function crystal(px, py, ang, len, lw, depth){ var ex = px + Math.cos(ang)*len, ey = py + Math.sin(ang)*len; x.lineWidth = lw; x.beginPath(); x.moveTo(px, py); x.lineTo(ex, ey); x.stroke();
-      if (depth < 2) for (var i = 1; i <= 3; i++){ var f = i/4, bx = px + (ex - px)*f, by = py + (ey - py)*f, bl = len*(.5 - f*.28)*rnd(.7, 1.2); crystal(bx, by, ang + 1.047, bl, lw*.7, depth + 1); crystal(bx, by, ang - 1.047, bl, lw*.7, depth + 1); } }
-    [[0, 0, .785], [w, 0, 2.356], [0, h, -.785], [w, h, -2.356]].forEach(function(c){ var g = x.createRadialGradient(c[0], c[1], 0, c[0], c[1], Math.min(w, h)*.85);
-      g.addColorStop(0, 'rgba(232,242,255,.26)'); g.addColorStop(.45, 'rgba(232,242,255,.1)'); g.addColorStop(1, 'rgba(232,242,255,0)'); x.fillStyle = g; x.fillRect(0, 0, w, h);
-      x.strokeStyle = 'rgba(238,246,255,.38)'; for (var i = 0; i < 8; i++){ var a = c[2] + rnd(-.7, .7), r0 = rnd(0, 16); crystal(c[0] + Math.cos(a)*r0, c[1] + Math.sin(a)*r0, a, rnd(14, 34), rnd(.55, .9), 0); } });
+    PF.c.width = Math.round(w*DPR); PF.c.height = Math.round(h*DPR); PF.x.setTransform(DPR, 0, 0, DPR, 0, 0); PF.fs = null; PF.fm = null; PF.fk = null; PF.fmf = -1; PF.drops = []; PF.trails = []; PF.lastFrost = -1; }
+  /* иней на стекле: из каждого угла — матовая «изморозь» из мелких точек и ветвистые кристаллы (перистые, как на окне в мороз);
+     кончики веток запоминаются — на них потом поблёскивают искорки */
+  function frostSprite(w, h){ var s = sprite(w, h), x = s.x, R = Math.min(w*.24, h*.72), g = s.g = []; x.lineCap = 'round';
+    function crystal(px, py, ang, len, lw, al, depth){ var ex = px + Math.cos(ang)*len, ey = py + Math.sin(ang)*len, mx = (px + ex)/2 + rnd(-1, 1)*len*.08, my = (py + ey)/2 + rnd(-1, 1)*len*.08;
+      x.strokeStyle = 'rgba(240,247,255,' + al.toFixed(3) + ')'; x.lineWidth = lw; x.beginPath(); x.moveTo(px, py); x.quadraticCurveTo(mx, my, ex, ey); x.stroke();
+      if (depth < 3 && len > 3) for (var i = 1, n = depth ? 3 : 5; i <= n; i++){ var f = i/(n + 1), bx = px + (ex - px)*f, by = py + (ey - py)*f, bl = len*(.55 - f*.35)*rnd(.6, 1.15), sp = rnd(.85, 1.15);
+        crystal(bx, by, ang + sp, bl, lw*.68, al*.82, depth + 1); crystal(bx, by, ang - sp, bl, lw*.68, al*.82, depth + 1); }
+      else if (depth === 3 && Math.random() < .04) g.push([ex, ey, rnd(0, 6.283), rnd(.5, 1.1)]); }
+    [[0, 0, .785], [w, 0, 2.356], [0, h, -.785], [w, h, -2.356]].forEach(function(c){
+      var gr = x.createRadialGradient(c[0], c[1], 0, c[0], c[1], R); gr.addColorStop(0, 'rgba(230,240,252,.3)'); gr.addColorStop(.5, 'rgba(230,240,252,.1)'); gr.addColorStop(1, 'rgba(230,240,252,0)'); x.fillStyle = gr; x.fillRect(0, 0, w, h);
+      for (var i = 0; i < 260; i++){ var a = c[2] + rnd(-.8, .8), d = R*Math.pow(Math.random(), 1.7), px = c[0] + Math.cos(a)*d, py = c[1] + Math.sin(a)*d;
+        x.fillStyle = 'rgba(244,249,255,' + (.28*(1 - d/R)*rnd(.3, 1)).toFixed(3) + ')'; x.fillRect(px, py, rnd(.5, 1.3), rnd(.5, 1.3)); }
+      for (i = 0; i < 9; i++){ a = c[2] + rnd(-.75, .75); var r0 = rnd(0, R*.12); crystal(c[0] + Math.cos(a)*r0, c[1] + Math.sin(a)*r0, a, rnd(R*.35, R*.7), rnd(.8, 1.3), .72, 0); } });
     return s; }
+  /* иней нарастает из углов: видимая область растёт вместе с силой мороза, край мягкий; искорки мерцают */
+  function drawFrost(x, w, h, f){ var s = PF.fs, m = PF.fm || (PF.fm = sprite(w, h)), mx = m.x, R = Math.min(w*.24, h*.72)*(.35 + .7*f), t = performance.now();
+    /* маска всех четырёх углов собирается отдельно и применяется один раз (иначе углы стирают друг друга) */
+    if (PF.fmf !== f){ PF.fmf = f; var k = PF.fk || (PF.fk = sprite(w, h)), kx = k.x; kx.clearRect(0, 0, w, h);
+    [[0, 0], [w, 0], [0, h], [w, h]].forEach(function(c){ var g = kx.createRadialGradient(c[0], c[1], R*.55, c[0], c[1], R); g.addColorStop(0, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)'); kx.fillStyle = g; kx.fillRect(c[0] ? w - R : 0, c[1] ? h - R : 0, R, R); });
+    mx.globalCompositeOperation = 'source-over'; mx.clearRect(0, 0, w, h); mx.drawImage(s.c, 0, 0, w, h);
+    mx.globalCompositeOperation = 'destination-in'; mx.drawImage(k.c, 0, 0, w, h); mx.globalCompositeOperation = 'source-over'; } x.globalAlpha = Math.min(1, .35 + f*.8); x.drawImage(m.c, 0, 0, w, h); x.globalAlpha = 1;
+    if (f > .25 && !reduce) s.g.forEach(function(p){ var nx = Math.min(p[0], w - p[0]), ny = Math.min(p[1], h - p[1]); if (nx*nx + ny*ny > R*R*.5) return;
+      var a = Math.pow(Math.max(0, Math.sin(t*.0016*p[3] + p[2])), 12)*f; if (a < .03) return;
+      x.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')'; x.beginPath(); x.arc(p[0], p[1], 1.1, 0, 6.283); x.fill(); x.globalAlpha = a*.5; x.fillRect(p[0] - 3, p[1] - .3, 6, .6); x.fillRect(p[0] - .3, p[1] - 3, .6, 6); x.globalAlpha = 1; }); }
   /* капля: круглая, а стекающая — «слезой» с тяжёлым низом */
   function dropPath(x, r, tl){ x.beginPath(); if (tl > .05){ var t = r*(1 + tl*1.6);
       x.moveTo(-r, 0); x.bezierCurveTo(-r, -r*.7, -r*.25, -t*.8, 0, -t); x.bezierCurveTo(r*.25, -t*.8, r, -r*.7, r, 0); x.arc(0, 0, r, 0, Math.PI); }
@@ -1584,11 +1601,12 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     x.strokeStyle = 'rgba(196,216,240,' + (.11*a).toFixed(3) + ')'; x.lineWidth = T.w; x.stroke();
     x.save(); x.translate(-T.w*.28, 0); x.strokeStyle = 'rgba(255,255,255,' + (.22*a).toFixed(3) + ')'; x.lineWidth = Math.max(.5, T.w*.16); x.stroke(); x.restore(); }
   function drawPanelFx(move){ if (!PF.x) return; var K = KINDS[W.kind], on = heroScene.o.soft, wet = on && (K.precip === 'rain' || K.precip === 'drizzle' || K.precip === 'sleet');
-    var rate = !wet || reduce ? 0 : K.thunder ? .14 : K.precip === 'rain' ? .12 : .06, tN = W.tempNow != null ? W.tempNow : K.t, fw = on && tN <= -10 ? 1 : 0;
-    PF.frost += (fw - PF.frost)*Math.min(1, .015*move); if (Math.abs(fw - PF.frost) < .004) PF.frost = fw;
-    pfSize(); var TR = PF.trails || (PF.trails = []); if (!PF.drops.length && !TR.length && !rate && PF.frost === PF.lastFrost) return; PF.lastFrost = PF.frost;
+    var rate = !wet || reduce ? 0 : K.thunder ? .14 : K.precip === 'rain' ? .12 : .06, tN = W.tempNow != null ? W.tempNow : K.t, snowy = /snow|blizzard/.test(K.precip || ''), fw = !on ? 0 : tN <= -10 ? 1 : snowy && tN <= 0 ? .45 : 0;
+    /* в мороз от −10° — иней в полную силу, в снегопад при минусе — лёгкий; нарастает и тает за несколько секунд */
+    PF.frost += (fw - PF.frost)*Math.min(1, .008*move); if (Math.abs(fw - PF.frost) < .004) PF.frost = fw;
+    pfSize(); var TR = PF.trails || (PF.trails = []); if (!PF.drops.length && !TR.length && !rate && PF.frost === PF.lastFrost && (PF.frost < .25 || reduce || ++PF.sk % 3)) return; PF.lastFrost = PF.frost;
     var x = PF.x, w = PF.w, h = PF.h, D = PF.drops, i, j; if (!w) return; x.clearRect(0, 0, w, h);
-    if (PF.frost > .005){ if (!PF.fs) PF.fs = frostSprite(w, h); x.globalAlpha = PF.frost; x.drawImage(PF.fs.c, 0, 0, w, h); x.globalAlpha = 1; }
+    if (PF.frost > .005){ if (!PF.fs) PF.fs = frostSprite(w, h); drawFrost(x, w, h, PF.frost); }
     if (Math.random() < rate*move && D.length < 70){ var r = Math.random() < .2 ? rnd(2.6, 4) : rnd(1.1, 2.4); D.push({x:rnd(4, w - 4), y:rnd(3, h - 4), r:r, a:0, life:rnd(420, 900), age:0, vy:0, slide:false, last:0}); }
     for (i = TR.length - 1; i >= 0; i--){ var T = TR[i]; if (!T.d) T.a -= .006*move; if (T.a <= 0){ TR.splice(i, 1); continue; } drawTrail(x, T); }
     for (i = D.length - 1; i >= 0; i--){ var d = D[i]; d.age += move*(rate ? 1 : 3);
