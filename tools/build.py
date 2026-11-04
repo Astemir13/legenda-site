@@ -105,7 +105,6 @@ body = must(body, '<img src="__FACADE__"', '<img src="' + PHOTO + '" fetchpriori
 body = re.sub(r'<section class="sec" id="reviews".*?</section>\n\n', '', body, flags=re.S)
 body = must(body, '<a href="#reviews">Отзывы</a>', '')
 body = re.sub(r'\s*<a href="#reviews">.*?Отзывы гостей</a>', '', body, flags=re.S)
-body = must(body, ' — сауна ([цена]) и партия', ' — сауна и партия')
 body = must(body, ' (за питомца [доплата])', '')
 body = re.sub(r'\s*<div><span>[^<]*</span><span>\[[^\]]*\][^<]*</span></div>', '', body)
 body = re.sub(r'<section class="sec" id="faq".*?</section>\n\n', '', body, count=1, flags=re.S)
