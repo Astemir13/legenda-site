@@ -552,7 +552,22 @@ q.globalCompositeOperation = 'destination-out'; var tg = q.createLinearGradient(
 q.fillStyle = tg; q.fillRect(0, 0, W2, ly + 8*k); x.drawImage(q.canvas, 0, 0);
 glow(x, lx, ly + 4*k, 34*k, .55, .7);
 return true; }
-function drawLight(){ if (!LT.x) return; if (!LT.w) lightSize(); var on = heroScene.o.soft, K = KINDS[W.kind];
+var SK = {c:document.createElement('canvas'), key:'', a:0};
+SK.c.id = 'fxSky'; SK.c.setAttribute('aria-hidden', 'true'); SK.c.style.cssText = 'opacity:0;display:none;transition:opacity 3s ease';
+if (LT.c) LT.c.parentNode.insertBefore(SK.c, WN.c);
+SK.c.addEventListener('transitionend', function(){ if (!SK.a) SK.c.style.display = 'none'; });
+function buildSky(){ var H = heroScene, img = H.o.photo, pm = H.pm, w = H.w, h = H.h; if (!pm || !w || !img || !img.complete || !img.naturalWidth || !H.skyM) return false;
+var key = w + '|' + h + '|' + pm.k.toFixed(4) + '|' + Math.round(pm.ox) + '|' + Math.round(pm.oy); if (key === SK.key) return true; SK.key = key;
+var s = Math.min(DPR, 2), W2 = Math.round(w*s), H2 = Math.round(h*s), dw = PHOTO.w*pm.k*s, dh = dw*img.naturalHeight/img.naturalWidth, c = SK.c, x; c.width = W2; c.height = H2; x = c.getContext('2d');
+x.drawImage(img, pm.ox*s, pm.oy*s, dw, dh);
+var g = x.createLinearGradient(0, 0, 0, H2*.55); g.addColorStop(0, 'rgb(20,84,200)'); g.addColorStop(1, 'rgb(70,140,225)');
+x.globalCompositeOperation = 'soft-light'; x.fillStyle = g; x.fillRect(0, 0, W2, H2);
+x.globalCompositeOperation = 'destination-in'; x.drawImage(H.skyM, 0, 0, H.dgw*4*s, H.dgh*4*s); x.globalCompositeOperation = 'source-over';
+return true; }
+function drawSky(){ var a = heroScene.o.soft ? ({clear:.8, partly:.4})[W.kind] || 0 : 0;
+if (a && !buildSky()) return; if (a === SK.a) return; SK.a = a;
+if (a){ SK.c.style.display = ''; void SK.c.offsetWidth; } SK.c.style.opacity = a; }
+function drawLight(){ if (!LT.x) return; if (!LT.w) lightSize(); drawSky(); var on = heroScene.o.soft, K = KINDS[W.kind];
 var want = on && (K.thunder || K.precip === 'blizzard' || K.precip === 'heavysnow' || K.precip === 'rain' || K.precip === 'sleet');
 if (want && buildWin() && !WN.on){ WN.on = true; WN.c.style.display = ''; void WN.c.offsetWidth; WN.c.style.opacity = 1; }
 else if (!want && WN.on){ WN.on = false; WN.c.style.opacity = 0; }
@@ -572,11 +587,13 @@ PF.x = PF.c ? PF.c.getContext('2d') : null;
 function pfSize(){ var w = PF.c.clientWidth, h = PF.c.clientHeight; if (!w || (w === PF.w && h === PF.h)) return; PF.w = w; PF.h = h;
 PF.c.width = Math.round(w*DPR); PF.c.height = Math.round(h*DPR); PF.x.setTransform(DPR, 0, 0, DPR, 0, 0); PF.fs = null; PF.fm = null; PF.fk = null; PF.fmf = -1; PF.drops = []; PF.trails = []; PF.lastFrost = -1; }
 function frostSprite(w, h){ var s = sprite(w, h), x = s.x, R = Math.min(w*.24, h*.72), g = s.g = [], seeds = s.seeds = [], cur; x.lineCap = 'round';
-var ks = [1, .8, .55, .35].sort(function(){ return Math.random() - .5; });
-[[0, h, -.785], [w, h, -2.356], [0, 0, .785], [w, 0, 2.356]].forEach(function(c, i){ seeds.push({x:c[0], y:c[1], a:c[2] + rnd(-.25, .25), k:ks[i]}); });
-for (var e = 0, ne = w > 500 ? 3 : 2; e < ne; e++){ var bx = Math.random() < .5 ? rnd(.06, .2)*w : rnd(.8, .94)*w; seeds.push({x:bx, y:h, a:-1.571 + rnd(-.5, .5), k:rnd(.28, .45)}); }
-if (Math.random() < .6) seeds.push({x:Math.random() < .5 ? 0 : w, y:rnd(.35, .65)*h, a:0, k:rnd(.22, .35)});
-seeds.forEach(function(S){ if (S.x === w && S.y > 0 && S.y < h) S.a = 3.14159; S.r = R*S.k;
+[[0, h, -.785, .85], [w, h, -2.356, .85], [0, 0, .785, .55], [w, 0, 2.356, .55]].forEach(function(c){ if (Math.random() < c[3]) seeds.push({x:c[0], y:c[1], a:c[2] + rnd(-.3, .3), k:rnd(.4, 1)}); });
+for (var e = 0, ne = 1 + (Math.random()*3 | 0); e < ne; e++){ var side = Math.random();
+if (side < .6) seeds.push({x:rnd(.05, .95)*w, y:h, a:-1.571 + rnd(-.6, .6), k:rnd(.25, .5)});
+else if (side < .8) seeds.push({x:Math.random() < .5 ? 0 : w, y:rnd(.3, .8)*h, a:0, k:rnd(.2, .38)});
+else seeds.push({x:rnd(.1, .9)*w, y:0, a:1.571 + rnd(-.5, .5), k:rnd(.2, .35)}); }
+if (seeds.length < 3) seeds.push({x:0, y:h, a:-.785, k:rnd(.6, .9)});
+seeds.forEach(function(S){ if (S.x === w && S.y > 0 && S.y < h) S.a = 3.14159; S.r = R*S.k; S.d = rnd(0, .45);
 S.b = [[0, 0, 1]]; for (var j = 0; j < 3; j++){ var aa = S.a + rnd(-.9, .9), dd = rnd(.25, .6); S.b.push([Math.cos(aa)*dd, Math.sin(aa)*dd, rnd(.45, .8)]); } });
 function crystal(px, py, ang, len, lw, al, depth){ var bend = rnd(-.25, .25), ex = px + Math.cos(ang + bend*.5)*len, ey = py + Math.sin(ang + bend*.5)*len, mx = (px + ex)/2 + Math.cos(ang + 1.57)*len*bend*.3, my = (py + ey)/2 + Math.sin(ang + 1.57)*len*bend*.3;
 x.strokeStyle = 'rgba(240,247,255,' + al.toFixed(3) + ')'; x.lineWidth = lw; x.beginPath(); x.moveTo(px, py); x.quadraticCurveTo(mx, my, ex, ey); x.stroke();
@@ -591,12 +608,12 @@ for (i = 0, n = 3 + 7*S.k | 0; i < n; i++){ aa = S.a + rnd(-.85, .85); var r0 = 
 return s; }
 function drawFrost(x, w, h, f){ var s = PF.fs, m = PF.fm || (PF.fm = sprite(w, h)), mx = m.x, gr = .3 + .75*f, t = performance.now();
 if (PF.fmf !== f){ PF.fmf = f; var k = PF.fk || (PF.fk = sprite(w, h)), kx = k.x; kx.clearRect(0, 0, w, h);
-s.seeds.forEach(function(S){ var r = S.r*gr; S.b.forEach(function(B){ var cx = S.x + B[0]*r, cy = S.y + B[1]*r, rr = r*B[2], g = kx.createRadialGradient(cx, cy, rr*.5, cx, cy, rr);
+s.seeds.forEach(function(S){ var q = Math.max(0, Math.min(1, (f - S.d*.5)/(1 - S.d*.5))), r = S.r*(.3 + .75*q); if (q <= 0) return; S.b.forEach(function(B){ var cx = S.x + B[0]*r, cy = S.y + B[1]*r, rr = r*B[2], g = kx.createRadialGradient(cx, cy, rr*.5, cx, cy, rr);
 g.addColorStop(0, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)'); kx.fillStyle = g; kx.fillRect(cx - rr, cy - rr, rr*2, rr*2); }); });
 mx.globalCompositeOperation = 'source-over'; mx.clearRect(0, 0, w, h); mx.drawImage(s.c, 0, 0, w, h);
 mx.globalCompositeOperation = 'destination-in'; mx.drawImage(k.c, 0, 0, w, h); mx.globalCompositeOperation = 'source-over'; }
 x.globalAlpha = Math.min(1, .35 + f*.8); x.drawImage(m.c, 0, 0, w, h); x.globalAlpha = 1;
-if (f > .25 && !reduce) s.g.forEach(function(p){ var S = s.seeds[p[4]], dx = p[0] - S.x, dy = p[1] - S.y, r = S.r*gr*.75; if (dx*dx + dy*dy > r*r) return;
+if (f > .25 && !reduce) s.g.forEach(function(p){ var S = s.seeds[p[4]], dx = p[0] - S.x, dy = p[1] - S.y, r = S.r*(.3 + .75*Math.max(0, (f - S.d*.5)/(1 - S.d*.5)))*.75; if (dx*dx + dy*dy > r*r) return;
 var a = Math.pow(Math.max(0, Math.sin(t*.0016*p[3] + p[2])), 12)*f; if (a < .03) return;
 x.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')'; x.beginPath(); x.arc(p[0], p[1], 1.1, 0, 6.283); x.fill(); x.globalAlpha = a*.5; x.fillRect(p[0] - 3, p[1] - .3, 6, .6); x.fillRect(p[0] - .3, p[1] - 3, .6, 6); x.globalAlpha = 1; }); }
 function dropPath(x, r, tl){ x.beginPath(); if (tl > .05){ var t = r*(1 + tl*1.6);
@@ -619,7 +636,7 @@ var rate = !wet || reduce ? 0 : K.thunder ? .14 : K.precip === 'rain' ? .12 : .0
 PF.frost += (fw - PF.frost)*Math.min(1, .008*move); if (Math.abs(fw - PF.frost) < .004) PF.frost = fw;
 pfSize(); var TR = PF.trails || (PF.trails = []); if (!PF.drops.length && !TR.length && !rate && PF.frost === PF.lastFrost && (PF.frost < .25 || reduce || ++PF.sk % 3)) return; PF.lastFrost = PF.frost;
 var x = PF.x, w = PF.w, h = PF.h, D = PF.drops, i, j; if (!w) return; x.clearRect(0, 0, w, h);
-if (PF.frost > .005){ if (!PF.fs) PF.fs = frostSprite(w, h); drawFrost(x, w, h, PF.frost); }
+if (PF.frost > .005){ if (!PF.fs) PF.fs = frostSprite(w, h); drawFrost(x, w, h, PF.frost); } else if (PF.fs){ PF.fs = null; PF.fmf = -1; }
 if (Math.random() < rate*move && D.length < 70){ var r = Math.random() < .2 ? rnd(2.6, 4) : rnd(1.1, 2.4); D.push({x:rnd(4, w - 4), y:rnd(3, h - 4), r:r, a:0, life:rnd(420, 900), age:0, vy:0, slide:false, last:0}); }
 for (i = TR.length - 1; i >= 0; i--){ var T = TR[i]; if (!T.d) T.a -= .006*move; if (T.a <= 0){ TR.splice(i, 1); continue; } drawTrail(x, T); }
 for (i = D.length - 1; i >= 0; i--){ var d = D[i]; d.age += move*(rate ? 1 : 3);
