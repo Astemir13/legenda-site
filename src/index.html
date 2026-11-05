@@ -39,7 +39,7 @@
 @font-face{font-family:'Lora';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/lora-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{
   --bg:#F4F7F8; --card:#FFFFFF; --ink:#13202A; --ink2:#53616B; --line:#DDE5E9; --soft:#EAF0F3;
-  --accent:#D08F2F; --accent-ink:#1A1206; --accent-soft:#FBF0DD; --pine:#1F5C4A; --ok:#1E9E62;
+  --accent:#B8742A; --accent-ink:#FFFFFF; --accent-soft:#F6E7CF; --honey-dark:#9A5F22; --pine:#1F5C4A; --ok:#1E9E62;
   --paper:#F4F7F5; --sky1:#79B4E3; --sky2:#D8EAF6; --hdr-ink:#13202A;
   --display:'Geologica','Golos Text',system-ui,sans-serif; --body:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;
   color-scheme:light;
@@ -56,7 +56,7 @@ p{margin:0}
 @media (min-width:900px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 24px;border-radius:14px;font:600 16px var(--body);text-decoration:none;border:0;cursor:pointer;transition:transform .15s, box-shadow .2s, background .2s}
 .btn:hover{transform:translateY(-1px)}
-.btn-accent{background:var(--accent);color:var(--accent-ink);box-shadow:0 6px 18px rgba(208,143,47,.3)}
+.btn-accent{background:var(--accent);color:var(--accent-ink);box-shadow:0 6px 18px rgba(184,116,42,.3)}
 .btn-pine{background:var(--pine);color:#fff}
 .btn-soft{background:var(--soft);color:var(--ink)}
 .sec{padding-block:88px}
@@ -417,7 +417,7 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
 /* плашки под модулем — чёрное стекло */
 .why>div{background:var(--sheen),var(--gl);box-shadow:var(--gl-rim),var(--gl-sh)}
 /* кнопки: лёгкий блик сверху */
-.btn-accent{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.06),0 6px 18px rgba(208,143,47,.3)}
+.btn-accent{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.06),0 6px 18px rgba(184,116,42,.3)}
 .btn-pine{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 6px 18px rgba(31,92,74,.22)}
 .btn-soft{background:rgba(255,255,255,.62);box-shadow:var(--gl-rim),0 4px 14px rgba(19,32,42,.06)}
 /* переключатель «Фото / План» и метки на карточках номеров */
@@ -513,6 +513,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 :root.hc .hdr:not(.solid){color:#fff}
 /* один акцентный цвет: фирменный тёмно-зелёный */
 :root.hc .btn-accent,:root.hc .btn-pine{background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,0)),var(--pine);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 22px rgba(31,92,74,.3)}
+:root.hc .btn-honey{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0)),var(--accent);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 8px 22px rgba(184,116,42,.3)}
+:root.hc .btn-honey:hover{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0)),#A86A26}
 :root.hc .btn-accent:hover,:root.hc .btn-pine:hover{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0)),#24694F}
 :root.hc .call .ci{background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
 :root.hc .call .ci::after{animation:none}
@@ -603,7 +605,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .fm-s+.fm-s{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
 .fm-sh{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .fm-sh h4,.fm-c h4{margin:0;font:600 19px var(--display);letter-spacing:-.01em}
-.fm-sh b{font:600 22px var(--display);color:var(--pine);white-space:nowrap}
+.fm-sh b{font:600 22px var(--display);color:var(--honey-dark);white-space:nowrap}
 .fm-x{margin-top:6px;font-size:14px;color:var(--ink2)}
 .fm-l{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
 .fm-l li{padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.65);box-shadow:inset 0 0 0 1px rgba(19,32,42,.05)}
@@ -616,7 +618,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .fm-c li>span{min-width:0}
 .fm-c small{display:block;font-size:12.5px;color:var(--ink2)}
 .fm-d{flex:1 1 12px;min-width:12px;border-bottom:1px dotted rgba(19,32,42,.3)}
-.fm-c li b{white-space:nowrap;font-weight:600;color:var(--pine)}
+.fm-c li b{white-space:nowrap;font-weight:600;color:var(--honey-dark)}
 .fm-n{margin-top:6px;padding:11px 14px;border-radius:14px;background:var(--soft);color:var(--ink2);font-size:13.5px}
 /* раздел «Об отеле»: блоки друг под другом; ресторан — текст и кнопки слева, комплексное питание справа */
 .stack{display:grid;gap:18px}
@@ -628,21 +630,21 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .rest-b .btn{min-height:50px}
 .rcall{background:rgba(255,255,255,.7);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(19,32,42,.1),0 1px 3px rgba(19,32,42,.05)}
 .rcall:hover{background:#fff}
-.rcall svg,.menu nav a.mcall,.menu nav a.mcall svg{color:#B4741A}
+.rcall svg,.menu nav a.mcall,.menu nav a.mcall svg{color:var(--accent)}
 #restaurant{scroll-margin-top:96px}
 .rest .meal{padding:18px 20px;border-radius:20px}
 .rest .meal-p b{font-size:24px}
 .meal-n{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
-.meal-n span{color:var(--pine);font-weight:600;font-size:14px;white-space:nowrap}
+.meal-n span{color:var(--honey-dark);font-weight:600;font-size:14px;white-space:nowrap}
 .duo2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
 .duo2 .gz{grid-column:auto}
 a.hp-rest:hover{background:rgba(255,255,255,.06)}
 /* меню у логотипа: звонок в ресторан — круглый, тёплого цвета (бронирование — зелёный) */
 .menu-row{display:flex;align-items:center;gap:6px}
 .menu-row>a:first-child{flex:1;min-width:0}
-.menu nav a.mcall{flex:0 0 44px;width:44px;height:44px;min-height:44px;padding:0;justify-content:center;border-radius:50%;background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(208,143,47,.35)}
+.menu nav a.mcall{flex:0 0 44px;width:44px;height:44px;min-height:44px;padding:0;justify-content:center;border-radius:50%;background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(184,116,42,.35)}
 .menu nav a.mcall:hover{background:#F8E4C4}
-.fm-n a{color:var(--pine);font-weight:600;white-space:nowrap}
+.fm-n a{color:var(--honey-dark);font-weight:600;white-space:nowrap}
 @media (max-width:860px){.rest{grid-template-columns:1fr}}
 @media (max-width:560px){.rest-b .btn{flex:1 1 100%}}
 @media (max-width:400px){.rest .meal{padding:14px}.rest .meal-p b{font-size:19px}.meal-p>span+span{padding-left:8px}}
@@ -814,7 +816,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     <div class="widget hrw">
       <div class="w-head"><h2>Подберём номер под ваши даты</h2><p class="w-note">Бронируя напрямую — <b>завтрак на двоих включён</b>, без комиссии агрегаторов</p></div>
       <div id="hr-widget"></div>
-      <div class="hr-fb" id="hrFallback" hidden><p id="hrFbTxt">Свободные даты и актуальные цены — в онлайн-бронировании.</p><a class="btn btn-accent" href="https://homereserve.ru/gDYYpGYEnb" target="_blank" rel="noopener">Проверить свободные даты</a></div>
+      <div class="hr-fb" id="hrFallback" hidden><p id="hrFbTxt">Свободные даты и актуальные цены — в онлайн-бронировании.</p><a class="btn btn-honey" href="https://homereserve.ru/gDYYpGYEnb" target="_blank" rel="noopener">Проверить свободные даты</a></div>
     </div>
   </div>
 </section>
@@ -963,8 +965,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 #hr-widget .select__input_last{flex:1 1 0!important;min-width:0}
 #hr-widget .search__input_first,#hr-widget .search__input_second,#hr-widget .select__input_last,#hr-widget .search__input-mobile{border-radius:15px!important;border-color:transparent!important;background:#fff!important;box-shadow:0 1px 2px rgba(19,32,42,.06),inset 0 0 0 1px rgba(19,32,42,.04)!important;transition:background .15s, box-shadow .15s}
 #hr-widget .search__input_first:hover,#hr-widget .search__input_second:hover,#hr-widget .select__input_last:hover{background:#FBFCFD!important;box-shadow:0 2px 8px rgba(19,32,42,.08),inset 0 0 0 1px rgba(31,92,74,.18)!important}
-#hr-widget .search__input-button{--custom-main:#D08F2F!important;--custom-main-dark:#B97D24!important;margin:0!important;padding:0 30px!important;border:0!important;border-radius:15px!important;background-image:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0))!important;color:#1A1206!important;font-weight:600!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 6px 18px rgba(208,143,47,.3)!important;transition:filter .15s, transform .15s}
-#hr-widget .search__input-button *{color:#1A1206!important}
+#hr-widget .search__input-button{--custom-main:#B8742A!important;--custom-main-dark:#9A5F22!important;margin:0!important;padding:0 30px!important;border:0!important;border-radius:15px!important;background-image:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0))!important;color:#fff!important;font-weight:600!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 6px 18px rgba(184,116,42,.3)!important;transition:filter .15s, transform .15s}
+#hr-widget .search__input-button *{color:#fff!important}
 #hr-widget .search__input-button:hover{filter:brightness(1.05);transform:translateY(-1px)}
 </style>
 <footer>
@@ -1018,7 +1020,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   <p class="fm-n" id="fmNote"></p>
 </div>
 
-<div class="mbar" id="mbar"><div><b>Даты и цены онлайн</b><span>завтрак на двоих включён</span></div><a class="btn btn-accent" href="#book">Выбрать даты</a></div>
+<div class="mbar" id="mbar"><div><b>Даты и цены онлайн</b><span>завтрак на двоих включён</span></div><a class="btn btn-honey" href="#book">Выбрать даты</a></div>
 
 <script>
 (function(){
