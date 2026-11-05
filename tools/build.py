@@ -122,8 +122,54 @@ for line in open('src/privacy.txt', encoding='utf-8').read().strip().split('\n')
         paras.append(f'<p>{e(line.lstrip("-"))}</p>')
 save(f'{OUT}/privacypolicy/index.html', doc('Политика обработки персональных данных — эко-отель «Легенда»',
      '<h1>Политика обработки персональных данных</h1>\n' + '\n'.join(paras)))
-save(f'{OUT}/404.html', doc('Страница не найдена — эко-отель «Легенда»',
-     '<h1>Такой страницы нет</h1>\n<p>Возможно, ссылка устарела. Всё о номерах, ценах и бронировании — <a href="/">на главной</a>.</p>'))
+# 404: фото фасада под тёмной вуалью, по центру — логотип, крупное «404», «Страница не найдена» и кнопка на главную
+MARK = re.search(r'<svg class="mk" viewBox="[^"]+" aria-hidden="true">.*?</svg>', page).group(0)
+save(f'{OUT}/404.html', f'''<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F2A23">
+<title>Страница не найдена — эко-отель «Легенда»</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="/img/facade.webp">
+<style>
+{FONTS}
+*{{box-sizing:border-box}}
+html,body{{height:100%}}
+body{{margin:0;background:#0F2A23;color:#fff;font:16px/1.55 'Golos Text',system-ui,sans-serif;-webkit-font-smoothing:antialiased}}
+.bg{{position:fixed;inset:0;background:#0F2A23 url(/img/facade.webp) 50% 55%/cover no-repeat}}
+.bg::after{{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 45%,rgba(10,30,25,.55),rgba(8,22,18,.88)),linear-gradient(180deg,rgba(8,22,18,.35),rgba(8,22,18,.75))}}
+main{{position:relative;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:48px max(20px,env(safe-area-inset-left)) 40px;text-align:center}}
+.brand{{display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;text-decoration:none}}
+.brand svg{{width:92px;height:auto;opacity:.95}}
+.brand b{{font:600 15px/1 'Golos Text',sans-serif;letter-spacing:.32em;margin-right:-.32em}}
+.brand small{{font-size:12.5px;letter-spacing:.06em;opacity:.7}}
+.code{{margin:clamp(28px,6vh,52px) 0 0;font:600 clamp(96px,22vw,168px)/.9 'Lora',Georgia,serif;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.75);text-shadow:0 10px 40px rgba(0,0,0,.25)}}
+h1{{margin:18px 0 0;font:600 clamp(26px,4.4vw,36px)/1.2 'Lora',Georgia,serif}}
+p{{max-width:440px;margin:12px 0 0;text-wrap:balance;color:rgba(232,240,236,.82);font-size:16.5px}}
+.btn{{display:inline-flex;align-items:center;gap:10px;margin-top:30px;min-height:52px;padding:0 28px;border-radius:999px;background:#1F5C4A;color:#fff;font-weight:600;font-size:16px;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 28px rgba(0,0,0,.3);transition:background .2s,transform .2s}}
+.btn:hover{{background:#24705A;transform:translateY(-1px)}}
+.btn svg{{width:18px;height:18px}}
+footer{{position:relative;margin-top:auto;padding-top:40px;font-size:13px;color:rgba(232,240,236,.55)}}
+footer a{{color:inherit}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<main>
+<a class="brand" href="/" aria-label="Эко-отель «Легенда» — на главную">{MARK}<b>ЛЕГЕНДА</b><small>Эко-отель · Терскол</small></a>
+<div class="code" aria-hidden="true">404</div>
+<h1>Страница не найдена</h1>
+<p>Возможно, ссылка устарела или в адресе опечатка. Номера, цены и бронирование — на главной странице.</p>
+<a class="btn" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>На главную</a>
+<footer>с. Терскол, ул. Чегет, 5А · <a href="tel:+79993000088">+7 999 300-00-88</a></footer>
+</main>
+</body>
+</html>
+''')
 
 # ---------- служебные файлы ----------
 today = datetime.date.today().isoformat()
