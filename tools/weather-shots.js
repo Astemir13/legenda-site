@@ -1,10 +1,11 @@
-const pw=require('playwright');(async()=>{const b=await pw.chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader']});
+// Снимки всех погод на обложке собранного сайта (site/): node tools/weather-shots.js d|m [погоды через запятую]
+const pw=require('playwright'),serve=require('./serve');(async()=>{const srv=await serve();const b=await pw.chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader']});
 require('fs').mkdirSync('shots',{recursive:true});
 const [w,h,tag]=process.argv[2]==='m'?[402,874,'m']:[1440,900,'d'];
 const kinds=(process.argv[3]||'clear,partly,overcast,fog,drizzle,rain,sleet,snow,heavysnow,blizzard,thunder').split(',');
 const p=await b.newPage({viewport:{width:w,height:h},deviceScaleFactor:1}); p.on('pageerror',e=>console.log('ERR',e.message)); p.on('console',c=>{if(c.type()==='error')console.log('CERR',c.text())});
 await p.route('https://api.open-meteo.com/**',r=>r.abort());
-await p.goto('file://'+require('path').resolve(__dirname,'../index.html'));await p.waitForTimeout(800);
+await p.goto(srv.url+'/');await p.waitForTimeout(800);
 await p.evaluate(()=>{const d=document.querySelector('details.wxpanel');if(d)d.style.display='none';});
 for(const k of kinds){
   await p.evaluate(k=>document.querySelector('[data-k="'+k+'"]').click(),k);
@@ -15,4 +16,4 @@ for(const k of kinds){
     require('fs').writeFileSync(`shots/${tag}_${k}.png`,best);
   } else await p.screenshot({path:`shots/${tag}_${k}.png`});
 }
-await b.close();})();
+await b.close();srv.close();})();

@@ -1,6 +1,7 @@
 """Карта глубины с точной границей неба: небо (по глубине) уточняется цветом фото — край кровли, снег на крыше,
-сосны и горы получают глубину заведомо больше порога (42), небо — 0. Сохраняется 400×267 для вшивания в сайт."""
-import base64, io, re, sys
+сосны и горы получают глубину заведомо больше порога (42), небо — 0. Результат — src/depth.jpg (400×267), сайт берёт его как img/depth.jpg.
+Запуск из корня: python tools/sky-mask.py [картинка_маски_для_просмотра.png]"""
+import sys
 from PIL import Image, ImageFilter
 photo = Image.open('src/facade.jpg').convert('RGB')
 depth = Image.open('src/facade-depth.jpg').convert('L').resize(photo.size, Image.BICUBIC)
@@ -23,13 +24,6 @@ for y in range(H):
         O[x, y] = 0 if K[x, y] > 127 else max(D[x, y], 44)
 out.save('src/facade-depth-sky.png')
 small = out.resize((400, 267), Image.LANCZOS)
-best = None
-for q in (60, 55, 50):
-    b = io.BytesIO(); small.save(b, 'JPEG', quality=q, optimize=True); s = base64.b64encode(b.getvalue()).decode()
-    print(q, len(s)); best = best or s
-    if len(s) < 6000: best = s; break
-p = 'src/legenda-template.html'; t = open(p, encoding='utf-8').read()
-old = re.search(r"var DEPTH_SRC = '([^']+)';", t).group(1)
-t = t.replace(old, 'data:image/jpeg;base64,' + best); open(p, 'w', encoding='utf-8', newline='\n').write(t)
+small.save('src/depth.jpg', 'JPEG', quality=60, optimize=True)
 sky.resize((W // 2, H // 2)).save(sys.argv[1] if len(sys.argv) > 1 else 'skymask_preview.png')
-print('ok', len(old), '->', len(best) + 23)
+print('ok: src/depth.jpg')

@@ -1,6 +1,27 @@
-<title>Эко-отель «Легенда» — предпросмотр сайта</title>
+<!doctype html>
+<html lang="ru" class="nowx">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>Эко-отель «Легенда» в Терсколе — гостиница в Приэльбрусье у Чегета и Эльбруса</title>
+<meta name="description" content="Дом из сруба на 15 номеров и отдельный коттедж в Терсколе, Приэльбрусье: 500 м до Чегета, 5 км до Азау. Свой ресторан, вид на горы. Напрямую — завтрак включён, без комиссии.">
+<link rel="canonical" href="https://hotellegenda.ru/">
+<meta name="theme-color" content="#1F5C4A">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Эко-отель «Легенда»">
+<meta property="og:url" content="https://hotellegenda.ru/">
+<meta property="og:title" content="Эко-отель «Легенда» в Терсколе — гостиница в Приэльбрусье у Чегета и Эльбруса">
+<meta property="og:description" content="Дом из сруба на 15 номеров и отдельный коттедж в Терсколе, Приэльбрусье: 500 м до Чегета, 5 км до Азау. Свой ресторан, вид на горы. Напрямую — завтрак включён, без комиссии.">
+<meta property="og:image" content="https://hotellegenda.ru/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="favicon-dark.ico" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon-512.png">
+<link rel="preload" as="image" href="img/facade.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&family=Golos+Text:wght@400;500;600&family=Lora:wght@600&display=swap">
@@ -443,6 +464,7 @@ footer{padding-block:48px 56px;font-size:15px;color:var(--ink2);border-top:1px s
 @media (max-width:1100px){.wxchip span{display:none}}
 .wxline{display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:10px 16px;border-radius:14px;background:rgba(10,18,28,.38);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:16px;font-weight:500}
 .wxline svg{flex:0 0 20px}
+.wxpanel[hidden]{display:none}
 .wxpanel{position:fixed;z-index:56;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--card);color:var(--ink);border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.18);width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 120px);overflow:auto}
 .wxpanel summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:12px 16px;font-weight:600;font-size:14px;min-height:48px;position:sticky;top:0;background:var(--card);z-index:1}
 .wxx{display:none;margin-left:auto;width:36px;height:36px;margin-right:-8px;border-radius:10px;background:var(--soft);place-items:center}
@@ -619,7 +641,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .hp-rate svg{color:#FFD58A}
 .hp-rest .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.2);margin-right:8px;vertical-align:3px}
 .hp-rest.closed .dot{background:#9AA5AE;box-shadow:none}
-:root.nowx .hp-wx{display:none}
+:root.nowx .hp-wx,:root.nowx .now,:root.nowx .wxchip{display:none}
 /* фото чище: вместо цветной заливки неба — мягкое затемнение сверху для шапки и снизу для текста */
 :root.hc .hero .tint{background:linear-gradient(180deg,rgba(8,14,22,.5) 0,rgba(8,14,22,.14) 150px,rgba(8,14,22,0) 30%),linear-gradient(0deg,rgba(8,14,22,.86) 0%,rgba(8,14,22,.5) 40%,rgba(8,14,22,0) 68%),linear-gradient(90deg,rgba(8,14,22,.42) 0%,rgba(8,14,22,.12) 45%,rgba(8,14,22,0) 70%)}
 :root.hc .hdr:not(.solid){color:#fff}
@@ -700,7 +722,6 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .hdr[data-m="glass"].light::before{background:rgba(255,255,255,.95);box-shadow:var(--gl-rim),inset 0 0 0 1px rgba(19,32,42,.10),0 2px 6px rgba(19,32,42,.08),0 18px 44px rgba(19,32,42,.26)}
 /* значок трубки — всегда фирменный зелёный */
 :root.hc .call .ci,:root.hc .hdr.light .call .ci,:root.hc .hdr.solid .call .ci{background:var(--pine);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
-/* ---- в Тильде: блок 2 ---- */
 /* пометка под схемой номера: схема примерная */
 .pm-i{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:11px 14px;border-radius:14px;background:var(--soft);color:var(--ink2);font-size:13.5px;line-height:1.45}
 .pm-i svg{flex:none;color:var(--pine);margin-top:1px}
@@ -764,6 +785,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 @media (max-width:380px){.hp-c b{font-size:13px}.hp-rate .ym{font-size:0;gap:0}.hp-rate .ym svg{width:10px;height:13px}}
 @media (max-width:340px){.hp-c b{font-size:12px}.hp-rest .dot{display:none}}
 </style>
+</head>
+<body>
 
 <header class="hdr" id="hdr">
   <canvas id="skyHdr" aria-hidden="true"></canvas>
@@ -796,7 +819,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 
 <main id="top">
 <section class="hero" id="hero">
-  <img src="__FACADE__" alt="Эко-отель «Легенда» в Терсколе: деревянный дом из сруба с зелёной крышей среди сосен, Приэльбрусье">
+  <img src="img/facade.webp" fetchpriority="high" alt="Эко-отель «Легенда» в Терсколе: деревянный дом из сруба с зелёной крышей среди сосен, Приэльбрусье">
   <div class="tint" aria-hidden="true"></div>
   <canvas id="fxLight" aria-hidden="true"></canvas>
   <canvas id="skyHero" aria-hidden="true"></canvas>
@@ -958,7 +981,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 </main>
 
 <style id="hr-skin">
-/* Оформление модуля HomeReserve под сайт (вне #lg: окно модуля живёт прямо в body) */
+/* Оформление модуля HomeReserve под сайт (окно модуля живёт прямо в body) */
 #hr-widget,#hr-widget *,#hr-modal,#hr-modal *{--custom-main:#1F5C4A!important;--custom-main-dark:#163F33!important;--custom-main-light:#E6F0EC!important;--custom-text:#13202A!important;--custom-background:#F4F7F8!important}
 #hr-widget,#hr-modal{font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif!important}
 #hr-widget .search__container{border-radius:16px!important;padding:2px!important;box-shadow:0 6px 20px rgba(19,32,42,.08)!important}
@@ -1070,15 +1093,15 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     {id:'barn', hr:231967, name:'Барнхаус «Легенда»', g:5, m:80, price:14000, half:true, tags:['до 5 гостей','80 м²','свой вход'], text:'Апартаменты люкс — половина отдельно стоящего барнхауса: свой вход, два этажа и две спальни.'}
   ];
 
-  /* Фото номеров — файлы, загруженные в Тильду (адрес после static.tildacdn.com/). Первое фото — обложка карточки.
-     Чтобы добавить фото: загрузите его в Тильду, скопируйте адрес картинки и вставьте сюда кусок после static.tildacdn.com/ */
+  /* Фото номеров — файлы src/rooms/<имя>.jpg (без расширения здесь). Первое фото — обложка карточки.
+     Чтобы добавить фото: положите jpg в src/rooms/ и допишите имя в список; сборка сама сделает уменьшенные копии. */
   var PHOTOS = {
-    std2:['tild6562-3762-4365-b863-633164313833/IMG_7979_-fotor-2025.jpg', 'tild3635-3639-4938-b739-396563383233/IMG_8100_-fotor-2025.jpg', 'tild3830-6237-4264-b665-366333326339/IMG_7944_-fotor-2025.jpg', 'tild6664-3031-4238-a630-623563303835/IMG_8092_-fotor-2025.jpg', 'tild3562-6531-4439-a539-613262343866/IMG_8120_-fotor-2025.jpg', 'tild6365-3962-4839-b835-353731626662/IMG_7988_-fotor-2025.jpg', 'tild6532-3739-4131-b861-666236613261/IMG_7935_-fotor-2025.jpg', 'tild3233-3936-4162-a139-666161656661/IMG_7949_-fotor-2025.jpg'],
-    std3:['tild6263-6664-4561-a337-303462353165/IMG_7901-fotor-20250.jpg', 'tild3334-6439-4134-b531-336533656538/IMG_7903_-fotor-2025.jpg', 'tild6430-3833-4565-b331-646236336233/IMG_7902_-fotor-2025.jpg', 'tild3563-3036-4662-a462-613938613861/IMG_7904-fotor-20250.png', 'tild3533-3761-4237-b064-396562623331/IMG_7899-fotor-20250.jpg'],
-    semi:['tild6635-6432-4331-b266-636665363965/IMG_1300-fotor-20250.jpg', 'tild3764-6231-4364-b930-373564623861/IMG_5841_-fotor-2025.jpg', 'tild6133-6666-4263-b434-646533376162/IMG_7966_-fotor-2025.jpg', 'tild6633-3339-4437-b666-666364383862/IMG_7965_-fotor-2025.jpg', 'tild6634-3930-4538-a638-363563663739/IMG_4295-fotor-20250.jpg', 'tild6664-3435-4136-b435-383165656463/IMG_7994_-fotor-2025.jpg'],
-    fam:['tild3736-6266-4632-b531-643164336361/IMG_8071_-fotor-2025.jpg', 'tild6231-6132-4266-a664-306630373935/IMG_8074_-fotor-2025.jpg', 'tild3638-3766-4364-a266-616366346335/IMG_7994_-fotor-2025.jpg'],
-    lux:['tild3435-6263-4836-a337-616333343437/IMG_7920_-fotor-2025.jpg', 'tild3638-3537-4735-b661-346137363437/IMG_7922_-fotor-2025.jpg', 'tild3966-3330-4566-b466-356562376633/IMG_7907-fotor-20250.jpg', 'tild6662-3730-4065-a662-306366663935/IMG_7908_-fotor-2025.jpg', 'tild6263-3834-4334-b137-316432616464/IMG_7909_-fotor-2025.jpg', 'tild6565-6630-4734-b335-333462393937/IMG_7918_-fotor-2025.jpg', 'tild6135-6162-4638-a332-353832366236/IMG_7915_-fotor-2025.jpg', 'tild3031-6636-4362-b734-383865376136/IMG_7913_-fotor-2025.jpg'],
-    barn:['tild6662-3863-4162-a166-626632663066/5440642714493384045.jpg', 'tild6638-3962-4566-a432-656236396232/legenda.jpeg', 'tild3337-3865-4365-b266-343635623830/photo_2025-05-17_150.jpg', 'tild3838-3161-4662-a536-306663313934/photo_2025-05-17_150.jpg', 'tild6336-6166-4431-a561-313831353165/photo_2025-05-17_150.jpg', 'tild6462-3330-4434-a235-643835343561/photo_2025-05-17_150.jpg', 'tild6261-3936-4965-b531-313530623338/photo_2025-05-17_150.jpg', 'tild3131-3037-4363-b663-386532633130/photo_2025-05-17_150.jpg']
+    std2:['std2-1', 'std2-2', 'std2-3', 'std2-4', 'std2-5', 'std2-6', 'std2-7', 'std2-8'],
+    std3:['std3-1', 'std3-2', 'std3-3', 'std3-4', 'std3-5'],
+    semi:['semi-1', 'semi-2', 'semi-3', 'semi-4', 'semi-5', 'semi-6'],
+    fam:['fam-1', 'fam-2', 'fam-3'],
+    lux:['lux-1', 'lux-2', 'lux-3', 'lux-4', 'lux-5', 'lux-6', 'lux-7', 'lux-8'],
+    barn:['barn-1', 'barn-2', 'barn-3', 'barn-4', 'barn-5', 'barn-6', 'barn-7', 'barn-8']
   };
 
   /* ---------- Схемы планировок ----------
@@ -1103,11 +1126,10 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 
 
   /* ===================== конец настроек ===================== */
-  var PREVIEW = true; /* прототип: показывать [?] вместо пустых расстояний */
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var rub = function(n){ return n.toLocaleString('ru-RU') + ' ₽'; };
-  function phUrl(p, w){ var i = p.indexOf('/'); return w ? 'https://thb.tildacdn.com/' + p.slice(0, i) + '/-/resize/' + w + 'x/-/format/webp/' + p.slice(i + 1) : 'https://static.tildacdn.com/' + p; }
+  function phUrl(p, w){ return 'img/r/' + p + (w ? '-' + (w > 300 ? 760 : 160) : '') + '.webp'; }
   var CHEV_L = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>', CHEV_R = CHEV_L.replace('M15 6l-6 6 6 6', 'M9 6l6 6-6 6');
   function plural(n,a,b,c){ var m=n%10,h=n%100; return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<12||h>14))?b:c; }
 
@@ -1212,15 +1234,16 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   function loadWeather(){
     if (W.forced) return;
     fetch(API).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
-      var c = d.current; W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover; loadExtra();
+      var c = d.current; ROOT.classList.remove('nowx'); W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover; loadExtra();
       var sr = toMin(d.daily.sunrise[0]), ss = toMin(d.daily.sunset[0]); if (sr != null) W.sunrise = sr; if (ss != null) W.sunset = ss;
       if (!W.forced){ W.kind = kindFromCode(c.weather_code, c.wind_speed_10m, c.temperature_2m, c.cloud_cover); W.phase = phaseFor(minutes); }
       document.getElementById('wxNote').textContent = 'Сейчас показана реальная погода в Терсколе (Open-Meteo, обновляется каждые 15 минут). Выберите состояние, чтобы посмотреть, как выглядит шапка в другую погоду.';
       applyWeather();
     }).catch(function(){
+      if (W.live) return; ROOT.classList.add('nowx');
       W.live = false; W.temp = null; W.wind = null; W.cloud = null;
       if (!W.forced){ W.kind = (month >= 11 || month <= 3) ? 'snow' : 'clear'; W.phase = phaseFor(minutes); }
-      document.getElementById('wxNote').textContent = 'В этом прототипе браузер не пускает к сервису погоды, поэтому показан демо-режим. На настоящем сайте погода подтянется сама. Выберите состояние, чтобы посмотреть все варианты.';
+      document.getElementById('wxNote').textContent = 'Сервис погоды сейчас не ответил — показан пример. Выберите состояние, чтобы посмотреть все варианты.';
       applyWeather();
     });
   }
@@ -1467,7 +1490,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 
   /* ---------- Обложка: глубина сцены, дым из трубы, свет в окнах, капли и иней на панели ---------- */
   /* карта глубины фото (тёмное — небо и даль, светлое — у камеры): дальний снег прячется за домом и деревьями и «ложится» на землю */
-  var DEPTH_SRC = 'data:image/jpeg;base64,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';
+  var DEPTH_SRC = 'img/depth.jpg';
   /* точки на фото в пикселях исходника 2000×1333: труба, потолок крыльца над дверью */
   var PHOTO = {w:2000, h:1333, chimney:[1430, 272], porch:[1220, 803]};
   var depthImg = new Image(), depthOK = false; depthImg.onload = function(){ depthOK = true; if (window.__lgHero) window.__lgHero.mapPhoto(); }; depthImg.src = DEPTH_SRC;
@@ -1707,7 +1730,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   function onScroll(){ var y = window.scrollY, solid = y > 24, heroEnd = heroEl.offsetTop + heroEl.offsetHeight - 72,
       light = (HDR_MODE === 'fade' || HDR_MODE === 'glass') ? y > heroEnd + 6 : solid;
     hdrEl.dataset.m = HDR_MODE; hdrEl.classList.toggle('light', light); hdrEl.classList.toggle('solid', solid); }
-  var ROOT = document.getElementById('lg') || document.documentElement;
+  var ROOT = document.documentElement;
   function setHero(m){ HERO = m; ROOT.classList.toggle('hc', m === 'clean'); heroScene.o.noClouds = heroScene.o.soft = hdrScene.o.noBody = m === 'clean'; heroScene.key = ''; heroScene.p = []; heroScene.reset(); heroScene.mapPhoto(); LT.last = ''; PF.lastFrost = -1;
     var hb = document.getElementById('heroModes'); if (hb) hb.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.hero === m); }); }
   setHero(HERO);
@@ -1740,11 +1763,13 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     /* в панели обложки: на телефоне коротко — «до 21:00» / «с 8:00» */
     var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').innerHTML = open ? '<i class="lw">открыт </i>до ' + REST.close + ':00' : '<i class="lw">откроется в</i><i class="sw">с</i> ' + REST.open + ':00'; } }
 
-  /* Панель предпросмотра погоды */
+  /* Панель «Погода» (переключать погоду для проверки): видна на preview.hotellegenda.ru, локально и по ?demo,
+     на рабочем сайте спрятана */
+  document.getElementById('wxPanel').hidden = !(/^(preview\.|localhost$|127\.)/.test(location.hostname) || /[?&]demo\b/.test(location.search));
   var kindsBox = document.getElementById('wxKinds'), phBox = document.getElementById('wxPhases');
   kindsBox.innerHTML = ORDER.map(function(k){ return '<button type="button" data-k="' + k + '" aria-pressed="false">' + icon(k, false) + KINDS[k].name + '</button>'; }).join('');
   if (phBox) phBox.innerHTML = Object.keys(PHASES).map(function(p){ return '<button type="button" data-ph="' + p + '" aria-pressed="false">' + PHASES[p] + '</button>'; }).join('');
-  kindsBox.addEventListener('click', function(e){ var b = e.target.closest('[data-k]'); if (!b) return; W.forced = true; W.kind = b.dataset.k; applyWeather(); });
+  kindsBox.addEventListener('click', function(e){ var b = e.target.closest('[data-k]'); if (!b) return; W.forced = true; W.kind = b.dataset.k; ROOT.classList.remove('nowx'); applyWeather(); });
   if (phBox) phBox.addEventListener('click', function(e){ var b = e.target.closest('[data-ph]'); if (!b) return; W.forced = true; W.phase = b.dataset.ph; applyWeather(); });
   document.getElementById('wxAuto').addEventListener('click', function(){ W.forced = false; W.phase = phaseFor(minutes); loadWeather(); });
 
@@ -1876,8 +1901,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
      Кнопки «Забронировать» открывают поиск или сразу нужный номер. Если модуль не загрузился —
      кнопки ведут на страницу бронирования в новой вкладке. */
   var hrReady = false, hrBox = document.getElementById('hr-widget');
-  function hrFallback(){ if (hrReady) return; hrBox.hidden = true; var fb = document.getElementById('hrFallback'); fb.hidden = false;
-    if (PREVIEW) document.getElementById('hrFbTxt').textContent = 'На сайте здесь будет строка поиска модуля HomeReserve. В предпросмотре она не загружается.'; }
+  function hrFallback(){ if (hrReady) return; hrBox.hidden = true; var fb = document.getElementById('hrFallback'); fb.hidden = false; }
   (function(){ var s = document.createElement('script'); s.type = 'module'; s.src = 'https://homereserve.ru/widget.js';
     s.onload = function(){ try { window.homereserve.initWidgetSearch({token: HR.token, apartments: rooms.map(function(r){ return r.hr; }).filter(Boolean)}); hrReady = true; hrBox.hidden = false; document.getElementById('hrFallback').hidden = true; } catch (e) { hrFallback(); } };
     s.onerror = hrFallback; document.head.appendChild(s); setTimeout(hrFallback, 10000); })();
@@ -1903,7 +1927,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   /* Расстояния, маршрут и схема дороги */
   Object.keys(DIST).forEach(function(k){ var v = DIST[k];
     document.querySelectorAll('[data-dist="' + k + '"]').forEach(function(el){ var b = el.querySelector('.dv');
-      if (v){ b.textContent = v; } else if (PREVIEW){ b.textContent = '[?]'; } else { el.classList.add('nodist'); } }); });
+      if (v){ b.textContent = v; } else { el.classList.add('nodist'); } }); });
   (function(){ var b = document.getElementById('hpRate'); if (b){ b.href = YA.url; b.querySelector('.rt').textContent = YA.rating; b.querySelector('.vv').textContent = YA.votes ? YA.votes + ' · ' : ''; } })();
   (function(){ var a = document.getElementById('heroRate'); if (!a) return; a.href = YA.url; a.querySelector('.rt').textContent = YA.rating; a.querySelector('.vt').textContent = YA.votes ? YA.votes + ' · ' : ''; a.setAttribute('aria-label', 'Оценка ' + YA.rating + ' из 5' + (YA.votes ? ', ' + YA.votes : '') + ' на Яндекс Картах'); })();
   document.getElementById('mapAzau').textContent = '← Азау · ' + (DIST.azau || '');
@@ -1944,7 +1968,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   "url": "https://hotellegenda.ru/",
   "telephone": "+7 999 300-00-88",
   "email": "Legenda_hotel@mail.ru",
-  "image": ["https://static.tildacdn.com/tila3835-3766-4537-b437-653539313566/facade.jpg"],
+  "image": ["https://hotellegenda.ru/img/facade.jpg"],
   "address": {"@type": "PostalAddress", "streetAddress": "ул. Чегет, 5А", "addressLocality": "Терскол", "addressRegion": "Кабардино-Балкарская Республика", "addressCountry": "RU"},
   "geo": {"@type": "GeoCoordinates", "latitude": 43.246012, "longitude": 42.526408},
   "hasMap": "https://yandex.ru/maps/org/legenda/1184772629/",
@@ -1977,3 +2001,9 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   "potentialAction": {"@type": "ReserveAction", "target": "https://homereserve.ru/gDYYpGYEnb", "name": "Забронировать напрямую"}
 }
 </script>
+<!-- Яндекс Метрика -->
+<script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+ym(104834110,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/104834110" style="position:absolute;left:-9999px" alt=""></div></noscript>
+</body>
+</html>

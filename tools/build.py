@@ -1,176 +1,172 @@
-"""Собирает из исходника src/legenda-template.html:
-  1) dist/tilda-blok-1.html и dist/tilda-blok-2.html — код для двух блоков T123 на Тильде;
-  2) index.html — живой предпросмотр с панелью погоды (GitHub Pages).
-Особенности файла для Тильды:
-- все стили под #lg (Тильда просит не трогать общие теги);
-- без панели «Погода: демо», погода только реальная, без неё плашки скрываются;
-- фото по ссылке вместо вшитого;
-- заглушки в [скобках] убраны вместе с блоками, где их нечем заменить.
-  3) site/ — готовый сайт для своего хостинга (Timeweb): страница без лимитов Тильды, свои фото,
-     политика конфиденциальности, robots.txt, sitemap.xml, .htaccess (см. tools/site_build.py).
-Запуск из корня репозитория: python3 tools/build.py [ссылка_на_фото_в_Тильде]"""
-import re, sys
+"""Сборка сайта hotellegenda.ru → папка site/ (её содержимое загружается на хостинг Timeweb, в tilda/public_html).
+Запуск из корня репозитория:  python tools/build.py
 
-SRC = 'src/legenda-template.html'
-OUT1 = 'dist/tilda-blok-1.html'
-OUT2 = 'dist/tilda-blok-2.html'
-PREVIEW = 'index.html'
-PHOTO = sys.argv[1] if len(sys.argv) > 1 else 'ССЫЛКА_НА_ФОТО_ФАСАДА'
-# панель «Погода» на /new — чтобы владелец переключал погоды с телефона; когда /new станет главной — False
-DEMO = True
+Из чего собирается:
+  src/index.html     — страница целиком (разметка, стили, скрипт, разметка для поисковиков). Все правки — здесь.
+  src/facade.jpg     — фото обложки; src/depth.jpg — карта глубины к нему (tools/sky-mask.py)
+  src/rooms/*.jpg    — фото номеров (имена — в PHOTOS в скрипте страницы)
+  src/static/        — файлы как есть: значки, картинка для соцсетей
+  src/privacy.txt    — текст политики обработки персональных данных
 
-t = open(SRC, encoding='utf-8').read()
-# предпросмотр: исходник как есть, фото — файлом рядом
-open(PREVIEW, 'w', encoding='utf-8', newline='\n').write(
-    '<!doctype html>\n<html lang="ru">\n<meta charset="utf-8">\n<meta name="robots" content="noindex">\n'
-    + t.replace('__FACADE__', 'src/facade.jpg'))
-fonts = re.search(r'<link rel="preconnect".*?display=swap">', t, re.S).group(0)
-css = re.search(r'<style>(.*?)</style>', t, re.S).group(1)
-js = re.search(r'<script>(.*?)</script>', t, re.S).group(1)
-# разметка для поисковиков (JSON-LD) стоит в конце исходника — в Тильде уходит в блок 2 (в блоке 1 нет места)
-ld = re.search(r'<script type="application/ld\+json">(.*?)</script>', t, re.S).group(1)
-ld = '<script type="application/ld+json">' + __import__('json').dumps(__import__('json').loads(ld), ensure_ascii=False, separators=(',', ':')) + '</script>'  # без отступов — экономит место
-body = t[t.index('</style>') + len('</style>'):t.index('<script>')]
+Что делает:
+  — убирает из страницы разделы с заглушками в [скобках] (отзывы, вопросы), пока их нечем заполнить;
+  — сжимает скрипт (без комментариев и отступов) и разметку для поисковиков;
+  — обложку и фото номеров переводит в webp нужных размеров;
+  — делает политику (/privacypolicy/), страницу 404, robots.txt, sitemap.xml, .htaccess."""
+import datetime, html, json, os, re, shutil
+from PIL import Image
+
+OUT = 'site'
+DOMAIN = 'https://hotellegenda.ru'
+
 
 def must(s, a, b, n=1):
     c = s.count(a)
     assert c == n, (a[:80], c)
     return s.replace(a, b)
 
-# ---------- CSS: префикс #lg ----------
-# стили после метки уходят в блок 2: в блоке 1 нет места (порядок каскада сохраняется — блок 2 стоит ниже)
-B2 = '/* ---- в Тильде: блок 2 ---- */'
-css, css2 = (css.split(B2) + [''])[:2]
-css2 = re.sub(r'/\*.*?\*/', '', css2, flags=re.S)
-css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
-site_css = css + css2  # свой хостинг: стили без префикса #lg
-# стили панели «Погода» — отдельно: в блоке 1 нет места, они уходят в блок 2 (или вовсе выкидываются)
-PANEL_RE = re.compile(r'\.wx(?:panel|x|btns|body|note|h|kinds|phases)\b|#wxMode')
-css_lines = css.split('\n')
-panel_css = '\n'.join(l for l in css_lines if PANEL_RE.search(l))
-css = '\n'.join(l for l in css_lines if not PANEL_RE.search(l))
 
-def pref_sel(sel):
-    out = []
-    for s in sel.split(','):
-        s = s.strip()
-        if not s:
-            continue
-        if s in ('html', 'body', ':root'):
-            out.append('#lg')
-        elif s.startswith('body::') or s.startswith('body:'):
-            out.append('#lg' + s[4:])
-        elif s.startswith(':root'):
-            out.append('#lg' + s[5:])
-        else:
-            out.append('#lg ' + s)
-    return ','.join(out)
+def save(path, text):
+    os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+    open(path, 'w', encoding='utf-8', newline='\n').write(text)
 
-def block_end(s, i):  # i = index of '{'
-    d = 0
-    for j in range(i, len(s)):
-        if s[j] == '{': d += 1
-        elif s[j] == '}':
-            d -= 1
-            if d == 0: return j
-    raise ValueError('unbalanced')
 
-def prefix(s):
-    out, i = [], 0
-    while True:
-        j = s.find('{', i)
-        if j < 0:
-            out.append(s[i:]); break
-        head = s[i:j].strip()
-        k = block_end(s, j)
-        inner = s[j + 1:k]
-        if head.startswith('@media') or head.startswith('@supports'):
-            out.append(head + '{' + prefix(inner) + '}')
-        elif head.startswith('@'):
-            out.append(head + '{' + inner + '}')
-        else:
-            out.append(pref_sel(head) + '{' + inner + '}')
-        out.append('\n')
-        i = k + 1
-    return ''.join(out)
-
-css = prefix(css)
-panel_css = prefix(panel_css)
-css2 = prefix(css2)
-css = css.replace('#lg{scroll-behavior:smooth;', '#lg{')  # html{scroll-behavior} -> через JS
-css += '\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n#lg{min-height:100vh;position:relative}\n'
-
-# ---------- Разметка ----------
-panel_html = re.search(r'<details class="wxpanel".*?</details>\n', body, re.S).group(0)
-body = body.replace(panel_html, '')
-# заглушки
-body = re.sub(r'<section class="sec" id="reviews".*?</section>\n\n', '', body, flags=re.S)
-body = must(body, '<a href="#reviews">Отзывы</a>', '')
-body = re.sub(r'\s*<a href="#reviews">.*?Отзывы гостей</a>', '', body, flags=re.S)
-body = must(body, ' (за питомца [доплата])', '')
-body = re.sub(r'\s*<div><span>[^<]*</span><span>\[[^\]]*\][^<]*</span></div>', '', body)
-body = re.sub(r'<section class="sec" id="faq".*?</section>\n\n', '', body, count=1, flags=re.S)
-body = re.sub(r'\s*<li data-ph>.*?</li>', '', body)
-assert '[' not in re.sub(r'<script.*?</script>', '', body, flags=re.S).replace('[open]', ''), re.findall(r'.{40}\[[^\]]*\].{20}', body)
-site_body = '<div id="lg" class="nowx">' + body.strip() + '\n</div>'
-# фото обложки у Тильды и у своего хостинга лежат по разным адресам
-body = must(site_body, '<img src="__FACADE__"', '<img src="' + PHOTO + '" fetchpriority="high"')
-
-# ---------- Скрипт ----------
-assert js.lstrip().startswith('(function(){')
-js = js.replace("(function(){\n", "(function(){\n  var LG = document.getElementById('lg'); document.documentElement.style.scrollBehavior = 'smooth';\n", 1)
-js = must(js, "var PREVIEW = true;", "var PREVIEW = false;")
-js = must(js, "W.live = true; W.temp", "LG.classList.remove('nowx'); W.live = true; W.temp")
-js = must(js, "    }).catch(function(){\n      W.live = false;", "    }).catch(function(){\n      if (W.live) return; LG.classList.add('nowx');\n      W.live = false;")
-
-def no_panel(js):
-    """Скрипт без панели «Погода» (на запущенном сайте её нет)."""
-    js = re.sub(r"    document\.getElementById\('wxMode'\).*?\n", '', js)
-    js = re.sub(r"    document\.querySelectorAll\('\[data-(?:k|ph)\]'\).*?\n", '', js)
-    js = re.sub(r"      document\.getElementById\('wxNote'\).*?\n", '', js)
-    js = re.sub(r"  /\* Закрыть панель погоды.*?\n(?:  .*wxp.*\n)+", '', js)
-    js = re.sub(r"  /\* Панель предпросмотра погоды \*/\n(?:  .*\n){6}", '', js)
-    for bad in ('wxMode', 'wxNote', 'wxKinds', 'wxPanel', 'wxAuto', 'wxClose'):
-        assert bad not in js, bad
-    return js
-
-def compact(js):
-    """Без комментариев и отступов (в исходнике остаются): в Тильде лимит знаков, на хостинге — быстрее загрузка."""
+def compact_js(js):
+    """Без комментариев и отступов — быстрее загрузка (исходник остаётся читаемым)."""
     js = re.sub(r'^[ \t]*/\*.*?\*/[ \t]*\n', '', js, flags=re.M | re.S)
     js = re.sub(r'^[ \t]+', '', js, flags=re.M)  # в скрипте нет многострочных строк
     assert not re.search(r"""['"][^'"\n]*/\*""", js), 'в строке скрипта есть /* — вырезание комментариев её испортит'
     return re.sub(r'[ \t]*/\*.*?\*/', '', js, flags=re.S)
 
-site_js = compact(no_panel(js))
-# Тильда: цветовые переменные живут на #lg, а не на :root
-js = must(js, "r = document.documentElement.style;", "r = LG.style;")
-if DEMO:
-    # панель стоит в блоке 2, а стили у неё под #lg — переносим её внутрь
-    js = js.replace("var LG = document.getElementById('lg');", "var LG = document.getElementById('lg'); LG.appendChild(document.getElementById('wxPanel'));", 1)
-else:
-    js = no_panel(js)
-assert 'wxPanel' not in body
-js = compact(js)
 
-# Тильда не сохраняет блок T123 больше ~120 000 знаков, поэтому код делится на два блока:
-# 1) шрифты, стили и разметка; 2) скрипт. На странице блок 1 должен стоять выше блока 2.
-import json
-parts = {
-    OUT1: '<!-- Эко-отель «Легенда» · главная · блок 1 из 2 (стили и разметка). Блок 2 со скриптом стоит сразу под ним. -->\n'
-          + fonts + '\n<style>\n' + css + '</style>\n' + body + '\n',
-    OUT2: '<!-- Эко-отель «Легенда» · главная · блок 2 из 2 (скрипт). Ставится сразу под блоком 1. -->\n'
-          + '<style>\n' + css2 + (panel_css if DEMO else '') + '</style>\n' + (panel_html if DEMO else '')
-          + '<script>\n' + js + '</script>\n' + ld + '\n',
-}
-for path, code in parts.items():
-    n = len(json.dumps(code, ensure_ascii=False))
-    assert n < 115000, (path, n, 'блок не влезет в T123 — лимит Тильды около 120 000 знаков')
-    open(path, 'w', encoding='utf-8', newline='\n').write(code)
-    print(path, len(code), 'знаков')
-print(PREVIEW, 'обновлён')
+# ---------- страница ----------
+page = open('src/index.html', encoding='utf-8').read()
+# разделы и строки с заглушками — до тех пор, пока владелец не даст настоящий текст
+page = re.sub(r'<section class="sec" id="reviews".*?</section>\n\n', '', page, flags=re.S)
+page = must(page, '<a href="#reviews">Отзывы</a>', '')
+page = re.sub(r'\s*<a href="#reviews">.*?Отзывы гостей</a>', '', page, flags=re.S)
+page = must(page, ' (за питомца [доплата])', '')
+page = re.sub(r'\s*<div><span>[^<]*</span><span>\[[^\]]*\][^<]*</span></div>', '', page)
+page = re.sub(r'<section class="sec" id="faq".*?</section>\n\n', '', page, count=1, flags=re.S)
+page = re.sub(r'\s*<li data-ph>.*?</li>', '', page)
+visible = re.sub(r'<(script|style)\b.*?</\1>', '', page[page.index('<body>'):], flags=re.S)
+assert '[' not in visible.replace('[open]', ''), re.findall(r'.{40}\[[^\]]*\].{20}', visible)
+# скрипт и разметка для поисковиков — компактно
+main_js = re.search(r'<script>\n(\(function\(\)\{.*?)</script>', page, re.S)
+page = page.replace(main_js.group(1), compact_js(main_js.group(1)))
+ld = re.search(r'(<script type="application/ld\+json">)(.*?)(</script>)', page, re.S)
+page = page.replace(ld.group(0), ld.group(1) + json.dumps(json.loads(ld.group(2)), ensure_ascii=False, separators=(',', ':')) + ld.group(3))
+page = re.sub(r'<style>\n/\*.*?\*/\n', '<style>\n', page, count=1, flags=re.S)  # служебный комментарий в начале стилей
 
-# ---------- Свой хостинг: папка site/ ----------
-sys.path.insert(0, 'tools')
-import site_build
-site_css = '\n'.join(l for l in site_css.split('\n') if not PANEL_RE.search(l)) + '\n#lg.nowx .now,#lg.nowx .wxchip{display:none}\n'
-site_build.build(fonts=fonts, css=site_css, body=site_body, js=site_js, ld=ld)
+# очищаем содержимое site/, а не саму папку — её может держать открытой локальный сервер для проверки
+os.makedirs(OUT, exist_ok=True)
+for f in os.listdir(OUT):
+    q = os.path.join(OUT, f); shutil.rmtree(q) if os.path.isdir(q) else os.remove(q)
+save(f'{OUT}/index.html', page)
+
+# ---------- картинки ----------
+os.makedirs(f'{OUT}/img/r')
+im = Image.open('src/facade.jpg').convert('RGB')
+im.save(f'{OUT}/img/facade.webp', 'WEBP', quality=78, method=6)
+im.save(f'{OUT}/img/facade.jpg', 'JPEG', quality=85, optimize=True, progressive=True)  # для соцсетей и поисковиков
+shutil.copy('src/depth.jpg', f'{OUT}/img/depth.jpg')
+photos = re.findall(r"'([a-z0-9]+-\d+)'", re.search(r'var PHOTOS = \{(.*?)\};', page, re.S).group(1))
+for n in photos:
+    ph = Image.open(f'src/rooms/{n}.jpg').convert('RGB')
+    for w, name in ((1800, n), (760, n + '-760'), (160, n + '-160')):
+        s = ph.copy(); s.thumbnail((w, w * 4)); s.save(f'{OUT}/img/r/{name}.webp', 'WEBP', quality=80, method=6)
+shutil.copytree('src/static', OUT, dirs_exist_ok=True)
+
+# ---------- политика и 404 ----------
+e = html.escape
+def doc(title, inner):
+    return f'''<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{e(title)}</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600&family=Lora:wght@600&display=swap">
+<style>
+body{{margin:0;background:#F4F7F8;color:#13202A;font:16px/1.6 'Golos Text',system-ui,sans-serif}}
+main{{max-width:760px;margin:0 auto;padding:40px 20px 64px}}
+a{{color:#1F5C4A}}
+h1,h2{{font-family:'Lora',Georgia,serif;font-weight:600;line-height:1.2}}
+h1{{font-size:32px;margin:24px 0 16px}}
+h2{{font-size:21px;margin:32px 0 8px}}
+p{{margin:0 0 10px}}
+.back{{display:inline-block;margin-bottom:8px;font-weight:600;text-decoration:none}}
+</style>
+</head>
+<body>
+<main>
+<a class="back" href="/">← Эко-отель «Легенда»</a>
+{inner}
+</main>
+</body>
+</html>
+'''
+paras = []
+for line in open('src/privacy.txt', encoding='utf-8').read().strip().split('\n'):
+    line = line.strip()
+    if not line:
+        continue
+    if re.match(r'^\d+\. .{0,90}$', line) and not line.endswith((';', '.')):
+        paras.append(f'<h2>{e(line)}</h2>')
+    else:
+        paras.append(f'<p>{e(line.lstrip("-"))}</p>')
+save(f'{OUT}/privacypolicy/index.html', doc('Политика обработки персональных данных — эко-отель «Легенда»',
+     '<h1>Политика обработки персональных данных</h1>\n' + '\n'.join(paras)))
+save(f'{OUT}/404.html', doc('Страница не найдена — эко-отель «Легенда»',
+     '<h1>Такой страницы нет</h1>\n<p>Возможно, ссылка устарела. Всё о номерах, ценах и бронировании — <a href="/">на главной</a>.</p>'))
+
+# ---------- служебные файлы ----------
+today = datetime.date.today().isoformat()
+save(f'{OUT}/robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n')
+save(f'{OUT}/sitemap.xml', f'''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>{DOMAIN}/</loc><lastmod>{today}</lastmod></url>
+  <url><loc>{DOMAIN}/privacypolicy/</loc><lastmod>{today}</lastmod></url>
+</urlset>
+''')
+save(f'{OUT}/.htaccess', r'''AddDefaultCharset utf-8
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# www.hotellegenda.ru -> hotellegenda.ru
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+# http -> https: включается в панели Timeweb («SSL» → «Перенаправлять на HTTPS») — без петли переадресаций
+# адреса прежнего сайта (на Тильде), которые знают поисковики, — на главную
+RewriteRule ^new/?$ / [L,R=301]
+RewriteRule ^page59460067\.html$ / [L,R=301]
+RewriteRule ^page59652773\.html$ / [L,R=301]
+RewriteCond %{THE_REQUEST} \s/index\.html[\s?]
+RewriteRule ^index\.html$ / [L,R=301]
+RewriteRule ^privacypolicy$ /privacypolicy/ [L,R=301]
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 hour"
+ExpiresByType text/html "access plus 0 seconds"
+ExpiresByType image/webp "access plus 30 days"
+ExpiresByType image/jpeg "access plus 30 days"
+ExpiresByType image/png "access plus 30 days"
+ExpiresByType image/svg+xml "access plus 30 days"
+ExpiresByType image/x-icon "access plus 30 days"
+</IfModule>
+''')
+total = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)
+print(f'{OUT}/ собран: страница {os.path.getsize(OUT + "/index.html") // 1024} КБ, {len(photos)} фото номеров, всего {total // 1024} КБ')
