@@ -703,6 +703,10 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 /* значок трубки — всегда фирменный зелёный */
 :root.hc .call .ci,:root.hc .hdr.light .call .ci,:root.hc .hdr.solid .call .ci{background:var(--pine);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
 /* ---- в Тильде: блок 2 ---- */
+/* пометка под схемой номера: схема примерная */
+.pm-i{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:11px 14px;border-radius:14px;background:var(--soft);color:var(--ink2);font-size:13.5px;line-height:1.45}
+.pm-i svg{flex:none;color:var(--pine);margin-top:1px}
+.pm-i b{color:var(--ink);font-weight:600}
 /* заголовок обложки — Lora: тёплый шрифт с засечками, к срубу и соснам */
 .hero h1{font-family:'Lora',Georgia,serif;font-weight:600;letter-spacing:-.01em}
 .hp-rest i{font-style:normal}
@@ -802,7 +806,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     <div class="now" aria-live="polite"><span class="ni" id="nowIc" aria-hidden="true"></span><span><span class="now-t" id="nowTxt"><span class="sg">Терскол</span></span></span></div>
     <div class="hero-copy">
       <h1><span class="h1k">Гостиница в Терсколе · Приэльбрусье</span> Тёплый дом у подножия Чегета</h1>
-      <p class="lead">Дом из сруба на 17 номеров и отдельный коттедж.</p>
+      <p class="lead">Дом из сруба на 15 номеров и отдельный коттедж.</p>
       <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
@@ -1016,7 +1020,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   <div class="pm-h"><div><h3 id="pmT">Номер</h3><p id="pmMeta"></p></div><button type="button" class="pm-x" id="pmX" aria-label="Закрыть"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="pm-vars" id="pmVars" role="group" aria-label="Вариант планировки"></div>
   <div class="pl" id="pmBox"><svg role="img"></svg></div>
-  <div class="pm-f"><p><span id="pmNote"></span><small>Номера одной категории немного отличаются планировкой — подскажем при бронировании.</small></p><button type="button" class="btn btn-accent" id="pmPick">Забронировать этот номер</button></div>
+  <p class="pm-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.6v.1"/></svg><span><b>Схема примерная.</b> Номера одной категории немного отличаются — расположением окон, двери и мебели. Площадь и оснащение у них одинаковые.</span></p>
+  <div class="pm-f"><p><span id="pmNote"></span><small>Пожелания по номеру — подскажем и учтём при бронировании.</small></p><button type="button" class="btn btn-accent" id="pmPick">Забронировать этот номер</button></div>
 </div>
 
 <div class="mbar" id="mbar"><div><b>Даты и цены онлайн</b><span>завтрак на двоих включён</span></div><a class="btn btn-accent" href="#book">Выбрать даты</a></div>
@@ -1079,27 +1084,25 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   };
 
   /* ---------- Схемы планировок ----------
-     Каждый номер описан в метрах: W×H — комната, дальше предметы. Чтобы уточнить конкретный номер,
-     достаточно поправить его строку в PLANS (размеры, окна, кровати) — схема перерисуется сама.
+     Схемы примерные: по одной на категорию, варианты — только там, где гость выбирает (кровати, вид из окон).
+     Номера одной категории отличаются расположением окон, двери и мебели — об этом пометка под схемой; площадь — из rooms.
+     Каждый номер описан в метрах: W×H — комната, дальше предметы. Поправить схему — её строка в PLANS.
      bath [x,y,w,h] · door [сторона,откуда] · win [сторона,от,до,вид] · part [x1,y1,x2,y2,проём от,до]
      bed2/bed1 [x,y,изголовье l|r|t] · sofa [x,y,длина,спинка l|r|t|b] · ward/table [x,y,w,h] · stairs [x,y,w,h] · lbl [x,y,текст] */
   var STD2 = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',1.6,4.4,1],['bed2',0.15,1.45,'l'],['ward',0.3,4.4,1.9,0.5],['table',4.9,0.35,1.1,0.7]]};
   var STD2T = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',1.6,4.4,1],['bed1',0.15,0.8,'l'],['bed1',0.15,2.35,'l'],['ward',0.3,4.4,1.9,0.5],['table',4.9,0.35,1.1,0.7]]};
-  var STD2W = {W:6.0, H:5.3, items:[['bath',3.9,3.3,2.1,2.0],['door','b',2.85],['win','t',0.5,2.3,1],['win','t',3.4,5.4,1],['bed2',0.15,1.5,'l'],['ward',0.3,4.7,1.9,0.5],['table',4.6,0.35,1.0,0.7]]};
-  var STD3 = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',0.4,3.6,1],['bed1',0.35,0.25,'t'],['bed1',1.6,0.25,'t'],['bed1',2.85,0.25,'t'],['ward',5.75,0.3,0.55,1.8],['table',0.5,3.7,1.1,0.7]]};
+    var STD3 = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',0.4,3.6,1],['bed1',0.35,0.25,'t'],['bed1',1.6,0.25,'t'],['bed1',2.85,0.25,'t'],['ward',5.75,0.3,0.55,1.8],['table',0.5,3.7,1.1,0.7]]};
   var STD3M = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',0.4,3.6,1],['bed2',0.4,0.25,'t'],['bed1',2.6,0.25,'t'],['ward',5.75,0.3,0.55,1.8],['table',0.5,3.7,1.1,0.7]]};
   var PLANS = {
-    std2:[{n:'Вариант 1', p:STD2, note:'Одна большая кровать'}, {n:'Вариант 2', p:STD2T, note:'Две раздельные кровати'}, {n:'Вариант 3', p:STD2, m:1, note:'Одна большая кровать, зеркальная планировка'}, {n:'Вариант 4', p:STD2W, note:'Два окна на горы'}],
-    std3:[{n:'Вариант 1', p:STD3, note:'Три односпальные кровати'}, {n:'Вариант 2', p:STD3, m:1, note:'Три кровати, зеркальная планировка'}, {n:'Вариант 3', p:STD3M, note:'Двуспальная и односпальная кровати'}],
+    std2:[{n:'Большая кровать', p:STD2, note:'Одна большая кровать'}, {n:'Две кровати', p:STD2T, note:'Две раздельные кровати'}],
+    std3:[{n:'Три кровати', p:STD3, note:'Три односпальные кровати'}, {n:'2 + 1', p:STD3M, note:'Двуспальная и односпальная кровати'}],
     semi:[{n:'Полулюкс', p:{W:7.0, H:5.0, items:[['part',3.6,0,3.6,5.0,3.85,4.75],['bath',5.0,3.1,2.0,1.9],['door','b',4.0],['win','t',0.8,2.8,1],['win','t',4.3,6.4,1],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.8,0.5],['sofa',6.1,0.5,2.0,'r'],['table',4.7,1.0,0.9,0.9],['lbl',1.8,4.1,'спальня'],['lbl',4.6,2.75,'гостиная']]}, note:'Спальня и гостиная с диван-кроватью'}],
     fam:[{n:'Семейный', p:{W:7.0, H:5.0, items:[['part',3.5,0,3.5,5.0,3.85,4.75],['bath',5.0,3.1,2.0,1.9],['door','b',4.0],['win','t',0.7,2.8,1],['win','t',4.2,6.3,1],['bed2',0.15,1.0,'l'],['bed2',4.85,0.7,'r'],['ward',0.3,4.4,1.8,0.5],['lbl',1.75,3.9,'спальня 1'],['lbl',4.3,2.75,'спальня 2']]}, note:'Две отдельные спальни'}],
-    lux:[{n:'С видом · 1', p:{W:7.4, H:5.0, items:[['part',3.9,0,3.9,5.0,3.85,4.75],['bath',5.4,3.1,2.0,1.9],['door','b',4.3],['win','t',0.5,3.4,2],['win','t',4.3,7.0,2],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.9,0.5],['sofa',6.5,0.5,2.2,'r'],['table',5.0,1.1,0.9,0.9],['lbl',1.95,4.1,'спальня'],['lbl',4.9,2.75,'гостиная']]}, note:'Вид на горы из спальни и гостиной'},
-         {n:'С видом · 2', m:1, note:'Вид на горы, зеркальная планировка'},
-         {n:'Без вида', p:{W:7.4, H:5.0, items:[['part',3.9,0,3.9,5.0,3.85,4.75],['bath',5.4,3.1,2.0,1.9],['door','b',4.3],['win','t',0.9,2.9,1],['win','t',4.6,6.6,1],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.9,0.5],['sofa',6.5,0.5,2.2,'r'],['table',5.0,1.1,0.9,0.9],['lbl',1.95,4.1,'спальня'],['lbl',4.9,2.75,'гостиная']]}, note:'Окна во двор'}],
+    lux:[{n:'С видом на горы', p:{W:7.4, H:5.0, items:[['part',3.9,0,3.9,5.0,3.85,4.75],['bath',5.4,3.1,2.0,1.9],['door','b',4.3],['win','t',0.5,3.4,2],['win','t',4.3,7.0,2],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.9,0.5],['sofa',6.5,0.5,2.2,'r'],['table',5.0,1.1,0.9,0.9],['lbl',1.95,4.1,'спальня'],['lbl',4.9,2.75,'гостиная']]}, note:'Вид на горы из спальни и гостиной'},
+         {n:'Окна во двор', p:{W:7.4, H:5.0, items:[['part',3.9,0,3.9,5.0,3.85,4.75],['bath',5.4,3.1,2.0,1.9],['door','b',4.3],['win','t',0.9,2.9,1],['win','t',4.6,6.6,1],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.9,0.5],['sofa',6.5,0.5,2.2,'r'],['table',5.0,1.1,0.9,0.9],['lbl',1.95,4.1,'спальня'],['lbl',4.9,2.75,'гостиная']]}, note:'Окна во двор'}],
     barn:[{n:'1 этаж', p:{W:8.0, H:5.0, items:[['door','b',0.9],['win','t',0.8,4.2,2],['win','l',1.0,3.2,1],['sofa',0.15,1.2,2.4,'l'],['table',1.5,1.95,0.9,0.9],['stairs',5.9,2.7,1.9,2.1],['lbl',2.9,4.2,'гостиная'],['lbl',6.85,2.45,'лестница']]}, note:'Гостиная и вход'},
           {n:'2 этаж', p:{W:8.0, H:5.0, items:[['part',4.0,0,4.0,5.0,3.85,4.75],['bath',6.0,3.0,2.0,2.0],['stairs',4.2,3.0,1.5,2.0],['win','t',0.8,3.2,2],['win','t',4.6,7.4,2],['bed2',0.15,1.0,'l'],['bed1',4.5,0.25,'t'],['bed1',5.8,0.25,'t'],['lbl',2.0,4.0,'спальня 1'],['lbl',6.6,2.6,'спальня 2']]}, note:'Две спальни'}]
   };
-  PLANS.lux[1].p = PLANS.lux[0].p;
 
 
   /* ===================== конец настроек ===================== */
@@ -1813,7 +1816,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   rooms.forEach(function(r){ var card = document.getElementById('r-'+r.id), vs = PLANS[r.id]; if (!vs) return;
     var ph = card.querySelector('.ph'), box = ph.querySelector('.pl'), cap = ph.querySelector('.mcap');
     drawPlan(box.querySelector('svg'), vs[0]);
-    cap.innerHTML = (vs.length > 1 ? vs.length + ' ' + plural(vs.length,'вариант','варианта','вариантов') + ' планировки' : 'Планировка') + ' <b>Открыть →</b>';
+    cap.innerHTML = 'Примерная схема' + (vs.length > 1 && !r.half ? ' · ' + vs.length + ' ' + plural(vs.length,'вариант','варианта','вариантов') : '') + ' <b>Открыть →</b>';
     ph.querySelector('.mtog').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; var v = b.dataset.v; ph.dataset.view = v;
       this.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b); }); if (v === 'plan') replay(box); });
     box.addEventListener('click', function(){ openPlan(r.id, 0); }); });
@@ -1862,7 +1865,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     pm.classList.add('on'); pmBd.classList.add('on'); document.body.style.overflow = 'hidden'; if (!open) setTimeout(function(){ pm.focus({preventScroll:true}); }, 50);
     }
   function showVar(i){ var v = PLANS[pmCur][i]; drawPlan(pmBox.querySelector('svg'), v); replay(pmBox);
-    document.getElementById('pmNote').textContent = v.note + ' · около ' + Math.round(v.p.W*v.p.H) + ' м²';
+    var r = rooms.filter(function(x){ return x.id === pmCur; })[0];
+    document.getElementById('pmNote').textContent = v.note + ' · ' + r.m + ' м²' + (r.half ? ' на два этажа' : '');
     pmVars.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.i === i); }); }
   function closePlan(){ pm.classList.remove('on'); pmBd.classList.remove('on'); document.body.style.overflow = ''; if (pmLast && pmLast.focus) pmLast.focus({preventScroll:true}); }
   pmVars.addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) showVar(+b.dataset.i); });
@@ -1940,7 +1944,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   "@id": "https://hotellegenda.ru/#hotel",
   "name": "Эко-отель «Легенда»",
   "alternateName": ["Отель Легенда Терскол", "Гостиница Легенда", "Legenda hotel"],
-  "description": "Эко-отель в Терсколе (Приэльбрусье): дом из деревянного сруба на 17 номеров и апартаменты люкс в отдельно стоящем барнхаусе; 500 м до подъёмника Чегет, 5 км до канатной дороги Азау на Эльбрус. Номера с видом на горы, свой ресторан кавказской и европейской кухни, бильярд, беседка с мангалом. При бронировании напрямую завтрак на двоих включён.",
+  "description": "Эко-отель в Терсколе (Приэльбрусье): дом из деревянного сруба на 15 номеров и апартаменты люкс в отдельно стоящем барнхаусе; 500 м до подъёмника Чегет, 5 км до канатной дороги Азау на Эльбрус. Номера с видом на горы, свой ресторан кавказской и европейской кухни, бильярд, беседка с мангалом. При бронировании напрямую завтрак на двоих включён.",
   "url": "https://hotellegenda.ru/",
   "telephone": "+7 999 300-00-88",
   "email": "Legenda_hotel@mail.ru",
@@ -1949,7 +1953,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   "geo": {"@type": "GeoCoordinates", "latitude": 43.246012, "longitude": 42.526408},
   "hasMap": "https://yandex.ru/maps/org/legenda/1184772629/",
   "sameAs": ["https://yandex.ru/maps/org/legenda/1184772629/"],
-  "numberOfRooms": 17,
+  "numberOfRooms": 15,
   "checkinTime": "14:00",
   "checkoutTime": "12:00",
   "petsAllowed": true,
