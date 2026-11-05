@@ -231,6 +231,9 @@ section[id]{scroll-margin-top:84px}
 .pl text.dm{font-size:11px;fill:#8695A0}
 .pl text.vw{font-size:11px;font-weight:600;fill:#9A6417}
 .pl text.ent{font-size:11px}
+.pl .slp{fill:rgba(184,116,42,.07);stroke:none}
+.pl .sll{fill:none;stroke:#C29A63;stroke-width:1.2;stroke-dasharray:5 4}
+.pl text.sl{font-size:10.5px;fill:#9A7A4E}
 .mcap{position:absolute;left:10px;right:10px;bottom:8px;display:flex;justify-content:space-between;gap:8px;font:500 12px var(--body);color:var(--ink2);text-align:left}
 .mcap b{color:var(--pine);font-weight:600;white-space:nowrap}
 .pl.wait .d,.pl.wait text{opacity:0}
@@ -1078,7 +1081,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
      Схемы примерные: по одной на категорию, варианты — только там, где гость выбирает (кровати, вид из окон).
      Номера одной категории отличаются расположением окон, двери и мебели — об этом пометка под схемой; площадь — из rooms.
      Каждый номер описан в метрах: W×H — комната, дальше предметы. Поправить схему — её строка в PLANS.
-     bath [x,y,w,h] · door [сторона,откуда] · win [сторона,от,до,вид] · part [x1,y1,x2,y2,проём от,до]
+     bath [x,y,w,h,срез угла с дверью] · slope [x,y,w,h] — скошенный потолок · door [сторона,откуда] · win [сторона,от,до,вид] · part [x1,y1,x2,y2,проём от,до]
      bed2/bed1 [x,y,изголовье l|r|t] · sofa [x,y,длина,спинка l|r|t|b] · ward/table [x,y,w,h] · stairs [x,y,w,h] · lbl [x,y,текст] */
   var STD2 = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',1.6,4.4,1],['bed2',0.15,1.45,'l'],['ward',0.3,4.4,1.9,0.5],['table',4.9,0.35,1.1,0.7]]};
   var STD2T = {W:6.4, H:5.0, items:[['bath',4.3,3.0,2.1,2.0],['door','b',3.25],['win','t',1.6,4.4,1],['bed1',0.15,0.8,'l'],['bed1',0.15,2.35,'l'],['ward',0.3,4.4,1.9,0.5],['table',4.9,0.35,1.1,0.7]]};
@@ -1086,7 +1089,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var PLANS = {
     std2:[{n:'Большая кровать', p:STD2, note:'Одна большая кровать'}, {n:'Две кровати', p:STD2T, note:'Две раздельные кровати'}],
     std3:[{n:'Три кровати', p:STD3, note:'Три односпальные кровати'}],
-    semi:[{n:'Полулюкс', p:{W:7.0, H:5.0, items:[['part',3.6,0,3.6,5.0,3.85,4.75],['bath',5.0,3.1,2.0,1.9],['door','b',4.0],['win','t',0.8,2.8,1],['win','t',4.3,6.4,1],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.8,0.5],['sofa',6.1,0.5,2.0,'r'],['table',4.7,1.0,0.9,0.9],['lbl',1.8,4.1,'спальня'],['lbl',4.6,2.75,'гостиная']]}, note:'Спальня и гостиная с диван-кроватью'}],
+    semi:[{n:'Полулюкс', p:{W:8.0, H:4.4, items:[['slope',4.0,0,4.0,1.3],['part',4.0,0,4.0,4.4,2.95,3.7],['bath',1.6,2.85,2.4,1.55,0.85],['door','b',0.35],['win','t',2.0,3.1,1],['win','r',1.1,2.7,1],['sofa',0.15,0.3,2.2,'l'],['table',1.5,0.45,1.0,0.6],['ward',3.4,0.15,0.5,1.4],['bed2',5.3,0.12,'t'],['table',4.5,3.8,1.2,0.5],['lbl',2.3,2.2,'гостиная'],['lbl',6.9,3.3,'спальня']]}, note:'Гостиная с диван-кроватью и спальня под скошенной крышей'}],
     fam:[{n:'Семейный', p:{W:7.0, H:5.0, items:[['part',3.5,0,3.5,5.0,3.85,4.75],['bath',5.0,3.1,2.0,1.9],['door','b',4.0],['win','t',0.7,2.8,1],['win','t',4.2,6.3,1],['bed2',0.15,1.0,'l'],['bed2',4.85,0.7,'r'],['ward',0.3,4.4,1.8,0.5],['lbl',1.75,3.9,'спальня 1'],['lbl',4.3,2.75,'спальня 2']]}, note:'Две отдельные спальни'}],
     lux:[{n:'С видом на горы', p:{W:7.4, H:5.0, items:[['part',3.9,0,3.9,5.0,3.85,4.75],['bath',5.4,3.1,2.0,1.9],['door','b',4.3],['win','t',0.5,3.4,2],['win','t',4.3,7.0,2],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.9,0.5],['sofa',6.5,0.5,2.2,'r'],['table',5.0,1.1,0.9,0.9],['lbl',1.95,4.1,'спальня'],['lbl',4.9,2.75,'гостиная']]}, note:'Вид на горы из спальни и гостиной'},
          {n:'Окна во двор', p:{W:7.4, H:5.0, items:[['part',3.9,0,3.9,5.0,3.85,4.75],['bath',5.4,3.1,2.0,1.9],['door','b',4.3],['win','t',0.9,2.9,1],['win','t',4.6,6.6,1],['bed2',0.15,1.2,'l'],['ward',0.3,4.4,1.9,0.5],['sofa',6.5,0.5,2.2,'r'],['table',5.0,1.1,0.9,0.9],['lbl',1.95,4.1,'спальня'],['lbl',4.9,2.75,'гостиная']]}, note:'Окна во двор'}],
@@ -1694,8 +1697,10 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
         sv('path', {d:'M'+ax+' '+ay+'L'+bx+' '+by, 'class':'gap'}, svg);
         var r = dw*S, inv = sd2 === 'b' ? -1 : 1; path('M'+ax+' '+ay+'l0 '+(inv*r)+'A'+r+' '+r+' 0 0 '+((sd2==='b') !== mir ? 1 : 0)+' '+bx+' '+by, 'door');
         T(a0 + dw/2, sd2 === 'b' ? H + 0.42 : -0.25, 'вход', 'ent'); }
-      else if (k === 'bath'){ var x = it[1], y = it[2], w = it[3], h = it[4];
-        path(R(x, y, w, h), 'w2'); path(R(x + 0.12, y + 0.12, 0.85, 0.85) + 'M'+(pad + rx(x+0.12, 0.85)*S)+' '+Y(y+0.12)+'l'+(0.85*S)+' '+(0.85*S), 'f');
+      else if (k === 'bath'){ var x = it[1], y = it[2], w = it[3], h = it[4], c = it[5];
+        /* срез угла — проём двери в санузел */
+        if (c) path('M'+X(x+w-c)+' '+Y(y)+'H'+X(x)+'V'+Y(y+h)+'H'+X(x+w)+'V'+Y(y+c), 'w2');
+        else path(R(x, y, w, h), 'w2'); path(R(x + 0.12, y + 0.12, 0.85, 0.85) + 'M'+(pad + rx(x+0.12, 0.85)*S)+' '+Y(y+0.12)+'l'+(0.85*S)+' '+(0.85*S), 'f');
         var tx = rx(x + w - 0.55, 0.4); path('M'+(pad+tx*S)+' '+Y(y+h-0.75)+'a'+(0.2*S)+' '+(0.28*S)+' 0 1 0 '+(0.4*S)+' 0Z', 'f');
         T(x + w/2 + (mir ? 0 : 0), y + h/2 + 0.35, 'с/у'); }
       else if (k === 'bed2' || k === 'bed1'){ var bw = k === 'bed2' ? 1.6 : 0.9, bl = 2.0, hd = it[3], x2 = it[1], y2 = it[2], ww = hd === 't' ? bw : bl, hh = hd === 't' ? bl : bw;
@@ -1710,6 +1715,9 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       else if (k === 'table'){ path(R(it[1], it[2], it[3], it[4]), 'f'); }
       else if (k === 'stairs'){ var st = 'M0 0', sx2 = it[1], sy2 = it[2], sw = it[3], sh = it[4], steps = 8, j; path(R(sx2, sy2, sw, sh), 'f');
         for (j = 1; j < steps; j++){ st = 'M'+X(sx2)+' '+Y(sy2 + sh*j/steps)+'H'+X(sx2 + sw); path(st, 'f'); } }
+      else if (k === 'slope'){ var sl = sv('path', {d:R(it[1], it[2], it[3], it[4]), 'class':'slp'}, svg); sl.style.animationDelay = '.8s';
+        var sl2 = sv('path', {d:'M'+X(it[1])+' '+Y(it[2]+it[4])+'H'+X(it[1]+it[3]), 'class':'sll'}, svg); sl2.style.animationDelay = '.8s';
+        T(it[1] + 0.62, it[2] + 0.55, 'скос', 'sl'); T(it[1] + 0.62, it[2] + 0.88, 'крыши', 'sl'); }
       else if (k === 'lbl'){ T(it[1], it[2], it[3]); } });
     svg.setAttribute('aria-label', 'Схема номера ' + (W*H).toFixed(0) + ' м²');
   }
