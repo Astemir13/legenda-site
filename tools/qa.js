@@ -16,6 +16,8 @@ const MOCK = {current:{temperature_2m:-14.2,weather_code:75,is_day:1,wind_speed_
     if (nav.width && (lb.right+6>nav.left || nav.right+6>hr.left)) out.push('nav overlap');
     const c=document.querySelector('.call'), t=document.querySelector('.call .ct b'); if (t.offsetWidth && t.getBoundingClientRect().right > c.getBoundingClientRect().right-4) out.push('number outside pill');
     document.querySelectorAll('.hp-c, .hp-wx, .btn, .room, .panel').forEach(e=>{ if (e.offsetWidth && e.scrollWidth > e.clientWidth+2) out.push('inner overflow '+e.className+' '+e.scrollWidth+'>'+e.clientWidth); });
+    // содержимое ячеек панели обложки выровнено по центру — вылезание влево scrollWidth не видит, меряем сами
+    document.querySelectorAll('.hpanel .hp-c, .hpanel .hp-dist>div').forEach(e=>{ if(!e.offsetWidth) return; const c=e.getBoundingClientRect(), g=document.createRange(); g.selectNodeContents(e); for (const q of g.getClientRects()) if (q.width && (q.left < c.left-1 || q.right > c.right+1)) { out.push('panel cell overflow '+e.className); break; } });
     return out; });
   if (r.length) issues.push(w+': '+[...new Set(r)].join('; '));
   if (w===402){ // interactions
