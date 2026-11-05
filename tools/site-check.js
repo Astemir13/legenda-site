@@ -12,8 +12,8 @@ const pw = require('playwright'), path = require('path'), fs = require('fs'), se
     const ext = /yandex\.(ru|net)|homereserve|realtycalendar|open-meteo/;
     p.on('requestfailed', r => { if (!ext.test(r.url())) fails.push(r.url()); });
     p.on('response', r => { if (r.status() >= 400 && !ext.test(r.url())) fails.push(r.status() + ' ' + r.url()); });
-    // шрифт Inter с Google подгружает сам модуль HomeReserve — это не наш запрос
-    p.on('request', r => { if (/tildacdn|tilda\.ws|fonts\.googleapis|fonts\.gstatic/.test(r.url()) && !/family=Inter|\/s\/inter\//.test(r.url())) tilda.push(r.url()); });
+    // шрифт Inter с Google подгружает сам модуль HomeReserve — это не наш запрос (у файлов Inter в ссылке «/s/inter/» или «kit=UcC…»)
+    p.on('request', r => { if (/tildacdn|tilda\.ws|fonts\.googleapis|fonts\.gstatic/.test(r.url()) && !/family=Inter|\/s\/inter\/|kit=UcC/.test(r.url() + ' ' + (r.headers().referer || ''))) tilda.push(r.url()); });
     await p.goto(BASE + '/', { waitUntil: 'networkidle' }).catch(() => {});
     for (let y = 0; y < 9000; y += 700) { await p.evaluate(y => scrollTo(0, y), y); await p.waitForTimeout(150); }
     await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(1500);
