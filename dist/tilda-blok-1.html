@@ -12,7 +12,7 @@
 }
 #lg *{box-sizing:border-box}
 #lg{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-#lg{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#lg{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 #lg::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:1002;background:var(--sky1);transition:background 1s}
 #lg a{color:var(--pine)}
 #lg :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
@@ -659,7 +659,7 @@
 #lg .hp-wx{padding:10px 14px;font-size:13px;gap:8px}
 #lg .hp-wx b{font-size:14px}
 #lg .hp-wx .hp-wl{display:none}
-#lg .hp-wx .hp-wk::before,#lg .hp-wx .hp-ww:not(:empty)::before,#lg .hp-wx .hp-sd:not(:empty)::before{margin-right:8px}
+#lg .hp-wx .hp-wk::before,#lg .hp-wx .hp-ww:not(:empty)::before{margin-right:8px}
 #lg .hp-c{padding:12px 14px;gap:10px}
 #lg .hp-c>svg,#lg .hp-ic svg{width:19px;height:19px}
 #lg .hp-c b{font-size:16px}
@@ -683,8 +683,6 @@
 #lg.hc .hpanel{position:relative}
 #lg.hc .hp-fx{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 #lg.hc .hpanel>.hp-c,#lg.hc .hpanel>.hp-wx,#lg.hc .hpanel .hp-dist>div{position:relative;z-index:1}
-#lg .hp-wx .hp-sd{white-space:nowrap}
-#lg .hp-wx .hp-sd:not(:empty)::before{content:"·";margin-right:10px;color:rgba(226,234,239,.5)}
 @media (prefers-reduced-motion:reduce){#lg.hc .hero img{transition:none}
 }
 @media (max-width:370px){#lg .hp-c>svg,#lg .hp-c .hp-ic{display:none}
@@ -696,8 +694,7 @@
 }
 @media (max-width:400px){#lg .hp-wx .hp-ww{display:none}
 }
-@media (max-width:560px){#lg .hp-wx:has(.hp-sd:not(:empty)) .hp-ww{display:none}
-#lg .hp-wx{overflow:hidden}
+@media (max-width:560px){#lg .hp-wx{overflow:hidden}
 }
 @media (max-width:620px){#lg.hc .lsub{font-size:8.5px;letter-spacing:.12em;margin-top:3px}
 }
@@ -775,7 +772,7 @@
       <div class="hp-c hp-dist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/></svg><div data-dist="cheget"><b class="dv">500 м</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">5 км</b><span>до Азау</span></div></div>
       <a class="hp-c hp-rate" id="hpRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg><div><b><span class="rt">5,0</span><span class="of"> из 5</span><i class="st" aria-hidden="true">★</i></b><span class="vt"><em class="vv">1293 оценки · </em>Яндекс Карты</span><span class="ym" aria-hidden="true"><svg width="9" height="12" viewBox="0 0 12 16"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg>Яндекс Карты</span></div></a>
       <div class="hp-c hp-rest" id="hpRest"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.6-3 7h3"/></svg><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></div>
-      <div class="hp-wx" aria-live="polite"><span class="hp-ic" id="hpIc" aria-hidden="true"></span><span class="hp-wl">Сейчас в Терсколе</span><b id="hpT"></b><span class="hp-wk" id="hpK"></span><span class="hp-ww" id="hpW"></span><span class="hp-sd" id="hpSD"></span></div>
+      <div class="hp-wx" aria-live="polite"><span class="hp-ic" id="hpIc" aria-hidden="true"></span><span class="hp-wl">Сейчас в Терсколе</span><b id="hpT"></b><span class="hp-wk" id="hpK"></span><span class="hp-ww" id="hpW"></span></div>
     </div>
     <div class="facts">
       <div class="fact fact-lift" role="button" tabindex="0" aria-label="Расстояния до подъёмников: нажмите, чтобы переключить"><span class="fi" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg></span><div class="fl2"><span class="fl-dots" aria-hidden="true"><i></i><i></i></span><div data-dist="cheget"><b class="dv">500 м</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">5 км</b><span>до Азау</span></div></div></div>

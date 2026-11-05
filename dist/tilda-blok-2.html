@@ -163,7 +163,7 @@ function plural(n,a,b,c){ var m=n%10,h=n%100; return (m===1&&h!==11)?a:(m>=2&&m<
 function msk(){ var p = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',month:'numeric',hour12:false,timeZone:'Europe/Moscow'}).formatToParts(new Date()), o={}; p.forEach(function(x){o[x.type]=x.value;}); return o; }
 var API = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest' +
 '&current=temperature_2m,weather_code,is_day,wind_speed_10m,cloud_cover&daily=sunrise,sunset&timezone=Europe%2FMoscow&forecast_days=1';
-var API2 = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest&current=wind_direction_10m,snow_depth&timezone=Europe%2FMoscow&forecast_days=1';
+var API2 = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest&current=wind_direction_10m&timezone=Europe%2FMoscow&forecast_days=1';
 var KINDS = {
 clear:{name:'Ясно', cloud:4, t:-6, wind:6},
 partly:{name:'Переменная облачность', cloud:45, t:-3, wind:10},
@@ -244,7 +244,6 @@ document.getElementById('nowIc').innerHTML = icon(W.kind, W.dark);
 var hpI = document.getElementById('hpIc'); if (hpI){ hpI.innerHTML = icon(W.kind, W.dark); document.getElementById('hpT').textContent = t; document.getElementById('hpK').textContent = K.name.toLowerCase(); document.getElementById('hpW').textContent = 'ветер ' + wind + ' км/ч'; }
 W.windNow = wind; W.tempNow = temp;
 var dxw = W.forced || W.wdir == null ? 1 : -Math.sin((W.wdir - CAM)*Math.PI/180); W.wsgn = dxw >= 0 ? Math.max(.5, dxw) : Math.min(-.5, dxw);
-var sd = W.forced ? (PREVIEW && /snow|blizzard/.test(K.precip || '') ? .85 : null) : W.snowD, sdE = document.getElementById('hpSD'); if (sdE) sdE.textContent = sd != null && sd >= .02 ? 'снега ' + Math.round(sd*100) + ' см' : '';
 document.getElementById('wxMode').textContent = W.forced ? 'предпросмотр' : (W.live ? 'реальная' : 'демо');
 document.querySelectorAll('[data-k]').forEach(function(bt){ bt.setAttribute('aria-pressed', W.forced && bt.dataset.k === W.kind); });
 document.querySelectorAll('[data-ph]').forEach(function(bt){ bt.setAttribute('aria-pressed', W.forced && bt.dataset.ph === W.phase); });
@@ -252,7 +251,7 @@ var hE = document.getElementById('hero'); if (hE) hE.dataset.wx = W.kind;
 hdrScene.reset(); heroScene.reset(); if (reduce){ hdrScene.draw(0,16); heroScene.draw(0,16); }
 }
 
-function loadExtra(){ fetch(API2).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ if (!d || !d.current) return; W.wdir = d.current.wind_direction_10m; W.snowD = d.current.snow_depth; applyWeather(); }).catch(function(){}); }
+function loadExtra(){ fetch(API2).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ if (!d || !d.current) return; W.wdir = d.current.wind_direction_10m; applyWeather(); }).catch(function(){}); }
 function loadWeather(){
 if (W.forced) return;
 fetch(API).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
