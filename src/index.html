@@ -64,7 +64,6 @@ p{margin:0}
 .sec-h h2{font-size:clamp(28px,3.4vw,40px)}
 .sec-h p{color:var(--ink2);max-width:44ch}
 .kick{font-size:14px;font-weight:600;color:var(--pine);margin-bottom:8px;display:block}
-
 /* ---------- Живая шапка ---------- */
 /* Шапка прозрачная над фото: небо шапки и небо фото — одна сцена без шва. При прокрутке шапка плавно получает свой фон. */
 .hdr{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:1000;height:72px;color:var(--hdr-ink);transition:color .8s;overflow:hidden}
@@ -136,9 +135,7 @@ section[id]{scroll-margin-top:84px}
 .call .ci{width:34px}
 @media (max-width:360px){.call .ct{display:none}.call{padding-right:4px}}
 @media (max-width:620px){.hdr .wrap{gap:6px}.hdr-r{gap:8px}.call{padding:4px 12px 4px 4px;gap:7px;min-height:40px}.call .ci{width:32px;height:32px}.call .ct small{display:none}.call .ct b{font-size:13px}.logo{font-size:16px;gap:7px;letter-spacing:.03em;padding-right:4px}.logo .mk{width:44px;height:17px}.logo .chev{width:11px;height:11px}}
-
 @media (prefers-reduced-motion: reduce){.call .ci::after,.call .ci svg{animation:none}}
-
 /* ---------- Первый экран ---------- */
 .hero{position:relative;overflow:hidden;color:#fff;background:#203040}
 .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
@@ -149,7 +146,6 @@ section[id]{scroll-margin-top:84px}
 .h1k{display:block;font:600 14px/1.3 var(--body);letter-spacing:.1em;text-transform:uppercase;color:#E3EBEF;margin-bottom:14px}
 .hero h1{font-size:clamp(38px,5.2vw,68px);font-weight:600;text-shadow:0 2px 24px rgba(0,0,0,.25)}
 .hero .lead{font-size:clamp(17px,1.6vw,20px);margin-top:18px;max-width:46ch;color:#EAF1F4}
-
 /* Виджет бронирования — отдельной полосой под фото */
 .booksec{padding-block:28px 0}
 .widget{background:var(--card);color:var(--ink);border-radius:24px;padding:22px;box-shadow:0 10px 34px rgba(19,32,42,.08);display:grid;grid-template-columns:minmax(0,1.45fr) minmax(230px,1fr) minmax(0,1.2fr) auto;gap:12px;align-items:stretch}
@@ -168,17 +164,13 @@ section[id]{scroll-margin-top:84px}
 .w-note{font-size:14px;color:var(--ink2)}
 .w-note b{color:var(--pine)}
 @media (max-width:760px){.hero-in{padding-block:calc(72px + 30px + env(safe-area-inset-top,0px)) 20px;min-height:min(680px,86svh)}}
-
 /* Почему напрямую */
-.whysec{padding:14px 0 0}
-.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--card);border-radius:20px;box-shadow:inset 0 0 0 1px var(--line)}
-.why>div{display:flex;gap:12px;align-items:flex-start;padding:18px 22px;min-width:0}
-.why>div+div{border-left:1px solid var(--line)}
-.why svg{flex:none;color:var(--pine);margin-top:2px}
-.why p{color:var(--ink2);font-size:14px;line-height:1.45}
-.why b{display:block;color:var(--ink);font-family:var(--display);font-weight:600;font-size:16px;line-height:1.3;margin-bottom:2px}
-@media (max-width:860px){.why{grid-template-columns:1fr}.why>div{padding:14px 18px}.why>div+div{border-left:0;border-top:1px solid var(--line)}}
-
+.whysec{padding:16px 0 0}
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.why>div{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;min-width:0;border-radius:20px}
+.why p{color:var(--ink2);font-size:14.5px;line-height:1.5}
+.why b{display:block;color:var(--ink);font-family:var(--display);font-weight:600;font-size:16.5px;line-height:1.3;margin-bottom:4px}
+@media (max-width:860px){.why{grid-template-columns:1fr;gap:10px}.why>div{padding:14px 16px}}
 /* Номера */
 .rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .room{background:var(--card);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s, box-shadow .25s, opacity .3s, outline-color .2s;outline:3px solid transparent;outline-offset:-3px}
@@ -278,9 +270,7 @@ section[id]{scroll-margin-top:84px}
 .room .btn{min-height:46px;padding:0 18px;font-size:15px}
 @media (max-width:980px){.rooms{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.rooms{grid-template-columns:1fr}}
-
 /* Отель и вечер */
-.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
 .panel{background:var(--card);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:14px}
 .panel ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
 .panel li{display:flex;gap:12px;align-items:flex-start;font-size:16px}
@@ -288,20 +278,16 @@ section[id]{scroll-margin-top:84px}
 .live{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--soft);font-size:14px;font-weight:600}
 .live i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(30,158,98,.18)}
 .live.closed i{background:#999;box-shadow:none}
-@media (max-width:860px){.duo{grid-template-columns:1fr}}
-
 /* Отзывы */
 .revs{display:grid;grid-template-columns:minmax(0,.8fr) repeat(3,minmax(0,1fr));gap:14px}
 .score{background:var(--pine);color:#fff;border-radius:22px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}
 .score b{font-family:var(--display);font-size:56px;line-height:1}
 .score a{color:#fff;font-weight:600;display:inline-flex;align-items:center;min-height:44px}
-.tlink{display:inline-flex;align-items:center;min-height:44px;font-weight:600;align-self:flex-start}
 .rv{background:var(--card);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px;font-size:15px}
 .rv .st{color:var(--accent);letter-spacing:2px}
 .rv small{color:var(--ink2);margin-top:auto}
 @media (max-width:980px){.revs{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.revs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin-inline:-16px;padding:0 16px 6px;scrollbar-width:none}.revs::-webkit-scrollbar{display:none}.revs>*{flex:0 0 82%;scroll-snap-align:start}.revs .score{flex-basis:62%}}
-
 /* Как добраться и вопросы */
 .gz{grid-column:1/-1;flex-direction:row;align-items:center;gap:20px}
 .gz h3{font-size:22px;margin-bottom:6px}
@@ -314,7 +300,6 @@ section[id]{scroll-margin-top:84px}
 .faq summary::after{content:"+";font-size:22px;color:var(--ink2);transition:transform .2s}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{padding-bottom:16px;color:var(--ink2);font-size:15px}
-
 /* Финал */
 .faqp{max-width:860px}
 .road{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);background:var(--card);border-radius:28px;overflow:hidden}
@@ -368,7 +353,6 @@ section[id]{scroll-margin-top:84px}
 @media (max-width:860px){.road{grid-template-columns:1fr}.road-m{min-height:0}}
 @media (max-width:420px){.dist2 b{font-size:19px}.road-b .btn{flex:1 1 100%}}
 @media (prefers-reduced-motion: reduce){.rmap .pulse{animation:none}.rmap.drawing .d,.rmap.drawing text,.rmap.drawing .me{animation:none}}
-
 footer{padding-block:48px 56px;font-size:15px;color:var(--ink2);border-top:1px solid var(--line);margin-top:24px}
 .ft{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px}
 .ft-logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.06em;color:var(--ink);margin-bottom:10px}
@@ -382,7 +366,6 @@ footer{padding-block:48px 56px;font-size:15px;color:var(--ink2);border-top:1px s
 .ft-bot::before{content:"";display:block;border-top:1px solid var(--line);margin-bottom:18px}
 @media (max-width:760px){.ft{grid-template-columns:1fr 1fr;gap:22px 16px}.ft-brand{grid-column:1/-1}}
 @media (max-width:340px){.ft{grid-template-columns:1fr}}
-
 /* Нижняя панель на телефоне */
 .wxpanel[hidden]{display:none}
 .wxpanel{position:fixed;z-index:56;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--card);color:var(--ink);border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.18);width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 120px);overflow:auto}
@@ -414,7 +397,6 @@ footer{padding-block:48px 56px;font-size:15px;color:var(--ink2);border-top:1px s
 .rv-in{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)}
 .rv-in.in{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.btn,.room{transition:none}}
-
 /* ---------- Стекло в духе iOS 26 ----------
    Светлое стекло — для карточек на светлом фоне, тёмное «чёрное» стекло — для плашек и всего, что лежит поверх фото.
    Блик сверху-слева (--sheen) и тонкая светлая кромка делают элементы объёмными, как стекло в шапке. */
@@ -433,11 +415,7 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
 .widget,.room,.panel,.road,.rv{background:var(--sheen),var(--gl);box-shadow:var(--gl-rim),var(--gl-sh)}
 .room:hover{box-shadow:var(--gl-rim),0 18px 40px rgba(19,32,42,.12)}
 /* плашки под модулем — чёрное стекло */
-.why{background:var(--sheen),linear-gradient(180deg,rgba(28,38,48,.92),rgba(14,21,29,.94));box-shadow:var(--gd-rim),0 14px 34px rgba(13,22,31,.2)}
-.why>div+div{border-color:rgba(255,255,255,.1)}
-.why b{color:#fff}
-.why p{color:rgba(226,234,239,.7)}
-.why svg{color:#FFD58A}
+.why>div{background:var(--sheen),var(--gl);box-shadow:var(--gl-rim),var(--gl-sh)}
 /* кнопки: лёгкий блик сверху */
 .btn-accent{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.06),0 6px 18px rgba(208,143,47,.3)}
 .btn-pine{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 6px 18px rgba(31,92,74,.22)}
@@ -456,7 +434,6 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
   .mbar{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:8px 8px 8px 16px;border-radius:22px;background:rgba(250,252,253,.74);-webkit-backdrop-filter:blur(20px) saturate(1.8);backdrop-filter:blur(20px) saturate(1.8);box-shadow:var(--gl-rim),0 10px 30px rgba(19,32,42,.18)}
   .mbar .btn{min-height:46px;border-radius:15px}
 }
-
 /* ---------- Стеклянные иконки: единый стиль — матовое светлое стекло, знак в фирменном зелёном с мягкой заливкой второго тона ---------- */
 .gi,.gc{position:relative;display:grid;place-items:center;flex:none;color:var(--pine);overflow:hidden;
   background:radial-gradient(120% 90% at 30% 0%,rgba(255,255,255,.95),rgba(255,255,255,0) 60%),linear-gradient(160deg,rgba(246,250,248,.94),rgba(218,233,226,.82));
@@ -473,15 +450,10 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
 .pnl-h .live{align-self:center}
 .panel .feat{gap:10px}
 .panel .feat li{align-items:center;gap:14px;padding:8px 12px 8px 8px;border-radius:16px;background:rgba(255,255,255,.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),0 1px 3px rgba(19,32,42,.04);font-size:15.5px;line-height:1.4}
-.amen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:2px}
-.amen>div{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:12px;border-radius:18px;background:rgba(255,255,255,.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),0 1px 3px rgba(19,32,42,.04);min-width:0}
-.amen b{font:600 15px var(--display);line-height:1.2}
-.amen small{font-size:12.5px;color:var(--ink2);line-height:1.3;margin-top:-6px}
 .gz .gi{align-self:flex-start}
 .live{background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 1px 3px rgba(19,32,42,.05)}
 .dist2 li{background:rgba(234,240,243,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.8);padding:14px}
 .dist2 li .gc{color:var(--pine);font-size:inherit;margin-bottom:8px}
-@media (max-width:420px){.amen{gap:8px}.amen>div{padding:10px}}
 /* нижняя панель: появляется плавно после первого экрана */
 @media (max-width:760px){
   .mbar{transform:translateY(calc(100% + 24px));opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1), opacity .3s;pointer-events:none}
@@ -497,7 +469,6 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
   .room:hover{box-shadow:var(--gl-rim),var(--gl-sh)}
   .menu nav a:hover{background:transparent}
 }
-
 /* ---------- Обложка: одна стеклянная панель, две кнопки, один акцентный цвет ---------- */
 .lsub,.hcta,.hpanel{display:none}
 .lt{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
@@ -594,7 +565,6 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 @media (max-width:620px){:root.hc .lsub{font-size:8.5px;letter-spacing:.12em;margin-top:3px}}
 @media (max-width:400px){:root.hc .lsub{font-size:8px;letter-spacing:.04em}}
 @media (max-width:385px){:root.hc .lsub{display:none}}
-
 /* подвал: бренд + документы */
 .ft{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start}
 .ft-mail{display:inline-flex;align-items:center;gap:8px;margin-top:10px;min-height:40px;color:var(--ink);text-decoration:none;font-weight:500}
@@ -617,6 +587,111 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .hdr[data-m="glass"].light::before{background:rgba(255,255,255,.95);box-shadow:var(--gl-rim),inset 0 0 0 1px rgba(19,32,42,.10),0 2px 6px rgba(19,32,42,.08),0 18px 44px rgba(19,32,42,.26)}
 /* значок трубки — всегда фирменный зелёный */
 :root.hc .call .ci,:root.hc .hdr.light .call .ci,:root.hc .hdr.solid .call .ci{background:var(--pine);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+/* ресторан: комплексное питание на карточке и окно с меню */
+.meal{display:block;width:100%;text-align:left;border:0;cursor:pointer;font:inherit;color:var(--ink);padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),0 1px 3px rgba(19,32,42,.04);transition:background .2s, transform .15s}
+.meal:hover{background:rgba(255,255,255,.85);transform:translateY(-1px)}
+.meal-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14px}
+.meal-h b{font:600 16px var(--display)}
+.meal-h span{color:var(--pine);font-weight:600;white-space:nowrap}
+.meal-p{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:10px}
+.meal-p>span{display:block;min-width:0}
+.meal-p>span+span{border-left:1px solid var(--line);padding-left:12px}
+.meal-p small{display:block;font-size:12.5px;color:var(--ink2)}
+.meal-p b{display:block;font:600 20px var(--display);white-space:nowrap}
+.fm{width:min(780px,calc(100vw - 32px))}
+.fm-b{margin-top:16px}
+.fm-s+.fm-s{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.fm-sh{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.fm-sh h4,.fm-c h4{margin:0;font:600 19px var(--display);letter-spacing:-.01em}
+.fm-sh b{font:600 22px var(--display);color:var(--pine);white-space:nowrap}
+.fm-x{margin-top:6px;font-size:14px;color:var(--ink2)}
+.fm-l{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.fm-l li{padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.65);box-shadow:inset 0 0 0 1px rgba(19,32,42,.05)}
+.fm-l b{display:block;font-weight:600;font-size:15.5px;line-height:1.35}
+.fm-l span{display:block;font-size:13.5px;color:var(--ink2);margin-top:2px}
+.fm-g{columns:2 290px;column-gap:32px}
+.fm-c{break-inside:avoid;margin-bottom:20px}
+.fm-c ul{list-style:none;margin:8px 0 0;padding:0}
+.fm-c li{display:flex;align-items:baseline;gap:8px;padding:5px 0;font-size:15px;line-height:1.35}
+.fm-c li>span{min-width:0}
+.fm-c small{display:block;font-size:12.5px;color:var(--ink2)}
+.fm-d{flex:1 1 12px;min-width:12px;border-bottom:1px dotted rgba(19,32,42,.3)}
+.fm-c li b{white-space:nowrap;font-weight:600;color:var(--pine)}
+.fm-n{margin-top:6px;padding:11px 14px;border-radius:14px;background:var(--soft);color:var(--ink2);font-size:13.5px}
+/* раздел «Об отеле»: блоки друг под другом; ресторан — текст и кнопки слева, комплексное питание справа */
+.stack{display:grid;gap:18px}
+#hotel .feat{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rest{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px 32px;align-items:center}
+.rest-i{display:flex;flex-direction:column;gap:14px;min-width:0}
+.rest-d{color:var(--ink2)}
+.rest-b{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.rest-b .btn{min-height:50px}
+.rcall{background:rgba(255,255,255,.7);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(19,32,42,.1),0 1px 3px rgba(19,32,42,.05)}
+.rcall:hover{background:#fff}
+.rcall svg,.menu nav a.mcall,.menu nav a.mcall svg{color:#B4741A}
+#restaurant{scroll-margin-top:96px}
+.rest .meal{padding:18px 20px;border-radius:20px}
+.rest .meal-p b{font-size:24px}
+.meal-n{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.meal-n span{color:var(--pine);font-weight:600;font-size:14px;white-space:nowrap}
+.duo2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.duo2 .gz{grid-column:auto}
+a.hp-rest:hover{background:rgba(255,255,255,.06)}
+/* меню у логотипа: звонок в ресторан — круглый, тёплого цвета (бронирование — зелёный) */
+.menu-row{display:flex;align-items:center;gap:6px}
+.menu-row>a:first-child{flex:1;min-width:0}
+.menu nav a.mcall{flex:0 0 44px;width:44px;height:44px;min-height:44px;padding:0;justify-content:center;border-radius:50%;background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(208,143,47,.35)}
+.menu nav a.mcall:hover{background:#F8E4C4}
+.fm-n a{color:var(--pine);font-weight:600;white-space:nowrap}
+@media (max-width:860px){.rest{grid-template-columns:1fr}}
+@media (max-width:560px){.rest-b .btn{flex:1 1 100%}}
+@media (max-width:400px){.rest .meal{padding:14px}.rest .meal-p b{font-size:19px}.meal-p>span+span{padding-left:8px}}
+@media (max-width:340px){.rest .meal-p b{font-size:17px}}
+@media (max-width:760px){#hotel .feat,.duo2{grid-template-columns:1fr}}
+/* строка погоды на обложке — кнопка: по нажатию вместо погоды сейчас показывает прогноз на дни */
+button.hp-wx{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;width:100%;border:0;border-top:1px solid rgba(255,255,255,.12);font-family:inherit;line-height:inherit;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s}
+button.hp-wx:hover{background:rgba(255,255,255,.08)}
+.hp-now,.hp-fc{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:10px;min-width:0;min-height:26px}
+.hp-fc{justify-content:space-around;gap:6px;visibility:hidden}
+.hp-wx.fc .hp-now{visibility:hidden}
+.hp-wx.fc .hp-fc{visibility:visible}
+.hp-tg{grid-area:1/2}
+@media (max-width:760px){.hp-now{gap:8px}}
+.fd{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;color:rgba(226,234,239,.8)}
+.fd i{font-style:normal;font-size:.92em}
+.fd svg{width:17px;height:17px;flex:none;color:#fff;opacity:.92}
+.hp-wx .fd b{font-size:.98em}
+.fd em{font-style:normal;font-size:.9em;opacity:.75}
+.hp-tg{display:inline-flex;align-items:center;gap:4px;flex:none;height:24px;margin-left:6px;padding:0 7px 0 10px;border-radius:12px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.9);font-size:12px;font-weight:500;letter-spacing:.01em;transition:background .2s}
+button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
+.hp-go{display:inline-block;width:10px;height:10px;margin-left:4px;vertical-align:-1px;opacity:.7;flex:none}
+.hp-rate .hp-go{color:#E2EAEF;margin-left:0}
+@media (max-width:430px){.hp-go{width:9px;height:9px;margin-left:2px}.hp-rate .ym{gap:2px}.hp-rate .ymp::before{width:20px;height:20px;margin:-10px 0 0 -10px}}
+.tg-a{font-style:normal}
+.hp-tg svg{transition:transform .25s}
+.hp-wx.fc .hp-tg{width:24px;padding:0;justify-content:center}
+.hp-wx.fc .tg-a{display:none}
+.hp-wx.fc .hp-tg svg{transform:rotate(180deg)}
+:root.nowx .hp-tg{display:none}
+@media (max-width:560px){.fd em{display:none}.fd{gap:4px}.fd svg{width:15px;height:15px}}
+@media (max-width:400px){.fd:nth-child(5){display:none}}
+@media (max-width:350px){.fd:nth-child(4){display:none}.hp-tg .tg-a{display:none}.hp-tg{width:24px;padding:0;justify-content:center}}
+/* панель: ресторан, Яндекс Карты, Чегет, Азау — первая ячейка без черты слева */
+:root.hc .hpanel .hp-rest{border-left:0}
+:root.hc .hpanel .hp-dist>div:first-of-type{border-left:1px solid rgba(255,255,255,.12)}
+/* меню у логотипа: «Сейчас в Терсколе» и погода по часам на фоне неба */
+.mn-h{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));width:100%;margin:2px -4px -2px}
+.mn-h:empty{display:none}
+.mn-h span{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.mn-h small{font-size:11px;font-weight:500;opacity:.85;white-space:nowrap}
+.mn-h svg{opacity:.9}
+.mn-h b{font:600 14px var(--display)}
+/* геометка Яндекс Карт на панели обложки: мягкое красное свечение — видно, что рейтинг кликабелен */
+.ymp{position:relative;display:inline-flex;font-style:normal}
+.ymp svg{position:relative}
+.ymp::before{content:"";position:absolute;left:50%;top:40%;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:radial-gradient(circle,rgba(252,63,29,.75) 0,rgba(252,63,29,.3) 35%,rgba(252,63,29,0) 68%);animation:ymglow 2.6s ease-in-out infinite;pointer-events:none}
+@keyframes ymglow{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+@media (prefers-reduced-motion: reduce){.ymp::before{animation:none;opacity:.7}}
 /* пометка под схемой номера: схема примерная */
 .pm-i{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:11px 14px;border-radius:14px;background:var(--soft);color:var(--ink2);font-size:13.5px;line-height:1.45}
 .pm-i svg{flex:none;color:var(--pine);margin-top:1px}
@@ -687,18 +762,18 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   <div class="wrap">
     <button type="button" class="logo" id="logoBtn" aria-expanded="false" aria-controls="siteMenu" aria-label="Легенда — открыть меню"><svg class="mk" viewBox="229 128.3 474.8 185.7" aria-hidden="true"><g transform="translate(0,698) scale(0.1,-0.1)"><path fill="currentColor" d="M3875 5529 c-143 -138 -259 -256 -257 -262 2 -7 41 -119 88 -250 47 -131 84 -241 81 -243 -2 -3 -118 38 -257 91 l-252 95 -316 -303 c-174 -166 -414 -394 -533 -507 -119 -113 -217 -208 -218 -213 -1 -4 61 41 137 101 75 59 326 256 557 437 l419 328 399 -132 c219 -73 400 -131 403 -129 2 3 -63 150 -146 328 -82 177 -148 326 -145 330 2 4 72 60 154 124 97 75 155 115 163 110 33 -20 1058 -837 1055 -841 -3 -2 -121 44 -263 102 -142 58 -263 104 -269 101 -7 -2 -140 -161 -297 -353 -157 -191 -317 -387 -357 -435 -40 -49 -70 -88 -68 -88 3 0 172 157 378 349 205 192 377 347 383 345 32 -10 799 -194 809 -193 7 0 -103 112 -243 250 l-255 250 65 60 c36 32 70 57 77 55 6 -3 407 -252 890 -554 959 -599 915 -572 893 -550 -8 9 -226 188 -485 398 -258 210 -656 534 -883 719 -227 185 -417 337 -421 339 -4 1 -57 -57 -116 -130 -60 -73 -121 -148 -136 -165 l-28 -33 -366 358 c-201 196 -369 358 -373 359 -4 1 -124 -111 -267 -248z"/></g></svg><span class="lt"><span>ЛЕГЕНДА</span><small class="lsub">Эко-отель · Терскол</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     <nav class="nav" aria-label="Разделы"><a href="#rooms">Номера</a><a href="#hotel">Об отеле</a><a href="#reviews">Отзывы</a><a href="#way">Как добраться</a></nav>
-    <div class="hdr-r"><a class="call" href="tel:+79993000088" aria-label="Позвонить на ресепшен: +7 999 300-00-88"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="ct"><small>Ресепшен 24/7</small><b>+7 999 300-00-88</b></span></a><a class="btn btn-accent" href="#book" data-book>Забронировать</a></div>
+    <div class="hdr-r"><a class="call" href="tel:+79993000088" aria-label="Позвонить в отдел бронирования, круглосуточно: +7 999 300-00-88"><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="ct"><small>24/7</small><b>+7 999 300-00-88</b></span></a><a class="btn btn-accent" href="#book" data-book>Забронировать</a></div>
   </div>
 </header>
 
 <div class="menu-bd" id="menuBd"></div>
 <div class="menu" id="siteMenu" role="dialog" aria-modal="false" aria-label="Меню сайта">
-  <div class="menu-now"><span id="menuWx">Терскол</span></div>
+  <div class="menu-now" id="menuNow"><span id="menuWx">Терскол</span><div class="mn-h" id="menuHr" aria-label="Погода по часам"></div></div>
   <nav aria-label="Меню">
-    <a href="#rooms"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M3 14h18M7 10V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3"/></svg>Номера и планировки</a>
     <a href="#book"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Подобрать даты</a>
+    <a href="#rooms"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M3 14h18M7 10V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3"/></svg>Номера и планировки</a>
     <a href="#hotel"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg>Об отеле</a>
-    <a href="https://astemir13.github.io/legenda-hotel/" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.5-3 7h3"/></svg>Ресторан и меню<small>8:00–21:00</small></a>
+    <div class="menu-row"><a href="#restaurant" data-food="menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.5-3 7h3"/></svg>Ресторан и меню<small>8:00–21:00</small></a><a class="mcall" href="tel:+79287130416" aria-label="Позвонить в ресторан: +7 928 713-04-16" title="Позвонить в ресторан"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a></div>
     <a href="#reviews"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg>Отзывы гостей</a>
     <a href="#way"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Как добраться и вопросы</a>
   </nav>
@@ -708,7 +783,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     <a class="ico wa" href="https://wa.me/79993000088" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-2.9.8.8-2.8-.2-.3A8.2 8.2 0 0 1 12 3.8z"/><path fill="currentColor" d="M8.9 7.2c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2s.9 2.5 1 2.7c.2.2 1.8 2.8 4.4 3.8 2.2.9 2.6.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.2-.4v-.4l-.8-2z"/></svg></a>
     <a class="ico tg" href="https://t.me/+79993000088" target="_blank" rel="noopener" aria-label="Написать в Telegram" title="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 3.6 2.9 10.7c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.3-1.5zM9.6 13.4l8.9-5.6c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.6-4.6z"/></svg></a>
   </div>
-  <p class="menu-addr">с. Терскол, ул. Чегет, 5А · ресепшен 24/7 · <span style="white-space:nowrap">+7 999 300-00-88</span></p>
+  <p class="menu-addr">с. Терскол, ул. Чегет, 5А · бронирование 24/7 · <span style="white-space:nowrap">+7 999 300-00-88</span></p>
 </div>
 
 <main id="top">
@@ -724,10 +799,10 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
       <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
+      <a class="hp-c hp-rest" id="hpRest" href="#restaurant" aria-label="Ресторан: часы работы, меню и цены"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.6-3 7h3"/></svg><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></a>
+      <a class="hp-c hp-rate" id="hpRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg><div><b><span class="rt">5,0</span><span class="of"> из 5</span><i class="st" aria-hidden="true">★</i></b><span class="vt"><em class="vv">1293 оценки · </em>Яндекс Карты</span><span class="ym" aria-hidden="true"><i class="ymp"><svg width="9" height="12" viewBox="0 0 12 16"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg></i>Яндекс Карты<svg class="hp-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></a>
       <div class="hp-c hp-dist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/></svg><div data-dist="cheget"><b class="dv">500 м</b><span>до Чегета</span></div><div data-dist="azau"><b class="dv">5 км</b><span>до Азау</span></div></div>
-      <a class="hp-c hp-rate" id="hpRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg><div><b><span class="rt">5,0</span><span class="of"> из 5</span><i class="st" aria-hidden="true">★</i></b><span class="vt"><em class="vv">1293 оценки · </em>Яндекс Карты</span><span class="ym" aria-hidden="true"><svg width="9" height="12" viewBox="0 0 12 16"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg>Яндекс Карты</span></div></a>
-      <div class="hp-c hp-rest" id="hpRest"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.6-3 7h3"/></svg><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></div>
-      <div class="hp-wx" aria-live="polite"><span class="hp-ic" id="hpIc" aria-hidden="true"></span><span class="hp-wl">Сейчас в Терсколе</span><b id="hpT"></b><span class="hp-wk" id="hpK"></span><span class="hp-ww" id="hpW"></span></div>
+      <button type="button" class="hp-wx" id="hpWx" aria-expanded="false" aria-label="Погода в Терсколе: показать прогноз на ближайшие дни"><span class="hp-now" aria-live="polite"><span class="hp-ic" id="hpIc" aria-hidden="true"></span><span class="hp-wl">Сейчас в Терсколе</span><b id="hpT"></b><span class="hp-wk" id="hpK"></span><span class="hp-ww" id="hpW"></span></span><span class="hp-fc" id="hpFc"></span><span class="hp-tg" aria-hidden="true"><i class="tg-a">прогноз</i><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
     </div>
   </div>
 </section>
@@ -742,11 +817,11 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   </div>
 </section>
 
-<section class="whysec">
+<section class="whysec" aria-label="Почему стоит бронировать напрямую">
   <div class="wrap"><div class="why">
-    <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h13v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3"/></svg><p><b>Завтрак на двоих включён</b>При бронировании напрямую — на сайте или по телефону</p></div>
-    <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.3 4.6-4.8"/></svg><p><b>Без комиссии</b>Оплата отелю напрямую, без наценок агрегаторов</p></div>
-    <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg><p><b>Ответим за минуты</b>Ресепшен 24/7: звонок, WhatsApp, Telegram</p></div>
+    <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.3 4.6-4.8"/></svg></span><p><b>Без комиссии</b>Оплата напрямую отелю, без наценок агрегаторов. Для нас это самый предпочтительный вариант, а постоянные гости получают привилегии.</p></div>
+    <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h13v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3"/></svg></span><p><b>Завтрак на двоих включён</b>При бронировании номера напрямую — на сайте или по телефону.</p></div>
+    <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/></svg></span><p><b>Бронирование 24/7</b>Ответим на вопросы и поможем подобрать номер — по телефону, в WhatsApp или Telegram.</p></div>
   </div></div>
 </section>
 
@@ -758,7 +833,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 </section>
 
 <section class="sec" id="hotel" style="padding-top:0">
-  <div class="wrap duo">
+  <div class="wrap stack">
     <div class="panel">
       <div class="pnl-h"><span class="gi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M4.5 10.5 12 4.5l7.5 6V20h-15z"/><path d="M3 11.6 12 4.5l9 7.1"/><path d="M5 10.4V20h14v-9.6"/><path d="M5 13.4h14M5 16.6h14"/><path d="M10 20v-3h4v3"/></svg></span><span class="kick">Об отеле</span></div>
       <h2 style="font-size:clamp(26px,3vw,34px)">Дом из натурального сруба в сосновом бору</h2>
@@ -769,18 +844,19 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="4" y="12" width="16" height="4.5" rx="1"/><path d="M8 3.6c-1 1.4 1 2.4 0 3.8M12 3.1c-1 1.4 1 2.4 0 3.8M16 3.6c-1 1.4 1 2.4 0 3.8"/><path d="M4 12h16M4 16.5h16M6 12v8M18 12v8"/></svg></span><span>Сауна на территории</span></li>
       </ul>
     </div>
-    <div class="panel">
+    <div class="panel rest" id="restaurant">
+      <div class="rest-i">
       <div class="pnl-h"><span class="gi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M14 3c2 1 3 3.6 3 7h-3z"/><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 21V3c-2 1-3 3.6-3 7h3"/></svg></span><span class="live" id="restLive"><i aria-hidden="true"></i><span>Ресторан открыт до 21:00</span></span></div>
-      <h2 style="font-size:clamp(26px,3vw,34px)">Ресторан и бильярд</h2>
-      <p style="color:var(--ink2)">Кавказская и европейская кухня каждый день с 8:00 до 21:00. Вечером после склона — партия в бильярд.</p>
-      <div class="amen">
-        <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M14 3c2 1 3 3.6 3 7h-3z"/><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 21V3c-2 1-3 3.6-3 7h3"/></svg></span><b>Ресторан</b><small>8:00–21:00</small></div>
-        <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M4 11h13v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M4 11h13v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3"/></svg></span><b>Завтрак</b><small>при брони напрямую</small></div>
-        <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="7.8" cy="15.6" r="3"/><circle class="f" cx="14.2" cy="15.6" r="3"/><circle cx="7.8" cy="15.6" r="3"/><circle cx="14.2" cy="15.6" r="3"/><circle cx="11" cy="10" r="3"/><path d="M14.6 6.9 21 3"/></svg></span><b>Бильярд</b><small>для компании</small></div>
+      <h2 style="font-size:clamp(26px,3vw,34px)">Ресторан</h2>
+      <p class="rest-d">Кавказская и европейская кухня — каждый день с 8:00 до 21:00.</p>
+      <div class="rest-b"><button type="button" class="btn btn-pine" data-food="menu">Меню и цены</button><a class="btn rcall" href="tel:+79287130416" aria-label="Позвонить в ресторан: +7 928 713-04-16"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span>+7 928 713-04-16</span></a></div>
       </div>
-      <a class="tlink" href="https://astemir13.github.io/legenda-hotel/" target="_blank" rel="noopener">Посмотреть меню →</a>
+      <button type="button" class="meal" data-food="set" aria-label="Завтраки, обеды и ужины: что входит"><span class="meal-h"><b>Завтраки, обеды и ужины</b></span><span class="meal-p"><span><small>Завтрак</small><b id="mlB">500 ₽</b></span><span><small>Обед</small><b id="mlL">700 ₽</b></span><span><small>Ужин</small><b id="mlD">700 ₽</b></span></span><span class="meal-n">Комплексное питание<span>Что входит →</span></span></button>
     </div>
+    <div class="duo2">
+    <div class="panel gz"><span class="gi big" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="7.8" cy="15.6" r="3"/><circle class="f" cx="14.2" cy="15.6" r="3"/><circle cx="7.8" cy="15.6" r="3"/><circle cx="14.2" cy="15.6" r="3"/><circle cx="11" cy="10" r="3"/><path d="M14.6 6.9 21 3"/></svg></span><div><h3>Бильярд</h3><p>Вечером после склона — партия в бильярд для компании.</p></div></div>
     <div class="panel gz"><span class="gi big" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M8.6 18.1 6.6 22M15.4 18.1l2 3.9M12 19v3"/><path d="M9 7.6c0-1.5 1.5-1.9 1.5-3.4M13.5 7.6c0-1.5 1.5-1.9 1.5-3.4"/></svg></span><div><h3>Беседка с мангальной зоной</h3><p>Своя беседка на территории отеля — для шашлыка и долгих вечеров на свежем воздухе.</p></div></div>
+    </div>
   </div>
 </section>
 
@@ -931,6 +1007,15 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   <div class="pm-f"><p><span id="pmNote"></span><small>Пожелания по номеру — подскажем и учтём при бронировании.</small></p><button type="button" class="btn btn-accent" id="pmPick">Забронировать этот номер</button></div>
 </div>
 
+<div class="pm-bd" id="fmBd"></div>
+<div class="pm fm" id="fm" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="fmT">
+  <div class="pm-h"><div><h3 id="fmT">Ресторан отеля «Легенда»</h3><p>Кавказская и европейская кухня</p></div><button type="button" class="pm-x" id="fmX" aria-label="Закрыть"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="pm-vars" id="fmTabs" role="group" aria-label="Раздел"><button type="button" data-t="set" aria-pressed="true">Комплексное питание</button><button type="button" data-t="menu" aria-pressed="false">Меню</button></div>
+  <div class="fm-b" id="fmSet"></div>
+  <div class="fm-b" id="fmMenu" hidden></div>
+  <p class="fm-n" id="fmNote"></p>
+</div>
+
 <div class="mbar" id="mbar"><div><b>Даты и цены онлайн</b><span>завтрак на двоих включён</span></div><a class="btn btn-accent" href="#book">Выбрать даты</a></div>
 
 <script>
@@ -1002,6 +1087,25 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
           {n:'2 этаж', p:{W:8.0, H:5.0, items:[['part',4.0,0,4.0,5.0,3.85,4.75],['bath',6.0,3.0,2.0,2.0],['stairs',4.2,3.0,1.5,2.0],['win','t',0.8,3.2,2],['win','t',4.6,7.4,2],['bed2',0.15,1.0,'l'],['bed1',4.5,0.25,'t'],['bed1',5.8,0.25,'t'],['lbl',2.0,4.0,'спальня 1'],['lbl',6.6,2.6,'спальня 2']]}, note:'Две спальни'}]
   };
 
+  /* Ресторан: комплексное питание (цены в рублях) и меню. Строка блюда: ['название', цена] или ['название', цена, 'пояснение'] */
+  var FOOD = {
+    breakfast:500, lunch:700, dinner:700, service:'Обслуживание 10%', phone:'+7 928 713-04-16',
+    morning:[['Каша на выбор', 'овсяная / рисовая / гречневая / пшённая'], ['Яичница из двух яиц / омлет', 'с сосиской или колбасой'],
+      ['Блинчики / оладьи / запеканка', 'с соусом (меняется каждый день)'], ['Тарелка с сыром и маслом', ''], ['Чай', '']],
+    daily:[['Борщ / куриный суп / чечевичный суп', 'и другие супы'], ['Котлета с гарниром / спагетти болоньезе / гедлибже с гарниром / рыба с гарниром', 'и другие горячие блюда'],
+      ['Салат овощной / весенний / морковный', 'и другие салаты']]
+  };
+  var MENU = [
+    ['Холодные закуски', [['Ассорти из свежих овощей', 600], ['Разносолы', 550], ['Сырная нарезка', 600], ['Оливки, маслины', 300], ['Лимон', 100], ['Фруктовая нарезка', 1200]]],
+    ['Салаты', [['Цезарь с курицей', 500], ['Цезарь с креветками', 600], ['Греческий', 480], ['Салат из свежих овощей', 400], ['Весенний', 350], ['Салат морковный', 350]]],
+    ['Пицца', [['Пепперони', 500], ['Маргарита', 500]]],
+    ['Первые блюда', [['Куриный суп лапша', 350], ['Борщ', 420], ['Солянка сборная мясная', 480], ['Крем-суп из шампиньонов', 380], ['Шорпа', 480], ['Лагман', 450], ['Суп из чечевицы', 380]]],
+    ['Гарниры', [['Картофель по-деревенски', 200], ['Пюре', 200], ['Рис', 150], ['Гречка', 150]]],
+    ['Вторые блюда', [['Стейк Ти-Бон', 950], ['Форель', 750], ['Жаркое с мясом', 600], ['Манты', 400], ['Картофель жареный с грибами', 400], ['Котлета домашняя с гарниром', 400, 'куриная или говяжья'],
+      ['Пельмени', 380], ['Гедлибже с гарниром', 500], ['Грибы в сливочном соусе', 400], ['Мясо по-французски с гарниром', 560], ['Бефстроганов', 580],
+      ['Хичины с сыром и зеленью', 200], ['Хичины с картофелем и сыром', 200], ['Фетучини с курицей', 500], ['Фетучини с креветками', 600]]],
+    ['Десерты', [['Мороженое с наполнителями', 300], ['Медовик', 350], ['Чизкейк', 400], ['Наполеон', 400], ['Ягодный пирог', 450]]]
+  ];
 
   /* ===================== конец настроек ===================== */
 
@@ -1014,7 +1118,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   function msk(){ var p = new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',month:'numeric',hour12:false,timeZone:'Europe/Moscow'}).formatToParts(new Date()), o={}; p.forEach(function(x){o[x.type]=x.value;}); return o; }
   /* ---------- Реальная погода Терскола (Open-Meteo) ---------- */
   var API = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest' +
-    '&current=temperature_2m,weather_code,is_day,wind_speed_10m,cloud_cover&daily=sunrise,sunset&timezone=Europe%2FMoscow&forecast_days=1';
+    '&current=temperature_2m,weather_code,is_day,wind_speed_10m,cloud_cover&daily=sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min' +
+    '&hourly=temperature_2m,weather_code,cloud_cover,wind_speed_10m&timezone=Europe%2FMoscow&forecast_days=5';
   var API2 = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&elevation=' + ELEV + '&cell_selection=nearest&current=wind_direction_10m&timezone=Europe%2FMoscow&forecast_days=1';
   var KINDS = {
     clear:{name:'Ясно', cloud:4, t:-6, wind:6},
@@ -1054,10 +1159,10 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     if (m >= r - 40 && m < mornEnd()) return 'dawn';
     if (m >= s - 90 && m < s + 40) return 'dusk';
     return (m > r && m < s) ? 'day' : 'night'; }
-  function skyAt(m){ var r = W.sunrise, s = W.sunset, P;
-    if (W.phase === 'dawn') P = [[r - 40, 'predawn'], [r + 5, 'dawn'], [r + 70, 'morning'], [mornEnd(), 'day']];
-    else if (W.phase === 'dusk') P = [[s - 90, 'day'], [s - 25, 'gold'], [s + 10, 'dusk'], [s + 40, 'late']];
-    else return SKY[W.phase];
+  function skyAt(m, ph){ var r = W.sunrise, s = W.sunset, P; ph = ph || W.phase;
+    if (ph === 'dawn') P = [[r - 40, 'predawn'], [r + 5, 'dawn'], [r + 70, 'morning'], [mornEnd(), 'day']];
+    else if (ph === 'dusk') P = [[s - 90, 'day'], [s - 25, 'gold'], [s + 10, 'dusk'], [s + 40, 'late']];
+    else return SKY[ph];
     for (var i = 1; i < P.length; i++) if (m <= P[i][0] || i === P.length - 1){ var k = Math.min(1, Math.max(0, (m - P[i-1][0])/(P[i][0] - P[i-1][0]))), a = SKY[P[i-1][1]], b = SKY[P[i][1]]; return {s1:mixH(a.s1, b.s1, k), s2:mixH(a.s2, b.s2, k)}; } }
   function kindFromCode(c, wind, temp, cloud){
     if (c <= 1 || (c === 2 && cloud != null && cloud < 40)) return 'clear'; if (c === 2) return 'partly'; if (c === 3) return 'overcast'; if (c === 45 || c === 48) return 'fog';
@@ -1105,6 +1210,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     fetch(API).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
       var c = d.current; ROOT.classList.remove('nowx'); W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover; loadExtra();
       var sr = toMin(d.daily.sunrise[0]), ss = toMin(d.daily.sunset[0]); if (sr != null) W.sunrise = sr; if (ss != null) W.sunset = ss;
+      W.daily = d.daily; W.hourly = d.hourly; W.nowH = (c.time || '').slice(0, 13); renderForecast();
       if (!W.forced){ W.kind = kindFromCode(c.weather_code, c.wind_speed_10m, c.temperature_2m, c.cloud_cover); W.phase = phaseFor(minutes); }
       document.getElementById('wxNote').textContent = 'Сейчас показана реальная погода в Терсколе (Open-Meteo, обновляется каждые 15 минут). Выберите состояние, чтобы посмотреть, как выглядит шапка в другую погоду.';
       applyWeather();
@@ -1493,18 +1599,46 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   /* Меню по логотипу */
   var lb = document.getElementById('logoBtn'), sm = document.getElementById('siteMenu'), bd = document.getElementById('menuBd');
   function setMenu(open){ lb.setAttribute('aria-expanded', open); sm.classList.toggle('on', open); bd.classList.toggle('on', open);
-    if (open){ document.getElementById('menuWx').innerHTML = 'Сейчас в Терсколе <b>' + (W.tStr || '') + '</b> · ' + KINDS[W.kind].name.toLowerCase();
+    if (open){ document.getElementById('menuWx').innerHTML = 'Сейчас в Терсколе <b>' + (W.tStr || '') + '</b> · ' + KINDS[W.kind].name.toLowerCase(); renderHours();
       setTimeout(function(){ var f = sm.querySelector('a'); if (f) f.focus({preventScroll:true}); }, 60); } }
   lb.addEventListener('click', function(){ setMenu(lb.getAttribute('aria-expanded') !== 'true'); });
   bd.addEventListener('click', function(){ setMenu(false); });
   sm.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && sm.classList.contains('on')){ setMenu(false); lb.focus(); } });
+
+  /* ---------- Прогноз: на дни — в строке погоды на обложке (по нажатию), по часам — в меню у логотипа ---------- */
+  var WD = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+  function deg(v){ v = Math.round(v); return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v) + '°'; }
+  function renderForecast(){ var D = W.daily, box = document.getElementById('hpFc'); if (!D || !D.time || !box) return;
+    box.innerHTML = D.time.slice(0, 5).map(function(dt, i){ var k = kindFromCode(D.weather_code[i], 0, D.temperature_2m_max[i], null);
+      return '<span class="fd" title="' + KINDS[k].name + '"><i>' + (i ? WD[new Date(dt + 'T12:00').getDay()] : 'сег') + '</i>' + icon(k, false) + '<b>' + deg(D.temperature_2m_max[i]) + '</b><em>' + deg(D.temperature_2m_min[i]) + '</em></span>'; }).join(''); }
+  var hpWx = document.getElementById('hpWx');
+  hpWx.addEventListener('click', function(){ if (!W.daily) return; var on = !hpWx.classList.contains('fc'); hpWx.classList.toggle('fc', on); hpWx.setAttribute('aria-expanded', on);
+    hpWx.setAttribute('aria-label', on ? 'Прогноз на ближайшие дни: вернуть погоду сейчас' : 'Погода в Терсколе: показать прогноз на ближайшие дни'); });
+  /* цвет неба в заданный час: время суток и облачность — как у плашки в меню */
+  var WET = {dawn:{s1:'#6D7E98', s2:'#AEB8C8'}, day:{s1:'#6F8BA8', s2:'#B4C6D8'}, dusk:{s1:'#45506B', s2:'#7A7C90'}, night:{s1:'#1E2838', s2:'#33415A'}};
+  function skyCol(m, kind, cloud){ m = ((m % 1440) + 1440) % 1440; var ph = phaseFor(m), b = skyAt(m, ph), K = KINDS[kind], gr = (K.precip ? WET : GREY)[ph], g = Math.min(.82, cloud/100*.8 + (K.fog ? .15 : 0));
+    return mixH(mixH(b.s1, gr.s1, g), mixH(b.s2, gr.s2, g), .35); }
+  /* плашка «Сейчас в Терсколе»: слева — сейчас, дальше 6 часов; фон — небо каждого часа, слева направо */
+  function renderHours(){ var H = W.hourly, box = document.getElementById('menuHr'), pl = document.getElementById('menuNow'); if (!box) return;
+    var i0 = H && H.time ? H.time.map(function(x){ return x.slice(0, 13); }).indexOf(W.nowH) : -1;
+    if (i0 < 0){ box.innerHTML = ''; pl.style.background = ''; pl.style.color = ''; return; }
+    var cells = [], cols = [];
+    for (var j = 0; j < 7 && H.time[i0 + j]; j++){ var i = i0 + j, hh = +H.time[i].slice(11, 13), now = !j,
+        k = now ? W.kind : kindFromCode(H.weather_code[i], H.wind_speed_10m[i], H.temperature_2m[i], H.cloud_cover[i]), tp = now && W.tempNow != null ? W.tempNow : H.temperature_2m[i],
+        col = skyCol(now ? minutes : hh*60 + 30, k, now && W.cloudNow != null ? W.cloudNow : H.cloud_cover[i]), dark = lum(col) < 130;
+      cols.push(col);
+      cells.push('<span style="color:' + (dark ? '#fff' : '#13202A') + '"><small>' + (now ? 'сейчас' : (hh < 10 ? '0' : '') + hh + ':00') + '</small>' + icon(k, (now ? minutes : hh*60 + 30) < W.sunrise || (now ? minutes : hh*60 + 30) >= W.sunset ? 1 : 0).replace('width="20" height="20"', 'width="18" height="18"') + '<b>' + deg(tp) + '</b></span>'); }
+    box.innerHTML = cells.join('');
+    pl.style.background = 'linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 60%),linear-gradient(90deg,' + cols.map(function(c, n){ return c + ' ' + Math.round((n + .5)/cols.length*100) + '%'; }).join(',') + ')';
+    pl.style.color = lum(cols[0]) < 130 ? '#fff' : '#13202A'; }
   /* Время и ресторан */
+  var GO_D = '<svg class="hp-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>';
   function restOpen(){ return minutes >= REST.open*60 && minutes < REST.close*60; }
   function tick(){ o0 = msk(); minutes = (+o0.hour)*60 + (+o0.minute); if (!W.forced){ W.phase = phaseFor(minutes); } applyWeather();
     var open = restOpen(), l = document.getElementById('restLive'); l.classList.toggle('closed', !open); l.lastElementChild.textContent = open ? 'Ресторан открыт до ' + REST.close + ':00' : 'Ресторан откроется в ' + REST.open + ':00';
     /* в панели обложки: на телефоне коротко — «до 21:00» / «с 8:00» */
-    var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').innerHTML = open ? '<i class="lw">открыт </i>до ' + REST.close + ':00' : '<i class="lw">откроется в</i><i class="sw">с</i> ' + REST.open + ':00'; } }
+    var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').innerHTML = (open ? '<i class="lw">открыт </i>до ' + REST.close + ':00' : '<i class="lw">откроется в</i><i class="sw">с</i> ' + REST.open + ':00') + GO_D; } }
 
   /* Панель «Погода» (переключать погоду для проверки): видна на preview.hotellegenda.ru, локально и по ?demo,
      на рабочем сайте спрятана */
@@ -1637,6 +1771,22 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
   document.getElementById('pmPick').onclick = function(){ var r = rooms.filter(function(x){ return x.id === pmCur; })[0]; closePlan(); openBooking(r && r.hr); };
 
 
+  /* ---------- Ресторан: комплексное питание и меню в окне ---------- */
+  var fm = document.getElementById('fm'), fmBd = document.getElementById('fmBd'), fmLast = null;
+  [['mlB', FOOD.breakfast], ['mlL', FOOD.lunch], ['mlD', FOOD.dinner]].forEach(function(p){ document.getElementById(p[0]).textContent = rub(p[1]); });
+  function fmItem(it){ return '<li><b>' + it[0] + '</b>' + (it[1] ? '<span>' + it[1] + '</span>' : '') + '</li>'; }
+  document.getElementById('fmSet').innerHTML =
+    '<section class="fm-s"><div class="fm-sh"><h4>Завтрак</h4><b>' + rub(FOOD.breakfast) + '</b></div><ul class="fm-l">' + FOOD.morning.map(fmItem).join('') + '</ul></section>' +
+    '<section class="fm-s"><div class="fm-sh"><h4>Обед и ужин</h4><b>' + (FOOD.lunch === FOOD.dinner ? rub(FOOD.lunch) : 'обед ' + rub(FOOD.lunch) + ' · ужин ' + rub(FOOD.dinner)) + '</b></div><p class="fm-x">Блюда меняются каждый день — например:</p><ul class="fm-l">' + FOOD.daily.map(fmItem).join('') + '</ul></section>';
+  document.getElementById('fmMenu').innerHTML = '<div class="fm-g">' + MENU.map(function(c){ return '<section class="fm-c"><h4>' + c[0] + '</h4><ul>' + c[1].map(function(d){ return '<li><span>' + d[0] + (d[2] ? '<small>' + d[2] + '</small>' : '') + '</span><i class="fm-d"></i><b>' + rub(d[1]) + '</b></li>'; }).join('') + '</ul></section>'; }).join('') + '</div>';
+  document.getElementById('fmNote').innerHTML = 'Каждый день с ' + REST.open + ':00 до ' + REST.close + ':00 · ' + FOOD.service + ' · <a href="tel:+' + FOOD.phone.replace(/\D/g, '') + '">' + FOOD.phone + '</a>';
+  function fmTab(t){ document.getElementById('fmSet').hidden = t !== 'set'; document.getElementById('fmMenu').hidden = t !== 'menu'; fm.querySelectorAll('#fmTabs button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.t === t); }); fm.scrollTop = 0; }
+  function openFood(t){ fmTab(t === 'menu' ? 'menu' : 'set'); if (!fm.classList.contains('on')) fmLast = document.activeElement; fm.classList.add('on'); fmBd.classList.add('on'); document.body.style.overflow = 'hidden'; setTimeout(function(){ fm.focus({preventScroll:true}); }, 50); }
+  function closeFood(){ fm.classList.remove('on'); fmBd.classList.remove('on'); document.body.style.overflow = ''; if (fmLast && fmLast.focus) fmLast.focus({preventScroll:true}); }
+  document.getElementById('fmTabs').addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) fmTab(b.dataset.t); });
+  document.getElementById('fmX').onclick = closeFood; fmBd.onclick = closeFood;
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && fm.classList.contains('on')) closeFood(); });
+
   /* ---------- Модуль бронирования HomeReserve ----------
      Строка поиска встаёт в блок «Подберём номер», окно с номерами и бронью модуль открывает сам.
      Кнопки «Забронировать» открывают поиск или сразу нужный номер. Если модуль не загрузился —
@@ -1658,6 +1808,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
     else if (hrReady && window.homereserve){ hrDirect = !!id; location.hash = id ? '#/detail/' + id : '#/search'; }
     else { window.open(hrUrl(id), '_blank', 'noopener'); } }
   document.addEventListener('click', function(e){
+    var fd = e.target.closest('[data-food]');
+    if (fd){ e.preventDefault(); if (fd.closest('#siteMenu')) setMenu(false); openFood(fd.getAttribute('data-food')); return; }
     var b = e.target.closest('[data-book]');
     if (b){ e.preventDefault(); if (b.closest('#siteMenu')) setMenu(false); openBooking(b.getAttribute('data-book')); return; }
     /* свои якоря (#rooms, #way…) прокручиваем сами, не трогая адрес: адресом пользуется модуль бронирования */
