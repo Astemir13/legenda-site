@@ -5,7 +5,7 @@
   src/index.html     — страница целиком (разметка, стили, скрипт, разметка для поисковиков). Все правки — здесь.
   src/facade.jpg     — фото обложки; src/depth.jpg — карта глубины к нему (tools/sky-mask.py)
   src/rooms/*.jpg    — фото номеров (имена — в PHOTOS в скрипте страницы)
-  src/static/        — файлы как есть: значки, картинка для соцсетей
+  src/static/        — файлы как есть: значки, картинка для соцсетей, шрифты (fonts/)
   src/privacy.txt    — текст политики обработки персональных данных
 
 Что делает:
@@ -79,6 +79,9 @@ shutil.copytree('src/static', OUT, dirs_exist_ok=True)
 
 # ---------- политика и 404 ----------
 e = html.escape
+# шрифты — те же, что на главной (свои файлы в fonts/), адреса от корня: 404 открывается по любому адресу
+FONTS = '\n'.join(l.replace('src:url(fonts/', 'src:url(/fonts/') for l in re.findall(r"@font-face\{font-family:'(?:Golos Text|Lora)'[^\n]*", page))
+assert FONTS.count('@font-face') == 6, 'шрифты для политики и 404 не найдены в странице'
 def doc(title, inner):
     return f'''<!doctype html>
 <html lang="ru">
@@ -88,10 +91,8 @@ def doc(title, inner):
 <title>{e(title)}</title>
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600&family=Lora:wght@600&display=swap">
 <style>
+{FONTS}
 body{{margin:0;background:#F4F7F8;color:#13202A;font:16px/1.6 'Golos Text',system-ui,sans-serif}}
 main{{max-width:760px;margin:0 auto;padding:40px 20px 64px}}
 a{{color:#1F5C4A}}
@@ -134,6 +135,7 @@ save(f'{OUT}/sitemap.xml', f'''<?xml version="1.0" encoding="UTF-8"?>
 </urlset>
 ''')
 save(f'{OUT}/.htaccess', r'''AddDefaultCharset utf-8
+AddType font/woff2 .woff2
 Options -Indexes
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
@@ -166,6 +168,7 @@ ExpiresByType image/jpeg "access plus 30 days"
 ExpiresByType image/png "access plus 30 days"
 ExpiresByType image/svg+xml "access plus 30 days"
 ExpiresByType image/x-icon "access plus 30 days"
+ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 ''')
 total = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)

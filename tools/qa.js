@@ -15,8 +15,7 @@ const MOCK = {current:{temperature_2m:-14.2,weather_code:75,is_day:1,wind_speed_
     if (lb.right+6 > hr.left) out.push('logo overlaps right '+lb.right+'>'+hr.left);
     if (nav.width && (lb.right+6>nav.left || nav.right+6>hr.left)) out.push('nav overlap');
     const c=document.querySelector('.call'), t=document.querySelector('.call .ct b'); if (t.offsetWidth && t.getBoundingClientRect().right > c.getBoundingClientRect().right-4) out.push('number outside pill');
-    const now=document.querySelector('.now'); if (now && now.offsetWidth && now.getBoundingClientRect().right > vw) out.push('now chip overflow');
-    document.querySelectorAll('.fact, .w-sum, .btn, .room, .panel').forEach(e=>{ if (e.offsetWidth && e.scrollWidth > e.clientWidth+2) out.push('inner overflow '+e.className+' '+e.scrollWidth+'>'+e.clientWidth); });
+    document.querySelectorAll('.hp-c, .hp-wx, .btn, .room, .panel').forEach(e=>{ if (e.offsetWidth && e.scrollWidth > e.clientWidth+2) out.push('inner overflow '+e.className+' '+e.scrollWidth+'>'+e.clientWidth); });
     return out; });
   if (r.length) issues.push(w+': '+[...new Set(r)].join('; '));
   if (w===402){ // interactions
@@ -31,7 +30,7 @@ const MOCK = {current:{temperature_2m:-14.2,weather_code:75,is_day:1,wind_speed_
       o.push('links: '+[...new Set([...document.querySelectorAll('a[href]')].map(a=>a.getAttribute('href')))].join(' '));
       return o; });
     console.log(a11y.join('\n'));
-    console.log('now:', await m.evaluate(()=>document.getElementById('nowTxt').textContent));
+    console.log('now:', await m.evaluate(()=>document.querySelector('.hp-wx').textContent));
   }
   await ctx.close(); }
  console.log('ISSUES\n'+issues.join('\n')); console.log('ERRORS', errs); await b.close(); srv.close(); })();
