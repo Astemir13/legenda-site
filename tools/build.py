@@ -51,6 +51,15 @@ page = re.sub(r'<section class="sec" id="faq".*?</section>\n\n', '', page, count
 page = re.sub(r'\s*<li data-ph>.*?</li>', '', page)
 visible = re.sub(r'<(script|style)\b.*?</\1>', '', page[page.index('<body>'):], flags=re.S)
 assert '[' not in visible.replace('[open]', ''), re.findall(r'.{40}\[[^\]]*\].{20}', visible)
+# типографика: короткие предлоги и союзы не остаются в конце строки, тире не переносится в начало строки
+# (только кириллица, поэтому код и стили не задеваются; <style> пропускаем)
+SHORT = 'в|к|с|у|о|и|а|я|во|ко|со|на|до|по|за|от|из|не|ни|но|для|без|при|над|под|про'
+def nbsp(s):
+    s = re.sub(r'(?<=[\s(«>])(' + SHORT + r') (?=\S)', lambda m: m.group(1) + '\u00a0', s, flags=re.I)
+    return re.sub(r'(?<=\S) — ', '\u00a0— ', s)
+head, body = page[:page.index('<body>')], page[page.index('<body>'):]
+body = ''.join(nbsp(part) if not part.startswith('<style') else part for part in re.split(r'(<style\b.*?</style>)', body, flags=re.S))
+page = head + body
 # скрипт и разметка для поисковиков — компактно
 main_js = re.search(r'<script>\n(\(function\(\)\{.*?)</script>', page, re.S)
 page = page.replace(main_js.group(1), compact_js(main_js.group(1)))
