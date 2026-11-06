@@ -143,13 +143,13 @@ section[id]{scroll-margin-top:84px}
   .hdr-r{--slot:178px;position:relative;width:var(--slot);flex:none;gap:0;justify-content:flex-start}
   .hdr .call,.hdr.light .call,.hdr .call:hover{position:relative;z-index:1;background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;transform:none;padding:4px 12px 4px 4px}
   .call::before{content:"";position:absolute;z-index:-1;left:0;top:0;bottom:0;width:var(--slot);border-radius:999px;
-    background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-    clip-path:inset(0 0 0 0 round 999px);transition:clip-path .6s cubic-bezier(.65,0,.25,1) .08s,background .3s}
+    background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+    clip-path:inset(0 0 0 0 round 999px);transition:clip-path .6s cubic-bezier(.65,0,.25,1) .08s}
   .hdr.light .call::before{background:var(--soft);box-shadow:none}
   .call .ct{transform-origin:0 50%;transition:opacity .35s ease .3s,transform .55s cubic-bezier(.2,.8,.2,1) .2s}
   .hdr .btn{position:absolute;right:0;top:50%;z-index:2;white-space:nowrap;padding:0 13px;opacity:0;pointer-events:none;
     transform:translate(14px,-50%) scale(.96);transition:opacity .2s ease,transform .3s ease}
-  .hdr.solid .call::before{clip-path:inset(0 calc(var(--slot) - 40px) 0 0 round 999px);transition:clip-path .6s cubic-bezier(.65,0,.25,1),background .3s}
+  .hdr.solid .call::before{clip-path:inset(0 calc(var(--slot) - 40px) 0 0 round 999px);transition:clip-path .6s cubic-bezier(.65,0,.25,1)}
   .hdr.solid .call .ct{opacity:0;transform:translateX(-18px) scale(.94);transition:opacity .22s ease,transform .45s cubic-bezier(.4,0,.6,1)}
   .hdr.solid .btn{opacity:1;pointer-events:auto;transform:translate(0,-50%);transition:opacity .4s ease .38s,transform .7s cubic-bezier(.2,.8,.2,1) .32s}
 }
@@ -1262,19 +1262,31 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   function loadWeather(){
     if (W.forced) return;
     fetch(API).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
+      if (!d || !d.current) throw 0; try { localStorage.setItem('lgWx', JSON.stringify({t:Date.now(), d:d})); } catch (e) {}
+      useWx(d, true);
+    }).catch(function(){
+      var s = null; try { s = JSON.parse(localStorage.getItem('lgWx') || 'null'); } catch (e) {}
+      if (!W.live && s && s.d && Date.now() - s.t < 3*3600*1000){ useWx(s.d, false); }
+      if (!W.live) wxFail();
+      if (!wxRetry){ wxRetry = setTimeout(function(){ wxRetry = 0; loadWeather(); }, 20000); }
+    });
+  }
+  var wxRetry = 0;
+  /* показать погоду из ответа Open-Meteo (fresh — свежий ответ, иначе сохранённый) */
+  function useWx(d, fresh){
       var c = d.current; ROOT.classList.remove('nowx'); W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover; loadExtra();
       var sr = toMin(d.daily.sunrise[0]), ss = toMin(d.daily.sunset[0]); if (sr != null) W.sunrise = sr; if (ss != null) W.sunset = ss;
       W.daily = d.daily; W.hourly = d.hourly; W.nowH = (c.time || '').slice(0, 13); renderForecast();
       if (!W.forced){ W.kind = kindFromCode(c.weather_code, c.wind_speed_10m, c.temperature_2m, c.cloud_cover); W.phase = phaseFor(minutes); }
       document.getElementById('wxNote').textContent = 'Сейчас показана реальная погода в Терсколе (Open-Meteo, обновляется каждые 15 минут). Выберите состояние, чтобы посмотреть, как выглядит шапка в другую погоду.';
       applyWeather();
-    }).catch(function(){
+  }
+  function wxFail(){
       if (W.live) return; ROOT.classList.add('nowx');
       W.live = false; W.temp = null; W.wind = null; W.cloud = null;
       if (!W.forced){ W.kind = (month >= 11 || month <= 3) ? 'snow' : 'clear'; W.phase = phaseFor(minutes); }
       document.getElementById('wxNote').textContent = 'Сервис погоды сейчас не ответил — показан пример. Выберите состояние, чтобы посмотреть все варианты.';
       applyWeather();
-    });
   }
 
   /* ===================== Погода на фото обложки =====================
@@ -1668,17 +1680,18 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   function fitWx(){ var now = document.querySelector('.hp-now'), fc = document.getElementById('hpFc'); if (!now) return;
     function over(e){ return e.scrollWidth > e.clientWidth + 1; }
     var wk = now.querySelector('.hp-wk'); function tight(){ return over(now) || (wk && over(wk)); }
-    var bx = now.parentNode; now.classList.remove('x-ww', 'x-wl', 'x-ic', 'x-ov'); bx.classList.remove('x-tg');
+    var bx = now.parentNode, wasFc = bx.classList.contains('fc'); bx.classList.remove('fc'); now.classList.remove('x-ww', 'x-wl', 'x-ic', 'x-ov'); bx.classList.remove('x-tg');
     if (tight()) now.classList.add('x-ww');
     if (tight()) now.classList.add('x-wl');
     if (tight()) bx.classList.add('x-tg');
     if (tight()) now.classList.add('x-ic');
     if (tight()) now.classList.add('x-ov');
+    if (wasFc) bx.classList.add('fc');
     if (fc){ var ds = fc.querySelectorAll('.fd'), n; fc.classList.remove('x-em');
       for (n = 0; n < ds.length; n++) ds[n].hidden = false;
       if (over(fc)) fc.classList.add('x-em');
       for (n = ds.length - 1; n > 2 && over(fc); n--) ds[n].hidden = true; } }
-  var fitT; window.addEventListener('resize', function(){ clearTimeout(fitT); fitT = setTimeout(fitWx, 120); });
+  var fitT, fitW = window.innerWidth; window.addEventListener('resize', function(){ if (window.innerWidth === fitW) return; fitW = window.innerWidth; clearTimeout(fitT); fitT = setTimeout(fitWx, 150); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWx);
   var hpWx = document.getElementById('hpWx');
   hpWx.addEventListener('click', function(){ if (!W.daily) return; var on = !hpWx.classList.contains('fc'); hpWx.classList.toggle('fc', on); hpWx.setAttribute('aria-expanded', on);
