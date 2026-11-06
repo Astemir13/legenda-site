@@ -135,8 +135,22 @@ section[id]{scroll-margin-top:84px}
 .call .ct b{display:block;font-size:15px;font-weight:600}
 .call,.call .ci,.call .ct{flex:none}
 .call .ci{width:34px}
-@media (max-width:360px){.call .ct{display:none}.call{padding-right:4px}.logo .mk{display:none}.hdr .btn{padding:0 11px;font-size:13.5px}}
-@media (max-width:620px){.hdr .btn{min-height:40px;padding:0 13px;font-size:14px;border-radius:13px}.call .ct{display:none}.hdr .wrap{gap:6px}.hdr-r{gap:8px}.call{padding:4px;gap:7px;min-height:40px}.call .ci{width:32px;height:32px}.call .ct small{display:none}.call .ct b{font-size:13px}.logo{font-size:16px;gap:7px;letter-spacing:.03em;padding-right:4px}.logo .mk{width:44px;height:17px}.logo .chev{width:11px;height:11px}}
+@media (max-width:360px){.logo .mk{display:none}.hdr .btn{font-size:13.5px}}
+/* телефон: шапка над обложкой — номер текстом; шапка стала капсулой — номер сворачивается в трубку, на его месте появляется «Забронировать» */
+@media (max-width:620px){
+  .hdr-r{gap:0}
+  .call{padding:4px 12px 4px 4px;transition:padding .45s cubic-bezier(.65,0,.35,1) .1s,gap .45s cubic-bezier(.65,0,.35,1) .1s,background .2s}
+  .call .ct{max-width:150px;overflow:hidden;opacity:1;transition:max-width .45s cubic-bezier(.65,0,.35,1) .1s,opacity .25s ease .3s}
+  .hdr .btn{max-width:0;padding-inline:0;margin-left:0;overflow:hidden;white-space:nowrap;opacity:0;transform:translateX(10px) scale(.9);pointer-events:none;
+    transition:max-width .4s cubic-bezier(.65,0,.35,1),padding .4s cubic-bezier(.65,0,.35,1),margin .4s cubic-bezier(.65,0,.35,1),opacity .15s ease,transform .3s ease}
+  .hdr.solid .call{padding:4px;gap:0;transition:padding .4s cubic-bezier(.65,0,.35,1),gap .4s cubic-bezier(.65,0,.35,1),background .2s}
+  .hdr.solid .call .ct{max-width:0;opacity:0;transition:max-width .4s cubic-bezier(.65,0,.35,1),opacity .15s ease}
+  .hdr.solid .btn{max-width:170px;padding-inline:13px;margin-left:8px;opacity:1;transform:none;pointer-events:auto;
+    transition:max-width .45s cubic-bezier(.65,0,.35,1) .12s,padding .45s cubic-bezier(.65,0,.35,1) .12s,margin .45s cubic-bezier(.65,0,.35,1) .12s,opacity .25s ease .38s,transform .5s cubic-bezier(.2,.9,.25,1.15) .3s}
+}
+@media (max-width:360px){.hdr.solid .btn{padding-inline:11px}}
+@media (max-width:620px) and (prefers-reduced-motion:reduce){.call,.call .ct,.hdr .btn,.hdr.solid .call,.hdr.solid .call .ct,.hdr.solid .btn{transition:none}}
+@media (max-width:620px){.hdr .btn{min-height:40px;font-size:14px;border-radius:13px}.hdr .wrap{gap:6px}.call{gap:7px;min-height:40px}.call .ci{width:32px;height:32px}.call .ct small{display:none}.call .ct b{font-size:13px}.logo{font-size:16px;gap:7px;letter-spacing:.03em;padding-right:4px}.logo .mk{width:44px;height:17px}.logo .chev{width:11px;height:11px}}
 @media (prefers-reduced-motion: reduce){.call .ci::after,.call .ci svg{animation:none}}
 /* ---------- Первый экран ---------- */
 .hero{position:relative;overflow:hidden;color:#fff;background:#203040}
