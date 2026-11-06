@@ -110,32 +110,94 @@ def verticals(img, strength):
     return np.clip(out, 0, 1), (round(r, 4), round(k * H / 2, 4), round(1 - s, 3))
 
 
-def process(src, dst, wb=0.6, lift=0.3, vert=0.85, cool=0.035):
+def clean_whites(img, k=0.75):
+    """Белое (бельё, сантехника, тюль, лампы) — чисто белым; дерево и остальное не трогаем."""
+    hsv = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32) / 255
+    s, v = hsv[:, :, 1], hsv[:, :, 2]
+    m = np.clip((0.32 - s) / 0.16, 0, 1) * np.clip((v - 0.55) / 0.2, 0, 1)
+    m = cv2.GaussianBlur(m, (0, 0), 3)[:, :, None]
+    gray = img.mean(axis=2, keepdims=True)
+    warm_white = gray * np.array([0.985, 1.0, 1.012], np.float32)[None, None, :]  # белый с едва заметным теплом
+    return np.clip(img + (warm_white - img) * m * k, 0, 1)
+
+
+def rich_wood(img, sat=1.07, deep=0.97):
+    """Дерево — насыщенный мёд: чуть сочнее и глубже по цвету, но не оранжевое пятно."""
+    lab = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_BGR2LAB).astype(np.float32)
+    hsv = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32)
+    h, s = hsv[:, :, 0], hsv[:, :, 1] / 255
+    w = np.clip(1 - np.abs(h - 16) / 10, 0, 1) * np.clip((s - 0.25) / 0.2, 0, 1)
+    lab[:, :, 0] *= 1 - (1 - deep) * w
+    lab[:, :, 1] = 128 + (lab[:, :, 1] - 128) * (1 + (sat - 1) * w)
+    lab[:, :, 2] = 128 + (lab[:, :, 2] - 128) * (1 + (sat - 1) * w)
+    return cv2.cvtColor(np.clip(lab, 0, 255).astype(np.uint8), cv2.COLOR_LAB2BGR).astype(np.float32) / 255
+
+
+def s_curve(img, a=0.12):
+    return np.clip(img + a * (img - 0.5) * (1 - np.abs(2 * img - 1)), 0, 1)
+
+
+def warm_shadows(img, k=0.018):
+    lum = img.mean(axis=2, keepdims=True)
+    return np.clip(img + k * (1 - lum) ** 2 * np.array([-0.8, 0.1, 1.0], np.float32)[None, None, :], 0, 1)
+
+
+def vignette(img, k=0.1):
+    H, W = img.shape[:2]
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    d = ((xx - W / 2) / (W / 2)) ** 2 + ((yy - H / 2) / (H / 2)) ** 2
+    return img * (1 - k * np.clip(d - 0.35, 0, None) / 1.65)[:, :, None]
+
+
+def process(src, dst, style='cozy', vert=0.7):
+    """cozy — тёплый уютный стиль (по умолчанию): дерево медовое и насыщенное, белое — белое, светлее, объём;
+    clean — первая проба (холоднее, «чище»), владелец сказал, что пропал уют."""
     img = cv2.imdecode(np.fromfile(src, np.uint8), cv2.IMREAD_COLOR).astype(np.float32) / 255
-    img, ref, gain = white_balance(img, wb)
-    img = tone(img, lift)
-    img = local_contrast(img)
-    img = calm_orange(img, 0.86)
-    img = np.clip(img * np.array([1 + cool, 1, 1 - cool * .8], np.float32)[None, None, :], 0, 1)  # чуть холоднее: меньше оранжевого
+    if style == 'clean':
+        img, ref, gain = white_balance(img, 0.6)
+        img = tone(img, 0.3)
+        img = local_contrast(img)
+        img = calm_orange(img, 0.86)
+        img = np.clip(img * np.array([1.035, 1, 1 - .028], np.float32)[None, None, :], 0, 1)
+    else:
+        img, ref, gain = white_balance(img, 0.2)
+        img = tone(img, 0.22)
+        img = clean_whites(img)
+        img = rich_wood(img)
+        img = s_curve(img, 0.12)
+        img = local_contrast(img, 0.28)
+        img = warm_shadows(img)
+        img = vignette(img, 0.1)
     img, vinfo = verticals(img, vert) if vert else (img, None)
-    ok, buf = cv2.imencode('.jpg', (img * 255 + .5).astype(np.uint8), [cv2.IMWRITE_JPEG_QUALITY, 90])
+    ok, buf = cv2.imencode('.jpg', (np.clip(img, 0, 1) * 255 + .5).astype(np.uint8), [cv2.IMWRITE_JPEG_QUALITY, 90])
     buf.tofile(dst)
-    return {'wb_gain_bgr': np.round(gain, 3).tolist(), 'vert(r,k‰,crop)': vinfo}
+    return {'wb_gain_bgr': np.round(gain, 3).tolist(), 'vert(r,edge,crop)': vinfo}
 
 
 def compare(names):
+    """«как есть | первая проба (clean) | уютная (cozy)» — в shots/retouch/<имя>-compare.jpg и всё вместе в proba.jpg"""
     os.makedirs('shots/retouch', exist_ok=True)
+    rows = []
     for n in names:
         src = f'src/rooms/{n}.jpg'
-        dst = f'shots/retouch/{n}-after.jpg'
-        info = process(src, dst)
-        a = cv2.imdecode(np.fromfile(src, np.uint8), cv2.IMREAD_COLOR)
-        b = cv2.imdecode(np.fromfile(dst, np.uint8), cv2.IMREAD_COLOR)
+        outs = [src]
+        for st in ('clean', 'cozy'):
+            dst = f'shots/retouch/{n}-{st}.jpg'
+            print(n, st, process(src, dst, style=st)); outs.append(dst)
         h = 900
-        a = cv2.resize(a, (int(a.shape[1] * h / a.shape[0]), h)); b = cv2.resize(b, (a.shape[1], h))
+        ims = [cv2.imdecode(np.fromfile(f, np.uint8), cv2.IMREAD_COLOR) for f in outs]
+        ims = [cv2.resize(x, (int(x.shape[1] * h / x.shape[0]), h)) for x in ims]
         gap = np.full((h, 16, 3), 255, np.uint8)
-        cv2.imencode('.jpg', np.hstack([a, gap, b]), [cv2.IMWRITE_JPEG_QUALITY, 86])[1].tofile(f'shots/retouch/{n}-compare.jpg')
-        print(n, info)
+        row = np.hstack([ims[0], gap, ims[1], gap, ims[2]])
+        cv2.imencode('.jpg', row, [cv2.IMWRITE_JPEG_QUALITY, 86])[1].tofile(f'shots/retouch/{n}-compare.jpg')
+        rows.append(row)
+    w = min(r.shape[1] for r in rows)
+    rows = [cv2.resize(r, (w, int(r.shape[0] * w / r.shape[1]))) for r in rows]
+    gap = np.full((20, w, 3), 255, np.uint8)
+    out = rows[0]
+    for r in rows[1:]:
+        out = np.vstack([out, gap, r])
+    cv2.imencode('.jpg', out, [cv2.IMWRITE_JPEG_QUALITY, 85])[1].tofile('shots/retouch/proba.jpg')
 
 
 if __name__ == '__main__':
