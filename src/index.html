@@ -135,8 +135,8 @@ section[id]{scroll-margin-top:84px}
 .call .ct b{display:block;font-size:15px;font-weight:600}
 .call,.call .ci,.call .ct{flex:none}
 .call .ci{width:34px}
-@media (max-width:360px){.call .ct{display:none}.call{padding-right:4px}}
-@media (max-width:620px){.hdr .wrap{gap:6px}.hdr-r{gap:8px}.call{padding:4px 12px 4px 4px;gap:7px;min-height:40px}.call .ci{width:32px;height:32px}.call .ct small{display:none}.call .ct b{font-size:13px}.logo{font-size:16px;gap:7px;letter-spacing:.03em;padding-right:4px}.logo .mk{width:44px;height:17px}.logo .chev{width:11px;height:11px}}
+@media (max-width:360px){.call .ct{display:none}.call{padding-right:4px}.logo .mk{display:none}.hdr .btn{padding:0 11px;font-size:13.5px}}
+@media (max-width:620px){.hdr .btn{min-height:40px;padding:0 13px;font-size:14px;border-radius:13px}.call .ct{display:none}.hdr .wrap{gap:6px}.hdr-r{gap:8px}.call{padding:4px;gap:7px;min-height:40px}.call .ci{width:32px;height:32px}.call .ct small{display:none}.call .ct b{font-size:13px}.logo{font-size:16px;gap:7px;letter-spacing:.03em;padding-right:4px}.logo .mk{width:44px;height:17px}.logo .chev{width:11px;height:11px}}
 @media (prefers-reduced-motion: reduce){.call .ci::after,.call .ci svg{animation:none}}
 /* ---------- Первый экран ---------- */
 .hero{position:relative;overflow:hidden;color:#fff;background:#203040}
@@ -394,16 +394,6 @@ footer{padding-block:48px 56px;font-size:15px;color:var(--ink2);border-top:1px s
 .wxkinds button{display:flex;align-items:center;gap:8px;border:0;border-radius:10px;background:var(--soft);color:var(--ink);font:500 13px var(--body);padding:8px 10px;cursor:pointer;min-height:40px;text-align:left}
 .wxkinds button svg{flex:0 0 18px;width:18px;height:18px}
 .wxkinds button[aria-pressed="true"]{background:var(--ink);color:#fff}
-@media (max-width:760px){.wxpanel{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
-.mbar{display:none}
-@media (max-width:760px){
-  footer{padding-bottom:120px}
-  .mbar{display:flex;align-items:center;gap:10px;position:fixed;z-index:55;left:0;right:0;bottom:0;padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));background:var(--card);box-shadow:0 -6px 20px rgba(0,0,0,.08)}
-  .mbar div{flex:1;min-width:0;font-size:13px;color:var(--ink2);line-height:1.3}
-  .mbar div b{display:block;font-family:var(--display);font-size:17px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .mbar .btn{min-height:48px;padding:0 18px}
-  .hdr .btn{display:none}
-}
 .rv-in{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)}
 .rv-in.in{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.btn,.room{transition:none}}
@@ -439,11 +429,6 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
 .pm{background:rgba(252,253,254,.9);-webkit-backdrop-filter:blur(24px) saturate(1.8);backdrop-filter:blur(24px) saturate(1.8);box-shadow:var(--gl-rim),0 30px 80px rgba(10,18,28,.35)}
 .menu-bd,.pm-bd{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 /* кнопки-иконки в финальном блоке */
-/* нижняя панель на телефоне — плавающая стеклянная капсула, как шапка */
-@media (max-width:760px){
-  .mbar{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:8px 8px 8px 16px;border-radius:22px;background:rgba(250,252,253,.74);-webkit-backdrop-filter:blur(20px) saturate(1.8);backdrop-filter:blur(20px) saturate(1.8);box-shadow:var(--gl-rim),0 10px 30px rgba(19,32,42,.18)}
-  .mbar .btn{min-height:46px;border-radius:15px}
-}
 /* ---------- Стеклянные иконки: единый стиль — матовое светлое стекло, знак в фирменном зелёном с мягкой заливкой второго тона ---------- */
 .gi,.gc{position:relative;display:grid;place-items:center;flex:none;color:var(--pine);overflow:hidden;
   background:radial-gradient(120% 90% at 30% 0%,rgba(255,255,255,.95),rgba(255,255,255,0) 60%),linear-gradient(160deg,rgba(246,250,248,.94),rgba(218,233,226,.82));
@@ -464,11 +449,6 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
 .live{background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 1px 3px rgba(19,32,42,.05)}
 .dist2 li{background:rgba(234,240,243,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.8);padding:14px}
 .dist2 li .gc{color:var(--pine);font-size:inherit;margin-bottom:8px}
-/* нижняя панель: появляется плавно после первого экрана */
-@media (max-width:760px){
-  .mbar{transform:translateY(calc(100% + 24px));opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1), opacity .3s;pointer-events:none}
-  .mbar.on{transform:none;opacity:1;pointer-events:auto}
-}
 /* на телефонах наведения нет: убираем «залипшую» подсветку после нажатия */
 @media (hover:none){
   .logo:hover:not([aria-expanded="true"]),.hdr.light .logo:hover:not([aria-expanded="true"]){background:transparent}
@@ -515,7 +495,7 @@ body{background:radial-gradient(1100px 620px at 4% 820px,#DCEAF5 0,rgba(220,234,
 .hp-dist .nodist+.hd{padding-left:0;margin:0;border:0}
 a.hp-rate:hover{background:rgba(255,255,255,.06)}
 .hp-rate svg{color:#FFD58A}
-.hp-rest .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.2);margin-right:8px;vertical-align:3px}
+.hp-rest .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.2);margin-right:6px;vertical-align:1px}
 .hp-rest.closed .dot{background:#9AA5AE;box-shadow:none}
 :root.nowx .hp-wx{display:none}
 /* фото чище: вместо цветной заливки неба — мягкое затемнение сверху для шапки и снизу для текста */
@@ -818,7 +798,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
-      <a class="hp-c hp-rest" id="hpRest" href="#restaurant" aria-label="Ресторан: часы работы, меню и цены"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.6-3 7h3"/></svg><div><b><i class="dot"></i>Ресторан</b><span>открыт до 21:00</span></div></a>
+      <a class="hp-c hp-rest" id="hpRest" href="#restaurant" aria-label="Ресторан: часы работы, меню и цены"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.6-3 7h3"/></svg><div><b>Ресторан</b><span><i class="dot"></i>открыт до 21:00</span></div></a>
       <a class="hp-c hp-rate" id="hpRate" href="https://yandex.ru/maps/-/CXbtI4I5" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg><div><b><span class="rt">5,0</span><span class="of"> из 5</span><i class="st" aria-hidden="true">★</i></b><span class="vt"><em class="vv">1293 оценки · </em>Яндекс Карты</span><span class="ym" aria-hidden="true"><i class="ymp"><svg width="9" height="12" viewBox="0 0 12 16"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg></i>Яндекс<i class="ymw"> Карты</i><svg class="hp-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></div></a>
       <div class="hp-c hp-dist"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/></svg><a class="hd" href="#way" data-dist="cheget" aria-label="500 м до Чегета — как добраться"><b class="dv">500 м</b><span>до Чегета</span></a><a class="hd" href="#way" data-dist="azau" aria-label="5 км до Азау — как добраться"><b class="dv">5 км</b><span>до Азау</span></a></div>
       <button type="button" class="hp-wx" id="hpWx" aria-expanded="false" aria-label="Погода в Терсколе: показать прогноз на ближайшие дни"><span class="hp-now" aria-live="polite"><span class="hp-ic" id="hpIc" aria-hidden="true"></span><span class="hp-wl">Сейчас в Терсколе</span><b id="hpT"></b><span class="hp-wk" id="hpK"></span><span class="hp-ww" id="hpW"></span></span><span class="hp-fc" id="hpFc"></span><span class="hp-tg" aria-hidden="true"><i class="tg-a">прогноз</i><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
@@ -1035,7 +1015,6 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   <p class="fm-n" id="fmNote"></p>
 </div>
 
-<div class="mbar" id="mbar"><div><b>Даты и цены онлайн</b><span>завтрак на двоих включён</span></div><a class="btn btn-honey" href="#book">Выбрать даты</a></div>
 
 <script>
 (function(){
@@ -1601,9 +1580,6 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var hdrEl = document.getElementById('hdr');
   var heroEl = document.getElementById('hero');
   /* нижняя панель на телефоне: появляется после первого экрана, прячется, когда виден блок бронирования */
-  var mbar = document.getElementById('mbar'), bookEl = document.getElementById('book'), vis = {hero:true, book:false};
-  if (mbar && 'IntersectionObserver' in window){ var mio = new IntersectionObserver(function(es){ es.forEach(function(e){ vis[e.target === bookEl ? 'book' : 'hero'] = e.isIntersecting; }); mbar.classList.toggle('on', !vis.hero && !vis.book); }, {threshold:0});
-    mio.observe(document.getElementById('hero')); mio.observe(bookEl); } else if (mbar) mbar.classList.add('on');
   function onScroll(){ var y = window.scrollY, light = y > heroEl.offsetTop + heroEl.offsetHeight - 66;
     hdrEl.classList.toggle('light', light); hdrEl.classList.toggle('solid', y > 24); }
   var ROOT = document.documentElement;
@@ -1657,7 +1633,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   function tick(){ o0 = msk(); minutes = (+o0.hour)*60 + (+o0.minute); if (!W.forced){ W.phase = phaseFor(minutes); } applyWeather();
     var open = restOpen(), l = document.getElementById('restLive'); l.classList.toggle('closed', !open); l.lastElementChild.textContent = open ? 'Ресторан открыт до ' + REST.close + ':00' : 'Ресторан откроется в ' + REST.open + ':00';
     /* в панели обложки: на телефоне коротко — «до 21:00» / «с 8:00» */
-    var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').innerHTML = (open ? '<i class="lw">открыт </i>до ' + REST.close + ':00' : '<i class="lw">откроется в</i><i class="sw">с</i> ' + REST.open + ':00') + GO_D; } }
+    var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').innerHTML = '<i class="dot"></i>' + (open ? '<i class="lw">открыт </i>до ' + REST.close + ':00' : '<i class="lw">откроется в</i><i class="sw">с</i> ' + REST.open + ':00') + GO_D; } }
 
   /* Панель «Погода» (переключать погоду для проверки): видна на preview.hotellegenda.ru, локально и по ?demo,
      на рабочем сайте спрятана */
