@@ -329,6 +329,8 @@ section[id]{scroll-margin-top:84px}
 .road{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);background:var(--card);border-radius:28px;overflow:hidden}
 .road-i{padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;gap:12px}
 .road-a{color:var(--ink2)}
+.road-t{color:var(--pine);font-weight:600;text-decoration:none;white-space:nowrap}
+.road-t:hover{text-decoration:underline}
 .dist2{list-style:none;padding:0;margin:6px 0 4px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .dist2 li{background:var(--soft);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
 .dist2 b{font-family:var(--display);font-size:22px;font-weight:600}
@@ -573,7 +575,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 @media (max-width:385px){:root.hc .lsub{display:none}}
 /* подвал: бренд + документы */
 .ft{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start}
-.ft-mail{display:inline-flex;align-items:center;gap:8px;margin-top:10px;min-height:40px;color:var(--ink);text-decoration:none;font-weight:500}
+.ft-ct{display:flex;flex-direction:column;align-items:flex-start;margin-top:10px}
+.ft-mail{display:inline-flex;align-items:center;gap:8px;min-height:40px;color:var(--ink);text-decoration:none;font-weight:500}
 .ft-mail svg{color:var(--pine)}
 .ft-mail:hover{color:var(--pine)}
 .ft-docs{gap:8px}
@@ -587,7 +590,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 @media (max-width:760px){.ft{grid-template-columns:1fr;gap:24px}}
 @media (hover:none){.ft-doc:hover{transform:none}}
 .ft-bot span{white-space:nowrap}
-@media (max-width:760px){.ft-brand{text-align:center}.ft-logo{justify-content:center}.ft-h{text-align:center}.ft-bot{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}.ft-bot .ft-sep{display:none}}
+@media (max-width:760px){.ft-ct{align-items:center}.ft-brand{text-align:center}.ft-logo{justify-content:center}.ft-h{text-align:center}.ft-bot{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}.ft-bot .ft-sep{display:none}}
 /* стеклянная капсула шапки: тень не обрезается краем шапки */
 .hdr[data-m="glass"].solid{overflow:visible}
 /* шапка всегда поверх блока бронирования: виджет не может подняться выше неё; светлая капсула заметнее на светлых карточках */
@@ -905,7 +908,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       <div class="road-i">
         <span class="kick">Как добраться</span>
         <h2>Ждём вас в Терсколе</h2>
-        <p class="road-a">с. Терскол, ул. Чегет, 5А<br>Бронирование круглосуточно</p>
+        <p class="road-a">с. Терскол, ул. Чегет, 5А<br>Бронирование круглосуточно: <a class="road-t" href="tel:+79993000088">+7 999 300-00-88</a></p>
         <ul class="dist2">
           <li data-dist="cheget"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M3 6.6 21 3"/><path d="M12 4.8V9"/><rect x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M7 13.2h10"/></svg></span><b class="dv">500 м</b><span>до подъёмника Чегет</span></li>
           <li data-dist="azau"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M3 5h18M12 5v4"/><path d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M7.2 12.8h9.6"/></svg></span><b class="dv">5 км</b><span>до канатной дороги Азау</span></li>
@@ -983,7 +986,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     <div class="ft-brand">
       <span class="ft-logo"><svg class="ft-mk" viewBox="229 128.3 474.8 185.7" aria-hidden="true"><g transform="translate(0,698) scale(0.1,-0.1)"><path fill="currentColor" d="M3875 5529 c-143 -138 -259 -256 -257 -262 2 -7 41 -119 88 -250 47 -131 84 -241 81 -243 -2 -3 -118 38 -257 91 l-252 95 -316 -303 c-174 -166 -414 -394 -533 -507 -119 -113 -217 -208 -218 -213 -1 -4 61 41 137 101 75 59 326 256 557 437 l419 328 399 -132 c219 -73 400 -131 403 -129 2 3 -63 150 -146 328 -82 177 -148 326 -145 330 2 4 72 60 154 124 97 75 155 115 163 110 33 -20 1058 -837 1055 -841 -3 -2 -121 44 -263 102 -142 58 -263 104 -269 101 -7 -2 -140 -161 -297 -353 -157 -191 -317 -387 -357 -435 -40 -49 -70 -88 -68 -88 3 0 172 157 378 349 205 192 377 347 383 345 32 -10 799 -194 809 -193 7 0 -103 112 -243 250 l-255 250 65 60 c36 32 70 57 77 55 6 -3 407 -252 890 -554 959 -599 915 -572 893 -550 -8 9 -226 188 -485 398 -258 210 -656 534 -883 719 -227 185 -417 337 -421 339 -4 1 -57 -57 -116 -130 -60 -73 -121 -148 -136 -165 l-28 -33 -366 358 c-201 196 -369 358 -373 359 -4 1 -124 -111 -267 -248z"/></g></svg>ЛЕГЕНДА</span>
       <p>Эко-отель в Терсколе<br>с. Терскол, ул. Чегет, 5А</p>
-      <a class="ft-mail" href="mailto:Legenda_hotel@mail.ru"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Legenda_hotel@mail.ru</a>
+      <div class="ft-ct"><a class="ft-mail" href="tel:+79993000088" aria-label="Позвонить в отдел бронирования: +7 999 300-00-88"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>+7 999 300-00-88</a><a class="ft-mail" href="mailto:Legenda_hotel@mail.ru"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Legenda_hotel@mail.ru</a></div>
     </div>
     <div class="ft-col ft-docs">
       <span class="ft-h">Документы</span>
@@ -1149,15 +1152,28 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var ORDER = ['clear','partly','overcast','fog','drizzle','rain','sleet','snow','heavysnow','blizzard','thunder'];
   /* Утро — от предрассветных сумерек до ~10:00 (летом раньше, зимой позже), вечер — за полтора часа до заката и полчаса после.
      Внутри утра и вечера небо плавно меняется: сумерки → рассвет → утро → день; день → золотой час → закат → сумерки */
+  /* PALETTE — небо по времени суток и погоде (как в погодных приложениях: днём светло даже в пасмурно и снег,
+     тёмные, почти чёрные тона — только глухой ночью в сплошную облачность и в грозу) */
   var SKY = {
-    predawn:{s1:'#2B3A66', s2:'#B98A98'}, dawn:{s1:'#F3C7A6', s2:'#A9CBE9'}, morning:{s1:'#86B8E4', s2:'#E6E0D2'},
-    day:{s1:'#6FAEE0', s2:'#D6EAF7'}, gold:{s1:'#6488BE', s2:'#F2BC8C'}, dusk:{s1:'#3E4E80', s2:'#EE9F6E'},
-    late:{s1:'#16224A', s2:'#3D4470'}, night:{s1:'#0A1530', s2:'#22365F'}
+    predawn:{s1:'#4F64A0', s2:'#CDA6B6'}, dawn:{s1:'#F6CDAE', s2:'#B5D4EE'}, morning:{s1:'#8CC2EE', s2:'#EAF0F2'},
+    day:{s1:'#5FA8E8', s2:'#D2E9FA'}, gold:{s1:'#7FA3D6', s2:'#F6C79A'}, dusk:{s1:'#5868A0', s2:'#F0A97E'},
+    late:{s1:'#34478A', s2:'#6A6FA6'}, night:{s1:'#24397A', s2:'#4D6AAE'}
   };
-  var GREY = {
-    dawn:{s1:'#7D8794', s2:'#B4B8BE'}, day:{s1:'#8E9AA6', s2:'#C8CFD5'},
-    dusk:{s1:'#3A404C', s2:'#6E6A6C'}, night:{s1:'#1A2029', s2:'#2C333E'}
+  /* облака, туман, дождь, снег, гроза — свой оттенок на каждое время суток; смешивается с ясным небом */
+  var PAL = {
+    cloud:{dawn:{s1:'#A3AEBE', s2:'#D9D7D9'}, day:{s1:'#A2B4C6', s2:'#DFE7EE'}, dusk:{s1:'#76809A', s2:'#BCB1B4'}, night:{s1:'#2F3A50', s2:'#4D5B76'}},
+    fog:{dawn:{s1:'#B9C1CA', s2:'#DEE1E4'}, day:{s1:'#C0C9D2', s2:'#E6EBEF'}, dusk:{s1:'#9097A1', s2:'#C3BEBE'}, night:{s1:'#4A5463', s2:'#6E7888'}},
+    rain:{dawn:{s1:'#8497AE', s2:'#C3CDD8'}, day:{s1:'#84A0BA', s2:'#C9D7E3'}, dusk:{s1:'#5F6D90', s2:'#A09FB2'}, night:{s1:'#33435E', s2:'#566A88'}},
+    snow:{dawn:{s1:'#AFC0D4', s2:'#E4E8EF'}, day:{s1:'#ABC3DA', s2:'#EAF1F7'}, dusk:{s1:'#7E8BAA', s2:'#CBC6D0'}, night:{s1:'#3F5076', s2:'#6E82AC'}},
+    storm:{dawn:{s1:'#5B6478', s2:'#8E95A3'}, day:{s1:'#5F6B7E', s2:'#9AA4B1'}, dusk:{s1:'#3B4155', s2:'#666A7C'}, night:{s1:'#11151F', s2:'#252B3C'}}
   };
+  var KGRP = {overcast:['cloud',.85], fog:['fog',.9], drizzle:['rain',.7], rain:['rain',.85], sleet:['rain',.8],
+    snow:['snow',.78], heavysnow:['snow',.88], blizzard:['snow',.94], thunder:['storm',.95]};
+  function skyPair(m, kind, cloud){ m = ((m % 1440) + 1440) % 1440; var ph = phaseFor(m), b = skyAt(m, ph), g = KGRP[kind], k;
+    if (g) k = g[1];
+    else { g = ['cloud']; k = kind === 'partly' ? Math.min(.5, .2 + (cloud || 0)/100*.35) : Math.min(.25, (cloud || 0)/100*.3); }
+    var p = PAL[g[0]][ph]; return {s1:mixH(b.s1, p.s1, k), s2:mixH(b.s2, p.s2, k)}; }
+  /* /PALETTE */
   function hex(h){ var n = parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
   function mixH(a, b, k){ var x = hex(a), y = hex(b); return '#' + x.map(function(v,i){ var c = Math.round(v + (y[i]-v)*k); return (c < 16 ? '0' : '') + c.toString(16); }).join(''); }
   function lum(h){ var c = hex(h); return .2126*c[0] + .7152*c[1] + .0722*c[2]; }
@@ -1200,9 +1216,9 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   function applyWeather(){
     var K = KINDS[W.kind], cloud = W.forced ? K.cloud : (W.cloud != null ? W.cloud : K.cloud), g = Math.min(1, cloud/100*.85 + (K.fog ? .15 : 0) + (K.precip ? .1 : 0));
     W.cloudNow = cloud;
-    var b = skyAt(minutes), gr = GREY[W.phase], r = document.documentElement.style;
+    var b = skyAt(minutes), p = skyPair(minutes, W.kind, cloud), r = document.documentElement.style;
     W.dark = W.phase === 'night' || lum(b.s1) < 110;
-    r.setProperty('--sky1', mix(b.s1, gr.s1, g)); r.setProperty('--sky2', mix(b.s2, gr.s2, g));
+    r.setProperty('--sky1', p.s1); r.setProperty('--sky2', p.s2);
     r.setProperty('--hdr-ink', W.dark ? '#FFFFFF' : '#13202A');
     var temp = W.forced || W.temp == null ? K.t : Math.round(W.temp), wind = W.forced || W.wind == null ? K.wind : Math.round(W.wind);
     var t = (temp > 0 ? '+' : temp < 0 ? '−' : '') + Math.abs(temp) + '°';
@@ -1625,9 +1641,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   hpWx.addEventListener('click', function(){ if (!W.daily) return; var on = !hpWx.classList.contains('fc'); hpWx.classList.toggle('fc', on); hpWx.setAttribute('aria-expanded', on);
     hpWx.setAttribute('aria-label', on ? 'Прогноз на ближайшие дни: вернуть погоду сейчас' : 'Погода в Терсколе: показать прогноз на ближайшие дни'); });
   /* цвет неба в заданный час: время суток и облачность — как у плашки в меню */
-  var WET = {dawn:{s1:'#6D7E98', s2:'#AEB8C8'}, day:{s1:'#6F8BA8', s2:'#B4C6D8'}, dusk:{s1:'#45506B', s2:'#7A7C90'}, night:{s1:'#1E2838', s2:'#33415A'}};
-  function skyCol(m, kind, cloud){ m = ((m % 1440) + 1440) % 1440; var ph = phaseFor(m), b = skyAt(m, ph), K = KINDS[kind], gr = (K.precip ? WET : GREY)[ph], g = Math.min(.82, cloud/100*.8 + (K.fog ? .15 : 0));
-    return mixH(mixH(b.s1, gr.s1, g), mixH(b.s2, gr.s2, g), .35); }
+  function skyCol(m, kind, cloud){ var p = skyPair(m, kind, cloud); return mixH(p.s1, p.s2, .35); }
   /* плашка «Сейчас в Терсколе»: слева — сейчас, дальше 6 часов; фон — небо каждого часа, слева направо */
   function renderHours(){ var H = W.hourly, box = document.getElementById('menuHr'), pl = document.getElementById('menuNow'); if (!box) return;
     var i0 = H && H.time ? H.time.map(function(x){ return x.slice(0, 13); }).indexOf(W.nowH) : -1;
