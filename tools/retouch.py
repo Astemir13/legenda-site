@@ -159,6 +159,16 @@ def process(src, dst, style='cozy', vert=0.7):
         img = local_contrast(img)
         img = calm_orange(img, 0.86)
         img = np.clip(img * np.array([1.035, 1, 1 - .028], np.float32)[None, None, :], 0, 1)
+    elif style == 'scandi':
+        # как у друга по настроению (светлая сосна, много света), но только цветом и светом — без перерисовки кадра
+        img, ref, gain = white_balance(img, 0.7)
+        img = tone(img, 0.35)
+        img = img ** 0.72
+        img = clean_whites(img, 0.95)
+        img = rich_wood(img, sat=0.55, deep=1.06)
+        img = np.clip(img * np.array([1.02, 0.982, 1.0], np.float32)[None, None, :], 0, 1)
+        img = s_curve(img, 0.06)
+        img = local_contrast(img, 0.3)
     elif style == 'bright':
         # светлый: ближе к светлым фото из PR друга, но без перерисовки — дерево светлее и спокойнее, кадр «воздушный»
         img, ref, gain = white_balance(img, 0.35)
