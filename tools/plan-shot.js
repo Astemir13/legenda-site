@@ -1,4 +1,7 @@
+// Снимки схемы номера: node tools/plan-shot.js [номер] [вариант,вариант] → shots/plan-<номер>-<d|m><i>.png
+// По умолчанию — стандарт двухместный. Пример: node tools/plan-shot.js barn "1 этаж,2 этаж"
 const {chromium} = require('playwright'); const {spawn} = require('child_process');
+const id = process.argv[2] || 'std2', vars = (process.argv[3] || 'Большая кровать,Две кровати').split(',');
 (async () => {
   const srv = spawn('node', ['tools/serve.js']); await new Promise(r => setTimeout(r, 800));
   const b = await chromium.launch(); const errs = [];
@@ -6,12 +9,12 @@ const {chromium} = require('playwright'); const {spawn} = require('child_process
     const p = await b.newPage({viewport: {width: w, height: h}, deviceScaleFactor: 2});
     p.on('pageerror', e => errs.push(e.message));
     await p.goto('http://127.0.0.1:8765/', {waitUntil: 'networkidle'});
-    for (const v of [0, 1]) {
-      await p.evaluate(() => document.querySelector('#r-std2 .pl').click());
+    for (let v = 0; v < vars.length; v++) {
+      await p.evaluate(id => document.querySelector('#r-' + id + ' .pl').click(), id);
       await p.waitForTimeout(400);
-      if (v) { await p.evaluate(() => [...document.querySelectorAll('button')].find(x => x.textContent.trim() === 'Две кровати').click()); }
+      await p.evaluate(n => { const x = [...document.querySelectorAll('button')].find(x => x.textContent.trim() === n); if (x) x.click(); }, vars[v]);
       await p.waitForTimeout(2500);
-      await p.screenshot({path: `shots/plan-std2-${tag}${v}.png`});
+      await p.screenshot({path: `shots/plan-${id}-${tag}${v}.png`});
       await p.keyboard.press('Escape'); await p.waitForTimeout(300);
     }
   }
