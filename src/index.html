@@ -318,7 +318,7 @@ section[id]{scroll-margin-top:84px}
 .rv small{color:var(--ink2);margin-top:auto}
 @media (max-width:980px){.revs{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.revs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin-inline:-16px;padding:0 16px 6px;scrollbar-width:none}.revs::-webkit-scrollbar{display:none}.revs>*{flex:0 0 82%;scroll-snap-align:start}.revs .score{flex-basis:62%}}
-/* Как добраться и вопросы */
+/* Как добраться */
 .gz{grid-column:1/-1;flex-direction:row;align-items:center;gap:20px}
 .gz h3{font-size:22px;margin-bottom:6px}
 .gz p{color:var(--ink2)}
@@ -649,6 +649,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 /* раздел «Об отеле»: блоки друг под другом; ресторан — текст и кнопки слева, комплексное питание справа */
 .stack{display:grid;gap:18px}
 #hotel .feat{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hot-d{color:var(--ink2);font-size:17px;line-height:1.55;max-width:64ch;margin:-6px 0 22px}
+@media (max-width:620px){.hot-d{font-size:15.5px;margin:-4px 0 16px}}
 .rest{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px 32px;align-items:center}
 .rest-i{display:flex;flex-direction:column;gap:14px;min-width:0}
 .rest-d{color:var(--ink2)}
@@ -813,7 +815,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     <a href="#hotel"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg>Об отеле</a>
     <div class="menu-row"><a href="#restaurant" data-food="menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.5-3 7h3"/></svg>Ресторан и меню<small>8:00–21:00</small></a><a class="mcall" href="tel:+79287130416" aria-label="Позвонить в ресторан: +7 928 713-04-16" title="Позвонить в ресторан"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a></div>
     <a href="#reviews"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg>Отзывы гостей</a>
-    <a href="#way"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Как добраться и вопросы</a>
+    <a href="#way"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Как добраться</a>
   </nav>
   <div class="menu-act">
     <a class="btn btn-accent wide" href="https://homereserve.ru/gDYYpGYEnb" target="_blank" rel="noopener" data-book>Забронировать онлайн</a>
@@ -875,11 +877,14 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     <div class="panel">
       <div class="pnl-h"><span class="gi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M4.5 10.5 12 4.5l7.5 6V20h-15z"/><path d="M3 11.6 12 4.5l9 7.1"/><path d="M5 10.4V20h14v-9.6"/><path d="M5 13.4h14M5 16.6h14"/><path d="M10 20v-3h4v3"/></svg></span><span class="kick">Об отеле</span></div>
       <h2>Дом из натурального сруба в сосновом бору</h2>
+      <p class="hot-d">Своя закрытая территория прямо в сосновом лесу: тишина, горный воздух и запах хвои. С территории — выход на эко-тропы и прогулочные маршруты, а вечером после склона ждут сауна, беседка с мангалом и тёплый сруб.</p>
       <ul class="feat">
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/><path d="M7.3 11.4 9 12.3l1.6-.9"/></svg></span><span>Подъёмник Чегет в 500 м, канатная дорога Азау — 5 км</span></li>
-        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="4" y="4" width="16" height="16" rx="4.5"/><rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M10 16.5v-9h2.8a2.6 2.6 0 0 1 0 5.2H10"/></svg></span><span>Бесплатная парковка и Wi-Fi на всей территории</span></li>
-        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="8.5" cy="7.2" r="2.6"/><circle cx="8.5" cy="7.2" r="2.6"/><path d="M4.3 20v-4.3a4.2 4.2 0 0 1 8.4 0V20"/><circle cx="16.8" cy="10.2" r="2"/><path d="M14 20v-2.8a2.8 2.8 0 0 1 5.6 0V20"/></svg></span><span>Можно с детьми и с питомцами (за питомца [доплата])</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M12 3 6.5 10.5h3L5.5 16h13l-4-5.5h3z"/><path d="M12 3 6.5 10.5h3L5.5 16h13l-4-5.5h3z"/><path d="M12 16v5"/></svg></span><span>Своя закрытая территория в сосновом бору</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="18" cy="5.2" r="2.3"/><circle cx="18" cy="5.2" r="2.3"/><path d="M5.5 21c0-3.6 8-3.2 8-7.2S6.8 10.6 6.8 7.6 9.6 4.2 13 4.8"/></svg></span><span>Выход на эко-тропы и места для прогулок</span></li>
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="4" y="12" width="16" height="4.5" rx="1"/><path d="M8 3.6c-1 1.4 1 2.4 0 3.8M12 3.1c-1 1.4 1 2.4 0 3.8M16 3.6c-1 1.4 1 2.4 0 3.8"/><path d="M4 12h16M4 16.5h16M6 12v8M18 12v8"/></svg></span><span>Сауна на территории</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="4" y="4" width="16" height="16" rx="4.5"/><rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="M10 16.5v-9h2.8a2.6 2.6 0 0 1 0 5.2H10"/></svg></span><span>Бесплатная парковка и Wi-Fi на всей территории</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="12" cy="6" r="2.6"/><circle cx="12" cy="6" r="2.6"/><path d="M8 12.6c1-1.4 2.4-2.1 4-2.1s3 .7 4 2.1M12 10.5V16M9.4 21l2.6-5 2.6 5"/></svg></span><span>Дети до 3 лет — бесплатно</span></li>
       </ul>
     </div>
     <div class="panel rest" id="restaurant">
@@ -915,7 +920,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     <div class="panel faqp">
       <span class="kick" style="margin:0">Частые вопросы</span>
       <div class="faq">
-        <details><summary>Во сколько заезд и выезд?</summary><p>Заезд после 14:00, выезд до 12:00. Ресепшен работает круглосуточно.</p></details>
+        <details><summary>Во сколько заезд и выезд?</summary><p>Заезд после 14:00, выезд до 12:00. Бронирование работает круглосуточно.</p></details>
         <details><summary>Можно ли отменить бронь?</summary><p>Бесплатно [за N дней до заезда].</p></details>
         <details><summary>Входит ли завтрак?</summary><p>При бронировании напрямую — на сайте или по телефону — завтрак на двоих включён. Ресторан работает с 8:00 до 21:00.</p></details>
         <details><summary>Как добраться без машины?</summary><p>Из Минвод или Нальчика — [трансфер / такси], около [время]. Позвоните, подскажем.</p></details>
@@ -1978,7 +1983,6 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   "numberOfRooms": 15,
   "checkinTime": "14:00",
   "checkoutTime": "12:00",
-  "petsAllowed": true,
   "priceRange": "₽₽",
   "currenciesAccepted": "RUB",
   "availableLanguage": ["ru"],
@@ -1990,7 +1994,10 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     {"@type": "LocationFeatureSpecification", "name": "Бесплатная парковка", "value": true},
     {"@type": "LocationFeatureSpecification", "name": "Бесплатный Wi-Fi", "value": true},
     {"@type": "LocationFeatureSpecification", "name": "Круглосуточная стойка регистрации", "value": true},
-    {"@type": "LocationFeatureSpecification", "name": "Можно с детьми и с домашними животными", "value": true}
+    {"@type": "LocationFeatureSpecification", "name": "Закрытая территория в сосновом бору", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Выход на эко-тропы", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Сауна", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Дети до 3 лет — бесплатно", "value": true}
   ],
   "containsPlace": [
     {"@type": "HotelRoom", "name": "Стандарт двухместный", "description": "Одна большая кровать или две раздельные — на выбор. Вид на горы.", "occupancy": {"@type": "QuantitativeValue", "maxValue": 2}, "floorSize": {"@type": "QuantitativeValue", "value": 32, "unitCode": "MTK"}},
