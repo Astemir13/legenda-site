@@ -713,8 +713,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 .hp-wx.fc .hp-tg svg{transform:rotate(180deg)}
 :root.nowx .hp-tg{display:none}
 @media (max-width:560px){.fd em{display:none}.fd{gap:4px}.fd svg{width:15px;height:15px}}
-@media (max-width:400px){.fd:nth-child(5){display:none}}
-@media (max-width:350px){.fd:nth-child(4){display:none}.hp-tg .tg-a{display:none}.hp-tg{width:24px;padding:0;justify-content:center}}
+@media (max-width:350px){.hp-tg .tg-a{display:none}.hp-tg{width:24px;padding:0;justify-content:center}}
 /* панель: ресторан, Яндекс Карты, Чегет, Азау — первая ячейка без черты слева */
 :root.hc .hpanel .hp-rest{border-left:0}
 :root.hc .hpanel .hp-dist>.hd:first-of-type{border-left:1px solid rgba(255,255,255,.12)}
@@ -1690,11 +1689,12 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     if (tight()) bx.classList.add('x-tg');
     if (tight()) now.classList.add('x-ic');
     if (tight()) now.classList.add('x-ov');
-    if (wasFc) bx.classList.add('fc');
-    if (fc){ var ds = fc.querySelectorAll('.fd'), n; fc.classList.remove('x-em');
+    /* дни прогноза меряем в открытом виде: тогда кнопка «прогноз» свёрнута в стрелку и места больше */
+    if (fc){ bx.classList.add('fc'); var ds = fc.querySelectorAll('.fd'), n; fc.classList.remove('x-em');
       for (n = 0; n < ds.length; n++) ds[n].hidden = false;
       if (over(fc)) fc.classList.add('x-em');
-      for (n = ds.length - 1; n > 2 && over(fc); n--) ds[n].hidden = true; } }
+      for (n = ds.length - 1; n > 2 && over(fc); n--) ds[n].hidden = true; }
+    bx.classList.toggle('fc', wasFc); }
   var fitT, fitW = window.innerWidth; window.addEventListener('resize', function(){ if (window.innerWidth === fitW) return; fitW = window.innerWidth; clearTimeout(fitT); fitT = setTimeout(fitWx, 150); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWx);
   var hpWx = document.getElementById('hpWx');
