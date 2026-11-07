@@ -1259,10 +1259,14 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 
   /* направление ветра — отдельным запросом: если не ответит, основная погода не страдает */
   function loadExtra(){ fetch(API2).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ if (!d || !d.current) return; W.wdir = d.current.wind_direction_10m; applyWeather(); }).catch(function(){}); }
+  /* запрос с таймаутом: ответ должен быть JSON с current */
+  function getWx(u){ var c = window.AbortController ? new AbortController() : null, t = c ? setTimeout(function(){ c.abort(); }, 9000) : 0;
+    return fetch(u, c ? {signal:c.signal} : {}).then(function(r){ clearTimeout(t); if (!r.ok) throw 0; return r.json(); }).then(function(d){ if (!d || !d.current) throw 0; return d; }); }
+  /* сначала через свой сервер (wx.php): без VPN api.open-meteo.com у части провайдеров не открывается; не вышло — напрямую */
   function loadWeather(){
     if (W.forced) return;
-    fetch(API).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(d){
-      if (!d || !d.current) throw 0; try { localStorage.setItem('lgWx', JSON.stringify({t:Date.now(), d:d})); } catch (e) {}
+    getWx('/wx.php').catch(function(){ return getWx(API); }).then(function(d){
+      try { localStorage.setItem('lgWx', JSON.stringify({t:Date.now(), d:d})); } catch (e) {}
       useWx(d, true);
     }).catch(function(){
       var s = null; try { s = JSON.parse(localStorage.getItem('lgWx') || 'null'); } catch (e) {}
@@ -1274,7 +1278,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var wxRetry = 0;
   /* показать погоду из ответа Open-Meteo (fresh — свежий ответ, иначе сохранённый) */
   function useWx(d, fresh){
-      var c = d.current; ROOT.classList.remove('nowx'); W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover; loadExtra();
+      var c = d.current; ROOT.classList.remove('nowx'); W.live = true; W.temp = c.temperature_2m; W.wind = c.wind_speed_10m; W.cloud = c.cloud_cover; if (c.wind_direction_10m != null) W.wdir = c.wind_direction_10m; else loadExtra();
       var sr = toMin(d.daily.sunrise[0]), ss = toMin(d.daily.sunset[0]); if (sr != null) W.sunrise = sr; if (ss != null) W.sunset = ss;
       W.daily = d.daily; W.hourly = d.hourly; W.nowH = (c.time || '').slice(0, 13); renderForecast();
       if (!W.forced){ W.kind = kindFromCode(c.weather_code, c.wind_speed_10m, c.temperature_2m, c.cloud_cover); W.phase = phaseFor(minutes); }
