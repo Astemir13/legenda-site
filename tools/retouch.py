@@ -159,6 +159,17 @@ def process(src, dst, style='cozy', vert=0.7):
         img = local_contrast(img)
         img = calm_orange(img, 0.86)
         img = np.clip(img * np.array([1.035, 1, 1 - .028], np.float32)[None, None, :], 0, 1)
+    elif style == 'warm':
+        # светло, как в scandi, но дерево остаётся тёплым медовым: светлеет только освещённость кадра,
+        # белое — белое, оттенок и сочность дерева не трогаем (ну разве чуть мягче, чтобы не «горело» оранжевым)
+        img, ref, gain = white_balance(img, 0.3)
+        img = tone(img, 0.32)
+        img = img ** 0.8
+        img = clean_whites(img, 0.9)
+        img = rich_wood(img, sat=0.94, deep=1.0)
+        img = s_curve(img, 0.09)
+        img = local_contrast(img, 0.28)
+        img = warm_shadows(img, 0.012)
     elif style == 'scandi':
         # как у друга по настроению (светлая сосна, много света), но только цветом и светом — без перерисовки кадра
         img, ref, gain = white_balance(img, 0.7)
