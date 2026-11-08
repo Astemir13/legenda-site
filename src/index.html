@@ -1428,7 +1428,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     var key = [W.kind, W.phase, !!W.dark, Math.round(cloud/10), this.w, this.h].join('|'); if (key === this.key) return; var kindChanged = this.key.split('|')[0] !== W.kind; this.key = key;
     var A = this.w*this.h, kind = K.precip, rgb = W.dark ? '214,224,240' : '255,255,255';
     /* осадки: пересобираем, только если сменился их вид — иначе снег не «прыгает» */
-    if (kindChanged || !this.p.length){ var n = Math.min(1100, Math.round((kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : 1)*A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
+    /* новые осадки начинаются постепенно (pin: 0 → 1 за 2 с), а не включаются сразу на весь экран */
+    if (kindChanged || !this.p.length){ this.pin = reduce ? 1 : 0; var n = Math.min(1100, Math.round((kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : 1)*A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
       for (i = 0; i < n; i++){ var z = i < n*LAYERS[0].part ? 0 : i < n*(LAYERS[0].part + LAYERS[1].part) ? 1 : 2, L = LAYERS[z], snow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i % 2);
         this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15), d:z === 2 ? 2 : z === 0 ? rnd(.06, .3) : rnd(.3, .5)}); }
       this.p.sort(function(a, b){ return b.z - a.z; }); /* дальние — в конце: при нехватке сил телефона отбрасываются первыми */ }
@@ -1454,12 +1455,13 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     for (i = 0; i < this.haze.length; i++){ var Hz = this.haze[i], sw = Hz.s.w; Hz.x = (Hz.x + Hz.v*(.3 + wx*.25)*move) % sw; if (Hz.x < 0) Hz.x += sw;
       x.globalAlpha = Hz.a*(W.kind === 'blizzard' ? .75 + .25*Math.sin(t*.0011 + i) : 1); x.drawImage(Hz.s.c, Hz.x - sw, Hz.y, sw, Hz.s.h); x.drawImage(Hz.s.c, Hz.x, Hz.y, sw, Hz.s.h); if (Hz.x + sw < w) x.drawImage(Hz.s.c, Hz.x + sw, Hz.y, sw, Hz.s.h); x.globalAlpha = 1; }
     if (this.pm) this.drawSmoke(t, wx, move);
+    this.pin = Math.min(1, (this.pin == null ? 1 : this.pin) + dt/2000);
     this.drawPrecip(t, wx, move, K);
     this.drawDrift(move, K);
     /* вспышка молнии: свет из точки удара, сверху сильнее */
     if (W.flash > .02){ var fx = BOLT ? BOLT.x : w/2, fg = x.createRadialGradient(fx, 0, 0, fx, 0, Math.max(w, h)*.9); fg.addColorStop(0, 'rgba(228,234,255,' + (W.flash*.3).toFixed(3) + ')'); fg.addColorStop(.5, 'rgba(228,234,255,' + (W.flash*.16).toFixed(3) + ')'); fg.addColorStop(1, 'rgba(228,234,255,' + (W.flash*.05).toFixed(3) + ')');
       x.fillStyle = fg; x.fillRect(0, 0, w, h); x.fillStyle = 'rgba(214,224,255,' + (W.flash*.08).toFixed(3) + ')'; x.fillRect(0, 0, w, h); } };
-  Scene.prototype.drawPrecip = function(t, wx, move, K){ var x = this.x, w = this.w, h = this.h, kind = K.precip, P, i, z, n = Math.ceil(this.p.length*QUALITY), bl = kind === 'blizzard', dim = W.dark ? .75 : 1;
+  Scene.prototype.drawPrecip = function(t, wx, move, K){ var x = this.x, w = this.w, h = this.h, kind = K.precip, P, i, z, n = Math.ceil(this.p.length*QUALITY*this.pin), bl = kind === 'blizzard', dim = W.dark ? .75 : 1;
     if (!kind) return;
     var spd = kind === 'heavysnow' ? 1.25 : bl ? 1.7 : kind === 'sleet' ? 1.9 : 1, rk = kind === 'drizzle' ? RAIN.drizzle : RAIN.rain, rc = W.dark ? '190,205,225' : '220,232,244';
     /* глубина (дальние частицы за домом), параллакс при прокрутке, палец/курсор, снег на панели */
