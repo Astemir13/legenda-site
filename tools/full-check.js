@@ -76,7 +76,7 @@ const URL = process.argv[2] || 'http://127.0.0.1:8765/';
       // переключатель План/Фото
       await p.evaluate(c => document.querySelector(c + ' .mtog [data-v="plan"]').click(), c); await p.waitForTimeout(300);
       log(await p.evaluate(c => document.querySelector(c + ' .ph').dataset.view === 'plan', c), id + ': не переключается на план');
-      log(await p.evaluate(c => document.querySelector(c + ' .pl svg').childElementCount > 3, c), id + ': мини-схема пустая');
+      log(await p.evaluate(c => document.querySelector(c + ' .pl svg').querySelectorAll('path,rect').length > 3, c), id + ': мини-схема пустая');
       await p.evaluate(c => document.querySelector(c + ' .mtog [data-v="photo"]').click(), c); await p.waitForTimeout(300);
       log(await p.evaluate(c => document.querySelector(c + ' .ph').dataset.view === 'photo', c), id + ': не переключается на фото');
       // просмотр фото
@@ -101,7 +101,7 @@ const URL = process.argv[2] || 'http://127.0.0.1:8765/';
       const vars = await p.evaluate(() => [...document.querySelectorAll('#pmVars button')].map(b => b.textContent));
       for (let i = 0; i < Math.max(1, vars.length); i++) {
         if (vars.length) { await p.evaluate(i => document.querySelectorAll('#pmVars button')[i].click(), i); await p.waitForTimeout(400); }
-        const sv = await p.evaluate(() => { const s = document.querySelector('#pmBox svg'), r = s.getBoundingClientRect(), bb = s.getBBox(), vb = s.viewBox.baseVal; return {n: s.childElementCount, w: r.width, ok: bb.x >= -1 && bb.y >= -1 && bb.x + bb.width <= vb.width + 1 && bb.y + bb.height <= vb.height + 1}; });
+        const sv = await p.evaluate(() => { const s = document.querySelector('#pmBox svg'), r = s.getBoundingClientRect(), bb = s.getBBox(), vb = s.viewBox.baseVal; return {n: s.querySelectorAll('path,rect').length, w: r.width, ok: bb.x >= -1 && bb.y >= -1 && bb.x + bb.width <= vb.width + 1 && bb.y + bb.height <= vb.height + 1}; });
         log(sv.n > 3 && sv.w > 100, id + ': схема «' + (vars[i] || '') + '» пустая');
         log(sv.ok, id + ': схема «' + (vars[i] || '') + '» вылезает за рамку');
       }

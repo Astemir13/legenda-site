@@ -14,7 +14,7 @@
   — сжимает скрипт (без комментариев и отступов) и разметку для поисковиков;
   — обложку и фото номеров переводит в webp нужных размеров;
   — делает политику (/privacypolicy/), страницу 404, robots.txt, sitemap.xml, .htaccess."""
-import datetime, html, json, os, re, shutil
+import hashlib, datetime, html, json, os, re, shutil
 from PIL import Image
 
 OUT = 'site'
@@ -52,11 +52,15 @@ page = re.sub(r'\s*<li data-ph>.*?</li>', '', page)
 # а без них на странице не было бы ни названий номеров, ни описаний
 BOOK = re.search(r"var BOOK = '([^']+)'", page).group(1)
 PH = {k: re.findall(r"'([a-z0-9]+-\d+)'", v) for k, v in re.findall(r"(\w+):\[([^\]]*)\]", re.search(r'var PHOTOS = \{(.*?)\};', page, re.S).group(1))}
+# версии фото по содержимому файла — для адресов вида img/r/semi-1-760.webp?v=…: фото кэшируются на 30 дней,
+# и без версии после замены фото браузер показывал бы старую копию
+IMGV = {n: hashlib.md5(open(f'src/rooms/{n}.jpg', 'rb').read()).hexdigest()[:8] for v in PH.values() for n in v}
+page = must(page, '  var IMGV = {};', '  var IMGV = ' + json.dumps(IMGV, separators=(',', ':')) + ';')
 cards = []
 for m in re.finditer(r"\{id:'(\w+)', hr:(\d+), name:'([^']+)'.*?tags:\[([^\]]*)\], text:'([^']+)'\}", page):
     rid, hr, name, tags, text = m.groups()
     tags, ph = re.findall(r"'([^']+)'", tags), PH.get(rid, [])
-    img = f'<div class="mph-s"><img src="img/r/{ph[0]}-760.webp" alt="{name} — номер в эко-отеле «Легенда», Терскол, фото 1" loading="lazy" decoding="async"></div>' if ph else ''
+    img = f'<div class="mph-s"><img src="img/r/{ph[0]}-760.webp?v={IMGV[ph[0]]}" alt="{name} — номер в эко-отеле «Легенда», Терскол, фото 1" loading="lazy" decoding="async"></div>' if ph else ''
     cards.append(f'<article class="room" id="r-{rid}"><div class="ph" data-view="photo"><div class="mphoto">{img}</div></div>'
                  f'<div class="b"><h3>{name}</h3><div class="m">{"".join(f"<span>{t}</span>" for t in tags)}</div><p>{text}</p>'
                  f'<div class="foot"><a class="btn btn-date" href="{BOOK}" target="_blank" rel="noopener" data-book="{hr}">Свободные даты и цены</a></div></div></article>')

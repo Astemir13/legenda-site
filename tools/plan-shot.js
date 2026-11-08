@@ -1,5 +1,5 @@
 // Снимки схемы номера: node tools/plan-shot.js [номер] [вариант,вариант] → shots/plan-<номер>-<d|m><i>.png
-// По умолчанию — стандарт двухместный. Пример: node tools/plan-shot.js barn "1 этаж,2 этаж"
+// По умолчанию — стандарт двухместный. Пример: node tools/plan-shot.js semi "Полулюкс" (у барнхауса один вариант — оба этажа: node tools/plan-shot.js barn "Оба этажа")
 const {chromium} = require('playwright'); const {spawn} = require('child_process');
 const id = process.argv[2] || 'std2', vars = (process.argv[3] || 'Большая кровать,Две кровати').split(',');
 (async () => {
