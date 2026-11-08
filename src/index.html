@@ -249,10 +249,11 @@ section[id]{scroll-margin-top:84px}
 .pl .wet{fill:#E4EEF2}
 .pl .w{fill:none;stroke:#23303A;stroke-width:5.5;stroke-linejoin:miter;stroke-linecap:square}
 .pl .w2{fill:none;stroke:#23303A;stroke-width:3.4;stroke-linecap:square}
-.pl .gap{stroke:var(--paper);stroke-width:8}
-.pl .win{fill:none;stroke:#C4DDF0;stroke-width:7}
-.pl .wl{fill:none;stroke:#4C8FC6;stroke-width:2}
-.pl .wm{fill:none;stroke:#4C8FC6;stroke-width:1.6}
+.pl .gap{stroke:var(--paper);stroke-width:12}
+.pl .wf{fill:#E3EFF8;stroke:none}
+.pl .wl{fill:none;stroke:#5E9AC9;stroke-width:1.2}
+.pl .wg{fill:none;stroke:#3F86C0;stroke-width:1.6}
+.pl .wj{fill:none;stroke:#23303A;stroke-width:2.4}
 .pl .dc{fill:none;stroke:#A27C50;stroke-width:3.4}
 .pl .dsw{fill:rgba(31,92,74,.05);stroke:none}
 .pl .dl{fill:none;stroke:#5D6D77;stroke-width:1.6}
@@ -266,8 +267,9 @@ section[id]{scroll-margin-top:84px}
 .pl .sofc{fill:#DCE7E1;stroke:#A9C0B4;stroke-width:1}
 .pl .fx{fill:#fff;stroke:#9DB2BC;stroke-width:1.2}
 .pl .dr{fill:#9DB2BC}
-.pl .st{fill:#fff;stroke:#B9AC97;stroke-width:1.2}
-.pl .stl{fill:none;stroke:#CFC4B1;stroke-width:1}
+.pl .st{fill:#EFE3CE;stroke:#B49A73;stroke-width:1.3}
+.pl .stl{fill:none;stroke:#C2A97F;stroke-width:1.2}
+.pl .rl{fill:none;stroke:#7C6446;stroke-width:2.6;stroke-linecap:round}
 .pl .ar{fill:none;stroke:#6E8792;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .pl .ard{fill:#6E8792}
 .pl .ctr{fill:#EFE6D8;stroke:#C2B092;stroke-width:1}
@@ -1176,8 +1178,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     /* люкс — по наброску (08.11.2026): гостиная со входом и санузлом, из неё дверь в спальню с окном сбоку; 5 × 5,2 + 3,2 × 3,6 м — условно, из 37 м² */
     lux:[{n:'Люкс', p:{W:8.2, H:5.2, poly:[[0,0],[5.0,0],[5.0,1.6],[8.2,1.6],[8.2,5.2],[0,5.2]], items:[['part',5.0,1.6,5.0,5.2,2.0,2.8,'d'],['bath',2.3,3.3,2.7,1.9,0,3.35],['door','b',1.0],['win','t',0.6,4.4,1],['win','r',2.4,4.4,1],
       ['sofa',0.15,0.5,2.2,'l'],['bed2',5.8,3.1,'b']]}, note:'Гостиная с диваном и отдельная спальня'}],
-    barn:[{n:'1 этаж', p:{W:5.0, H:8.0, items:[['wet',3.3,3.0,1.7,1.6],['part',3.3,3.0,3.3,4.6,3.4,4.2,'d'],['part',3.3,3.0,5.0,3.0,5.0,5.0],['part',3.3,4.6,5.0,4.6,5.0,5.0],['door','b',3.4],['win','b',0.6,3.2,1],['win','t',1.6,3.4,1],['run',1.1,0.1,1.2,0.9,4],['land',0.1,0.1,1.0,0.9],['run',0.1,1.0,1.0,2.2],['arr',[[2.15,0.55],[0.6,0.55],[0.6,3.0]],'вверх',[2.75,0.62]],['sofa',0.15,4.3,2.6,'l'],['counter',4.4,0.1,0.55,2.8,1.25],['wc',5.0,3.95,'r'],['lbl',3.85,3.9,'с/у']]}, note:'Гостиная, гостевой санузел и мойка с рабочей поверхностью'},
-          {n:'2 этаж', p:{W:5.0, H:8.0, items:[['wet',3.3,3.0,1.7,1.6],['part',0,4.6,5.0,4.6,1.4,2.2,'d'],['part',1.1,0,1.1,3.0,3.0,3.0],['part',1.1,3.0,5.0,3.0,1.4,2.2,'d'],['part',3.3,3.0,3.3,4.6,3.4,4.2,'d'],['land',0.1,0.1,1.0,0.9],['run',0.1,1.0,1.0,2.2],['arr',[[0.6,3.05],[0.6,0.55],[1.0,0.55]],'вниз',[0.6,3.5]],['win','t',1.6,3.4,1],['win','b',0.6,4.4,1],['bed1',2.86,0.2,'r'],['bed1',2.86,1.35,'r'],['shw',4.05,3.65,0.9],['wc',5.0,3.1,'r'],['bed2',2.86,5.5,'r'],['lbl',3.75,3.9,'с/у']]}, note:'Две спальни и санузел с душем'}]
+    barn:[{n:'1 этаж', p:{W:5.0, H:8.0, items:[['wet',3.3,3.0,1.7,1.6],['part',3.3,3.0,3.3,4.6,3.4,4.2,'d'],['part',3.3,3.0,5.0,3.0,5.0,5.0],['part',3.3,4.6,5.0,4.6,5.0,5.0],['door','b',3.4],['win','b',0.6,3.2,1],['win','t',1.6,3.4,1],['run',1.1,0.1,0.9,0.9,3],['land',0.1,0.1,1.0,0.9],['run',0.1,1.0,1.0,2.2,8],['rail',1.1,1.0,1.1,3.2],['rail',1.1,1.0,2.0,1.0],['sofa',0.15,4.3,2.6,'l'],['counter',4.4,0.1,0.55,2.8,1.25],['wc',5.0,3.95,'r'],['lbl',3.85,3.9,'с/у']]}, note:'Гостиная, гостевой санузел и мойка с рабочей поверхностью'},
+          {n:'2 этаж', p:{W:5.0, H:8.0, items:[['wet',3.3,3.0,1.7,1.6],['part',0,4.6,5.0,4.6,1.4,2.2,'d'],['part',1.1,0,1.1,3.0,3.0,3.0],['part',1.1,3.0,5.0,3.0,1.4,2.2,'d'],['part',3.3,3.0,3.3,4.6,3.4,4.2,'d'],['land',0.1,0.1,1.0,0.9],['run',0.1,1.0,1.0,2.2,8],['win','t',1.6,3.4,1],['win','b',0.6,4.4,1],['bed1',2.86,0.2,'r'],['bed1',2.86,1.35,'r'],['shw',4.05,3.65,0.9],['wc',5.0,3.1,'r'],['bed2',2.86,5.5,'r'],['lbl',3.75,3.9,'с/у']]}, note:'Две спальни и санузел с душем'}]
   };
 
   /* Ресторан: комплексное питание (цены в рублях) и меню. Строка блюда: ['название', цена] или ['название', цена, 'пояснение'] */
@@ -1844,12 +1846,15 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
           if (it[7]) path('M'+X(it[1])+' '+Y(it[5])+'V'+Y(it[6]), 'dc'); }
         else { path('M'+X(it[1])+' '+Y(it[2])+'H'+X(it[5])+'M'+X(it[6])+' '+Y(it[2])+'H'+X(it[3]), 'w2');
           if (it[7]) path('M'+X(it[5])+' '+Y(it[2])+'H'+X(it[6]), 'dc'); } }
-      else if (k === 'win'){ s = seg(it[1], it[2], it[3]); var L = 'M'+s.a[0]+' '+s.a[1]+'L'+s.b[0]+' '+s.b[1];
-        sv('path', {d:L, 'class':'gap'}, gT); path(L, 'win', null, gT); path(L, 'wl', null, gT);
-        /* переплёты: окно из нескольких секций */
-        var ns = Math.max(2, Math.round(Math.abs(it[3] - it[2]) / 0.65)), hz2 = it[1] === 't' || it[1] === 'b', dd = '', j2;
-        for (j2 = 1; j2 < ns; j2++){ var px2 = s.a[0] + (s.b[0]-s.a[0])*j2/ns, py2 = s.a[1] + (s.b[1]-s.a[1])*j2/ns; dd += hz2 ? 'M'+px2+' '+(py2-3.5)+'v7' : 'M'+(px2-3.5)+' '+py2+'h7'; }
-        path(dd, 'wm', null, gT); }
+      /* окно: рама в толщину стены (две грани), стекло посередине, откосы по краям */
+      else if (k === 'win'){ s = seg(it[1], it[2], it[3]); var hz2 = it[1] === 't' || it[1] === 'b', t2 = 5, ax2 = s.a[0], ay2 = s.a[1], bx2 = s.b[0], by2 = s.b[1];
+        var L = 'M'+ax2+' '+ay2+'L'+bx2+' '+by2;
+        sv('path', {d:L, 'class':'gap'}, gT);
+        var fr = hz2 ? 'M'+ax2+' '+(ay2-t2)+'H'+bx2+'V'+(ay2+t2)+'H'+ax2+'Z' : 'M'+(ax2-t2)+' '+ay2+'V'+by2+'H'+(ax2+t2)+'V'+ay2+'Z';
+        shape(fr, 'wf', gT, .5);
+        path(hz2 ? 'M'+ax2+' '+(ay2-t2)+'H'+bx2+'M'+ax2+' '+(ay2+t2)+'H'+bx2 : 'M'+(ax2-t2)+' '+ay2+'V'+by2+'M'+(ax2+t2)+' '+ay2+'V'+by2, 'wl', null, gT);
+        path(L, 'wg', null, gT);
+        path(hz2 ? 'M'+ax2+' '+(ay2-t2-1)+'v'+(2*t2+2)+'M'+bx2+' '+(ay2-t2-1)+'v'+(2*t2+2) : 'M'+(ax2-t2-1)+' '+ay2+'h'+(2*t2+2)+'M'+(ax2-t2-1)+' '+by2+'h'+(2*t2+2), 'wj', null, gT); }
       else if (k === 'door'){ var sd2 = it[1], a0 = it[2], dw = 0.9; s = seg(sd2, a0, a0 + dw); var ax = s.a[0], ay = s.a[1], bx = s.b[0], by = s.b[1];
         sv('path', {d:'M'+ax+' '+ay+'L'+bx+' '+by, 'class':'gap'}, gT);
         var r = dw*S, inv = sd2 === 'b' ? -1 : 1, sw = sd2 === 'b' ? 1 : 0;
@@ -1891,6 +1896,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
         fade(sv('path', {d:'M'+(hx - hl*Math.cos(an - .45))+' '+(hy - hl*Math.sin(an - .45))+'L'+hx+' '+hy+'L'+(hx - hl*Math.cos(an + .45))+' '+(hy - hl*Math.sin(an + .45)), 'class':'ar'}, gM), .7);
         fade(sv('circle', {cx:X(ps[0][0]), cy:Y(ps[0][1]), r:3.2, 'class':'ard'}, gM), .7);
         T(it[3] ? it[3][0] : ps[0][0], it[3] ? it[3][1] : ps[0][1] + 0.4, it[2], 'sm'); }
+      /* перила лестницы [x1,y1,x2,y2] */
+      else if (k === 'rail') shape('M'+X(it[1])+' '+Y(it[2])+'L'+X(it[3])+' '+Y(it[4]), 'rl', gM, .6);
       /* мойка с рабочей поверхностью: [x,y,w,h, мойка от] */
       else if (k === 'counter'){ box(it[1], it[2], it[3], it[4], 2, 'ctr'); box(it[1] + 0.1, it[5], it[3] - 0.2, 0.42, 6, 'fx'); }
       else if (k === 'slope'){ box(it[1], it[2], it[3], it[4], 0, 'slp', gF, .3);
