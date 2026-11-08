@@ -267,8 +267,6 @@ section[id]{scroll-margin-top:84px}
 .pl .st{fill:#EFE3CE;stroke:#B49A73;stroke-width:1.3}
 .pl .stl{fill:none;stroke:#C2A97F;stroke-width:1.2}
 .pl .rl{fill:none;stroke:#7C6446;stroke-width:2.6;stroke-linecap:round}
-.pl .ar{fill:none;stroke:#6E8792;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.pl .ard{fill:#6E8792}
 .pl .ctr{fill:#EFE6D8;stroke:#C2B092;stroke-width:1}
 .pl text{font:600 12.5px var(--body);fill:#4A5963;text-anchor:middle;letter-spacing:.01em}
 .pl text.sm{font-size:11px;font-weight:500;fill:#6E8792}
@@ -1881,13 +1879,6 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
         if (k === 'run'){ var nst = it[5] || Math.max(2, Math.round((hz ? rw : rh)/0.28)), d = '';
           for (q = 1; q < nst; q++) d += hz ? 'M'+X(rx0 + rw*q/nst)+' '+Y(ry0)+'V'+Y(ry0 + rh) : 'M'+X(rx0)+' '+Y(ry0 + rh*q/nst)+'H'+X(rx0 + rw);
           shape(d, 'stl'); } }
-      /* стрелка по лестнице [точки [[x,y],…], подпись]: точка — откуда, стрелка — куда (вверх или вниз) */
-      else if (k === 'arr'){ var ps = it[1], ad = 'M' + ps.map(function(q){ return X(q[0]) + ' ' + Y(q[1]); }).join('L'), e0 = ps[ps.length-2], e1 = ps[ps.length-1];
-        var an = Math.atan2(e1[1]-e0[1], e1[0]-e0[0]), hx = X(e1[0]), hy = Y(e1[1]), hl = 9;
-        fade(sv('path', {d:ad, 'class':'ar'}, gM), .7);
-        fade(sv('path', {d:'M'+(hx - hl*Math.cos(an - .45))+' '+(hy - hl*Math.sin(an - .45))+'L'+hx+' '+hy+'L'+(hx - hl*Math.cos(an + .45))+' '+(hy - hl*Math.sin(an + .45)), 'class':'ar'}, gM), .7);
-        fade(sv('circle', {cx:X(ps[0][0]), cy:Y(ps[0][1]), r:3.2, 'class':'ard'}, gM), .7);
-        T(it[3] ? it[3][0] : ps[0][0], it[3] ? it[3][1] : ps[0][1] + 0.4, it[2], 'sm'); }
       /* перила лестницы [x1,y1,x2,y2] */
       else if (k === 'rail') shape('M'+X(it[1])+' '+Y(it[2])+'L'+X(it[3])+' '+Y(it[4]), 'rl', gM, .6);
       /* мойка с рабочей поверхностью: [x,y,w,h, мойка от] */
