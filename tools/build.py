@@ -217,6 +217,13 @@ save(f'{OUT}/sitemap.xml', f'''<?xml version="1.0" encoding="UTF-8"?>
 </urlset>
 ''')
 save(f'{OUT}/.htaccess', r'''AddDefaultCharset utf-8
+# тестовый адрес preview.* — не индексировать (иначе в поиске появится дубль сайта); основной домен не затрагивается
+<IfModule mod_setenvif.c>
+SetEnvIfNoCase Host ^preview\. NOINDEX
+</IfModule>
+<IfModule mod_headers.c>
+Header set X-Robots-Tag "noindex, nofollow" env=NOINDEX
+</IfModule>
 AddType font/woff2 .woff2
 Options -Indexes
 DirectoryIndex index.html
