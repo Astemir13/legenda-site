@@ -379,6 +379,16 @@ section[id]{scroll-margin-top:84px}
 .dist2 span{font-size:13px;color:var(--ink2)}
 .dist2 .nodist{display:none}
 .road-b{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.ymb{display:inline-flex;margin-right:8px}
+/* рейтинг на Яндекс Картах (числа — с карточки организации, обновлять вручную вместе с плашкой на обложке) */
+.yrate{display:flex;align-items:center;gap:14px;margin-top:4px;padding:12px 16px 12px 12px;border-radius:18px;text-decoration:none;color:inherit;background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 1px 3px rgba(19,32,42,.05);transition:background .2s}
+.yrate:hover{background:rgba(255,255,255,.85)}
+.yr-l{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#fff;box-shadow:0 1px 4px rgba(19,32,42,.1)}
+.yr-t{min-width:0}
+.yr-t b{display:flex;align-items:center;gap:8px;font-size:21px;line-height:1.2}
+.yr-s{color:#F2A93B;font-size:16px;letter-spacing:1px}
+.yr-t small{display:block;color:var(--ink2);font-size:14px;line-height:1.35}
+.yr-a{flex:none;margin-left:auto;color:var(--ink2)}
 .road-b .btn{padding:0 20px;flex:1 1 0;white-space:nowrap}
 @media (max-width:1180px) and (min-width:421px){.road-b .btn{flex:1 1 100%}}
 .road-m{position:relative;background:var(--paper);background-image:linear-gradient(rgba(31,92,74,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(31,92,74,.06) 1px,transparent 1px);background-size:22px 22px;min-height:300px;display:flex;align-items:center}
@@ -687,6 +697,8 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 /* раздел «Об отеле»: блоки друг под другом; ресторан — текст и кнопки слева, комплексное питание справа */
 .stack{display:grid;gap:18px}
 #hotel .feat{grid-template-columns:repeat(2,minmax(0,1fr))}
+#hotel .feat li:last-child:nth-child(odd){grid-column:1/-1}
+#hotel .feat a{color:inherit;text-decoration:underline;text-decoration-color:rgba(31,92,74,.35);text-underline-offset:3px}
 .hot-d{color:var(--ink2);font-size:17px;line-height:1.55;max-width:64ch;margin:-6px 0 22px}
 @media (max-width:620px){.hot-d{font-size:15.5px;margin:-4px 0 16px}}
 /* Альбом «Об отеле»: крупное фото и четыре поменьше, остальные — в просмотре */
@@ -930,6 +942,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       <h2>Дом из натурального сруба в сосновом бору</h2>
       <p class="hot-d">Своя закрытая территория прямо в сосновом лесу: тишина, горный воздух и запах хвои. Из многих номеров открываются чудесные виды на горы и сосновый бор. С территории — выход на эко-тропы и прогулочные маршруты, а вечером после склона ждут сауна, беседка с мангалом и тёплый сруб.</p>
       <ul class="feat">
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg></span><span>Гостиница «три звезды» — <a href="https://tourism.fsa.gov.ru/ru/resorts/hotels/27b1db81-c608-11ef-92da-b31a8e03f896/about-resort" target="_blank" rel="noopener">в реестре классификации</a></span></li>
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/><path d="M2.5 19.5 9 8.5l3.6 5.6 2.8-3.8 6.1 9.2z"/><path d="M7.3 11.4 9 12.3l1.6-.9"/></svg></span><span>Подъёмник Чегет в 500 м, канатная дорога Азау — 5 км</span></li>
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M12 3 6.5 10.5h3L5.5 16h13l-4-5.5h3z"/><path d="M12 3 6.5 10.5h3L5.5 16h13l-4-5.5h3z"/><path d="M12 16v5"/></svg></span><span>Своя закрытая территория в сосновом бору</span></li>
         <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="18" cy="5.2" r="2.3"/><circle cx="18" cy="5.2" r="2.3"/><path d="M5.5 21c0-3.6 8-3.2 8-7.2S6.8 10.6 6.8 7.6 9.6 4.2 13 4.8"/></svg></span><span>Выход на эко-тропы и места для прогулок</span></li>
@@ -998,7 +1011,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
         <details><summary>Почему выгоднее бронировать напрямую?</summary><p>Без комиссии агрегаторов, а при бронировании номера завтрак на двоих включён. Прямую бронь всегда проще изменить — перенести даты, сменить номер или отменить: вы договариваетесь с отелем сами, без посредников. Забронировать можно онлайн на сайте или по телефону +7 999 300-00-88, а также написать в WhatsApp или Telegram — поможем подобрать номер.</p></details>
         <details><summary>Можно ли с детьми?</summary><p>Да. Дети до 3 лет — бесплатно. Для семьи подойдут семейный номер, двухкомнатные полулюксы и люксы, а также апартаменты в барнхаусе до 5 гостей.</p></details>
         <details><summary>Есть ли парковка и Wi-Fi?</summary><p>Да, бесплатная парковка и Wi-Fi на всей территории.</p></details>
-        <details><summary>Как добраться до Терскола?</summary><p>Из аэропортов Минеральные Воды или Нальчик — на машине или такси по трассе А-158 через Баксанское ущелье. Позвоните — подскажем дорогу.</p></details>
+        <details><summary>Как добраться до Терскола?</summary><p>Ближайший аэропорт — Нальчик: 125 км, около 2 ч 15 мин на машине. Из аэропорта Минеральные Воды — 183 км, около 2 ч 50 мин. Дорога идёт по трассе А-158 через Баксанское ущелье; в снегопад закладывайте больше времени. Позвоните — подскажем дорогу.</p></details>
+        <details><summary>Можно ли отменить бронь?</summary><p>Да, бесплатно — если сообщить об отмене по телефону +7 999 300-00-88 не позднее чем за две недели до заезда.</p></details>
         <details><summary>Есть ли трансфер из аэропорта?</summary><p>Да, поможем с трансфером из аэропортов Минеральные Воды и Нальчик: дадим контакты проверенных перевозчиков — есть легковые машины и минивэны для семьи или компании с горнолыжным снаряжением. Позвоните или напишите в WhatsApp или Telegram — подскажем.</p></details>
       </div>
     </div>
@@ -1015,10 +1029,11 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
         <ul class="dist2">
           <li data-dist="cheget"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M3 6.6 21 3"/><path d="M12 4.8V9"/><rect x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M7 13.2h10"/></svg></span><b class="dv">500 м</b><span>до подъёмника Чегет</span></li>
           <li data-dist="azau"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M3 5h18M12 5v4"/><path d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M7.2 12.8h9.6"/></svg></span><b class="dv">5 км</b><span>до канатной дороги Азау</span></li>
-          <li data-ph><b>[время]</b><span>от аэропорта Нальчик</span></li>
-          <li data-ph><b>[время]</b><span>от аэропорта Минводы</span></li>
+          <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/><path d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/></svg></span><b class="dv">2 ч 15 мин</b><span>от аэропорта Нальчик · 125&nbsp;км</span></li>
+          <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/><path d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/></svg></span><b class="dv">2 ч 50 мин</b><span>от аэропорта Минводы · 183&nbsp;км</span></li>
         </ul>
-        <div class="road-b"><a class="btn btn-accent" id="routeBtn" href="https://yandex.ru/maps/?rtext=~43.246012%2C42.526408&amp;rtt=auto" target="_blank" rel="noopener">Построить маршрут</a><a class="btn btn-soft" href="https://yandex.ru/maps/org/legenda/1184772629/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></div>
+        <a class="yrate" href="https://yandex.ru/maps/org/legenda/1184772629/reviews/" target="_blank" rel="noopener" aria-label="Рейтинг 5,0 из 5 на Яндекс Картах: 687 отзывов, 1293 оценки"><span class="yr-l"><svg width="18" height="24" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg></span><span class="yr-t"><b>5,0<span class="yr-s" aria-hidden="true">★★★★★</span></b><small>Яндекс Карты · 687&nbsp;отзывов</small></span><svg class="yr-a" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <div class="road-b"><a class="btn btn-accent" id="routeBtn" href="https://yandex.ru/maps/?rtext=~43.246012%2C42.526408&amp;rtt=auto" target="_blank" rel="noopener">Построить маршрут</a><a class="btn btn-soft" href="https://yandex.ru/maps/org/legenda/1184772629/" target="_blank" rel="noopener"><span class="ymb"><svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg></span>Открыть в Яндекс Картах</a></div>
       </div>
       <div class="road-m rmap" aria-hidden="true">
         <svg viewBox="440 160 560 320" role="img" aria-label="Схема: отель «Легенда» в Терсколе, у поляны Чегет">
@@ -1093,7 +1108,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     </div>
     <div class="ft-col ft-docs">
       <span class="ft-h">Документы</span>
-      <a class="ft-doc" href="https://tourism.fsa.gov.ru/ru/resorts/hotels/27b1db81-c608-11ef-92da-b31a8e03f896/about-resort" target="_blank" rel="noopener"><span class="gc" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span><b>Реестр средств размещения</b><small>Запись о классификации отеля</small></span><svg class="ft-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a class="ft-doc" href="https://tourism.fsa.gov.ru/ru/resorts/hotels/27b1db81-c608-11ef-92da-b31a8e03f896/about-resort" target="_blank" rel="noopener"><span class="gc" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span><b>Реестр средств размещения</b><small>Классификация: три звезды</small></span><svg class="ft-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       <a class="ft-doc" href="https://hotellegenda.ru/privacypolicy" target="_blank" rel="noopener"><span class="gc" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><span><b>Политика конфиденциальности</b><small>Как мы обращаемся с данными гостей</small></span><svg class="ft-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
     </div>
   </div>
@@ -2115,6 +2130,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   "checkinTime": "14:00",
   "checkoutTime": "12:00",
   "priceRange": "₽₽",
+  "starRating": {"@type": "Rating", "ratingValue": "3"},
   "currenciesAccepted": "RUB",
   "availableLanguage": ["ru"],
   "amenityFeature": [
