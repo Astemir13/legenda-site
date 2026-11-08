@@ -1844,9 +1844,9 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     /* в панели обложки: на телефоне коротко — «до 21:00» / «с 8:00» */
     var hp = document.getElementById('hpRest'); if (hp){ hp.classList.toggle('closed', !open); hp.querySelector(':scope > div > span').innerHTML = '<i class="dot"></i>' + (open ? '<i class="lw">открыт </i>до ' + REST.close + ':00' : '<i class="lw">откроется в</i><i class="sw">с</i> ' + REST.open + ':00') + GO_D; } }
 
-  /* Панель «Погода» (переключать погоду для проверки): видна на preview.hotellegenda.ru, локально и по ?demo,
-     на рабочем сайте спрятана */
-  document.getElementById('wxPanel').hidden = !(/^(preview\.|localhost$|127\.)/.test(location.hostname) || /[?&]demo\b/.test(location.search));
+  /* Панель «Погода» (переключать погоду для проверки): видна только на preview.hotellegenda.ru и локально;
+     на рабочем сайте спрятана всегда (?demo её не включает) */
+  document.getElementById('wxPanel').hidden = !/^(preview\.|localhost$|127\.)/.test(location.hostname);
 
   /* панель проверки: «Сайт на телефоне» — та же страница в окне шириной с телефон, со своей панелью погоды */
   var phv = document.getElementById('phv'), phvF = document.getElementById('phvF'), inFrame = window.self !== window.top;
