@@ -240,12 +240,12 @@ RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 # http -> https: включается в панели Timeweb («SSL» → «Перенаправлять на HTTPS») — без петли переадресаций
 # адреса прежнего сайта (на Тильде), которые знают поисковики, — на главную
-RewriteRule ^new/?$ / [L,R=301]
-RewriteRule ^page59460067\.html$ / [L,R=301]
-RewriteRule ^page59652773\.html$ / [L,R=301]
+RewriteRule ^new/?$ https://%{HTTP_HOST}/ [L,R=301]
+RewriteRule ^page59460067\.html$ https://%{HTTP_HOST}/ [L,R=301]
+RewriteRule ^page59652773\.html$ https://%{HTTP_HOST}/ [L,R=301]
 RewriteCond %{THE_REQUEST} \s/index\.html[\s?]
-RewriteRule ^index\.html$ / [L,R=301]
-RewriteRule ^privacypolicy$ /privacypolicy/ [L,R=301]
+RewriteRule ^index\.html$ https://%{HTTP_HOST}/ [L,R=301]
+RewriteRule ^privacypolicy$ https://%{HTTP_HOST}/privacypolicy/ [L,R=301]
 </IfModule>
 
 <IfModule mod_deflate.c>
