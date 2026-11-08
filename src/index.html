@@ -379,15 +379,18 @@ section[id]{scroll-margin-top:84px}
 .dist2 span{font-size:13px;color:var(--ink2)}
 .dist2 .nodist{display:none}
 .road-b{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-.ymb{display:inline-flex;margin-right:8px}
-/* рейтинг на Яндекс Картах (числа — с карточки организации, обновлять вручную вместе с плашкой на обложке) */
-.yrate{display:flex;align-items:center;gap:14px;margin-top:4px;padding:12px 16px 12px 12px;border-radius:18px;text-decoration:none;color:inherit;background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 1px 3px rgba(19,32,42,.05);transition:background .2s}
-.yrate:hover{background:rgba(255,255,255,.85)}
+/* «Открыть в Яндекс Картах» вместе с рейтингом (числа — с карточки организации, обновлять вручную вместе с плашкой на обложке) */
+.road-b .yrate{flex:1 1 100%}
+.yrate{display:flex;align-items:center;gap:14px;padding:10px 16px 10px 10px;border-radius:18px;text-decoration:none;color:inherit;background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 1px 3px rgba(19,32,42,.06);transition:background .2s}
+.yrate:hover{background:rgba(255,255,255,.92)}
 .yr-l{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#fff;box-shadow:0 1px 4px rgba(19,32,42,.1)}
 .yr-t{min-width:0}
-.yr-t b{display:flex;align-items:center;gap:8px;font-size:21px;line-height:1.2}
-.yr-s{color:#F2A93B;font-size:16px;letter-spacing:1px}
-.yr-t small{display:block;color:var(--ink2);font-size:14px;line-height:1.35}
+.yr-t b{display:block;font-size:17px;line-height:1.25}
+.yr-t small{display:flex;flex-wrap:wrap;align-items:center;column-gap:10px;color:var(--ink2);font-size:14px;line-height:1.4;margin-top:2px}
+.yr-r{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--ink)}
+.yr-s{color:#F2A93B;font-size:14px;letter-spacing:1px}
+@media (max-width:480px){.yrate{gap:12px;padding-right:12px}.yr-l{width:40px;height:40px;border-radius:12px}.yr-a{display:none}.yr-t b{font-size:16px}}
+@media (max-width:360px){.dist2 b{font-size:17px}}
 .yr-a{flex:none;margin-left:auto;color:var(--ink2)}
 .road-b .btn{padding:0 20px;flex:1 1 0;white-space:nowrap}
 @media (max-width:1180px) and (min-width:421px){.road-b .btn{flex:1 1 100%}}
@@ -1029,11 +1032,10 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
         <ul class="dist2">
           <li data-dist="cheget"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="f" x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M3 6.6 21 3"/><path d="M12 4.8V9"/><rect x="7" y="9" width="10" height="9.5" rx="2.6"/><path d="M7 13.2h10"/></svg></span><b class="dv">500 м</b><span>до подъёмника Чегет</span></li>
           <li data-dist="azau"><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M3 5h18M12 5v4"/><path d="M7.6 9h8.8l1.1 9.5H6.5z"/><path d="M7.2 12.8h9.6"/></svg></span><b class="dv">5 км</b><span>до канатной дороги Азау</span></li>
-          <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/><path d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/></svg></span><b class="dv">2 ч 15 мин</b><span>от аэропорта Нальчик · 125&nbsp;км</span></li>
-          <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/><path d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/></svg></span><b class="dv">2 ч 50 мин</b><span>от аэропорта Минводы · 183&nbsp;км</span></li>
+          <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/><path d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/></svg></span><b class="dv">2&nbsp;ч&nbsp;15&nbsp;мин</b><span>от аэропорта Нальчик, 125&nbsp;км</span></li>
+          <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/><path d="M10.5 13.5 3 11l1.5-1.5 7.5.5 4.5-4.5c1-1 2.5-1.2 3-.7s.3 2-.7 3L14.3 12.3l.5 7.5L13.3 21.3l-2.5-7.5z"/></svg></span><b class="dv">2&nbsp;ч&nbsp;50&nbsp;мин</b><span>от аэропорта Минводы, 183&nbsp;км</span></li>
         </ul>
-        <a class="yrate" href="https://yandex.ru/maps/org/legenda/1184772629/reviews/" target="_blank" rel="noopener" aria-label="Рейтинг 5,0 из 5 на Яндекс Картах: 687 отзывов, 1293 оценки"><span class="yr-l"><svg width="18" height="24" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg></span><span class="yr-t"><b>5,0<span class="yr-s" aria-hidden="true">★★★★★</span></b><small>Яндекс Карты · 687&nbsp;отзывов</small></span><svg class="yr-a" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
-        <div class="road-b"><a class="btn btn-accent" id="routeBtn" href="https://yandex.ru/maps/?rtext=~43.246012%2C42.526408&amp;rtt=auto" target="_blank" rel="noopener">Построить маршрут</a><a class="btn btn-soft" href="https://yandex.ru/maps/org/legenda/1184772629/" target="_blank" rel="noopener"><span class="ymb"><svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg></span>Открыть в Яндекс Картах</a></div>
+        <div class="road-b"><a class="btn btn-accent" id="routeBtn" href="https://yandex.ru/maps/?rtext=~43.246012%2C42.526408&amp;rtt=auto" target="_blank" rel="noopener">Построить маршрут</a><a class="yrate" href="https://yandex.ru/maps/org/legenda/1184772629/" target="_blank" rel="noopener" aria-label="Открыть в Яндекс Картах: рейтинг 5,0 из 5, 687 отзывов, 1293 оценки"><span class="yr-l"><svg width="18" height="24" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="#FC3F1D"/><circle cx="6" cy="6" r="2.4" fill="#fff"/></svg></span><span class="yr-t"><b>Открыть в Яндекс Картах</b><small><span class="yr-r">5,0<span class="yr-s" aria-hidden="true">★★★★★</span></span><span>687&nbsp;отзывов · 1293&nbsp;оценки</span></small></span><svg class="yr-a" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
       </div>
       <div class="road-m rmap" aria-hidden="true">
         <svg viewBox="440 160 560 320" role="img" aria-label="Схема: отель «Легенда» в Терсколе, у поляны Чегет">
