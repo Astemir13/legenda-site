@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Эко-отель «Легенда» в Терсколе — гостиница в Приэльбрусье у Чегета и Эльбруса</title>
-<meta name="description" content="Дом из сруба на 15 номеров и отдельный коттедж в Терсколе, Приэльбрусье: 500 м до Чегета, 5 км до Азау. Свой ресторан, вид на горы. Напрямую — завтрак включён, без комиссии.">
+<meta name="description" content="Гостиница в Терсколе для отдыха в Приэльбрусье: дом из сруба на 15 номеров и отдельный коттедж в сосновом бору, 500 м до подъёмников Чегета, 5 км до канатной дороги на Эльбрус. Свой ресторан. Напрямую — завтрак включён, без комиссии.">
 <link rel="canonical" href="https://hotellegenda.ru/">
 <meta name="theme-color" content="#1F5C4A">
 <meta property="og:type" content="website">
@@ -12,11 +12,16 @@
 <meta property="og:site_name" content="Эко-отель «Легенда»">
 <meta property="og:url" content="https://hotellegenda.ru/">
 <meta property="og:title" content="Эко-отель «Легенда» в Терсколе — гостиница в Приэльбрусье у Чегета и Эльбруса">
-<meta property="og:description" content="Дом из сруба на 15 номеров и отдельный коттедж в Терсколе, Приэльбрусье: 500 м до Чегета, 5 км до Азау. Свой ресторан, вид на горы. Напрямую — завтрак включён, без комиссии.">
+<meta property="og:description" content="Гостиница в Терсколе для отдыха в Приэльбрусье: дом из сруба на 15 номеров и отдельный коттедж в сосновом бору, 500 м до подъёмников Чегета, 5 км до канатной дороги на Эльбрус. Свой ресторан. Напрямую — завтрак включён, без комиссии.">
 <meta property="og:image" content="https://hotellegenda.ru/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Эко-отель «Легенда» — дом из сруба в Терсколе, Приэльбрусье">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="geo.region" content="RU-KB">
+<meta name="geo.placename" content="Терскол, Приэльбрусье">
+<meta name="geo.position" content="43.246012;42.526408">
+<meta name="ICBM" content="43.246012, 42.526408">
 <link rel="icon" href="favicon.ico" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="favicon-dark.ico" sizes="32x32" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -350,6 +355,13 @@ section[id]{scroll-margin-top:84px}
 .faq p{padding-bottom:16px;color:var(--ink2);font-size:15px}
 /* Финал */
 .faqp{max-width:860px}
+.faq-h{font-size:clamp(24px,2.4vw,30px);margin:2px 0 6px}
+/* Отдых в Приэльбрусье: три сезона */
+.seas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.seas .panel{gap:12px}
+.seas h3{font-size:20px;line-height:1.25}
+.seas p{color:var(--ink2);font-size:15.5px;line-height:1.55}
+@media (max-width:900px){.seas{grid-template-columns:minmax(0,1fr)}}
 .road{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);background:var(--card);border-radius:28px;overflow:hidden}
 .road-i{padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;gap:12px}
 .road-a{color:var(--ink2)}
@@ -846,6 +858,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     <a href="#hotel"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg>Об отеле</a>
     <div class="menu-row"><a href="#restaurant" data-food="menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 3.5-3 7h3"/></svg>Ресторан и меню<small>8:00–21:00</small></a><a class="mcall" href="tel:+79287130416" aria-label="Позвонить в ресторан: +7 928 713-04-16" title="Позвонить в ресторан"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a></div>
     <a href="#reviews"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/></svg>Отзывы гостей</a>
+    <a href="#area"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19 10 6l4 7 2-3 5 9z"/></svg>Отдых в Приэльбрусье</a>
     <a href="#way"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Как добраться</a>
   </nav>
   <div class="menu-act">
@@ -935,6 +948,17 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   </div>
 </section>
 
+<section class="sec" id="area" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-h"><div><span class="kick">Чем заняться</span><h2>Отдых в Приэльбрусье</h2></div><p>Терскол — в верховьях Баксанского ущелья, у подножия Эльбруса. От «Легенды» до подъёмников Чегета — 500 м пешком, до канатной дороги на Эльбрус на поляне Азау — 5 км.</p></div>
+    <div class="seas">
+      <div class="panel"><span class="gi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.6 4.6 12 7l2.4-2.4M9.6 19.4 12 17l2.4 2.4M3.9 11l3.3.9-.9 3.3M20.1 13l-3.3-.9.9-3.3M3.9 13l3.3-.9-.9-3.3M20.1 11l-3.3.9.9 3.3"/></svg></span><h3>Зимой — склоны Чегета и Эльбруса</h3><p>Горнолыжный сезон — с декабря до весны. Чегет в 500 м: крутые красные и чёрные трассы и фрирайд. На Эльбрусе — широкие склоны: канатная дорога поднимается с поляны Азау к вечным снегам.</p></div>
+      <div class="panel"><span class="gi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="17" cy="6.5" r="2.5"/><circle cx="17" cy="6.5" r="2.5"/><path class="f" d="M2.5 20 9 9l4 6 2-2.5 6.5 7.5z"/><path d="M2.5 20 9 9l4 6 2-2.5 6.5 7.5z"/></svg></span><h3>Летом — тропы, водопады и нарзаны</h3><p>Прямо из Терскола уходят маршруты к водопаду Девичьи косы и Терскольскому водопаду, выше — обсерватория на пике Терскол. В Баксанском ущелье — поляна Нарзанов с минеральными источниками, а канатные дороги и летом поднимают к панорамам Кавказа.</p></div>
+      <div class="panel"><span class="gi" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M12 3 6.5 10.5h3L5.5 16h13l-4-5.5h3z"/><path d="M12 3 6.5 10.5h3L5.5 16h13l-4-5.5h3z"/><path d="M12 16v5"/></svg></span><h3>Круглый год — отдых без спешки</h3><p>Своя территория в сосновом бору, эко-тропы, горный воздух и тишина. После склона или прогулки никуда не нужно ехать: ресторан кавказской и европейской кухни, беседка с мангалом, бильярд и сауна — рядом.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="reviews" style="padding-top:0">
   <div class="wrap">
     <div class="sec-h"><div><span class="kick">Отзывы</span><h2>Что говорят гости</h2></div></div>
@@ -950,12 +974,16 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 <section class="sec" id="faq" style="padding-top:0">
   <div class="wrap">
     <div class="panel faqp">
-      <span class="kick" style="margin:0">Частые вопросы</span>
+      <span class="kick" style="margin:0">Вопросы и ответы</span>
+      <h2 class="faq-h">Частые вопросы</h2>
       <div class="faq">
+        <details><summary>Сколько от отеля до подъёмников Чегета и Эльбруса?</summary><p>До подъёмников Чегета — 500 м, это несколько минут пешком. До канатной дороги на Эльбрус на поляне Азау — 5 км по дороге.</p></details>
         <details><summary>Во сколько заезд и выезд?</summary><p>Заезд после 14:00, выезд до 12:00. Бронирование работает круглосуточно.</p></details>
-        <details><summary>Можно ли отменить бронь?</summary><p>Бесплатно [за N дней до заезда].</p></details>
-        <details><summary>Входит ли завтрак?</summary><p>При бронировании напрямую — на сайте или по телефону — завтрак на двоих включён. Ресторан работает с 8:00 до 21:00.</p></details>
-        <details><summary>Как добраться без машины?</summary><p>Из Минвод или Нальчика — [трансфер / такси], около [время]. Позвоните, подскажем.</p></details>
+        <details><summary>Входит ли завтрак?</summary><p>При бронировании напрямую — на сайте или по телефону — завтрак на двоих включён. Ресторан отеля работает каждый день с 8:00 до 21:00: кавказская и европейская кухня, есть комплексные обеды и ужины.</p></details>
+        <details><summary>Почему выгоднее бронировать напрямую?</summary><p>Без комиссии агрегаторов, а завтрак на двоих включён. Забронировать можно онлайн на сайте или по телефону +7 999 300-00-88, а также написать в WhatsApp или Telegram — поможем подобрать номер.</p></details>
+        <details><summary>Можно ли с детьми?</summary><p>Да. Дети до 3 лет — бесплатно. Для семьи подойдут семейный номер с двумя комнатами и апартаменты в барнхаусе до 5 гостей.</p></details>
+        <details><summary>Есть ли парковка и Wi-Fi?</summary><p>Да, бесплатная парковка и Wi-Fi на всей территории.</p></details>
+        <details><summary>Как добраться до Терскола?</summary><p>Из аэропортов Минеральные Воды или Нальчик — на машине или такси по трассе А-158 через Баксанское ущелье. Позвоните — подскажем дорогу.</p></details>
       </div>
     </div>
   </div>
@@ -1800,9 +1828,10 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 
   /* ---------- Подбор номера ---------- */
   var grid = document.getElementById('roomGrid');
-  rooms.forEach(function(r){ var el = document.createElement('article'); el.className = 'room'; el.id = 'r-'+r.id;
+  /* карточки уже есть в HTML (их пишет сборка — для поисковиков, которые не выполняют скрипт): оживляем их, иначе создаём */
+  rooms.forEach(function(r){ var el = document.getElementById('r-'+r.id), isNew = !el; if (isNew){ el = document.createElement('article'); el.className = 'room'; el.id = 'r-'+r.id; }
     var ph = PHOTOS[r.id] || []; el.innerHTML = '<div class="ph" data-view="'+(ph.length ? 'photo' : 'plan')+'"><div class="mtog" role="group" aria-label="Что показать"><button type="button" data-v="photo" aria-pressed="'+!!ph.length+'">Фото</button><button type="button" data-v="plan" aria-pressed="'+!ph.length+'">План</button></div><div class="mphoto">'+(ph.length ? '<div class="mph-s">'+ph.map(function(u, i){ return '<img src="'+phUrl(u, 760)+'" alt="'+r.name+' — номер в эко-отеле «Легенда», Терскол, фото '+(i+1)+'" loading="lazy" decoding="async" data-i="'+i+'">'; }).join('')+'</div>'+(ph.length > 1 ? '<span class="mph-n">1 / '+ph.length+'</span><button type="button" class="mph-a p" aria-label="Предыдущее фото">'+CHEV_L+'</button><button type="button" class="mph-a n" aria-label="Следующее фото">'+CHEV_R+'</button>' : '') : '<span class="mph-ph">фото номера</span>')+'</div><button type="button" class="pl" aria-label="Открыть планировку: '+r.name+'"><svg role="img"></svg><span class="mcap"></span></button></div><div class="b"><h3>'+r.name+'</h3><div class="m">'+r.tags.map(function(t){return '<span>'+t+'</span>';}).join('')+'</div><p>'+r.text+'</p><div class="foot"><a class="btn btn-date" href="'+BOOK+'" target="_blank" rel="noopener" data-book="'+r.hr+'" aria-label="'+r.name+': свободные даты и цены">Свободные даты и цены<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>';
-    grid.appendChild(el); });
+    if (isNew) grid.appendChild(el); });
   var NS = 'http://www.w3.org/2000/svg';
   function sv(tag, a, par){ var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (par) par.appendChild(e); return e; }
   /* Схема номера: пол (тёплый), санузлы (холодные), основная мебель, стены поверх, окна и двери, подписи.
@@ -2040,13 +2069,15 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   "@id": "https://hotellegenda.ru/#hotel",
   "name": "Эко-отель «Легенда»",
   "alternateName": ["Отель Легенда Терскол", "Гостиница Легенда", "Legenda hotel"],
-  "description": "Эко-отель в Терсколе (Приэльбрусье): дом из деревянного сруба на 15 номеров и апартаменты люкс в отдельно стоящем барнхаусе; 500 м до подъёмника Чегет, 5 км до канатной дороги Азау на Эльбрус. Номера с видом на горы, свой ресторан кавказской и европейской кухни, бильярд, беседка с мангалом. При бронировании напрямую завтрак на двоих включён.",
+  "description": "Эко-отель в Терсколе для отдыха в Приэльбрусье: дом из деревянного сруба на 15 номеров и апартаменты люкс в отдельно стоящем барнхаусе; 500 м до подъёмника Чегет, 5 км до канатной дороги Азау на Эльбрус. Номера с видом на горы, свой ресторан кавказской и европейской кухни, бильярд, беседка с мангалом. При бронировании напрямую завтрак на двоих включён.",
   "url": "https://hotellegenda.ru/",
   "telephone": "+7 999 300-00-88",
   "email": "Legenda_hotel@mail.ru",
-  "image": ["https://hotellegenda.ru/img/facade.jpg"],
+  "image": ["https://hotellegenda.ru/img/facade.jpg", "https://hotellegenda.ru/img/r/hotel-1.webp", "https://hotellegenda.ru/img/r/hotel-3.webp", "https://hotellegenda.ru/img/r/lux-2.webp", "https://hotellegenda.ru/img/r/std2-1.webp", "https://hotellegenda.ru/img/r/barn-3.webp"],
   "address": {"@type": "PostalAddress", "streetAddress": "ул. Чегет, 5А", "addressLocality": "Терскол", "addressRegion": "Кабардино-Балкарская Республика", "addressCountry": "RU"},
   "geo": {"@type": "GeoCoordinates", "latitude": 43.246012, "longitude": 42.526408},
+  "containedInPlace": {"@type": "Place", "name": "Приэльбрусье", "address": {"@type": "PostalAddress", "addressLocality": "Терскол", "addressRegion": "Кабардино-Балкарская Республика", "addressCountry": "RU"}},
+  "touristType": ["Горнолыжный отдых", "Отдых в горах", "Семейный отдых", "Походы и экскурсии"],
   "hasMap": "https://yandex.ru/maps/org/legenda/1184772629/",
   "sameAs": ["https://yandex.ru/maps/org/legenda/1184772629/"],
   "numberOfRooms": 15,

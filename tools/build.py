@@ -9,7 +9,8 @@
   src/privacy.txt    — текст политики обработки персональных данных
 
 Что делает:
-  — убирает из страницы разделы с заглушками в [скобках] (отзывы, вопросы), пока их нечем заполнить;
+  — убирает из страницы разделы с заглушками в [скобках] (отзывы), пока их нечем заполнить; по разделу вопросов строит разметку FAQPage;
+  — пишет карточки номеров прямо в HTML (для поисковиков без скрипта);
   — сжимает скрипт (без комментариев и отступов) и разметку для поисковиков;
   — обложку и фото номеров переводит в webp нужных размеров;
   — делает политику (/privacypolicy/), страницу 404, robots.txt, sitemap.xml, .htaccess."""
@@ -46,9 +47,22 @@ page = re.sub(r'<section class="sec" id="reviews".*?</section>\n\n', '', page, f
 page = must(page, '<a href="#reviews">Отзывы</a>', '')
 page = re.sub(r'\s*<a href="#reviews">.*?Отзывы гостей</a>', '', page, flags=re.S)
 page = re.sub(r'\s*<div><span>[^<]*</span><span>\[[^\]]*\][^<]*</span></div>', '', page)
-page = re.sub(r'<section class="sec" id="faq".*?</section>\n\n', '', page, count=1, flags=re.S)
 page = re.sub(r'\s*<li data-ph>.*?</li>', '', page)
-visible = re.sub(r'<(script|style)\b.*?</\1>', '', page[page.index('<body>'):], flags=re.S)
+# карточки номеров — прямо в HTML (скрипт потом оживляет те же карточки): Яндекс не всегда выполняет скрипты,
+# а без них на странице не было бы ни названий номеров, ни описаний
+BOOK = re.search(r"var BOOK = '([^']+)'", page).group(1)
+PH = {k: re.findall(r"'([a-z0-9]+-\d+)'", v) for k, v in re.findall(r"(\w+):\[([^\]]*)\]", re.search(r'var PHOTOS = \{(.*?)\};', page, re.S).group(1))}
+cards = []
+for m in re.finditer(r"\{id:'(\w+)', hr:(\d+), name:'([^']+)'.*?tags:\[([^\]]*)\], text:'([^']+)'\}", page):
+    rid, hr, name, tags, text = m.groups()
+    tags, ph = re.findall(r"'([^']+)'", tags), PH.get(rid, [])
+    img = f'<div class="mph-s"><img src="img/r/{ph[0]}-760.webp" alt="{name} — номер в эко-отеле «Легенда», Терскол, фото 1" loading="lazy" decoding="async"></div>' if ph else ''
+    cards.append(f'<article class="room" id="r-{rid}"><div class="ph" data-view="photo"><div class="mphoto">{img}</div></div>'
+                 f'<div class="b"><h3>{name}</h3><div class="m">{"".join(f"<span>{t}</span>" for t in tags)}</div><p>{text}</p>'
+                 f'<div class="foot"><a class="btn btn-date" href="{BOOK}" target="_blank" rel="noopener" data-book="{hr}">Свободные даты и цены</a></div></div></article>')
+assert len(cards) == 6, len(cards)
+page = must(page, '<div class="rooms" id="roomGrid"></div>', '<div class="rooms" id="roomGrid">' + ''.join(cards) + '</div>')
+visible =re.sub(r'<(script|style)\b.*?</\1>', '', page[page.index('<body>'):], flags=re.S)
 assert '[' not in visible.replace('[open]', ''), re.findall(r'.{40}\[[^\]]*\].{20}', visible)
 # типографика: короткие предлоги и союзы не остаются в конце строки, тире не переносится в начало строки
 # (только кириллица, поэтому код и стили не задеваются; <style> пропускаем)
@@ -62,6 +76,12 @@ page = head + body
 # скрипт и разметка для поисковиков — компактно
 main_js = re.search(r'<script>\n(\(function\(\)\{.*?)</script>', page, re.S)
 page = page.replace(main_js.group(1), compact_js(main_js.group(1)))
+# разметка «вопрос — ответ» (FAQPage) — из раздела вопросов на странице, чтобы текст всегда совпадал
+faq = re.findall(r'<details><summary>(.*?)</summary><p>(.*?)</p></details>', re.search(r'<section class="sec" id="faq".*?</section>', page, re.S).group(0))
+assert len(faq) >= 5, len(faq)
+def plain(t): return html.unescape(re.sub(r'<[^>]+>', '', t)).replace(' ', ' ')
+faq_ld = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in faq]}
+page = must(page, '<!-- Яндекс Метрика -->', '<script type="application/ld+json">' + json.dumps(faq_ld, ensure_ascii=False, separators=(',', ':')) + '</script>\n<!-- Яндекс Метрика -->')
 ld = re.search(r'(<script type="application/ld\+json">)(.*?)(</script>)', page, re.S)
 page = page.replace(ld.group(0), ld.group(1) + json.dumps(json.loads(ld.group(2)), ensure_ascii=False, separators=(',', ':')) + ld.group(3))
 page = re.sub(r'<style>\n/\*.*?\*/\n', '<style>\n', page, count=1, flags=re.S)  # служебный комментарий в начале стилей
@@ -182,9 +202,17 @@ footer a{{color:inherit}}
 # ---------- служебные файлы ----------
 today = datetime.date.today().isoformat()
 save(f'{OUT}/robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n')
+# фото в карте сайта — для поиска по картинкам: обложка, первое фото каждого номера и альбом «Об отеле»
+cap = dict(zip(PH.get('hotel', []), re.findall(r"'([^']+)'", re.search(r'var HOTEL_CAP = \[(.*?)\];', page, re.S).group(1))))
+names = {rid: nm for rid, nm in re.findall(r"\{id:'(\w+)', hr:\d+, name:'([^']+)'", page)}
+imgs = [('img/facade.jpg', 'Эко-отель «Легенда» в Терсколе, Приэльбрусье')]
+imgs += [(f'img/r/{v[0]}.webp', f'{names[k]} — номер в эко-отеле «Легенда», Терскол') for k, v in PH.items() if k in names and v]
+imgs += [(f'img/r/{n}.webp', f'{c} — эко-отель «Легенда», Терскол') for n, c in cap.items()]
+IMG_XML = ''.join(f'\n    <image:image><image:loc>{DOMAIN}/{u}</image:loc><image:title>{html.escape(t)}</image:title></image:image>' for u, t in imgs)
 save(f'{OUT}/sitemap.xml', f'''<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>{DOMAIN}/</loc><lastmod>{today}</lastmod></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>{DOMAIN}/</loc><lastmod>{today}</lastmod>{IMG_XML}
+  </url>
   <url><loc>{DOMAIN}/privacypolicy/</loc><lastmod>{today}</lastmod></url>
 </urlset>
 ''')
