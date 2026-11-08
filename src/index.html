@@ -2078,7 +2078,11 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   /* Номер, открытый прямо с карточки: крестик модуля закрывает окно целиком, а не ведёт в общий список */
   var hrDirect = false;
   document.addEventListener('click', function(e){ if (hrDirect && e.target.closest('.vanilla-overlay > svg, .vanilla-overlay > button')){ hrDirect = false; setTimeout(function(){ location.hash = '#/'; }, 60); } }, true);
-  window.addEventListener('hashchange', function(){ if (!/^#\/detail\//.test(location.hash) && location.hash !== '#/search') hrDirect = false; });
+  window.addEventListener('hashchange', function(){ if (!/^#\/detail\//.test(location.hash) && location.hash !== '#/search') hrDirect = false; setTimeout(hrClean, 0); });
+  /* Модуль при загрузке и после закрытия окна ставит в адрес «#/» (hotellegenda.ru/#/), иногда без события hashchange —
+     убираем хвост, не перезагружая страницу (replaceState модуль не замечает; «#/» у него — окно закрыто) */
+  function hrClean(){ if (location.hash === '#/' || location.hash === '#') history.replaceState(history.state, '', location.pathname + location.search); }
+  setInterval(hrClean, 1000);
   function hrUrl(id){ return 'https://homereserve.ru/' + HR.token + (id ? '/detail/' + id : ''); }
   function openBooking(id){
     if (hrReady && window.homereserve){ hrDirect = !!id; location.hash = id ? '#/detail/' + id : '#/search'; }
