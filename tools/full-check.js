@@ -13,7 +13,7 @@ const URL = process.argv[2] || 'http://127.0.0.1:8765/';
     const p = await b.newPage({viewport: {width: w, height: h}, deviceScaleFactor: 1, hasTouch: w < 768, isMobile: w < 768});
     const errs = [];
     p.on('pageerror', e => errs.push('pageerror: ' + e.message));
-    p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errs.push('console: ' + m.text()); });  // сбои загрузки — через requestfailed/response, со сторонними сервисами
+    p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errs.push('console: ' + m.text() + ' @ ' + (m.location() || {}).url); });  // сбои загрузки — через requestfailed/response, со сторонними сервисами
     p.on('requestfailed', r => { const u = r.url(); if (!/homereserve|realtycalendar|yandex|open-meteo|wx\.php/.test(u)) errs.push('failed: ' + u + ' ' + (r.failure() || {}).errorText); });
     p.on('response', r => { if (r.status() >= 400 && !/homereserve|realtycalendar|yandex|open-meteo|favicon/.test(r.url())) errs.push('http ' + r.status() + ': ' + r.url()); });
     const log = (ok, what) => { if (!ok) bad.push(tag + ': ' + what); };

@@ -102,7 +102,7 @@ photos = re.findall(r"'([a-z0-9]+-\d+)'", re.search(r'var PHOTOS = \{(.*?)\};', 
 for n in photos:
     ph = Image.open(f'src/rooms/{n}.jpg').convert('RGB')
     for w, name in ((1800, n), (760, n + '-760'), (160, n + '-160')):
-        s = ph.copy(); s.thumbnail((w, w * 4)); s.save(f'{OUT}/img/r/{name}.webp', 'WEBP', quality=80, method=6)
+        s = ph.copy(); s.thumbnail((w, w * 4)); s.save(f'{OUT}/img/r/{name}.webp', 'WEBP', quality=80 if w == 1800 else 74, method=6)  # превью и карточки — чуть сильнее сжаты, разницы на глаз нет
 shutil.copytree('src/static', OUT, dirs_exist_ok=True)
 
 # ---------- политика и 404 ----------
