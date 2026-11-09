@@ -71,7 +71,7 @@ const URL = process.argv[2] || 'http://127.0.0.1:8765/';
       const c = '#r-' + id;
       await p.evaluate(c => document.querySelector(c).scrollIntoView({block: 'center'}), c); await p.waitForTimeout(250);
       const n0 = await p.evaluate(c => { const n = document.querySelector(c + ' .mph-n'); return n ? n.textContent : ''; }, c);
-      if (n0) { await p.evaluate(c => document.querySelector(c + ' .mph-a.n').click(), c); await p.waitForTimeout(1300);
+      if (n0) { await p.mouse.move(1, 1); await p.evaluate(c => document.querySelector(c + ' .mph-a.n').click(), c); await p.waitForTimeout(1300);
         const n1 = await p.evaluate(c => document.querySelector(c + ' .mph-n').textContent, c); log(n1 !== n0, id + ': стрелка фото в карточке не листает (' + n0 + ')'); }
       // переключатель План/Фото
       await p.evaluate(c => document.querySelector(c + ' .mtog [data-v="plan"]').click(), c); await p.waitForTimeout(300);
