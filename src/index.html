@@ -2056,23 +2056,31 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   /* фото в карточках: листание свайпом и стрелками, по нажатию — галерея на весь экран */
   var HOVER = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
   document.querySelectorAll('.mph-s').forEach(function(s){ var box = s.parentNode, n = box.querySelector('.mph-n'), cnt = s.children.length, id = box.closest('.room').id.slice(2);
-    function idx(){ return Math.round(s.scrollLeft / Math.max(1, s.clientWidth)); }
+    function idx(){ return Math.round(s.scrollLeft / Math.max(1, s.clientWidth)); } var jump = null;
     /* фото карточки дальше второго грузим, только когда человек начал листать или навёл/коснулся карточки: без этого браузер заранее тянет все ~40 фото номеров */
-    function more(){ [].forEach.call(s.querySelectorAll('img[data-src]'), function(im){ im.src = im.dataset.src; im.removeAttribute('data-src'); }); }
+    function more(){ [].forEach.call(s.querySelectorAll('img'), function(im){ im.loading = 'eager'; if (im.dataset.src){ im.src = im.dataset.src; im.removeAttribute('data-src'); } }); }
     ['pointerenter', 'touchstart', 'focusin'].forEach(function(ev){ box.closest('.room').addEventListener(ev, more, {once:true, passive:true}); });
     s.addEventListener('scroll', function(){ more(); if (n) n.textContent = (idx() + 1) + ' / ' + cnt; }, {passive:true});
-    box.querySelectorAll('.mph-a').forEach(function(a){ a.addEventListener('click', function(){ var k = idx() + (a.classList.contains('n') ? 1 : -1); if (k >= cnt) k = 0; if (k < 0) k = cnt - 1; s.scrollTo({left:k*s.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }); });
+    box.querySelectorAll('.mph-a').forEach(function(a){ a.addEventListener('click', function(){ var k = idx() + (a.classList.contains('n') ? 1 : -1); if (k >= cnt) k = 0; if (k < 0) k = cnt - 1; if (jump) return jump(k); s.scrollTo({left:k*s.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }); });
     s.addEventListener('click', function(e){ var im = e.target.closest('img'); if (im) openGal(id, +im.dataset.i); });
     /* компьютер (мышь): ведёшь курсором по фото — фото сменяются, как в модуле бронирования; полоски внизу показывают, какое;
        курсор ушёл — снова первое фото. На телефоне — по-прежнему свайп */
     if (cnt > 1 && HOVER){ var bar = document.createElement('div'), cur = 0; bar.className = 'mph-bar'; bar.setAttribute('aria-hidden', 'true');
       bar.innerHTML = new Array(cnt + 1).join('<i></i>'); box.appendChild(bar);
       function mark(k){ [].forEach.call(bar.children, function(b, j){ b.classList.toggle('on', j === k); }); }
-      function show(k){ if (k === cur) return; cur = k; more(); s.scrollLeft = k*s.clientWidth; mark(k); }
+      /* смена сдвигом, как в модуле бронирования: лента плавно едет к нужному фото (0,3 с), новое фото выталкивает старое */
+      var anim = 0, raf = 0;
+      function show(k){ if (k === cur) return; cur = k; more(); mark(k); cancelAnimationFrame(raf);
+        var x0 = s.scrollLeft, x1 = k*s.clientWidth, t0 = performance.now(), D = 300;
+        if (reduce){ s.scrollLeft = x1; return; }
+        anim = 1; s.style.scrollSnapType = 'none';
+        (function step(t){ var q = Math.min(1, (t - t0)/D), e = 1 - Math.pow(1 - q, 3); s.scrollLeft = x0 + (x1 - x0)*e;
+          if (q < 1) raf = requestAnimationFrame(step); else { anim = 0; s.style.scrollSnapType = ''; } })(t0); }
+      jump = show;
       mark(0);
       s.addEventListener('mousemove', function(e){ var r = s.getBoundingClientRect(); show(Math.max(0, Math.min(cnt - 1, Math.floor((e.clientX - r.left)/r.width*cnt)))); });
       s.addEventListener('mouseleave', function(){ show(0); });
-      s.addEventListener('scroll', function(){ var k = idx(); if (k !== cur){ cur = k; mark(k); } }, {passive:true}); } });
+      s.addEventListener('scroll', function(){ if (anim) return; var k = idx(); if (k !== cur){ cur = k; mark(k); } }, {passive:true}); } });
   
   var gal = document.getElementById('gal'), galS = document.getElementById('galS'), galN = document.getElementById('galN'), galTh = document.getElementById('galTh'), galLast = null, galCur = -1;
   function galIdx(){ return Math.round(galS.scrollLeft / Math.max(1, galS.clientWidth)); }
