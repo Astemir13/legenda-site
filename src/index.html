@@ -2061,7 +2061,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     function more(){ [].forEach.call(s.querySelectorAll('img'), function(im){ im.loading = 'eager'; if (im.dataset.src){ im.src = im.dataset.src; im.removeAttribute('data-src'); } }); }
     ['pointerenter', 'touchstart', 'focusin'].forEach(function(ev){ box.closest('.room').addEventListener(ev, more, {once:true, passive:true}); });
     s.addEventListener('scroll', function(){ more(); if (n) n.textContent = (idx() + 1) + ' / ' + cnt; }, {passive:true});
-    box.querySelectorAll('.mph-a').forEach(function(a){ a.addEventListener('click', function(){ var k = idx() + (a.classList.contains('n') ? 1 : -1); if (k >= cnt) k = 0; if (k < 0) k = cnt - 1; if (jump) return jump(k); s.scrollTo({left:k*s.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }); });
+    box.querySelectorAll('.mph-a').forEach(function(a){ a.addEventListener('click', function(){ var k = (jump ? cur : idx()) + (a.classList.contains('n') ? 1 : -1); if (k >= cnt) k = 0; if (k < 0) k = cnt - 1; if (jump) return jump(k); s.scrollTo({left:k*s.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }); });
     s.addEventListener('click', function(e){ var im = e.target.closest('img'); if (im) openGal(id, +im.dataset.i); });
     /* компьютер (мышь): ведёшь курсором по фото — фото сменяются, как в модуле бронирования; полоски внизу показывают, какое;
        курсор ушёл — снова первое фото. На телефоне — по-прежнему свайп */
@@ -2078,8 +2078,10 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
           if (q < 1) raf = requestAnimationFrame(step); else { anim = 0; s.style.scrollSnapType = ''; } })(t0); }
       jump = show;
       mark(0);
-      s.addEventListener('mousemove', function(e){ var r = s.getBoundingClientRect(); show(Math.max(0, Math.min(cnt - 1, Math.floor((e.clientX - r.left)/r.width*cnt)))); });
-      s.addEventListener('mouseleave', function(){ show(0); });
+      /* реагируем только на настоящее движение курсора: браузер сам шлёт mousemove, когда лента едет под неподвижным курсором */
+      var lx = null;
+      s.addEventListener('mousemove', function(e){ if (e.clientX === lx) return; lx = e.clientX; var r = s.getBoundingClientRect(); show(Math.max(0, Math.min(cnt - 1, Math.floor((e.clientX - r.left)/r.width*cnt)))); });
+      box.addEventListener('mouseleave', function(){ lx = null; show(0); });
       s.addEventListener('scroll', function(){ if (anim) return; var k = idx(); if (k !== cur){ cur = k; mark(k); } }, {passive:true}); } });
   
   var gal = document.getElementById('gal'), galS = document.getElementById('galS'), galN = document.getElementById('galN'), galTh = document.getElementById('galTh'), galLast = null, galCur = -1;
