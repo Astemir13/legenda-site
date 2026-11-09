@@ -233,6 +233,13 @@ section[id]{scroll-margin-top:84px}
 .mph-n{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:999px;font:600 12px var(--body);color:#fff;background:rgba(12,20,28,.42);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);pointer-events:none}
 .mph-a{position:absolute;top:50%;margin-top:-18px;width:36px;height:36px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;color:var(--ink);background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px) saturate(1.6);backdrop-filter:blur(14px) saturate(1.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 4px 14px rgba(19,32,42,.14);cursor:pointer;opacity:0;transition:opacity .2s}
 .mph-a.p{left:10px}.mph-a.n{right:10px}
+/* полоски «какое фото» при листании мышью (только устройства с мышью) */
+.mph-bar{position:absolute;left:12px;right:12px;bottom:10px;display:flex;gap:4px;pointer-events:none;opacity:0;transition:opacity .2s}
+.mph-bar i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.45);box-shadow:0 0 0 .5px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.18);transition:background .15s}
+.mph-bar i.on{background:#fff}
+.room:hover .mph-bar{opacity:1}
+.room:hover .mph-n{opacity:0}
+.mph-n{transition:opacity .2s}
 .room:hover .mph-a,.mph-a:focus-visible{opacity:1}
 @media (hover:none){.mph-a{display:none}}
 /* галерея на весь экран */
@@ -2025,6 +2032,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     document.querySelectorAll('.room .pl').forEach(function(b){ b.classList.add('wait'); pio.observe(b); }); }
 
   /* фото в карточках: листание свайпом и стрелками, по нажатию — галерея на весь экран */
+  var HOVER = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
   document.querySelectorAll('.mph-s').forEach(function(s){ var box = s.parentNode, n = box.querySelector('.mph-n'), cnt = s.children.length, id = box.closest('.room').id.slice(2);
     function idx(){ return Math.round(s.scrollLeft / Math.max(1, s.clientWidth)); }
     /* фото карточки дальше второго грузим, только когда человек начал листать или навёл/коснулся карточки: без этого браузер заранее тянет все ~40 фото номеров */
@@ -2032,7 +2040,18 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     ['pointerenter', 'touchstart', 'focusin'].forEach(function(ev){ box.closest('.room').addEventListener(ev, more, {once:true, passive:true}); });
     s.addEventListener('scroll', function(){ more(); if (n) n.textContent = (idx() + 1) + ' / ' + cnt; }, {passive:true});
     box.querySelectorAll('.mph-a').forEach(function(a){ a.addEventListener('click', function(){ var k = idx() + (a.classList.contains('n') ? 1 : -1); if (k >= cnt) k = 0; if (k < 0) k = cnt - 1; s.scrollTo({left:k*s.clientWidth, behavior:reduce ? 'auto' : 'smooth'}); }); });
-    s.addEventListener('click', function(e){ var im = e.target.closest('img'); if (im) openGal(id, +im.dataset.i); }); });
+    s.addEventListener('click', function(e){ var im = e.target.closest('img'); if (im) openGal(id, +im.dataset.i); });
+    /* компьютер (мышь): ведёшь курсором по фото — фото сменяются, как в модуле бронирования; полоски внизу показывают, какое;
+       курсор ушёл — снова первое фото. На телефоне — по-прежнему свайп */
+    if (cnt > 1 && HOVER){ var bar = document.createElement('div'), cur = 0; bar.className = 'mph-bar'; bar.setAttribute('aria-hidden', 'true');
+      bar.innerHTML = new Array(cnt + 1).join('<i></i>'); box.appendChild(bar);
+      function mark(k){ [].forEach.call(bar.children, function(b, j){ b.classList.toggle('on', j === k); }); }
+      function show(k){ if (k === cur) return; cur = k; more(); s.scrollLeft = k*s.clientWidth; mark(k); }
+      mark(0);
+      s.addEventListener('mousemove', function(e){ var r = s.getBoundingClientRect(); show(Math.max(0, Math.min(cnt - 1, Math.floor((e.clientX - r.left)/r.width*cnt)))); });
+      s.addEventListener('mouseleave', function(){ show(0); });
+      s.addEventListener('scroll', function(){ var k = idx(); if (k !== cur){ cur = k; mark(k); } }, {passive:true}); } });
+  
   var gal = document.getElementById('gal'), galS = document.getElementById('galS'), galN = document.getElementById('galN'), galTh = document.getElementById('galTh'), galLast = null, galCur = -1;
   function galIdx(){ return Math.round(galS.scrollLeft / Math.max(1, galS.clientWidth)); }
   /* лента миниатюр внизу: текущее фото подсвечено и держится по центру ленты */
