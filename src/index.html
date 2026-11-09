@@ -1561,7 +1561,10 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var DEPTH_SRC = 'img/depth.jpg';
   /* точки на фото в пикселях исходника 2000×1333: труба, потолок крыльца над дверью */
   var PHOTO = {w:2000, h:1333, chimney:[1430, 272], porch:[1220, 803]};
-  var depthImg = new Image(), depthOK = false; depthImg.onload = function(){ depthOK = true; if (window.__lgHero) window.__lgHero.mapPhoto(); }; depthImg.src = DEPTH_SRC;
+  var depthImg = new Image(), depthOK = false; depthImg.onload = function(){
+    /* открыто файлом из папки (file://): пиксели карты глубины браузер читать не даёт — без неё эффекты работают проще, но не падают */
+    try { var t = document.createElement('canvas').getContext('2d'); t.drawImage(depthImg, 0, 0, 1, 1); t.getImageData(0, 0, 1, 1); depthOK = true; } catch (e) { depthOK = false; }
+    if (depthOK && window.__lgHero) window.__lgHero.mapPhoto(); }; depthImg.src = DEPTH_SRC;
   var PTR = {x:0, y:0, t:-1e9};
   function puffSprite(){ var s = sprite(64, 64, 1), x = s.x, i;
     for (i = 0; i < 8; i++){ var a = rnd(0, 6.283), d = rnd(0, 11), cx = 32 + Math.cos(a)*d, cy = 32 + Math.sin(a)*d, r = rnd(13, 21), g = x.createRadialGradient(cx, cy, 0, cx, cy, r);
