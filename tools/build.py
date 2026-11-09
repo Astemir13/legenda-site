@@ -121,8 +121,8 @@ def doc(title, inner):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
-<link rel="icon" href="/favicon.ico?v=5" sizes="32x32">
-<link rel="icon" href="/favicon.svg?v=5" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico?v=6" sizes="32x32">
+<link rel="icon" href="/favicon.svg?v=6" type="image/svg+xml">
 <style>
 {FONTS}
 body{{margin:0;background:#F4F7F8;color:#13202A;font:16px/1.6 'Golos Text',system-ui,sans-serif}}
@@ -164,8 +164,8 @@ save(f'{OUT}/404.html', f'''<!doctype html>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0F2A23">
 <title>Страница не найдена — эко-отель «Легенда»</title>
-<link rel="icon" href="/favicon.ico?v=5" sizes="32x32">
-<link rel="icon" href="/favicon.svg?v=5" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico?v=6" sizes="32x32">
+<link rel="icon" href="/favicon.svg?v=6" type="image/svg+xml">
 <link rel="preload" as="image" href="/img/facade.webp">
 <style>
 {FONTS}
