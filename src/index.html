@@ -157,7 +157,12 @@ section[id]{scroll-margin-top:84px}
   .call .ct{transform-origin:0 50%;transition:opacity .35s ease .3s,transform .55s cubic-bezier(.2,.8,.2,1) .2s}
   .hdr .btn{position:absolute;right:0;top:50%;z-index:2;white-space:nowrap;padding:0 13px;opacity:0;pointer-events:none;
     transform:translate(14px,-50%) scale(.96);transition:opacity .2s ease,transform .3s ease}
-  .hdr.solid .call::before{clip-path:inset(0 calc(var(--slot) - 40px) 0 0 round 999px);transition:clip-path .6s cubic-bezier(.65,0,.25,1)}
+  .hdr.solid .call::before{clip-path:inset(0 calc(var(--slot) - 40px) 0 0 round 999px);transition:clip-path .6s cubic-bezier(.65,0,.25,1),box-shadow .2s ease}
+  /* обводка свёрнутого кружка: у обрезанной «пилюли» правый край обводки срезался — кружок обводим отдельно */
+  .call::after{content:"";position:absolute;z-index:-1;left:0;top:50%;width:40px;height:40px;margin-top:-20px;border-radius:50%;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);opacity:0;transition:opacity .15s ease;pointer-events:none}
+  .hdr.solid .call::before{box-shadow:none}
+  .hdr.solid:not(.light) .call::after{opacity:1;transition:opacity .3s ease .45s}
   .hdr.solid .call .ct{opacity:0;transform:translateX(-18px) scale(.94);transition:opacity .22s ease,transform .45s cubic-bezier(.4,0,.6,1)}
   .hdr.solid .btn{opacity:1;pointer-events:auto;transform:translate(0,-50%);transition:opacity .4s ease .38s,transform .7s cubic-bezier(.2,.8,.2,1) .32s}
 }
