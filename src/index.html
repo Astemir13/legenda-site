@@ -2092,7 +2092,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     [].forEach.call(galTh.children, function(b, k){ b.setAttribute('aria-current', k === i); });
     var b = galTh.children[i]; if (b) galTh.scrollTo({left:b.offsetLeft - (galTh.clientWidth - b.offsetWidth)/2, behavior:reduce ? 'auto' : 'smooth'}); }
   var galCap = null;
-  function openGal(id, i){ var ph = PHOTOS[id] || [], r = rooms.filter(function(x){ return x.id === id; })[0] || {name:'Эко-отель «Легенда»'}; if (!ph.length) return; galLast = document.activeElement;
+  function openGal(id, i){ goal('room_photos', {room: id}); var ph = PHOTOS[id] || [], r = rooms.filter(function(x){ return x.id === id; })[0] || {name:'Эко-отель «Легенда»'}; if (!ph.length) return; galLast = document.activeElement;
     galCap = id === 'hotel' ? HOTEL_CAP : null;
     galS.innerHTML = ph.map(function(u, k){ return '<img src="' + phUrl(u, 0) + '" alt="' + r.name + (galCap ? ' — ' + (galCap[k] || 'фото') + ', Терскол' : ' — номер в эко-отеле «Легенда», Терскол, фото ' + (k+1)) + '"' + (Math.abs(k - i) > 1 ? ' loading="lazy"' : '') + ' decoding="async">'; }).join('');
     galTh.innerHTML = ph.length < 2 ? '' : ph.map(function(u, k){ return '<button type="button" data-i="' + k + '" aria-label="Фото ' + (k+1) + '"><img src="' + phUrl(u, 160) + '" alt="" loading="lazy" decoding="async"></button>'; }).join('');
@@ -2120,7 +2120,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 
   /* окно с планировками */
   var pm = document.getElementById('pm'), pmBd = document.getElementById('pmBd'), pmBox = document.getElementById('pmBox'), pmVars = document.getElementById('pmVars'), pmCur = null, pmLast = null;
-  function openPlan(id, i){ var r = rooms.filter(function(x){ return x.id === id; })[0], vs = PLANS[id]; pmCur = id;
+  function openPlan(id, i){ goal('room_plan', {room: id}); var r = rooms.filter(function(x){ return x.id === id; })[0], vs = PLANS[id]; pmCur = id;
     document.getElementById('pmT').textContent = r.name; document.getElementById('pmMeta').innerHTML = r.tags.map(function(x){ return '<span class="nw">' + x + '</span>'; }).join(' · ') + ' · <span class="nw">от ' + rub(r.price) + (r.half ? ' за ½ дома' : ' за ночь') + '</span>';
     pmVars.innerHTML = vs.length > 1 ? vs.map(function(v, k){ return '<button type="button" data-i="'+k+'" aria-pressed="'+(k===i)+'">'+v.n+'</button>'; }).join('') : ''; pmVars.hidden = vs.length < 2;
     showVar(i); var open = pm.classList.contains('on'); pmLast = open ? pmLast : document.activeElement;
@@ -2147,7 +2147,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   document.getElementById('fmMenu').innerHTML = '<div class="fm-g">' + MENU.map(function(c){ return '<section class="fm-c"><h4>' + c[0] + '</h4><ul>' + c[1].map(function(d){ return '<li><span>' + d[0] + (d[2] ? '<small>' + d[2] + '</small>' : '') + '</span><i class="fm-d"></i><b>' + rub(d[1]) + '</b></li>'; }).join('') + '</ul></section>'; }).join('') + '</div>';
   document.getElementById('fmNote').innerHTML = 'Каждый день с ' + REST.open + ':00 до ' + REST.close + ':00<span id="fmSvc"> · ' + FOOD.service + '</span> · <a href="tel:+' + FOOD.phone.replace(/\D/g, '') + '">' + FOOD.phone + '</a>';
   function fmTab(t){ document.getElementById('fmSet').hidden = t !== 'set'; document.getElementById('fmSvc').hidden = t !== 'menu'; document.getElementById('fmMenu').hidden = t !== 'menu'; fm.querySelectorAll('#fmTabs button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.t === t); }); fm.scrollTop = 0; }
-  function openFood(t){ fmTab(t === 'menu' ? 'menu' : 'set'); if (!fm.classList.contains('on')) fmLast = document.activeElement; fm.classList.add('on'); fmBd.classList.add('on'); document.body.style.overflow = 'hidden'; setTimeout(function(){ fm.focus({preventScroll:true}); }, 50); }
+  function openFood(t){ goal('cafe_menu'); fmTab(t === 'menu' ? 'menu' : 'set'); if (!fm.classList.contains('on')) fmLast = document.activeElement; fm.classList.add('on'); fmBd.classList.add('on'); document.body.style.overflow = 'hidden'; setTimeout(function(){ fm.focus({preventScroll:true}); }, 50); }
   function closeFood(){ fm.classList.remove('on'); fmBd.classList.remove('on'); document.body.style.overflow = ''; if (fmLast && fmLast.focus) fmLast.focus({preventScroll:true}); }
   document.getElementById('fmTabs').addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) fmTab(b.dataset.t); });
   document.getElementById('fmX').onclick = closeFood; fmBd.onclick = closeFood;
@@ -2176,6 +2176,32 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
      убираем хвост, не перезагружая страницу (replaceState модуль не замечает; «#/» у него — окно закрыто) */
   function hrClean(){ if (location.hash === '#/' || location.hash === '#') history.replaceState(history.state, '', location.pathname + location.search); }
   setInterval(hrClean, 1000); /* запасной вариант, если «#/» поставлен мимо history */
+
+  /* Цели Яндекс Метрики (счётчик 104834110). Идентификаторы целей — в Метрике, тип «JavaScript-событие»:
+     lead_call — звонок в бронирование, lead_booked — онлайн-бронь оформлена (модуль показал #/status/…),
+     book_open / book_room / book_form / book_submit — шаги в модуле бронирования (поиск, номер, форма, кнопка оформления),
+     call_cafe, cafe_menu, route, ymaps, room_plan, room_photos. Главная цель в Метрике «Заявка» — всё, что начинается с lead_ */
+  var GOALS_SENT = {};
+  function goal(n, p, once){ if (once && GOALS_SENT[n]) return; GOALS_SENT[n] = 1;
+    try { if (typeof window.ym === 'function') window.ym(104834110, 'reachGoal', n, p); } catch (e) {} }
+  function hrTrack(){ var h = location.hash, m;
+    if (h === '#/search') goal('book_open', null, true);
+    else if ((m = /^#\/detail\/([^/?]+)/.exec(h))) goal('book_room', {room: m[1]}, true);
+    else if ((m = /^#\/basket\/([^/?]+)/.exec(h))) goal('book_form', {room: m[1]}, true);
+    else if (/^#\/status\//.test(h)) goal('lead_booked', null, true); }
+  window.addEventListener('hashchange', hrTrack);
+  ['pushState', 'replaceState'].forEach(function(m){ var f = history[m]; history[m] = function(){ var r = f.apply(history, arguments); try { hrTrack(); } catch (e) {} return r; }; });
+  /* возврат после оплаты: страница открывается сразу с #/status/… */
+  window.addEventListener('load', function(){ setTimeout(hrTrack, 1500); });
+  document.addEventListener('click', function(e){ var a = e.target.closest('a[href], button'); if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (h.indexOf('tel:+79993000088') === 0) goal('lead_call', {place: a.closest('header') ? 'шапка' : a.closest('#siteMenu') ? 'меню' : a.closest('footer') ? 'подвал' : 'страница'});
+    else if (h.indexOf('tel:+79287130416') === 0) goal('call_cafe');
+    else if (a.id === 'routeBtn') goal('route');
+    else if (/yandex\.ru\/maps/.test(h)) goal('ymaps');
+    else if (a.hasAttribute('data-book')) goal('book_open', null, true);
+    else if (a.closest('#hr-modal, .vanilla-overlay') && /^#\/basket\//.test(location.hash) && /заброниров|оплат|подтверд|оформ/i.test(a.textContent)) goal('book_submit', null, true);
+  }, true);
 
   /* Кнопка «Наверх» в шапке */
   (function(){ var b = document.getElementById('toTop'); if (!b) return;
