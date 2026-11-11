@@ -867,7 +867,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   /* «Об отеле» под «Выбрать номер» (решение владельца, 09.11.2026): столбиком, обе кнопки одной ширины */
   :root.hc .hcta{display:grid;justify-content:start;gap:8px}
   :root.hc .hcta .btn{width:100%}
-  :root.hc .hpanel{margin-top:auto;border-radius:18px;grid-template-columns:repeat(4,auto)}
+  :root.hc .hpanel{margin-top:auto;border-radius:18px;grid-template-columns:repeat(4,minmax(0,1fr))}
   /* ячейки панели — по ширине надписей с равным запасом; строка погоды (на всю ширину) в расчёт колонок не идёт */
   :root.hc .hpanel .hp-wx{contain:inline-size}
   .hpanel .hp-dist>.hd,.hpanel .hp-c{padding:10px 6px;justify-content:center;text-align:center}
@@ -891,7 +891,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   :root.hc .hero-copy{margin-top:0}
   :root.hc .hero h1{font-size:clamp(40px,4.4vw,62px)}
   :root.hc .hero .tint{background:linear-gradient(180deg,rgba(8,14,22,.55) 0,rgba(8,14,22,.2) 32%,rgba(8,14,22,0) 50%),linear-gradient(90deg,rgba(8,14,22,.45) 0,rgba(8,14,22,.12) 42%,rgba(8,14,22,0) 62%),linear-gradient(0deg,rgba(8,14,22,.5) 0,rgba(8,14,22,0) 20%)}
-  :root.hc .hpanel{margin-top:auto;max-width:720px;grid-template-columns:repeat(4,auto)}
+  :root.hc .hpanel{margin-top:auto;max-width:720px;grid-template-columns:repeat(4,minmax(0,1fr))}
   .hpanel .hp-dist{display:contents}
   .hpanel .hp-dist>.hd,.hpanel .hp-c{padding:14px 10px;margin:0;justify-content:center;text-align:center;border-left:1px solid rgba(255,255,255,.12)}
   .hpanel .hp-dist>.hd:first-of-type{border-left:0}
@@ -904,7 +904,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   .hp-wx{justify-content:center}
 }
 /* узкие телефоны: мельче шрифт панели; на самых узких вместо слов «Яндекс Карты» остаётся значок */
-@media (max-width:430px){.hpanel .hp-dist>.hd,.hpanel .hp-c{padding:10px 3px}.hp-c b{font-size:14px}.hp-c span,.hpanel .hp-dist span{font-size:10px}.hp-rest .dot{width:6px;height:6px;margin-right:5px}}
+@media (max-width:430px){.hpanel .hp-dist>.hd,.hpanel .hp-c,.hpanel .hp-dist>.hd+.hd{padding:10px 3px}.hp-c b{font-size:14px}.hp-c span,.hpanel .hp-dist span{font-size:10px}.hp-rest .dot{width:6px;height:6px;margin-right:5px}}
 /* узкие телефоны: слово «Яндекс» остаётся всегда (владелец, 10.11.2026), места ради убираем только стрелку-ссылку */
 @media (max-width:380px){.hp-c b{font-size:13px}.hp-rate .ym{gap:2px}.hp-rate .ym .hp-go{display:none}}
 @media (max-width:340px){.hp-c b{font-size:12px}.hp-rest .dot{display:none}}
@@ -1757,15 +1757,18 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   SK.c.id = 'fxSky'; SK.c.setAttribute('aria-hidden', 'true'); SK.c.style.cssText = 'opacity:0;display:none;transition:opacity 3s ease';
   if (LT.c) LT.c.parentNode.insertBefore(SK.c, WN.c);
   SK.c.addEventListener('transitionend', function(){ if (!SK.a) SK.c.style.display = 'none'; });
-  function buildSky(){ var H = heroScene, img = H.o.photo, pm = H.pm, w = H.w, h = H.h; if (!pm || !w || !img || !img.complete || !img.naturalWidth || !depthOK) return false;
+  /* маска неба грузится, только когда она нужна (ясно, переменная облачность) */
+  var SKY_SRC = 'img/sky.jpg', skyImg = null, skyOK = false;
+  function loadSkyMask(){ if (skyImg) return; skyImg = new Image(); skyImg.onload = function(){ skyOK = true; SK.a = -1; try { drawSky(); } catch (e) {} }; skyImg.src = SKY_SRC; }
+  function buildSky(){ var H = heroScene, img = H.o.photo, pm = H.pm, w = H.w, h = H.h; loadSkyMask(); if (!pm || !w || !img || !img.complete || !img.naturalWidth || !depthOK || !skyOK) return false;
     var key = w + '|' + h + '|' + pm.k.toFixed(4) + '|' + Math.round(pm.ox) + '|' + Math.round(pm.oy); if (key === SK.key) return true; SK.key = key;
     var s = Math.min(DPR, 2), W2 = Math.round(w*s), H2 = Math.round(h*s), dw = PHOTO.w*pm.k*s, dh = dw*img.naturalHeight/img.naturalWidth, c = SK.c, x; c.width = W2; c.height = H2; x = c.getContext('2d');
     x.drawImage(img, pm.ox*s, pm.oy*s, dw, dh);
-    /* маска неба — из карты глубины в полном разрешении: в неё заранее «впечена» точная граница неба по цвету фото
-       (src/facade-depth-sky.png), поэтому край кровли и снег на крыше не тонируются и не размываются */
-    var mk = document.createElement('canvas'); mk.width = W2; mk.height = H2; var mq = mk.getContext('2d'); mq.imageSmoothingQuality = 'high'; mq.drawImage(depthImg, pm.ox*s, pm.oy*s, dw, dh);
+    /* маска неба — отдельная подробная картинка img/sky.jpg (tools/sky-mask.py): сплошное небо с точной границей
+       кровли и хребта гор, а просветы между ветвями сосен — мягко, по цвету фото (карта глубины 400 px размывала их в пятна) */
+    var mk = document.createElement('canvas'); mk.width = W2; mk.height = H2; var mq = mk.getContext('2d'); mq.imageSmoothingQuality = 'high'; mq.drawImage(skyImg, pm.ox*s, pm.oy*s, dw, dh);
     var M = mq.getImageData(0, 0, W2, H2), D = M.data;
-    for (var i = 0; i < D.length; i += 4){ var d = D[i]; D[i] = D[i + 1] = D[i + 2] = 255; D[i + 3] = d < 14 ? 255 : d < 40 ? (40 - d)*9.8 : 0; }
+    for (var i = 0; i < D.length; i += 4){ var d = D[i]; D[i] = D[i + 1] = D[i + 2] = 255; D[i + 3] = d; }
     mq.putImageData(M, 0, 0);
     var g = x.createLinearGradient(0, 0, 0, H2*.55); g.addColorStop(0, 'rgb(20,84,200)'); g.addColorStop(1, 'rgb(70,140,225)');
     x.globalCompositeOperation = 'soft-light'; x.fillStyle = g; x.fillRect(0, 0, W2, H2);

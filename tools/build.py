@@ -55,6 +55,9 @@ PH = {k: re.findall(r"'([a-z0-9]+-\d+)'", v) for k, v in re.findall(r"(\w+):\[([
 # версии фото по содержимому файла — для адресов вида img/r/semi-1-760.webp?v=…: фото кэшируются на 30 дней,
 # и без версии после замены фото браузер показывал бы старую копию
 IMGV = {n: hashlib.md5(open(f'src/rooms/{n}.jpg', 'rb').read()).hexdigest()[:8] for v in PH.values() for n in v}
+# карта глубины и маска неба обложки — с версией в адресе (кэш 30 дней: без неё телефон держал бы старую)
+for f, src in (('img/depth.jpg', 'src/depth.jpg'), ('img/sky.jpg', 'src/static/img/sky.jpg')):
+    page = must(page, "'" + f + "'", "'" + f + '?v=' + hashlib.md5(open(src, 'rb').read()).hexdigest()[:8] + "'")
 page = must(page, '  var IMGV = {};', '  var IMGV = ' + json.dumps(IMGV, separators=(',', ':')) + ';')
 cards = []
 for m in re.finditer(r"\{id:'(\w+)', hr:(\d+), name:'([^']+)'.*?tags:\[([^\]]*)\], text:'([^']+)'\}", page):
