@@ -193,6 +193,10 @@ section[id]{scroll-margin-top:84px}
 .h1k{display:block;font:600 14px/1.3 var(--body);letter-spacing:.1em;text-transform:uppercase;color:#E3EBEF;margin-bottom:14px}
 .hero h1{font-size:clamp(38px,5.2vw,68px);font-weight:600;text-shadow:0 2px 24px rgba(0,0,0,.25)}
 .hero .lead{font-size:clamp(17px,1.6vw,20px);margin-top:18px;max-width:46ch;color:#EAF1F4}
+/* вторая строка подписи над заголовком — где отель; ссылка к «Как добраться» (владелец, 11.11.2026) */
+.h1k2{display:flex;align-items:center;gap:6px;width:max-content;max-width:100%;margin-top:7px;font-weight:500;font-size:1.35em;letter-spacing:.01em;text-transform:none;color:rgba(255,255,255,.9);text-decoration:none;text-underline-offset:3px;transition:color .2s}
+.h1k2 svg{flex:none;opacity:.9}
+.h1k2:hover{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.45)}
 /* Виджет бронирования — отдельной полосой под фото */
 .booksec{padding-block:28px 0}
 .widget{background:var(--card);color:var(--ink);border-radius:24px;padding:22px;box-shadow:0 10px 34px rgba(19,32,42,.08);display:grid;grid-template-columns:minmax(0,1.45fr) minmax(230px,1fr) minmax(0,1.2fr) auto;gap:12px;align-items:stretch}
@@ -856,7 +860,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   :root.hc .hero .h1k{font-size:10.5px;margin-bottom:8px}
   :root.hc .hero h1{font-size:31px;line-height:1.06;letter-spacing:-.02em}
   :root.hc .hero .lead{font-size:14.5px;line-height:1.45;margin-top:10px;max-width:31ch}
-  :root.hc .hcta{margin-top:14px}
+  :root.hc .hcta{margin-top:18px}
   :root.hc .hcta .btn{min-height:42px;padding:0 18px;font-size:14px}
   /* «Об отеле» под «Выбрать номер» (решение владельца, 09.11.2026): столбиком, обе кнопки одной ширины */
   :root.hc .hcta{display:grid;justify-content:start;gap:8px}
@@ -944,8 +948,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   <canvas id="skyHero" aria-hidden="true"></canvas>
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <h1><span class="h1k">Гостиница в Терсколе · Приэльбрусье</span> Дом из сруба на 15 номеров и отдельный коттедж</h1>
-      <p class="lead">В сосновом бору у подножия Чегета</p>
+      <h1><span class="h1k">Гостиница в Приэльбрусье<a class="h1k2" href="#way" title="Как добраться"><svg width="11" height="14" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="currentColor"/><circle cx="6" cy="6" r="2.3" fill="#1E2A36"/></svg>Терскол · Поляна Чегет</a></span> Дом из сруба на 15 номеров и отдельный коттедж</h1>
       <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
