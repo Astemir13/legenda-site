@@ -192,7 +192,7 @@ footer a{{color:inherit}}
 <body>
 <div class="bg" aria-hidden="true"></div>
 <main>
-<a class="brand" href="/" aria-label="Эко-отель «Легенда» — на главную">{MARK}<b>ЛЕГЕНДА</b><small>Эко-отель · Терскол</small></a>
+<a class="brand" href="/" aria-label="Эко-отель «Легенда» — на главную">{MARK}<b>ЛЕГЕНДА</b><small>Эко-отель · Чегет</small></a>
 <div class="code" aria-hidden="true">404</div>
 <h1>Страница не найдена</h1>
 <p>Возможно, ссылка устарела или в адресе опечатка. Номера, цены и бронирование — на главной странице.</p>
