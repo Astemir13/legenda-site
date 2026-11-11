@@ -196,7 +196,7 @@ section[id]{scroll-margin-top:84px}
 /* вторая строка подписи над заголовком — где отель; ссылка к «Как добраться» (владелец, 11.11.2026) */
 .h1k2{display:flex;align-items:center;gap:6px;width:max-content;max-width:100%;margin-top:7px;font-weight:500;font-size:1.35em;letter-spacing:.01em;text-transform:none;color:rgba(255,255,255,.9);text-decoration:none;text-underline-offset:3px;transition:color .2s}
 .h1k2 svg{flex:none;opacity:.9}
-.h1k2:hover{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.45)}
+.h1k2{position:relative;isolation:isolate}.h1k2::before{content:"";position:absolute;inset:-5px -12px -5px -9px;border-radius:999px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);opacity:0;transform:scale(.96);transition:opacity .25s,transform .25s;z-index:-1;pointer-events:none}.h1k2 svg{transition:transform .3s}@media (hover:hover){.h1k2:hover{color:#fff}.h1k2:hover::before{opacity:1;transform:none}.h1k2:hover svg{transform:translateY(-2px)}}.h1k2:focus-visible{outline:none;color:#fff}.h1k2:focus-visible::before{opacity:1;transform:none}
 /* Виджет бронирования — отдельной полосой под фото */
 .booksec{padding-block:28px 0}
 .widget{background:var(--card);color:var(--ink);border-radius:24px;padding:22px;box-shadow:0 10px 34px rgba(19,32,42,.08);display:grid;grid-template-columns:minmax(0,1.45fr) minmax(230px,1fr) minmax(0,1.2fr) auto;gap:12px;align-items:stretch}
