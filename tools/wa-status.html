@@ -1,0 +1,40 @@
+<!doctype html><html lang="ru"><head>
+<!-- Статус WhatsApp про новый сайт (1080×1920). Пересобрать: node tools/wa-status.js → shots/wa-status.png --><meta charset="utf-8"><style>
+@font-face{font-family:Lora;src:url(../src/static/fonts/lora-cyrillic.woff2);font-weight:400 700}
+@font-face{font-family:Lora;src:url(../src/static/fonts/lora-latin.woff2);font-weight:400 700;unicode-range:U+0000-00FF}
+@font-face{font-family:Golos;src:url(../src/static/fonts/golos-text-cyrillic.woff2);font-weight:400 700}
+@font-face{font-family:Golos;src:url(../src/static/fonts/golos-text-latin.woff2);font-weight:400 700;unicode-range:U+0000-00FF}
+@font-face{font-family:Geologica;src:url(../src/static/fonts/geologica-cyrillic.woff2);font-weight:400 800}
+@font-face{font-family:Geologica;src:url(../src/static/fonts/geologica-latin.woff2);font-weight:400 800;unicode-range:U+0000-00FF}
+*{box-sizing:border-box}body{margin:0;background:#13212B}
+#S{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:Golos;color:#fff;background:linear-gradient(180deg,#1B2E38 0%,#14232C 60%,#101C24 100%)}
+#S img.bg{position:absolute;left:0;top:0;width:100%;height:1180px;object-fit:cover;object-position:74% 60%}
+/* сверху и снизу — затемнение под логотип и плашку; поля 170 px сверху и 230 px снизу свободны (имя и строка ответа WhatsApp) */
+#S .sh{position:absolute;left:0;right:0;top:0;height:1182px;background:linear-gradient(180deg,rgba(10,20,28,.6) 0%,rgba(10,20,28,.12) 22%,rgba(10,20,28,0) 40%,rgba(20,35,44,0) 72%,rgba(20,35,44,.75) 90%,#14232C 100%)}
+.top{position:absolute;left:64px;right:64px;top:150px;display:flex;align-items:center;gap:18px}
+.top .mk{color:#fff;flex:none}
+.top b{display:block;font:800 44px/1 Geologica;letter-spacing:3.5px}
+.top small{display:block;margin-top:9px;font:600 19px/1 Geologica;letter-spacing:4.5px;text-transform:uppercase;opacity:.85}
+.card{position:absolute;left:56px;right:56px;bottom:220px;padding:48px 52px 46px;border-radius:44px;background:rgba(20,32,42,.52);box-shadow:inset 0 0 0 2px rgba(255,255,255,.16),0 30px 80px rgba(0,0,0,.35);backdrop-filter:blur(18px) saturate(1.2)}
+.kick{display:inline-block;padding:12px 24px;border-radius:999px;background:#B8742A;font:700 24px/1 Geologica;letter-spacing:3px;text-transform:uppercase}
+h1{margin:26px 0 0;font:600 84px/1.02 Lora;letter-spacing:-1px}
+.li{margin:32px 0 0;padding:0;list-style:none;display:grid;gap:16px}
+.li li{display:flex;align-items:center;gap:20px;font-size:35px;line-height:1.25;color:#E9F0F3}
+.li i{flex:none;width:46px;height:46px;border-radius:50%;background:rgba(246,231,207,.16);box-shadow:inset 0 0 0 2px rgba(246,194,107,.55);display:flex;align-items:center;justify-content:center}
+.url{margin-top:36px;display:flex;align-items:center;justify-content:center;height:104px;border-radius:30px;background:linear-gradient(180deg,#2A7560,#1A4F40);box-shadow:inset 0 0 0 2px rgba(255,255,255,.14),0 12px 30px rgba(10,40,30,.45);font:700 46px/1 Geologica;letter-spacing:.5px}
+.fb{margin:26px 0 0;text-align:center;font-size:30px;line-height:1.4;color:rgba(233,240,243,.9)}
+.fb b{color:#F6C26B;font-weight:600}
+</style></head><body>
+<div id="S"><img class="bg" src="../src/facade.jpg"><div class="sh"></div>
+<div class="top"><svg class="mk" width="122" viewBox="229 128.3 474.8 185.7" aria-hidden="true"><g transform="translate(0,698) scale(0.1,-0.1)"><path fill="currentColor" d="M3875 5529 c-143 -138 -259 -256 -257 -262 2 -7 41 -119 88 -250 47 -131 84 -241 81 -243 -2 -3 -118 38 -257 91 l-252 95 -316 -303 c-174 -166 -414 -394 -533 -507 -119 -113 -217 -208 -218 -213 -1 -4 61 41 137 101 75 59 326 256 557 437 l419 328 399 -132 c219 -73 400 -131 403 -129 2 3 -63 150 -146 328 -82 177 -148 326 -145 330 2 4 72 60 154 124 97 75 155 115 163 110 33 -20 1058 -837 1055 -841 -3 -2 -121 44 -263 102 -142 58 -263 104 -269 101 -7 -2 -140 -161 -297 -353 -157 -191 -317 -387 -357 -435 -40 -49 -70 -88 -68 -88 3 0 172 157 378 349 205 192 377 347 383 345 32 -10 799 -194 809 -193 7 0 -103 112 -243 250 l-255 250 65 60 c36 32 70 57 77 55 6 -3 407 -252 890 -554 959 -599 915 -572 893 -550 -8 9 -226 188 -485 398 -258 210 -656 534 -883 719 -227 185 -417 337 -421 339 -4 1 -57 -57 -116 -130 -60 -73 -121 -148 -136 -165 l-28 -33 -366 358 c-201 196 -369 358 -373 359 -4 1 -124 -111 -267 -248z"/></g></svg><div><b>ЛЕГЕНДА</b><small>Эко-отель · Чегет</small></div></div>
+<div class="card"><span class="kick">Новый сайт</span>
+<h1>Легенда —<br>теперь онлайн</h1>
+<ul class="li">
+<li><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F6C26B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Номера с фото и планировками</li>
+<li><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F6C26B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Свободные даты и цены онлайн</li>
+<li><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F6C26B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Бронирование напрямую, без комиссии</li>
+</ul>
+<div class="url">hotellegenda.ru</div>
+<p class="fb">Будем рады <b>отзывам и рекомендациям</b> —<br>напишите, как вам наш новый сайт</p>
+</div></div>
+</body></html>
