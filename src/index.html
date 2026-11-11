@@ -1175,7 +1175,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       <a class="ft-doc" href="https://hotellegenda.ru/privacypolicy" target="_blank" rel="noopener"><span class="gc" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><span><b>Политика конфиденциальности</b><small>Как мы обращаемся с данными гостей</small></span><svg class="ft-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
     </div>
   </div>
-  <div class="wrap ft-bot"><span>© 2026 эко-отель «Легенда»</span><span class="ft-sep" aria-hidden="true"> · </span><span>ИП Иригова А. Р., ИНН 500405068071</span></div>
+  <div class="wrap ft-bot"><span>© <span id="cy">2026</span> эко-отель «Легенда»</span><span class="ft-sep" aria-hidden="true"> · </span><span>ИП Иригова А. Р., ИНН 500405068071</span></div>
 </footer>
 
 <div class="phv" id="phv" hidden><div class="phv-bar"><span id="phvT"></span><div class="wxph" id="phvPh"><button type="button" data-w="320">SE</button><button type="button" data-w="375">375</button><button type="button" data-w="402">iPhone 16 Pro</button><button type="button" data-w="430">Pro Max</button></div><button type="button" id="phvR">Обновить</button><button type="button" id="phvX">Закрыть</button></div><iframe id="phvF" title="Сайт в размере экрана телефона"></iframe></div>
@@ -2185,6 +2185,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
      убираем хвост, не перезагружая страницу (replaceState модуль не замечает; «#/» у него — окно закрыто) */
   function hrClean(){ if (location.hash === '#/' || location.hash === '#') history.replaceState(history.state, '', location.pathname + location.search); }
   setInterval(hrClean, 1000); /* запасной вариант, если «#/» поставлен мимо history */
+  // год в подвале — текущий (не меньше 2026, если часы телефона сбиты)
+  (function(){ var e = document.getElementById('cy'); if (e) e.textContent = Math.max(2026, new Date().getFullYear()); })();
 
   /* Цели Яндекс Метрики (счётчик 104834110). Идентификаторы целей — в Метрике, тип «JavaScript-событие»:
      lead_call — звонок в бронирование, lead_booked — онлайн-бронь оформлена (модуль показал #/status/…),
