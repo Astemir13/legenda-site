@@ -662,6 +662,7 @@ a.hp-rate:hover{background:rgba(255,255,255,.06)}
 :root.hc .hero img{transition:filter 1.6s ease}
 :root.hc .hero[data-wx="drizzle"] img{filter:saturate(.9) brightness(.94)}
 :root.hc .hero[data-wx="rain"] img{filter:saturate(.84) brightness(.86) contrast(1.02)}
+:root.hc .hero[data-wx="downpour"] img{filter:saturate(.78) brightness(.79) contrast(1.04)}
 :root.hc .hero[data-wx="sleet"] img{filter:saturate(.88) brightness(.92)}
 :root.hc .hero[data-wx="heavysnow"] img{filter:saturate(.9) brightness(.96) contrast(.96)}
 :root.hc .hero[data-wx="blizzard"] img{filter:saturate(.8) brightness(.97) contrast(.9)}
@@ -1161,6 +1162,38 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 #hr-widget .search__input-button{--custom-main:#B8742A!important;--custom-main-dark:#9A5F22!important;margin:0!important;padding:0 30px!important;border:0!important;border-radius:15px!important;background-image:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0))!important;color:#fff!important;font-weight:600!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 6px 18px rgba(184,116,42,.3)!important;transition:filter .15s, transform .15s}
 #hr-widget .search__input-button *{color:#fff!important}
 #hr-widget .search__input-button:hover{filter:brightness(1.05);transform:translateY(-1px)}
+/* Телефон и планшет (до 1023 px модуль сам показывает одно поле «Заезд–Выезд» и лист с календарём):
+   поле — как на компьютере, под ним медовая «Найти» (это часть поля: нажатие открывает тот же лист);
+   лист — скруглённые дни без сетки, шрифты и кнопка сайта. Логика модуля не меняется. */
+@media (max-width:1023px){
+#hr-widget .search__container{height:auto!important;padding-bottom:62px!important}
+#hr-widget .search__calendar{flex:1 1 auto!important;height:auto!important}
+#hr-widget .search__input-mobile{position:relative;min-height:60px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#hr-widget .search__input-mobile>svg:last-of-type{display:none!important}
+#hr-widget .search__input-mobile::after{content:"Найти";position:absolute;left:0;right:0;top:calc(100% + 5px);height:52px;display:flex;align-items:center;justify-content:center;border-radius:15px;background:#B8742A linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0));color:#fff;font:600 17px/1 'Golos Text',system-ui,-apple-system,sans-serif;letter-spacing:.01em;box-shadow:0 6px 16px -8px rgba(154,95,34,.6);transition:filter .15s,transform .15s}
+#hr-widget .search__input-mobile:active::after{filter:brightness(.94);transform:translateY(1px)}
+#hr-modal .search__container{padding:5px!important;border-radius:20px!important;background:rgba(226,234,239,.85)!important;box-shadow:inset 0 0 0 1px rgba(19,32,42,.05)!important}
+#hr-modal .search__input-mobile{border-radius:15px!important;box-shadow:0 1px 2px rgba(19,32,42,.06)!important}
+#calendarOverlay.vanilla-overlay{background:rgba(19,32,42,.55)!important}
+.vanilla-calendar.vanilla-calendar_to-input_bottom{border:0!important;border-radius:22px 22px 0 0!important;box-shadow:0 -12px 40px rgba(19,32,42,.18)!important;font-family:'Golos Text',system-ui,-apple-system,sans-serif!important}
+.vanilla-calendar .vanilla-calendar-info__title,.vanilla-calendar .vanilla-calendar-month,.vanilla-calendar .vanilla-calendar-year{font-family:'Geologica','Golos Text',system-ui,sans-serif!important;font-weight:600!important;color:#13202A!important}
+.vanilla-calendar .vanilla-calendar-info__title{font-size:22px!important}
+.vanilla-calendar .vanilla-calendar-info__clear,.vanilla-calendar .vanilla-calendar-footer__title,.vanilla-calendar .mobile-select__text,.vanilla-calendar .button-content{font-family:'Golos Text',system-ui,-apple-system,sans-serif!important}
+.vanilla-calendar .vanilla-calendar-week__day{font-family:'Golos Text',system-ui,sans-serif!important;color:#8A969F!important}
+.vanilla-calendar .vanilla-calendar-week__day_weekend{color:#9A5F22!important}
+.vanilla-calendar .vanilla-calendar-day__btn{inset:2px!important;border:0!important;border-radius:12px!important;font-family:'Golos Text',system-ui,-apple-system,sans-serif!important;font-weight:500!important;color:#13202A}
+.vanilla-calendar .vanilla-calendar-day__btn_disabled{background:transparent!important;color:#C3CBD1!important}
+.vanilla-calendar .vanilla-calendar-day__btn_today{font-weight:700!important}
+.vanilla-calendar .vanilla-calendar-day__btn_today:not(.vanilla-calendar-day__btn_disabled):not(.vanilla-calendar-day__btn_selected){box-shadow:inset 0 0 0 1.5px rgba(184,116,42,.5)}
+.vanilla-calendar .vanilla-calendar-day_selected-intermediate .vanilla-calendar-day__btn{inset:2px 0!important;border-radius:0!important;background:#F6E7CF!important;color:#13202A!important;box-shadow:none!important}
+.vanilla-calendar .mobile-select__increments{gap:6px}
+.vanilla-calendar .mobile-select__increment{width:44px!important;height:44px!important;min-width:44px;display:flex!important;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.vanilla-calendar .mobile-select__increment>svg{width:40px;height:40px}
+.vanilla-calendar .mobile-select__option-child{-webkit-appearance:none;appearance:none;min-height:50px;padding:0 44px 0 16px!important;border:0!important;border-radius:14px!important;background:#F1F4F6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2313202A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 16px center!important;color:#13202A!important;font:500 16px 'Golos Text',system-ui,-apple-system,sans-serif!important}
+.vanilla-calendar .vanilla-calendar-day__btn_selected{background:#B8742A!important;color:#fff!important;box-shadow:0 5px 12px -6px rgba(154,95,34,.7)}
+.vanilla-calendar #mobileChildButton .mobile-select-button{min-height:52px;border-radius:15px!important;background-image:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0))!important;font-weight:600!important;box-shadow:0 6px 16px -8px rgba(154,95,34,.6)}
+.vanilla-calendar #mobileChildButton .mobile-select-button .button-content{font-size:17px!important;font-weight:600!important}
+}
 </style>
 <footer>
   <div class="wrap ft">
@@ -1344,13 +1377,14 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     fog:{name:'Туман', cloud:100, fog:true, t:0, wind:3},
     drizzle:{name:'Морось', cloud:90, precip:'drizzle', t:4, wind:6},
     rain:{name:'Дождь', cloud:95, precip:'rain', t:7, wind:12},
+    downpour:{name:'Ливень', cloud:100, precip:'rain', heavy:true, t:9, wind:20},
     sleet:{name:'Мокрый снег', cloud:95, precip:'sleet', t:1, wind:14},
     snow:{name:'Снег', cloud:85, precip:'snow', t:-4, wind:10},
     heavysnow:{name:'Сильный снег', cloud:100, precip:'heavysnow', t:-7, wind:18},
     blizzard:{name:'Метель', cloud:100, precip:'blizzard', t:-12, wind:46},
     thunder:{name:'Гроза', cloud:100, precip:'rain', thunder:true, t:14, wind:22}
   };
-  var ORDER = ['clear','partly','overcast','fog','drizzle','rain','sleet','snow','heavysnow','blizzard','thunder'];
+  var ORDER = ['clear','partly','overcast','fog','drizzle','rain','downpour','sleet','snow','heavysnow','blizzard','thunder'];
   /* Утро — от предрассветных сумерек до ~10:00 (летом раньше, зимой позже), вечер — за полтора часа до заката и полчаса после.
      Внутри утра и вечера небо плавно меняется: сумерки → рассвет → утро → день; день → золотой час → закат → сумерки */
   /* PALETTE — небо по времени суток и погоде (как в погодных приложениях: днём светло даже в пасмурно и снег,
@@ -1368,7 +1402,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     snow:{dawn:{s1:'#AFC0D4', s2:'#E4E8EF'}, day:{s1:'#ABC3DA', s2:'#EAF1F7'}, dusk:{s1:'#7E8BAA', s2:'#CBC6D0'}, night:{s1:'#3F5076', s2:'#6E82AC'}},
     storm:{dawn:{s1:'#5B6478', s2:'#8E95A3'}, day:{s1:'#5F6B7E', s2:'#9AA4B1'}, dusk:{s1:'#3B4155', s2:'#666A7C'}, night:{s1:'#11151F', s2:'#252B3C'}}
   };
-  var KGRP = {overcast:['cloud',.85], fog:['fog',.9], drizzle:['rain',.7], rain:['rain',.85], sleet:['rain',.8],
+  var KGRP = {overcast:['cloud',.85], fog:['fog',.9], drizzle:['rain',.7], rain:['rain',.85], downpour:['rain',1], sleet:['rain',.8],
     snow:['snow',.78], heavysnow:['snow',.88], blizzard:['snow',.94], thunder:['storm',.95]};
   function skyPair(m, kind, cloud){ m = ((m % 1440) + 1440) % 1440; var ph = phaseFor(m), b = skyAt(m, ph), g = KGRP[kind], k;
     if (g) k = g[1];
@@ -1396,14 +1430,15 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   function kindFromCode(c, wind, temp, cloud){
     if (c <= 1 || (c === 2 && cloud != null && cloud < 40)) return 'clear'; if (c === 2) return 'partly'; if (c === 3) return 'overcast'; if (c === 45 || c === 48) return 'fog';
     if (c >= 51 && c <= 55) return 'drizzle'; if (c === 56 || c === 57 || c === 66 || c === 67) return 'sleet';
-    if ((c >= 61 && c <= 65) || (c >= 80 && c <= 82)) return temp <= 1 ? 'sleet' : 'rain';
+    /* ливень — сильный дождь (65) и ливневые дожди (81, 82) */
+    if ((c >= 61 && c <= 65) || (c >= 80 && c <= 82)) return temp <= 1 ? 'sleet' : (c === 65 || c === 81 || c === 82) ? 'downpour' : 'rain';
     /* сильный снег — уже с умеренного снегопада (73, от ~0,7 см/ч): «интенсивный» 75 у Open-Meteo — больше 2,5 см/ч, в Терсколе прошлой зимой был 1 час из 4 месяцев */
     if (c === 73 || c === 75 || c === 86) return wind >= 30 ? 'blizzard' : 'heavysnow';
     if ((c >= 71 && c <= 77) || c === 85) return wind >= 35 ? 'blizzard' : 'snow';
     if (c >= 95) return 'thunder'; return 'partly'; }
 
   /* погодные значки — набор Lucide (лицензия ISC), линии той же толщины, что у остальных значков; ночью — луна */
-  var WXI = {clear:"<circle cx='12' cy='12' r='4'/><path d='M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'/>", clearN:"<path d='M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401'/>", partly:"<path d='M12 2v2m-7.07.93l1.41 1.41M20 12h2m-2.93-7.07l-1.41 1.41m-1.713 6.31a4 4 0 0 0-5.925-4.128M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6'/>", partlyN:"<path d='M13 16a3 3 0 0 1 0 6H7a5 5 0 1 1 4.9-6zm5.376-1.488a6 6 0 0 0 3.461-4.127c.148-.625-.659-.97-1.248-.714a4 4 0 0 1-5.259-5.26c.255-.589-.09-1.395-.716-1.248a6 6 0 0 0-4.594 5.36'/>", overcast:"<path d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9'/>", fog:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M16 17H7m10 4H9'/>", drizzle:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 19v1m0-6v1m8 4v1m0-6v1m-4 6v1m0-6v1'/>", rain:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M16 14v6m-8-6v6m4-4v6'/>", sleet:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M16 14v2m-8-2v2m8 4h.01M8 20h.01M12 16v2m0 4h.01'/>", snow:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 15h.01M8 19h.01M12 17h.01M12 21h.01M16 15h.01M16 19h.01'/>", heavysnow:"<path d='m10 20l-1.25-2.5L6 18m4-14L8.75 6.5L6 6m8 14l1.25-2.5L18 18M14 4l1.25 2.5L18 6'/><path d='m17 21l-3-6h-4m7-12l-3 6l1.5 3M2 12h6.5L10 9m10 1l-1.5 2l1.5 2'/><path d='M22 12h-6.5L14 15M4 10l1.5 2L4 14m3 7l3-6l-1.5-3M7 3l3 6h4'/>", blizzard:"<path d='M12.8 19.6A2 2 0 1 0 14 16H2m15.5-8a2.5 2.5 0 1 1 2 4H2m7.8-7.6A2 2 0 1 1 11 8H2'/>", thunder:"<path d='M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973'/><path d='m13 12l-3 5h4l-3 5'/>"};
+  var WXI = {clear:"<circle cx='12' cy='12' r='4'/><path d='M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'/>", clearN:"<path d='M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401'/>", partly:"<path d='M12 2v2m-7.07.93l1.41 1.41M20 12h2m-2.93-7.07l-1.41 1.41m-1.713 6.31a4 4 0 0 0-5.925-4.128M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6'/>", partlyN:"<path d='M13 16a3 3 0 0 1 0 6H7a5 5 0 1 1 4.9-6zm5.376-1.488a6 6 0 0 0 3.461-4.127c.148-.625-.659-.97-1.248-.714a4 4 0 0 1-5.259-5.26c.255-.589-.09-1.395-.716-1.248a6 6 0 0 0-4.594 5.36'/>", overcast:"<path d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9'/>", fog:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M16 17H7m10 4H9'/>", drizzle:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 19v1m0-6v1m8 4v1m0-6v1m-4 6v1m0-6v1'/>", rain:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M16 14v6m-8-6v6m4-4v6'/>", downpour:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242m-11 4.658-3 7m4.5-7-3 7m4.5-5-3 7m7.5-9-3 7'/>", sleet:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M16 14v2m-8-2v2m8 4h.01M8 20h.01M12 16v2m0 4h.01'/>", snow:"<path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M8 15h.01M8 19h.01M12 17h.01M12 21h.01M16 15h.01M16 19h.01'/>", heavysnow:"<path d='m10 20l-1.25-2.5L6 18m4-14L8.75 6.5L6 6m8 14l1.25-2.5L18 18M14 4l1.25 2.5L18 6'/><path d='m17 21l-3-6h-4m7-12l-3 6l1.5 3M2 12h6.5L10 9m10 1l-1.5 2l1.5 2'/><path d='M22 12h-6.5L14 15M4 10l1.5 2L4 14m3 7l3-6l-1.5-3M7 3l3 6h4'/>", blizzard:"<path d='M12.8 19.6A2 2 0 1 0 14 16H2m15.5-8a2.5 2.5 0 1 1 2 4H2m7.8-7.6A2 2 0 1 1 11 8H2'/>", thunder:"<path d='M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973'/><path d='m13 12l-3 5h4l-3 5'/>"};
   function icon(kind, night){ var s = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
     var k = night && WXI[kind + 'N'] ? kind + 'N' : kind;
     return s + (WXI[k] || WXI.overcast) + '</svg>'; }
@@ -1475,8 +1510,16 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     if (soft){ g.addColorStop(0, 'rgba(' + rgb + ',.6)'); g.addColorStop(.3, 'rgba(' + rgb + ',.42)'); g.addColorStop(.62, 'rgba(' + rgb + ',.12)'); g.addColorStop(1, 'rgba(' + rgb + ',0)'); }
     else { g.addColorStop(0, 'rgba(' + rgb + ',1)'); g.addColorStop(.42, 'rgba(' + rgb + ',.92)'); g.addColorStop(.68, 'rgba(' + rgb + ',.32)'); g.addColorStop(1, 'rgba(' + rgb + ',0)'); }
     x.fillStyle = g; x.fillRect(0, 0, S, S); return s; }
+  /* смазанная снежинка для метели: мягкое вытянутое пятно (размытие движения) */
+  function streakSprite(len, th, rgb, soft){ var s = sprite(len, th), x = s.x, g = x.createRadialGradient(0, 0, 0, 0, 0, th/2);
+    g.addColorStop(0, 'rgba(' + rgb + ',' + (soft ? .55 : 1) + ')'); g.addColorStop(.45, 'rgba(' + rgb + ',' + (soft ? .3 : .7) + ')'); g.addColorStop(1, 'rgba(' + rgb + ',0)');
+    x.save(); x.translate(len/2, th/2); x.scale(len/th, 1); x.fillStyle = g; x.beginPath(); x.arc(0, 0, th/2, 0, 6.283); x.fill(); x.restore();
+    return s; }
+  /* повёрнутая копия смазанной снежинки; ax, ay — где в ней сама снежинка («голова», 70% длины по ходу полёта) */
+  function rotStreak(src, a, len, th){ var c = Math.cos(a), sn = Math.sin(a), W2 = Math.ceil(Math.abs(len*c) + Math.abs(th*sn)) + 2, H2 = Math.ceil(Math.abs(len*sn) + Math.abs(th*c)) + 2, s = sprite(W2, H2), x = s.x;
+    x.translate(W2/2, H2/2); x.rotate(a); x.drawImage(src.c, -len/2, -th/2, len, th); s.ax = W2/2 + c*len*.2; s.ay = H2/2 + sn*len*.2; return s; }
   /* полоса тумана/дымки, бесшовная по ширине — её можно бесконечно прокручивать */
-  function hazeSprite(w, h, rgb, dens){ var s = sprite(w, h), x = s.x, n = Math.max(6, Math.round(w/36)), i, k;
+  function hazeSprite(w, h, rgb, dens){ var s = sprite(w, h, .5), x = s.x, n = Math.max(6, Math.round(w/36)), i, k;
     for (i = 0; i < n; i++){ var cx = rnd(0, w), cy = rnd(h*.3, h*.75), r = rnd(h*.22, h*.55);
       for (k = -1; k <= 1; k++){ var g = x.createRadialGradient(cx + k*w, cy, 0, cx + k*w, cy, r); g.addColorStop(0, 'rgba(' + rgb + ',' + dens + ')'); g.addColorStop(1, 'rgba(' + rgb + ',0)'); x.fillStyle = g; x.beginPath(); x.arc(cx + k*w, cy, r, 0, 6.283); x.fill(); } }
     return s; }
@@ -1502,11 +1545,12 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var LAYERS = [{part:.5, r:[.55, 1.05], v:[.32, .5], a:.55, sway:.16, wz:.75},
                 {part:.33, r:[1.15, 1.9], v:[.6, .85], a:.85, sway:.3, wz:1},
                 {part:.17, r:[2.6, 4.4], v:[1.05, 1.5], a:.8, sway:.5, wz:1.35}];
-  var RAIN = {rain:{v:[6.5, 9.5, 13.5], len:[9, 15, 26], lw:[.7, 1, 1.5], a:[.3, .48, .66]}, drizzle:{v:[2.6, 3.6, 5], len:[4, 6, 9], lw:[.6, .8, 1.05], a:[.22, .32, .42]}};
-  var QUALITY = 1;
+  var RAIN = {rain:{v:[6.5, 9.5, 13.5], len:[9, 15, 26], lw:[.7, 1, 1.5], a:[.3, .48, .66]}, downpour:{v:[9, 13, 18], len:[15, 26, 44], lw:[.75, 1.15, 1.7], a:[.32, .52, .7]}, drizzle:{v:[2.6, 3.6, 5], len:[4, 6, 9], lw:[.6, .8, 1.05], a:[.22, .32, .42]}};
+  var QUALITY = 1, Q1 = /[?&]q1(&|$)/.test(location.search);
   /* общий тон воздуха в чистой обложке: сверху вниз — [доля высоты, цвет, прозрачность] */
   var VEIL = {drizzle:[[0, '46,58,74', .18], [.55, '46,58,74', .05], [1, '46,58,74', 0]],
     rain:[[0, '30,40,56', .28], [.5, '30,40,56', .1], [1, '30,40,56', .03]],
+    downpour:[[0, '24,32,46', .4], [.5, '24,32,46', .17], [1, '24,32,46', .07]],
     sleet:[[0, '52,62,78', .2], [.55, '52,62,78', .06], [1, '52,62,78', 0]],
     heavysnow:[[0, '210,220,232', .14], [.6, '210,220,232', .05], [1, '210,220,232', 0]],
     blizzard:[[0, '232,238,244', .3], [.5, '232,238,244', .16], [1, '232,238,244', .08]],
@@ -1521,15 +1565,21 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     var A = this.w*this.h, kind = K.precip, rgb = W.dark ? '214,224,240' : '255,255,255';
     /* осадки: пересобираем, только если сменился их вид — иначе снег не «прыгает» */
     /* новые осадки начинаются постепенно (pin: 0 → 1 за 2 с), а не включаются сразу на весь экран */
-    if (kindChanged || !this.p.length){ this.pin = reduce ? 1 : 0; var n = Math.min(1100, Math.round((kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : 1)*A/({snow:4200, heavysnow:1700, blizzard:1250, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
+    if (kindChanged || !this.p.length){ this.pin = reduce ? 1 : 0; var n = Math.min(1100, Math.round((kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : 1)*A/(K.heavy ? 950 : {snow:4200, heavysnow:1700, blizzard:860, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
+      /* метель и ливень идут и между камерой и домом: частицы ближе, дом их почти не прячет */
+      var near = kind === 'blizzard' || !!K.heavy;
       for (i = 0; i < n; i++){ var z = i < n*LAYERS[0].part ? 0 : i < n*(LAYERS[0].part + LAYERS[1].part) ? 1 : 2, L = LAYERS[z], snow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i % 2);
-        this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15), d:z === 2 ? 2 : z === 0 ? rnd(.06, .3) : rnd(.3, .5)}); }
+        this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15), d:z === 2 ? 2 : near ? (z === 0 ? rnd(.32, .62) : rnd(.55, .95)) : z === 0 ? rnd(.06, .3) : rnd(.3, .5)}); }
       this.p.sort(function(a, b){ return b.z - a.z; }); /* дальние — в конце: при нехватке сил телефона отбрасываются первыми */ }
     var sc = kind === 'sleet' ? '232,238,244' : rgb;
     this.flakes = [flakeSprite(1, false, sc), flakeSprite(1.6, false, sc), flakeSprite(3.4, true, sc)];
+    /* метель: снежинка, смазанная по ходу полёта (вытянутое мягкое пятно, поворачивается по скорости) */
+    this.streaks = kind === 'blizzard' ? [null, streakSprite(18, 4.5, sc, false), streakSprite(30, 9, sc, true)] : null;
+    this.spl = [];
     /* дымка: метель и сильный снег */
     var hz = W.dark ? '150,160,178' : '244,246,248', hw = Math.min(2400, Math.round(this.w*1.4));
-    var H = {blizzard:[[.05, .6, .5, .9, .16], [.4, .6, .45, 1.6, .16]], heavysnow:[[.3, .7, .3, .25, .1]]}[kind] || [];
+    /* полосы: [верх, высота, прозрачность, скорость, плотность, цвет]; метель — мгла и позёмка у земли */
+    var H = {blizzard:[[.0, .8, .6, 1.4, .22], [.68, .36, .6, 3.6, .24]], heavysnow:[[.3, .7, .3, .25, .1]]}[kind] || [];
     this.haze = H.map(function(q){ var hh = this.h*q[1]; return {y:this.h*q[0], s:hazeSprite(hw, hh, q[5] || (W.kind === 'blizzard' ? '250,252,255' : hz), q[4]), a:q[2], v:q[3], x:Math.random()*hw}; }, this);
   };
   Scene.prototype.draw = function(t, dt){ var x = this.x, w = this.w, h = this.h, K = KINDS[W.kind];
@@ -1545,7 +1595,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       x.restore(); }
     /* дымка — бесшовно плывёт по ветру */
     for (i = 0; i < this.haze.length; i++){ var Hz = this.haze[i], sw = Hz.s.w; Hz.x = (Hz.x + Hz.v*(.3 + wx*.25)*move) % sw; if (Hz.x < 0) Hz.x += sw;
-      x.globalAlpha = Hz.a*(W.kind === 'blizzard' ? .75 + .25*Math.sin(t*.0011 + i) : 1); x.drawImage(Hz.s.c, Hz.x - sw, Hz.y, sw, Hz.s.h); x.drawImage(Hz.s.c, Hz.x, Hz.y, sw, Hz.s.h); if (Hz.x + sw < w) x.drawImage(Hz.s.c, Hz.x + sw, Hz.y, sw, Hz.s.h); x.globalAlpha = 1; }
+      /* метель: мгла густеет в порывы ветра */
+      x.globalAlpha = Hz.a*(W.kind === 'blizzard' ? (.45 + .55*Math.min(1, Math.max(0, (g0 - .55)/.85)))*(.85 + .15*Math.sin(t*.0011 + i*2.1)) : 1); x.drawImage(Hz.s.c, Hz.x - sw, Hz.y, sw, Hz.s.h); x.drawImage(Hz.s.c, Hz.x, Hz.y, sw, Hz.s.h); if (Hz.x + sw < w) x.drawImage(Hz.s.c, Hz.x + sw, Hz.y, sw, Hz.s.h); x.globalAlpha = 1; }
     if (this.pm) this.drawSmoke(t, wx, move);
     this.pin = Math.min(1, (this.pin == null ? 1 : this.pin) + dt/2000);
     this.drawPrecip(t, wx, move, K);
@@ -1555,15 +1606,23 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       x.fillStyle = fg; x.fillRect(0, 0, w, h); x.fillStyle = 'rgba(214,224,255,' + (W.flash*.08).toFixed(3) + ')'; x.fillRect(0, 0, w, h); } };
   Scene.prototype.drawPrecip = function(t, wx, move, K){ var x = this.x, w = this.w, h = this.h, kind = K.precip, P, i, z, n = Math.ceil(this.p.length*QUALITY*this.pin), bl = kind === 'blizzard', dim = W.dark ? .75 : 1;
     if (!kind) return;
-    var spd = kind === 'heavysnow' ? 1.25 : bl ? 1.7 : kind === 'sleet' ? 1.9 : 1, rk = kind === 'drizzle' ? RAIN.drizzle : RAIN.rain, rc = W.dark ? '190,205,225' : '220,232,244';
+    var spd = kind === 'heavysnow' ? 1.25 : bl ? 1.7 : kind === 'sleet' ? 1.9 : 1, rk = kind === 'drizzle' ? RAIN.drizzle : K.heavy ? RAIN.downpour : RAIN.rain, rc = W.dark ? '190,205,225' : '220,232,244';
+    /* метель: сила порыва (0…1) — от неё завихрения и длина смазанных снежинок */
+    var gv = bl ? Math.min(1, Math.max(0, (gust(t) - .55)/.85)) : 0, prr = (kind === 'rain' || kind === 'sleet') && !reduce ? this.pr : null, spl = this.spl || (this.spl = []);
     /* глубина (дальние частицы за домом), параллакс при прокрутке, палец/курсор, снег на панели */
     var dep = this.dep, ds = this.dScroll || 0, PK = [.05, .14, .32];
     var pa = t - PTR.t < 1500 ? 1 - (t - PTR.t)/1500 : 0, PR = w < 700 ? 80 : 110, PR2 = PR*PR;
     var pr = kind === 'snow' || kind === 'heavysnow' || bl ? this.pr : null, dr = this.drift, dmax = w < 700 ? 6 : 8, landed = false;
-    for (z = 0; z < 3; z++){ var L = LAYERS[z], spr = this.flakes[z], streak = (bl && z > 0) || (kind === 'sleet' && z === 2);
+    for (z = 0; z < 3; z++){ var L = LAYERS[z], spr = this.flakes[z], bsp = bl && z > 0 && this.streaks ? this.streaks[z] : null, streak = kind === 'sleet' && z === 2;
+      /* метель: смазанная снежинка заранее повёрнута по среднему направлению полёта слоя и пересобирается, только когда угол сменился на 3° —
+         каждая снежинка рисуется простым копированием, без поворота (так быстрее всего) */
+      var RS = null; if (bsp){ var mvx = wx*1.15*L.wz, mvy = (L.v[0] + L.v[1])/2*spd, msv = Math.sqrt(mvx*mvx + mvy*mvy) || 1, ang = Math.round(Math.atan2(mvy, mvx)/.0524), str = Math.round(Math.min(.9, msv*.15)*10);
+        var RC = this.rot || (this.rot = []); RS = RC[z]; if (!RS || RS.ang !== ang || RS.str !== str){ RS = RC[z] = rotStreak(bsp, ang*.0524, bsp.w*(.5 + str/10), bsp.h); RS.ang = ang; RS.str = str; } }
       if (streak){ x.strokeStyle = 'rgba(255,255,255,' + ((z === 2 ? .38 : .62)*dim).toFixed(3) + ')'; x.lineCap = 'round'; x.lineWidth = (z === 2 ? 2 : 1.2)*this.o.scale; x.beginPath(); }
       for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || !P.snow) continue;
         P.ph += P.fs*16*move; var vy = P.v*spd*P.j, vx = Math.sin(P.ph)*P.amp*(bl ? .4 : 1) + wx*(bl ? 1.15 : .32)*L.wz, py0 = P.y;
+        /* метель: снег не летит строем — его крутят вихри, в порыв сильнее */
+        if (bl){ vx += Math.sin(P.y*.013 + t*.0021 + z*1.7)*(.7 + 1.1*gv)*L.wz; vy += Math.cos(P.x*.011 - t*.0017 + z)*(.45 + .7*gv)*L.wz; }
         P.y += vy*move - ds*PK[z]; P.x += vx*move;
         if (pa){ var dxp = P.x - PTR.x, dyp = P.y - PTR.y, d2 = dxp*dxp + dyp*dyp; if (d2 < PR2 && d2 > 1){ var dd = Math.sqrt(d2), f = (1 - dd/PR)*pa*(1.2 + z*.8)*move; P.x += (dxp*1.5 - dyp*.8)/dd*f; P.y += (dyp*1.5 + dxp*.8)/dd*f; } }
         if (P.y > h + 10){ P.y = -10 - Math.random()*30; P.x = Math.random()*(w + w*.3) - w*.3*Math.min(1, wx/3); } else if (P.y < -60) P.y += h + 70;
@@ -1573,20 +1632,30 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
           P.y = -10 - Math.random()*30; landed = true; continue; }
         var vis = 1; if (dep && P.d < 1.5){ vis = (P.d - this.depthAt(P.x, P.y))*20 + .5; if (vis <= 0) continue; if (vis > 1) vis = 1; }
         if (streak){ if (vis < .5) continue; var sl = 1.6 + P.j*1.6; x.moveTo(P.x, P.y); x.lineTo(P.x - vx*sl, P.y - vy*sl); }
+        else if (RS){ var ks = P.r/(z === 1 ? 1.6 : 3.4)*P.j;
+          x.globalAlpha = L.a*dim*vis*(z === 2 ? .8 + .2*Math.sin(P.ph*1.3) : 1); x.drawImage(RS.c, P.x - RS.ax*ks, P.y - RS.ay*ks, RS.w*ks, RS.h*ks); }
         else { var sz = spr.w*(P.r/(z === 0 ? 1 : z === 1 ? 1.6 : 3.4));
           x.globalAlpha = L.a*dim*vis*(z === 2 ? .85 + .15*Math.sin(P.ph*1.3) : 1); x.drawImage(spr.c, P.x - sz/2, P.y - sz/2, sz, sz); } }
       if (streak) x.stroke();
       x.globalAlpha = 1;
       /* дождь: штрихи под углом ветра, ближние — длиннее и ярче */
       if (kind === 'rain' || kind === 'drizzle' || kind === 'sleet'){ x.strokeStyle = 'rgba(' + rc + ',' + (rk.a[z]*dim).toFixed(3) + ')'; x.lineWidth = rk.lw[z]; x.lineCap = 'round'; x.beginPath();
-        for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || P.snow) continue; var rv = rk.v[z]*P.j, rx = wx*.55*L.wz, ln = rk.len[z]*P.j;
+        for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || P.snow) continue; var rv = rk.v[z]*P.j, rx = wx*(K.heavy ? 1.5 : .55)*L.wz, ln = rk.len[z]*P.j, ry0 = P.y;
           P.y += rv*move - ds*PK[z]; P.x += rx*move;
+          /* капля ударилась о верх панели — брызги, сама капля исчезает */
+          if (prr && z > 0 && ry0 < prr.t && P.y >= prr.t && P.x > prr.l + prr.rad*.5 && P.x < prr.l + prr.w - prr.rad*.5){
+            if (spl.length < 70 && Math.random() < (K.heavy ? .6 : .3)){ var dd2 = [], nq = z === 2 ? 4 : 3; for (var q2 = 0; q2 < nq; q2++) dd2.push(rnd(-1.3, 1.3) + rx*.15, -rnd(.7, 1.7)*(z === 2 ? 1.2 : 1)); spl.push({x:P.x, y:prr.t, a:0, s:z === 2 ? 1.7 : 1.2, d:dd2}); }
+            P.y = -ln - Math.random()*40; continue; }
           if (pa){ var ex = P.x - PTR.x, ey = P.y - PTR.y, e2 = ex*ex + ey*ey; if (e2 < PR2 && e2 > 1){ var ed = Math.sqrt(e2); P.x += ex/ed*(1 - ed/PR)*pa*3*move; } }
           if (P.y > h + ln){ P.y = -ln - Math.random()*40; P.x = Math.random()*(w + 80) - 40 - rx*20; } else if (P.y < -60) P.y += h + 70;
           if (P.x > w + 20) P.x -= w + 40; else if (P.x < -20) P.x += w + 40;
           if (dep && P.d < 1.5 && this.depthAt(P.x, P.y) > P.d) continue;
           var k2 = ln/rv; x.moveTo(P.x, P.y); x.lineTo(P.x - rx*k2, P.y - ln); }
         x.stroke(); } }
+    /* брызги: капельки взлетают и падают обратно, гаснут за ~0,25 с */
+    if (spl.length){ x.fillStyle = 'rgb(' + rc + ')'; for (i = spl.length - 1; i >= 0; i--){ var S0 = spl[i]; S0.a += move; if (S0.a > 15){ spl.splice(i, 1); continue; }
+      x.globalAlpha = (1 - S0.a/15)*.75*dim; for (var q3 = 0; q3 < S0.d.length; q3 += 2){ var ox = S0.x + S0.d[q3]*S0.a, oy = S0.y + S0.d[q3+1]*S0.a + .1*S0.a*S0.a; if (oy <= S0.y + 1) x.fillRect(ox - S0.s/2, oy - S0.s/2, S0.s, S0.s); } }
+      x.globalAlpha = 1; }
     if (landed) for (i = 1; i < dr.length - 1; i++) dr[i] = (dr[i-1] + dr[i]*6 + dr[i+1])/8; };
   /* ---------- Обложка: глубина сцены, дым из трубы, свет в окнах, капли и иней на панели ---------- */
   /* карта глубины фото (тёмное — небо и даль, светлое — у камеры): дальний снег прячется за домом и деревьями и «ложится» на землю */
@@ -1807,7 +1876,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     x.strokeStyle = 'rgba(196,216,240,' + (.11*a).toFixed(3) + ')'; x.lineWidth = T.w; x.stroke();
     x.save(); x.translate(-T.w*.28, 0); x.strokeStyle = 'rgba(255,255,255,' + (.22*a).toFixed(3) + ')'; x.lineWidth = Math.max(.5, T.w*.16); x.stroke(); x.restore(); }
   function drawPanelFx(move){ if (!PF.x) return; var K = KINDS[W.kind], wet = (K.precip === 'rain' || K.precip === 'drizzle' || K.precip === 'sleet');
-    var rate = !wet || reduce ? 0 : K.thunder ? .14 : K.precip === 'rain' ? .12 : .06, tN = W.tempNow != null ? W.tempNow : K.t, snowy = /snow|blizzard/.test(K.precip || ''), fw = tN <= -10 ? 1 : snowy && tN <= 0 ? .45 : 0;
+    var rate = !wet || reduce ? 0 : K.thunder ? .14 : K.heavy ? .22 : K.precip === 'rain' ? .12 : .06, tN = W.tempNow != null ? W.tempNow : K.t, snowy = /snow|blizzard/.test(K.precip || ''), fw = tN <= -10 ? 1 : snowy && tN <= 0 ? .45 : 0;
     /* в мороз от −10° — иней в полную силу, в снегопад при минусе — лёгкий; нарастает и тает за несколько секунд */
     /* открыт прогноз — иней быстро отступает к самым углам, чтобы не закрывать крайние дни (владелец, 09.11.2026) */
     var fcOpen = PF.wx && PF.wx.classList.contains('fc'); if (fcOpen) fw *= .3;
@@ -1832,7 +1901,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var last = 0, heroVis = true, slow = 0, prT = 0;
   function loop(t){ var dt = last ? Math.min(t - last, 50) : 16; last = t;
     /* если телефон не успевает — рисуем меньше дальних снежинок, качество возвращается само */
-    if (dt > 26){ if (++slow > 45){ QUALITY = Math.max(.45, QUALITY - .15); slow = 0; } } else if (slow > 0) slow--; else if (QUALITY < 1 && Math.random() < .002) QUALITY = Math.min(1, QUALITY + .05);
+    /* ?q1 — для снимков на компьютере без видеокарты: частиц не убавлять */
+    if (dt > 26 && !Q1){ if (++slow > 45){ QUALITY = Math.max(.45, QUALITY - .15); slow = 0; } } else if (slow > 0) slow--; else if (QUALITY < 1 && Math.random() < .002) QUALITY = Math.min(1, QUALITY + .05);
     stepBolt(t, heroScene.w, heroScene.h); if (heroVis){ heroScene.draw(t, dt); drawLight(dt/16); drawPanelFx(dt/16); if (++prT > 90){ prT = 0; heroScene.panelRect(); } } requestAnimationFrame(loop); }
   if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ heroVis = e[0].isIntersecting; }).observe(document.getElementById('skyHero'));
   function onResize(){ heroScene.size(); lightSize(); if (PF.x) pfSize(); if (reduce) heroScene.draw(0,16); }

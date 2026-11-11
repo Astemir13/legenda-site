@@ -1,4 +1,4 @@
-// Плавность погод на обложке: node tools/wx-fps.js [m|d] [замедление процессора, по умолчанию 4]
+// Плавность погод на обложке: node tools/wx-fps.js [m|d] [замедление процессора, по умолчанию 4]; KINDS=rain,blizzard — только эти погоды
 // Для каждой погоды 4 с меряет кадры: средний FPS, доля «длинных» кадров (>33 мс, заметный рывок) и худший кадр.
 const {chromium} = require('playwright'); const {spawn} = require('child_process');
 const [w, h] = process.argv[2] === 'd' ? [1440, 900] : [402, 874], RATE = +(process.argv[3] || 4);
@@ -10,7 +10,8 @@ const [w, h] = process.argv[2] === 'd' ? [1440, 900] : [402, 874], RATE = +(proc
   await p.goto('http://127.0.0.1:8765/', {waitUntil: 'load'}); await p.waitForTimeout(1500);
   await cdp.send('Emulation.setCPUThrottlingRate', {rate: RATE});
   const kinds = await p.evaluate(() => [...document.querySelectorAll('#wxKinds [data-k]')].map(b => b.dataset.k));
-  for (const k of kinds) {
+  /* KINDS=rain,blizzard — мерить только эти погоды */
+  for (const k of kinds.filter(k => !process.env.KINDS || process.env.KINDS.split(',').includes(k))) {
     await p.evaluate(k => document.querySelector('#wxKinds [data-k="' + k + '"]').click(), k); await p.waitForTimeout(1500);
     const r = await p.evaluate(() => new Promise(res => { const t = []; let last = performance.now(); const end = last + 4000;
       (function f(now){ t.push(now - last); last = now; if (now < end) requestAnimationFrame(f); else { t.shift(); const avg = t.reduce((a, b) => a + b, 0) / t.length;
