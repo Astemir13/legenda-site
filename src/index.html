@@ -391,7 +391,8 @@ section[id]{scroll-margin-top:84px}
 .near{margin-top:18px;gap:14px}
 .near h3{font-size:20px}
 .near .feat{grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:900px){.near .feat{grid-template-columns:minmax(0,1fr)}}
+.near .feat li{justify-content:center}.near .feat li>span:last-child{flex:0 1 auto;width:max-content;max-width:100%}
+@media (max-width:900px){.near .feat{grid-template-columns:minmax(0,1fr)}.near .feat li{justify-content:flex-start}.near .nbr{display:none}}
 @media (max-width:900px){.seas{grid-template-columns:minmax(0,1fr)}}
 .road{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);background:var(--card);border-radius:28px;overflow:hidden}
 .road-i{padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;gap:12px}
@@ -948,7 +949,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   <canvas id="skyHero" aria-hidden="true"></canvas>
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <h1><span class="h1k">Гостиница в Приэльбрусье<a class="h1k2" href="#way" title="Как добраться"><svg width="11" height="14" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="currentColor"/><circle cx="6" cy="6" r="2.3" fill="#1E2A36"/></svg>Терскол · Поляна Чегет</a></span> Дом из сруба на 15 номеров и отдельный коттедж</h1>
+      <h1><span class="h1k">Гостиница в Приэльбрусье <a class="h1k2" href="#way" title="Как добраться"><svg width="11" height="14" viewBox="0 0 12 16" aria-hidden="true"><path d="M6 0a6 6 0 0 0-6 6c0 4.2 6 10 6 10s6-5.8 6-10a6 6 0 0 0-6-6z" fill="currentColor"/><circle cx="6" cy="6" r="2.3" fill="#1E2A36"/></svg>Терскол · Поляна Чегет</a></span> Дом из сруба на 15 номеров и отдельный коттедж</h1>
       <div class="hcta"><a class="btn btn-pine" href="#rooms">Выбрать номер</a><a class="btn hlink" href="#hotel">Об отеле</a></div>
     </div>
     <div class="hpanel"><canvas class="hp-fx" id="hpFx" aria-hidden="true"></canvas>
@@ -1042,9 +1043,9 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     <div class="panel near">
       <h3>В пешей доступности</h3>
       <ul class="feat">
-        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M4.5 11 12 5l7.5 6v9h-15z"/><path d="M3 12.2 12 5l9 7.2"/><path d="M4.5 11v9h15v-9"/><path d="M10 20v-5h4v5"/><path d="M16.3 7.4V4.2"/><path d="M18.2 3.2c-.7.8.7 1.5 0 2.3"/></svg></span><span>Банный комплекс — попариться после склона</span></li>
-        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M7 4.6c.9 0 1.6.5 2 1.3.3 1 .3 2.1.3 3.1V12h7.2c1.8 0 3 1.3 3 3v1.3c0 .9-.4 1.6-1 2V21h-1.8v-2.4h-6V21H9v-3.3c-.9-.6-1.4-1.6-1.4-2.7V9.5H5.4c-.9 0-1.4-.6-1.4-1.3 0-1.2.9-2 2-2.4.2-.7.5-1.2 1-1.2z"/><path d="M7 4.6c.9 0 1.6.5 2 1.3.3 1 .3 2.1.3 3.1V12h7.2c1.8 0 3 1.3 3 3v1.3c0 .9-.4 1.6-1 2V21h-1.8v-2.4h-6V21H9v-3.3c-.9-.6-1.4-1.6-1.4-2.7V9.5H5.4c-.9 0-1.4-.6-1.4-1.3 0-1.2.9-2 2-2.4.2-.7.5-1.2 1-1.2z"/><path d="M6.6 4.7 6.2 2.8M8.3 5.2l.7-1.8"/></svg></span><span>Парк альпак — понравится детям и взрослым</span></li>
-        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M3.5 9 5 4h14l1.5 5z"/><path d="M3.5 9 5 4h14l1.5 5z"/><path d="M3.5 9a2.8 2.8 0 0 0 5.7 0 2.8 2.8 0 0 0 5.6 0 2.8 2.8 0 0 0 5.7 0"/><path d="M5 11.6V20h14v-8.4M10 20v-4.6h4V20"/></svg></span><span>Местный рынок: изделия из шерсти, одежда, домашняя еда и сладости</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M4.5 11 12 5l7.5 6v9h-15z"/><path d="M3 12.2 12 5l9 7.2"/><path d="M4.5 11v9h15v-9"/><path d="M10 20v-5h4v5"/><path d="M16.3 7.4V4.2"/><path d="M18.2 3.2c-.7.8.7 1.5 0 2.3"/></svg></span><span>Банный комплекс —<br class="nbr"> попариться после склона</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M7 4.6c.9 0 1.6.5 2 1.3.3 1 .3 2.1.3 3.1V12h7.2c1.8 0 3 1.3 3 3v1.3c0 .9-.4 1.6-1 2V21h-1.8v-2.4h-6V21H9v-3.3c-.9-.6-1.4-1.6-1.4-2.7V9.5H5.4c-.9 0-1.4-.6-1.4-1.3 0-1.2.9-2 2-2.4.2-.7.5-1.2 1-1.2z"/><path d="M7 4.6c.9 0 1.6.5 2 1.3.3 1 .3 2.1.3 3.1V12h7.2c1.8 0 3 1.3 3 3v1.3c0 .9-.4 1.6-1 2V21h-1.8v-2.4h-6V21H9v-3.3c-.9-.6-1.4-1.6-1.4-2.7V9.5H5.4c-.9 0-1.4-.6-1.4-1.3 0-1.2.9-2 2-2.4.2-.7.5-1.2 1-1.2z"/><path d="M6.6 4.7 6.2 2.8M8.3 5.2l.7-1.8"/></svg></span><span>Парк альпак —<br class="nbr"> понравится детям и взрослым</span></li>
+        <li><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M3.5 9 5 4h14l1.5 5z"/><path d="M3.5 9 5 4h14l1.5 5z"/><path d="M3.5 9a2.8 2.8 0 0 0 5.7 0 2.8 2.8 0 0 0 5.6 0 2.8 2.8 0 0 0 5.7 0"/><path d="M5 11.6V20h14v-8.4M10 20v-4.6h4V20"/></svg></span><span>Местный рынок: изделия из шерсти,<br class="nbr"> одежда, домашняя еда и сладости</span></li>
       </ul>
     </div>
   </div>
@@ -1259,7 +1260,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     std2:['std2-1', 'std2-2', 'std2-3', 'std2-4', 'std2-5', 'std2-6', 'std2-7', 'std2-8'],
     std3:['std3-1', 'std3-2', 'std3-3', 'std3-4', 'std3-5'],
     semi:['semi-1', 'semi-2', 'semi-3', 'semi-4', 'semi-5', 'semi-6'],
-    fam:['fam-1', 'fam-2', 'fam-3'],
+    fam:['fam-1', 'fam-2', 'fam-3', 'fam-4'],
     lux:['lux-2', 'lux-1', 'lux-3', 'lux-4', 'lux-5', 'lux-6', 'lux-7', 'lux-8'],
     barn:['barn-1', 'barn-2', 'barn-3', 'barn-4', 'barn-5', 'barn-6', 'barn-7', 'barn-8'],
     /* альбом в «Об отеле»: первое фото — крупное, на странице видны пять, остальные — в просмотре */
