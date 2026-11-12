@@ -27,7 +27,8 @@
 <link rel="icon" href="favicon-dark.ico?v=6" sizes="32x32" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg?v=6" type="image/svg+xml">
 <link rel="apple-touch-icon" href="favicon-512.png?v=6">
-<link rel="preload" as="image" href="img/facade.webp" fetchpriority="high">
+<link rel="preload" as="image" href="img/facade-m.avif" type="image/avif" media="(max-width:760px)" fetchpriority="high">
+<link rel="preload" as="image" href="img/facade.avif" type="image/avif" media="(min-width:761px)" fetchpriority="high">
 <link rel="preload" as="font" type="font/woff2" href="fonts/golos-text-cyrillic.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/lora-cyrillic.woff2" crossorigin>
 <style>
@@ -216,7 +217,7 @@ section[id]{scroll-margin-top:84px}
 .whysec{padding:16px 0 0}
 .why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .why>div{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;min-width:0;border-radius:20px}
-.why p{color:var(--ink2);font-size:14.5px;line-height:1.5}
+.why p{color:var(--ink2);font-size:14.5px;line-height:1.5;text-wrap:balance}
 .why b{display:block;color:var(--ink);font-family:var(--display);font-weight:600;font-size:16.5px;line-height:1.3;margin-bottom:4px}
 @media (max-width:860px){.why{grid-template-columns:1fr;gap:10px}.why>div{padding:14px 16px}}
 /* Номера */
@@ -374,13 +375,18 @@ section[id]{scroll-margin-top:84px}
 @media (max-width:560px){.gz{flex-direction:column;align-items:flex-start;gap:14px}}
 .faq{display:grid;gap:10px}
 .faq details{background:var(--soft);border-radius:16px;padding:0 18px}
-.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px;font-weight:600}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px;padding:10px 0;font-weight:600}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";font-size:22px;color:var(--ink2);transition:transform .2s}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{padding-bottom:16px;color:var(--ink2);font-size:15px}
 /* Финал */
-.faqp{max-width:860px}
+.faqg{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.faqa{position:sticky;top:92px;gap:12px}.faqa h3{font:600 22px/1.25 var(--display);color:var(--ink);margin-top:4px}.faqa p{color:var(--ink2);font-size:15px;line-height:1.5}.faqa .btn{margin-top:4px}
+@media (max-width:980px){.faqg{grid-template-columns:1fr;gap:14px}.faqa{position:static}}
+.mbs{display:flex;flex-wrap:wrap;gap:8px}.why .mbs{margin-top:10px}
+.mb{flex:1 1 0;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 14px;border-radius:12px;background:var(--soft);color:var(--ink);font:600 14.5px var(--body);text-decoration:none;white-space:nowrap;transition:background .2s}
+.mb svg{width:20px;height:20px;flex:none}.mb.wa svg{color:#1DA851}.mb.tg svg{color:#229ED9}.mb.wa:hover{background:#DDF5E5}.mb.tg:hover{background:#DDEFFA}
 .faq-h{font-size:clamp(24px,2.4vw,30px);margin:2px 0 6px}
 /* Отдых в Приэльбрусье: три сезона */
 .seas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
@@ -944,7 +950,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 
 <main id="top">
 <section class="hero" id="hero">
-  <img src="img/facade.webp" fetchpriority="high" alt="Эко-отель «Легенда» в Терсколе: деревянный дом из сруба с зелёной крышей среди сосен, Приэльбрусье">
+  <picture><source type="image/avif" media="(max-width:760px)" srcset="img/facade-m.avif"><source type="image/avif" srcset="img/facade.avif"><img src="img/facade.webp" fetchpriority="high" alt="Эко-отель «Легенда» в Терсколе: деревянный дом из сруба с зелёной крышей среди сосен, Приэльбрусье"></picture>
   <div class="tint" aria-hidden="true"></div>
   <canvas id="fxLight" aria-hidden="true"></canvas>
   <canvas id="skyHero" aria-hidden="true"></canvas>
@@ -974,9 +980,9 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 
 <section class="whysec" aria-label="Почему стоит бронировать напрямую">
   <div class="wrap"><div class="why">
-    <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><path d="M8.3 12.3l2.5 2.5 4.9-5.1"/></svg></span><p><b>Без комиссии</b>Оплата напрямую отелю, без наценок агрегаторов. Для нас это самый предпочтительный вариант, а постоянные гости получают&nbsp;привилегии.</p></div>
+    <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="f" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><path d="M8.3 12.3l2.5 2.5 4.9-5.1"/></svg></span><p><b>Без комиссии</b>Оплата напрямую отелю, без наценок агрегаторов. Для нас это самый предпочтительный вариант, а постоянные гости получают привилегии.</p></div>
     <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M4.5 10h12v3.6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M4.5 10h12v3.6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16.5 11.2h1.3a2.4 2.4 0 0 1 0 4.8h-1.8"/><path d="M3 21h15"/><path d="M8.5 3.2c-.8 1 .8 1.9 0 3M12.5 3.2c-.8 1 .8 1.9 0 3"/></svg></span><p><b>Завтрак на двоих включён</b>При бронировании номера напрямую — на сайте или по телефону.</p></div>
-    <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M12 4c4.7 0 8.5 3.1 8.5 7s-3.8 7-8.5 7c-1 0-2-.1-2.9-.4L4.5 20l1.3-3.8C4.4 14.9 3.5 13 3.5 11c0-3.9 3.8-7 8.5-7z"/><path d="M12 4c4.7 0 8.5 3.1 8.5 7s-3.8 7-8.5 7c-1 0-2-.1-2.9-.4L4.5 20l1.3-3.8C4.4 14.9 3.5 13 3.5 11c0-3.9 3.8-7 8.5-7z"/><path d="M8.3 11h.01M12 11h.01M15.7 11h.01" stroke-width="2.4"/></svg></span><p><b>Бронирование 24/7</b>Ответим на вопросы и поможем подобрать номер — по телефону, в WhatsApp или Telegram.</p></div>
+    <div><span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f" d="M12 4c4.7 0 8.5 3.1 8.5 7s-3.8 7-8.5 7c-1 0-2-.1-2.9-.4L4.5 20l1.3-3.8C4.4 14.9 3.5 13 3.5 11c0-3.9 3.8-7 8.5-7z"/><path d="M12 4c4.7 0 8.5 3.1 8.5 7s-3.8 7-8.5 7c-1 0-2-.1-2.9-.4L4.5 20l1.3-3.8C4.4 14.9 3.5 13 3.5 11c0-3.9 3.8-7 8.5-7z"/><path d="M8.3 11h.01M12 11h.01M15.7 11h.01" stroke-width="2.4"/></svg></span><p><b>Бронирование 24/7</b>Ответим на вопросы и поможем подобрать номер — по телефону или в мессенджере.<span class="mbs"><a class="mb wa" href="https://wa.me/79993000088" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-2.9.8.8-2.8-.2-.3A8.2 8.2 0 0 1 12 3.8z"/><path fill="currentColor" d="M8.9 7.2c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2s.9 2.5 1 2.7c.2.2 1.8 2.8 4.4 3.8 2.2.9 2.6.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.2-.4v-.4l-.8-2z"/></svg>WhatsApp</a><a class="mb tg" href="https://t.me/+79993000088" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 3.6 2.9 10.7c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.3-1.5zM9.6 13.4l8.9-5.6c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.6-4.6z"/></svg>Telegram</a></span></p></div>
   </div></div>
 </section>
 
@@ -1054,6 +1060,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
 
 <section class="sec" id="faq" style="padding-top:0">
   <div class="wrap">
+    <div class="faqg">
     <div class="panel faqp">
       <span class="kick" style="margin:0">Вопросы и ответы</span>
       <h2 class="faq-h">Частые вопросы</h2>
@@ -1068,6 +1075,14 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
         <details><summary>Есть ли трансфер из аэропорта?</summary><p>Да, поможем с трансфером из аэропортов Минеральные Воды и Нальчик: дадим контакты проверенных перевозчиков — есть легковые машины и минивэны для семьи или компании с горнолыжным снаряжением. Позвоните или напишите в WhatsApp или Telegram — подскажем.</p></details>
         <details><summary>Сколько от отеля до подъёмников Чегета и Эльбруса?</summary><p>До подъёмников Чегета — 500 м, это несколько минут пешком. До канатной дороги на Эльбрус на поляне Азау — 5 км по дороге.</p></details>
       </div>
+    </div>
+    <aside class="panel faqa" aria-label="Связаться с отделом бронирования">
+      <span class="gc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4c4.7 0 8.5 3.1 8.5 7s-3.8 7-8.5 7c-1 0-2-.1-2.9-.4L4.5 20l1.3-3.8C4.4 14.9 3.5 13 3.5 11c0-3.9 3.8-7 8.5-7z"/><path d="M8.3 11h.01M12 11h.01M15.7 11h.01" stroke-width="2.4"/></svg></span>
+      <h3>Не нашли ответ?</h3>
+      <p>Спросите напрямую — отдел бронирования на связи круглосуточно.</p>
+      <a class="btn btn-accent" href="tel:+79993000088">+7 999 300-00-88</a>
+      <span class="mbs"><a class="mb wa" href="https://wa.me/79993000088" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-2.9.8.8-2.8-.2-.3A8.2 8.2 0 0 1 12 3.8z"/><path fill="currentColor" d="M8.9 7.2c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2s.9 2.5 1 2.7c.2.2 1.8 2.8 4.4 3.8 2.2.9 2.6.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2-1.3-.8-.7-1.3-1.5-1.4-1.8-.2-.3 0-.4.1-.5l.4-.5.2-.4v-.4l-.8-2z"/></svg>WhatsApp</a><a class="mb tg" href="https://t.me/+79993000088" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 3.6 2.9 10.7c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.3-1.5zM9.6 13.4l8.9-5.6c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.6-4.6z"/></svg>Telegram</a></span>
+    </aside>
     </div>
   </div>
 </section>
@@ -2245,9 +2260,12 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     history[m] = function(st, t, u){ if (typeof u === 'string' && /#\/?$/.test(u)) u = location.pathname + location.search; return f.call(history, st, t, u); }; });
   var hrReady = false, hrBox = document.getElementById('hr-widget');
   function hrFallback(){ if (hrReady) return; hrBox.hidden = true; var fb = document.getElementById('hrFallback'); fb.hidden = false; }
-  (function(){ var s = document.createElement('script'); s.type = 'module'; s.src = 'https://homereserve.ru/widget.js';
+  /* Скрипт модуля (около 500 КБ) запускаем после фото обложки, чтобы он не отбирал у него канал; не дольше 4 с ожидания */
+  function hrLoad(){ var s = document.createElement('script'); s.type = 'module'; s.src = 'https://homereserve.ru/widget.js';
     s.onload = function(){ try { window.homereserve.initWidgetSearch({token: HR.token, apartments: rooms.map(function(r){ return r.hr; }).filter(Boolean)}); hrReady = true; hrBox.hidden = false; document.getElementById('hrFallback').hidden = true; } catch (e) { hrFallback(); } };
-    s.onerror = hrFallback; document.head.appendChild(s); setTimeout(hrFallback, 10000); })();
+    s.onerror = hrFallback; document.head.appendChild(s); setTimeout(hrFallback, 10000); }
+  (function(){ var hi = document.querySelector('#hero img'), done = false, go = function(){ if (done) return; done = true; hrLoad(); };
+    if (!hi || hi.complete || /^#\/./.test(location.hash)) go(); else { hi.addEventListener('load', go); hi.addEventListener('error', go); setTimeout(go, 4000); } })();
   /* Бронирование открывается окном модуля поверх сайта — и на компьютере, и на телефоне: в нём только наши категории (apartments).
      Страница homereserve.ru показывает все объекты, в том числе служебный номер для овербукинга, — туда ведём, только если модуль не загрузился */
   /* Номер, открытый прямо с карточки: крестик модуля закрывает окно целиком, а не ведёт в общий список */

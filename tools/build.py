@@ -58,6 +58,8 @@ IMGV = {n: hashlib.md5(open(f'src/rooms/{n}.jpg', 'rb').read()).hexdigest()[:8] 
 # карта глубины и маска неба обложки — с версией в адресе (кэш 30 дней: без неё телефон держал бы старую)
 for f, src in (('img/depth.jpg', 'src/depth.jpg'), ('img/sky.jpg', 'src/static/img/sky.jpg')):
     page = must(page, "'" + f + "'", "'" + f + '?v=' + hashlib.md5(open(src, 'rb').read()).hexdigest()[:8] + "'")
+FV = hashlib.md5(open('src/facade.jpg', 'rb').read()).hexdigest()[:8]  # версия обложки в адресе, как у фото номеров
+page = page.replace('img/facade-m.avif', 'img/facade-m.avif?v=' + FV).replace('img/facade.avif', 'img/facade.avif?v=' + FV)
 page = must(page, '  var IMGV = {};', '  var IMGV = ' + json.dumps(IMGV, separators=(',', ':')) + ';')
 cards = []
 for m in re.finditer(r"\{id:'(\w+)', hr:(\d+), name:'([^']+)'.*?tags:\[([^\]]*)\], text:'([^']+)'\}", page):
@@ -102,7 +104,10 @@ save(f'{OUT}/index.html', page)
 # ---------- картинки ----------
 os.makedirs(f'{OUT}/img/r')
 im = Image.open('src/facade.jpg').convert('RGB')
-im.save(f'{OUT}/img/facade.webp', 'WEBP', quality=78, method=6)
+im.save(f'{OUT}/img/facade.webp', 'WEBP', quality=78, method=6)  # запасной вариант для браузеров без AVIF
+# AVIF: при том же виде в полтора раза легче webp; телефону (до 760 px) — 1600 px по ширине
+im.save(f'{OUT}/img/facade.avif', 'AVIF', quality=50, speed=3)
+im.resize((1600, round(1600 * im.height / im.width)), Image.LANCZOS).save(f'{OUT}/img/facade-m.avif', 'AVIF', quality=50, speed=3)
 im.save(f'{OUT}/img/facade.jpg', 'JPEG', quality=85, optimize=True, progressive=True)  # для соцсетей и поисковиков
 shutil.copy('src/depth.jpg', f'{OUT}/img/depth.jpg')
 photos = re.findall(r"'([a-z0-9]+-\d+)'", re.search(r'var PHOTOS = \{(.*?)\};', page, re.S).group(1))
@@ -232,6 +237,7 @@ SetEnvIfNoCase Host ^preview\. NOINDEX
 Header set X-Robots-Tag "noindex, nofollow" env=NOINDEX
 </IfModule>
 AddType font/woff2 .woff2
+AddType image/avif .avif
 Options -Indexes
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
@@ -260,6 +266,7 @@ ExpiresActive On
 ExpiresDefault "access plus 1 hour"
 ExpiresByType text/html "access plus 0 seconds"
 ExpiresByType image/webp "access plus 30 days"
+ExpiresByType image/avif "access plus 30 days"
 ExpiresByType image/jpeg "access plus 30 days"
 ExpiresByType image/png "access plus 30 days"
 ExpiresByType image/svg+xml "access plus 30 days"
