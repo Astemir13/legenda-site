@@ -2280,7 +2280,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   (function(){ var e = document.getElementById('cy'); if (e) e.textContent = Math.max(2026, new Date().getFullYear()); })();
 
   /* Цели Яндекс Метрики (счётчик 104834110). Идентификаторы целей — в Метрике, тип «JavaScript-событие»:
-     lead_call — звонок в бронирование, lead_booked — онлайн-бронь оформлена (модуль показал #/status/…),
+     lead_call — звонок в бронирование, lead_wa / lead_tg — переход в WhatsApp / Telegram, lead_booked — онлайн-бронь оформлена (модуль показал #/status/…),
      book_open / book_room / book_form / book_submit — шаги в модуле бронирования (поиск, номер, форма, кнопка оформления),
      call_cafe, cafe_menu, route, ymaps, room_plan, room_photos. Главная цель в Метрике «Заявка» — всё, что начинается с lead_ */
   var GOALS_SENT = {};
@@ -2298,6 +2298,8 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   document.addEventListener('click', function(e){ var a = e.target.closest('a[href], button'); if (!a) return;
     var h = a.getAttribute('href') || '';
     if (h.indexOf('tel:+79993000088') === 0) goal('lead_call', {place: a.closest('header') ? 'шапка' : a.closest('#siteMenu') ? 'меню' : a.closest('footer') ? 'подвал' : 'страница'});
+    else if (h.indexOf('https://wa.me/') === 0) goal('lead_wa', {place: a.closest('#siteMenu') ? 'меню' : a.closest('.faqa') ? 'вопросы' : a.closest('.why') ? 'карточка' : 'страница'});
+    else if (h.indexOf('https://t.me/') === 0) goal('lead_tg', {place: a.closest('#siteMenu') ? 'меню' : a.closest('.faqa') ? 'вопросы' : a.closest('.why') ? 'карточка' : 'страница'});
     else if (h.indexOf('tel:+79287130416') === 0) goal('call_cafe');
     else if (a.id === 'routeBtn') goal('route');
     else if (/yandex\.ru\/maps/.test(h)) goal('ymaps');
