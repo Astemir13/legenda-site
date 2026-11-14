@@ -1952,10 +1952,13 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   function mistDot(x, px, py, r){ x.fillStyle = 'rgba(0,8,18,.16)'; x.beginPath(); x.arc(px, py + r*.35, r, 0, 6.283); x.fill(); x.fillStyle = 'rgba(232,240,250,.2)'; x.beginPath(); x.arc(px - r*.15, py - r*.2, r*.68, 0, 6.283); x.fill(); }
   function mistAt(w, h, px, py, n, spread){ var m = PF.ms || (PF.ms = sprite(w, h)); for (var i = 0; i < n; i++){ var aa = rnd(0, 6.283), dd = spread*Math.sqrt(Math.random()); mistDot(m.x, px + Math.cos(aa)*dd, py + Math.sin(aa)*dd, Math.random() < .85 ? rnd(.3, .6) : rnd(.65, 1)); } }
   /* мокрая дорожка: едва светлее стекла, с тонким бликом по краю, понемногу высыхает (сама дорожка — прочищенная полоса в водяной пыли) */
-  function drawTrail(x, T){ var p = T.p, a = T.a, i; if (p.length < 2 || a < .02) return;
-    x.lineCap = 'round'; x.lineJoin = 'round'; x.beginPath(); x.moveTo(p[0][0], p[0][1]); for (i = 1; i < p.length; i++) x.lineTo(p[i][0], p[i][1]);
-    x.strokeStyle = 'rgba(196,216,240,' + (.09*a).toFixed(3) + ')'; x.lineWidth = T.w; x.stroke();
-    x.save(); x.translate(-T.w*.32, 0); x.strokeStyle = 'rgba(255,255,255,' + (.16*a).toFixed(3) + ')'; x.lineWidth = Math.max(.4, T.w*.1); x.stroke(); x.restore(); }
+  /* мокрая дорожка за каплей: неровная — ширина и влажность у каждого кусочка свои, сохнет пятнами, а не вся сразу;
+     едва светлее стекла, с тонким бликом по левому краю (сама дорожка — ещё и прочищенная полоса в водяной пыли) */
+  function drawTrail(x, T, move){ var p = T.p, i, live = 0; if (p.length < 2) return 0; x.lineCap = 'round';
+    for (i = 1; i < p.length; i++){ var q = p[i], o = p[i-1]; if (!T.d) q[3] -= q[4]*move; if (q[3] <= 0) continue; live++;
+      x.strokeStyle = 'rgba(196,216,240,' + (.1*q[3]).toFixed(3) + ')'; x.lineWidth = q[2]*1.6; x.beginPath(); x.moveTo(o[0], o[1]); x.lineTo(q[0], q[1]); x.stroke();
+      if (q[3] > .3){ x.strokeStyle = 'rgba(255,255,255,' + (.16*q[3]).toFixed(3) + ')'; x.lineWidth = Math.max(.35, q[2]*.18); x.beginPath(); x.moveTo(o[0] - q[2]*.55, o[1]); x.lineTo(q[0] - q[2]*.55, q[1]); x.stroke(); } }
+    return live; }
   function drawPanelFx(move){ if (!PF.x) return; var K = KINDS[W.kind], wet = (K.precip === 'rain' || K.precip === 'drizzle' || K.precip === 'sleet');
     var rate = !wet || reduce ? 0 : K.thunder ? .16 : K.heavy ? .28 : K.precip === 'rain' ? .15 : .08, tN = W.tempNow != null ? W.tempNow : K.t, snowy = /snow|blizzard/.test(K.precip || ''), fw = tN <= -10 ? 1 : snowy && tN <= 0 ? .45 : 0;
     /* в мороз от −10° — иней в полную силу, в снегопад при минусе — лёгкий; нарастает и тает за несколько секунд */
@@ -1974,18 +1977,20 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
       for (j = 0; j < D.length; j++){ var o0 = D[j]; if (o0.slide) continue; var ex0 = o0.x - nx, ey0 = o0.y - ny; if (ex0*ex0 + ey0*ey0 < (o0.r + r)*(o0.r + r)*.8){ hit = o0; break; } }
       if (hit){ hit.x = (hit.x*hit.r*hit.r + nx*r*r*.4)/(hit.r*hit.r + r*r*.4); hit.r = Math.min(5, Math.sqrt(hit.r*hit.r + r*r)); hit.age = Math.min(hit.age, 40); mistAt(w, h, nx, ny, 3, r*2.6); }
       else { D.push({x:nx, y:ny, r:r, a:0, life:rnd(700, 1400), age:0, vy:0, slide:false, last:0, ex:rnd(.86, 1.14), rot:rnd(-.5, .5)}); mistAt(w, h, nx, ny, r > 1.5 ? 4 : 2, r*3); } }
-    for (i = TR.length - 1; i >= 0; i--){ var T = TR[i]; if (!T.d) T.a -= .006*move; if (T.a <= 0){ TR.splice(i, 1); continue; } drawTrail(x, T); }
+    for (i = TR.length - 1; i >= 0; i--){ var T = TR[i]; if (!drawTrail(x, T, move) && !T.d){ TR.splice(i, 1); } }
     for (i = D.length - 1; i >= 0; i--){ var d = D[i]; d.age += move*(rate ? 1 : 3);
       /* тяжёлая капля срывается и стекает рывками: цепляется за стекло, снова скользит, слегка виляет */
-      if (!d.slide && d.age > 40 && (d.r > 4 || (d.r > 2.8 && Math.random() < .015*move))){ d.slide = true; d.dx = rnd(-.15, .15); d.tr = {p:[[d.x, d.y]], w:d.r*1.1, a:1, d:d}; TR.push(d.tr); }
+      if (!d.slide && d.age > 40 && (d.r > 4 || (d.r > 2.8 && Math.random() < .015*move))){ d.slide = true; d.dx = rnd(-.15, .15); d.tr = {p:[[d.x, d.y, d.r*.8, 1, .006]], w:d.r*1.1, a:1, d:d}; d.gap = rnd(5, 16); TR.push(d.tr); }
       if (d.slide){ d.vy = Math.min(1.6, d.vy + .02*move); if (Math.random() < .012*move) d.vy *= .15; if (Math.random() < .02*move) d.dx = rnd(-.18, .18);
         var px0 = d.x, py0 = d.y; d.y += d.vy*move; d.x += d.dx*d.vy*move;
         /* прочищает дорожку в водяной пыли */
         if (PF.ms){ var mq = PF.ms.x; mq.globalCompositeOperation = 'destination-out'; mq.lineCap = 'round'; mq.lineWidth = d.r*1.8; mq.strokeStyle = '#000'; mq.beginPath(); mq.moveTo(px0, py0); mq.lineTo(d.x, d.y); mq.stroke(); mq.globalCompositeOperation = 'source-over'; }
-        var tp = d.tr.p, lp = tp[tp.length - 1]; if (Math.abs(d.y - lp[1]) > 2) tp.push([d.x, d.y - d.r*.4]);
+        var tp = d.tr.p, lp = tp[tp.length - 1]; if (Math.abs(d.y - lp[1]) > 2) tp.push([d.x, d.y - d.r*.4, d.r*rnd(.5, 1), rnd(.35, 1), rnd(.003, .011)]);
         /* по пути вбирает капли и растёт; за собой оставляет бусинки */
         for (j = D.length - 1; j >= 0; j--){ var o = D[j]; if (o === d || o.slide) continue; var ex = o.x - d.x, ey = o.y - d.y; if (ex*ex + ey*ey < (d.r + o.r)*(d.r + o.r)){ d.r = Math.min(5, Math.sqrt(d.r*d.r + o.r*o.r)); D.splice(j, 1); if (j < i) i--; } }
-        if (d.y - d.last > 9){ d.last = d.y; if (D.length < 100 && Math.random() < .6) D.push({x:d.x + rnd(-.6, .6), y:d.y - d.r*1.6, r:rnd(.5, 1), a:0, life:rnd(220, 480), age:6, vy:0, slide:false, last:0, ex:rnd(.9, 1.1), rot:0}); d.r *= .985; } }
+        /* бусинки за каплей — как в жизни, неровно: промежутки разные, размер разный, чуть в стороне от линии; где капля скользит быстро — их почти нет */
+        if (d.y - d.last > d.gap){ d.last = d.y; d.gap = rnd(4, 18)*(1 + d.vy*.7);
+          if (D.length < 100 && Math.random() < .75 - d.vy*.35){ var br = Math.random() < .15 ? rnd(.9, 1.4) : rnd(.32, .8); D.push({x:d.x + rnd(-.45, .45)*d.r, y:d.y - d.r*rnd(1.3, 2.2), r:br, a:0, life:rnd(150, 650)*(.6 + br*.5), age:6, vy:0, slide:false, last:0, ex:rnd(.8, 1.2), rot:rnd(-.6, .6)}); d.r = Math.sqrt(Math.max(.2, d.r*d.r - br*br*.25)); } } }
       var f = d.age/d.life; if (f >= 1 || d.y > h + 6 || d.r < .45){ if (d.tr) d.tr.d = null; D.splice(i, 1); continue; }
       d.a = Math.min(1, .45 + d.age/10)*(f > .75 && !d.slide ? (1 - f)/.25 : 1); drawDrop(x, d); } }
 
