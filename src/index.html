@@ -1531,8 +1531,16 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     x.save(); x.translate(len/2, th/2); x.scale(len/th, 1); x.fillStyle = g; x.beginPath(); x.arc(0, 0, th/2, 0, 6.283); x.fill(); x.restore();
     return s; }
   /* повёрнутая копия смазанной снежинки; ax, ay — где в ней сама снежинка («голова», 70% длины по ходу полёта) */
-  function rotStreak(src, a, len, th){ var c = Math.cos(a), sn = Math.sin(a), W2 = Math.ceil(Math.abs(len*c) + Math.abs(th*sn)) + 2, H2 = Math.ceil(Math.abs(len*sn) + Math.abs(th*c)) + 2, s = sprite(W2, H2), x = s.x;
-    x.translate(W2/2, H2/2); x.rotate(a); x.drawImage(src.c, -len/2, -th/2, len, th); s.ax = W2/2 + c*len*.2; s.ay = H2/2 + sn*len*.2; return s; }
+  function rotStreak(src, a, len, th, k){ var c = Math.cos(a), sn = Math.sin(a), W2 = Math.ceil(Math.abs(len*c) + Math.abs(th*sn)) + 2, H2 = Math.ceil(Math.abs(len*sn) + Math.abs(th*c)) + 2, s = sprite(W2, H2), x = s.x;
+    x.translate(W2/2, H2/2); x.rotate(a); x.drawImage(src.c, -len/2, -th/2, len, th); k = k == null ? .2 : k; s.ax = W2/2 + c*len*k; s.ay = H2/2 + sn*len*k; return s; }
+  /* капля дождя, смазанная движением: прозрачный хвост → тело → плотная головка с бликом; вдоль оси x, головка справа.
+     мягкая (soft) — капля у самой камеры, не в фокусе: шире, края размыты */
+  function dropSprite(len, th, rgb, soft){ var s = sprite(len, th), x = s.x, m = th/2;
+    function body(r, a){ var g = x.createLinearGradient(0, 0, len, 0); g.addColorStop(0, 'rgba(' + rgb + ',0)'); g.addColorStop(.3, 'rgba(' + rgb + ',' + (.4*a).toFixed(3) + ')'); g.addColorStop(.8, 'rgba(' + rgb + ',' + (.82*a).toFixed(3) + ')'); g.addColorStop(1, 'rgba(' + rgb + ',' + a.toFixed(3) + ')');
+      x.fillStyle = g; x.beginPath(); x.moveTo(0, m); x.lineTo(len - m, m - r); x.arc(len - m, m, r, -1.5708, 1.5708); x.closePath(); x.fill(); }
+    if (soft){ body(m, .3); body(m*.66, .3); body(m*.36, .34); }
+    else { body(m, .22); body(m*.55, 1); var b = x.createRadialGradient(len - m*1.1, m - m*.2, 0, len - m*1.1, m - m*.2, m*.9); b.addColorStop(0, 'rgba(255,255,255,.5)'); b.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = b; x.fillRect(len - m*2.2, 0, m*2.2, th); }
+    return s; }
   /* полоса тумана/дымки, бесшовная по ширине — её можно бесконечно прокручивать */
   function hazeSprite(w, h, rgb, dens){ var s = sprite(w, h, .5), x = s.x, n = Math.max(6, Math.round(w/36)), i, k;
     for (i = 0; i < n; i++){ var cx = rnd(0, w), cy = rnd(h*.3, h*.75), r = rnd(h*.22, h*.55);
@@ -1560,7 +1568,7 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
   var LAYERS = [{part:.5, r:[.55, 1.05], v:[.32, .5], a:.55, sway:.16, wz:.75},
                 {part:.33, r:[1.15, 1.9], v:[.6, .85], a:.85, sway:.3, wz:1},
                 {part:.17, r:[2.6, 4.4], v:[1.05, 1.5], a:.8, sway:.5, wz:1.35}];
-  var RAIN = {rain:{v:[6.5, 9.5, 13.5], len:[9, 15, 26], lw:[.7, 1, 1.5], a:[.3, .48, .66]}, downpour:{v:[9, 13, 18], len:[15, 26, 44], lw:[.75, 1.15, 1.7], a:[.32, .52, .7]}, drizzle:{v:[2.6, 3.6, 5], len:[4, 6, 9], lw:[.6, .8, 1.05], a:[.22, .32, .42]}};
+  var RAIN = {rain:{v:[6.5, 9.5, 13.5], len:[12, 21, 34], lw:[.7, 1, 1.5], a:[.3, .48, .66]}, downpour:{v:[9, 13, 18], len:[18, 30, 50], lw:[.75, 1.15, 1.7], a:[.32, .52, .7]}, drizzle:{v:[2.6, 3.6, 5], len:[4, 6, 9], lw:[.6, .8, 1.05], a:[.22, .32, .42]}};
   var QUALITY = 1, Q1 = /[?&]q1(&|$)/.test(location.search);
   /* общий тон воздуха в чистой обложке: сверху вниз — [доля высоты, цвет, прозрачность] */
   var VEIL = {drizzle:[[0, '46,58,74', .18], [.55, '46,58,74', .05], [1, '46,58,74', 0]],
@@ -1580,17 +1588,21 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
     var A = this.w*this.h, kind = K.precip, rgb = W.dark ? '214,224,240' : '255,255,255';
     /* осадки: пересобираем, только если сменился их вид — иначе снег не «прыгает» */
     /* новые осадки начинаются постепенно (pin: 0 → 1 за 2 с), а не включаются сразу на весь экран */
-    if (kindChanged || !this.p.length){ this.pin = reduce ? 1 : 0; var n = Math.min(1100, Math.round((kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : 1)*A/(K.heavy ? 950 : {snow:4200, heavysnow:1700, blizzard:860, rain:2400, drizzle:1700, sleet:2800}[kind] || 1e12))); this.p = [];
+    if (kindChanged || !this.p.length){ this.pin = reduce ? 1 : 0; var n = Math.min(1100, Math.round((kind === 'rain' || kind === 'drizzle' ? .9 : kind === 'blizzard' || kind === 'heavysnow' ? .8 : 1)*A/(K.heavy ? 950 : {snow:4200, heavysnow:1700, blizzard:860, rain:1500, drizzle:1300, sleet:2800}[kind] || 1e12))); this.p = [];
       /* метель и ливень идут и между камерой и домом: частицы ближе, дом их почти не прячет */
       var near = kind === 'blizzard' || !!K.heavy;
       for (i = 0; i < n; i++){ var z = i < n*LAYERS[0].part ? 0 : i < n*(LAYERS[0].part + LAYERS[1].part) ? 1 : 2, L = LAYERS[z], snow = kind === 'snow' || kind === 'heavysnow' || kind === 'blizzard' || (kind === 'sleet' && i % 2);
-        this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15), d:z === 2 ? 2 : near ? (z === 0 ? rnd(.32, .62) : rnd(.55, .95)) : z === 0 ? rnd(.06, .3) : rnd(.3, .5)}); }
+        this.p.push({x:Math.random()*this.w, y:Math.random()*this.h, z:z, snow:snow, r:rnd(L.r[0], L.r[1])*this.o.scale*(kind === 'heavysnow' ? 1.15 : kind === 'sleet' ? .9 : 1), v:rnd(L.v[0], L.v[1]), ph:Math.random()*6.283, fs:rnd(.0008, .0019), amp:L.sway*rnd(.6, 1.4), j:rnd(.85, 1.15), b:rnd(.5, 1.2), g:z === 2 ? rnd(.6, .97) : rnd(.5, .62), sf:z === 2 && Math.random() < .3, d:z === 2 ? 2 : near ? (z === 0 ? rnd(.32, .62) : rnd(.55, .95)) : z === 0 ? rnd(.06, .3) : kind === 'rain' ? rnd(.42, .8) : rnd(.3, .5)}); }
       this.p.sort(function(a, b){ return b.z - a.z; }); /* дальние — в конце: при нехватке сил телефона отбрасываются первыми */ }
     var sc = kind === 'sleet' ? '232,238,244' : rgb;
     this.flakes = [flakeSprite(1, false, sc), flakeSprite(1.6, false, sc), flakeSprite(3.4, true, sc)];
     /* метель: снежинка, смазанная по ходу полёта (вытянутое мягкое пятно, поворачивается по скорости) */
     this.streaks = kind === 'blizzard' ? [null, streakSprite(18, 4.5, sc, false), streakSprite(30, 9, sc, true)] : null;
-    this.spl = [];
+    this.spl = []; this.gspl = [];
+    /* дождь: капли по слоям (дальние тоньше и короче) и мягкие размытые капли у самой камеры; повёрнутые по ветру копии — в rotD */
+    var rk0 = kind === 'drizzle' ? RAIN.drizzle : K.heavy ? RAIN.downpour : RAIN.rain, rcs = W.dark ? '196,210,228' : '230,239,248';
+    this.drops = kind === 'rain' || kind === 'drizzle' || kind === 'sleet' ? [dropSprite(rk0.len[0], rk0.lw[0]*2.4, rcs), dropSprite(rk0.len[1], rk0.lw[1]*2.6, rcs), dropSprite(rk0.len[2], rk0.lw[2]*2.8, rcs), dropSprite(rk0.len[2]*1.6, rk0.lw[2]*6, rcs, true)] : null;
+    this.rotD = []; this.dot = flakeSprite(1.1, false, rcs);
     /* дымка: метель и сильный снег */
     var hz = W.dark ? '150,160,178' : '244,246,248', hw = Math.min(2400, Math.round(this.w*1.4));
     /* полосы: [верх, высота, прозрачность, скорость, плотность, цвет]; метель — мгла и позёмка у земли */
@@ -1653,23 +1665,36 @@ button.hp-wx:hover .hp-tg{background:rgba(255,255,255,.18)}
           x.globalAlpha = L.a*dim*vis*(z === 2 ? .85 + .15*Math.sin(P.ph*1.3) : 1); x.drawImage(spr.c, P.x - sz/2, P.y - sz/2, sz, sz); } }
       if (streak) x.stroke();
       x.globalAlpha = 1;
-      /* дождь: штрихи под углом ветра, ближние — длиннее и ярче */
-      if (kind === 'rain' || kind === 'drizzle' || kind === 'sleet'){ x.strokeStyle = 'rgba(' + rc + ',' + (rk.a[z]*dim).toFixed(3) + ')'; x.lineWidth = rk.lw[z]; x.lineCap = 'round'; x.beginPath();
-        for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || P.snow) continue; var rv = rk.v[z]*P.j, rx = wx*(K.heavy ? 1.5 : .55)*L.wz, ln = rk.len[z]*P.j, ry0 = P.y;
+      /* дождь: капли с хвостом под углом ветра (копия заранее повёрнута, пересобирается при смене угла на 2°), ближние — длиннее и ярче, у каждой своя яркость */
+      if (this.drops && (kind === 'rain' || kind === 'drizzle' || kind === 'sleet')){ var rx = wx*(K.heavy ? 1.5 : .55)*L.wz, DS = this.drops, RD = this.rotD, ra = Math.round(Math.atan2(rk.v[z], rx)/.035), zz;
+        for (zz = z; zz <= (z === 2 ? 3 : z); zz++){ var R0 = RD[zz]; if (!R0 || R0.ang !== ra){ var sp0 = DS[zz]; R0 = RD[zz] = rotStreak(sp0, ra*.035, sp0.w, sp0.h, .5 - sp0.h*.5/sp0.w); R0.ang = ra; } }
+        var RA = RD[z], RB = RD[3], ga = rk.a[z]*dim*1.3, gsp = kind !== 'drizzle' && z > 0 && dep && !reduce, gs = this.gspl;
+        for (i = 0; i < n; i++){ P = this.p[i]; if (P.z !== z || P.snow) continue; var rv = rk.v[z]*P.j, ln = rk.len[z]*P.j, ry0 = P.y;
           P.y += rv*move - ds*PK[z]; P.x += rx*move;
           /* капля ударилась о верх панели — брызги, сама капля исчезает */
           if (prr && z > 0 && ry0 < prr.t && P.y >= prr.t && P.x > prr.l + prr.rad*.5 && P.x < prr.l + prr.w - prr.rad*.5){
             if (spl.length < 70 && Math.random() < (K.heavy ? .6 : .3)){ var dd2 = [], nq = z === 2 ? 4 : 3; for (var q2 = 0; q2 < nq; q2++) dd2.push(rnd(-1.3, 1.3) + rx*.15, -rnd(.7, 1.7)*(z === 2 ? 1.2 : 1)); spl.push({x:P.x, y:prr.t, a:0, s:z === 2 ? 1.7 : 1.2, d:dd2}); }
             P.y = -ln - Math.random()*40; continue; }
+          /* капля долетела до земли перед домом (по карте глубины: чем ближе слой, тем ниже) — брызги «короной» и круг */
+          if (gsp && P.y > h*.4 && this.depthAt(P.x, P.y) > P.g && !(prr && P.y > prr.t && P.x > prr.l && P.x < prr.l + prr.w)){
+            if (gs.length < 90 && Math.random() < (K.heavy ? .55 : .35)){ var gd = [], ng = z === 2 ? 4 : 3, gk2 = z === 2 ? 1 : .6; for (var q4 = 0; q4 < ng; q4++) gd.push(rnd(-1.2, 1.2) + rx*.12, -rnd(.6, 1.5)); gs.push({x:P.x, y:P.y, a:0, s:gk2*(.8 + P.g*.6), d:gd}); }
+            P.y = -ln - Math.random()*40; P.x = Math.random()*(w + 80) - 40 - rx*20; continue; }
           if (pa){ var ex = P.x - PTR.x, ey = P.y - PTR.y, e2 = ex*ex + ey*ey; if (e2 < PR2 && e2 > 1){ var ed = Math.sqrt(e2); P.x += ex/ed*(1 - ed/PR)*pa*3*move; } }
           if (P.y > h + ln){ P.y = -ln - Math.random()*40; P.x = Math.random()*(w + 80) - 40 - rx*20; } else if (P.y < -60) P.y += h + 70;
           if (P.x > w + 20) P.x -= w + 40; else if (P.x < -20) P.x += w + 40;
           if (dep && P.d < 1.5 && this.depthAt(P.x, P.y) > P.d) continue;
-          var k2 = ln/rv; x.moveTo(P.x, P.y); x.lineTo(P.x - rx*k2, P.y - ln); }
-        x.stroke(); } }
-    /* брызги: капельки взлетают и падают обратно, гаснут за ~0,25 с */
-    if (spl.length){ x.fillStyle = 'rgb(' + rc + ')'; for (i = spl.length - 1; i >= 0; i--){ var S0 = spl[i]; S0.a += move; if (S0.a > 15){ spl.splice(i, 1); continue; }
-      x.globalAlpha = (1 - S0.a/15)*.75*dim; for (var q3 = 0; q3 < S0.d.length; q3 += 2){ var ox = S0.x + S0.d[q3]*S0.a, oy = S0.y + S0.d[q3+1]*S0.a + .1*S0.a*S0.a; if (oy <= S0.y + 1) x.fillRect(ox - S0.s/2, oy - S0.s/2, S0.s, S0.s); } }
+          var R = P.sf ? RB : RA, kk = P.j; x.globalAlpha = Math.min(1, ga*P.b*(P.sf ? .7 : 1)); x.drawImage(R.c, P.x - R.ax*kk, P.y - R.ay*kk, R.w*kk, R.h*kk); }
+        x.globalAlpha = 1; } }
+    /* брызги на панели: капельки взлетают и падают обратно, гаснут за ~0,25 с */
+    var DT = this.dot;
+    if (spl.length){ for (i = spl.length - 1; i >= 0; i--){ var S0 = spl[i]; S0.a += move; if (S0.a > 15){ spl.splice(i, 1); continue; }
+      x.globalAlpha = (1 - S0.a/15)*.8*dim; for (var q3 = 0; q3 < S0.d.length; q3 += 2){ var ox = S0.x + S0.d[q3]*S0.a, oy = S0.y + S0.d[q3+1]*S0.a + .1*S0.a*S0.a; if (oy <= S0.y + 1) x.drawImage(DT.c, ox - S0.s*.8, oy - S0.s*.8, S0.s*1.6, S0.s*1.6); } }
+      x.globalAlpha = 1; }
+    /* брызги на земле: «корона» из капелек и расходящийся плоский круг, ~0,35 с */
+    var gs2 = this.gspl; if (gs2 && gs2.length){ x.strokeStyle = 'rgb(' + rc + ')'; x.lineWidth = .8;
+      for (i = gs2.length - 1; i >= 0; i--){ var G = gs2[i]; G.a += move; if (G.a > 22){ gs2.splice(i, 1); continue; } var gq = G.a/22;
+        x.globalAlpha = (1 - gq)*(1 - gq)*.55*dim; x.beginPath(); x.ellipse(G.x, G.y, (1.5 + 10*gq)*G.s, (.5 + 2.4*gq)*G.s, 0, 0, 6.283); x.stroke();
+        if (G.a < 13){ x.globalAlpha = (1 - G.a/13)*.85*dim; for (var q5 = 0; q5 < G.d.length; q5 += 2){ var gx1 = G.x + G.d[q5]*G.a*G.s*1.4, gy1 = G.y + (G.d[q5+1]*G.a + .09*G.a*G.a)*G.s*1.4; if (gy1 <= G.y) x.drawImage(DT.c, gx1 - G.s, gy1 - G.s, G.s*2, G.s*2); } } }
       x.globalAlpha = 1; }
     if (landed) for (i = 1; i < dr.length - 1; i++) dr[i] = (dr[i-1] + dr[i]*6 + dr[i+1])/8; };
   /* ---------- Обложка: глубина сцены, дым из трубы, свет в окнах, капли и иней на панели ---------- */
